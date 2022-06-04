@@ -103,7 +103,7 @@ public class Hero : MonoBehaviour {
 
         if (!isDropKicking) {
           isFacingLeft = false;
-        }        
+        }
       }
       // flip player when moving left
       else if (horizontalInput < -0.01f && isGrounded && !isAttackingSingle) {
@@ -145,7 +145,7 @@ public class Hero : MonoBehaviour {
         // if (currentKey.ToString() == "Space") {
         //   // userInput += "⌴";
         //   userInput += "$";
-        // } else 
+        // } else
         if (currentKey.ToString() == "UpArrow") {
           // userInput += "🡡";
           userInput += "u";
@@ -200,7 +200,7 @@ public class Hero : MonoBehaviour {
           JetpackHorizontal("right");
           userInput = "";
         }
-      }      
+      }
     }
 
     // gliding
@@ -255,7 +255,7 @@ public class Hero : MonoBehaviour {
         } else if (currentWeapon == "projectile-single") {
           isAirShooting = true;
         }
-      }      
+      }
     }
 
     if (Input.GetKeyDown(KeyCode.Keypad5)) {
@@ -337,7 +337,7 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isGliding", isGliding);
     anim.SetBool("isTired", hp < tiredThreshold);
     anim.SetInteger("isHurt", isHurt);
-    anim.SetInteger("isDead", isDead);    
+    anim.SetInteger("isDead", isDead);
   }
 
   void PauseGame() {
@@ -353,7 +353,7 @@ public class Hero : MonoBehaviour {
       transform.localScale = Vector3.one;
     } else {
       transform.localScale = new Vector3(-1, 1, 1);
-    }    
+    }
   }
 
   void SimulateDeath(bool isGrounded) {
@@ -453,7 +453,7 @@ public class Hero : MonoBehaviour {
 
   private void Jump() {
     body.velocity = new Vector2(body.velocity.x, jumpHeight);
-    
+
     isJumping = true;
     isGrounded = false;
   }
@@ -505,7 +505,7 @@ public class Hero : MonoBehaviour {
           isAirShooting = false;
           isAirAttackSingle = false;
           isAirAttackHeavy = false;
-        } else {         
+        } else {
           horizontalCollision = true;
 
           if (isBottomCollision(otherCollider, collider)) {
@@ -513,7 +513,7 @@ public class Hero : MonoBehaviour {
             ClearAirAttackSingle();
           }
         }
-      }      
+      }
     }
 
     if (objectCollided.tag == "Enemy") {
@@ -534,9 +534,9 @@ public class Hero : MonoBehaviour {
           SimulateHurt(2);
         } else {
           SimulateDeath(isGrounded);
-        }      
-      }      
-    }    
+        }
+      }
+    }
 
     collisionCounter++;
   }

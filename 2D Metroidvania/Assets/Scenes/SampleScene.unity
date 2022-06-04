@@ -176,7 +176,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8.472026
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -510,6 +510,7 @@ MonoBehaviour:
   currentWeapon: 
   hurtFromBehind: 0
   hp: 100
+  tiredThreshold: 40
 --- !u!50 &1177825375
 Rigidbody2D:
   serializedVersion: 4

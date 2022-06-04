@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour {
   private SpriteRenderer enemyRenderer;
   private float enemyHeight = 0f;
   private float enemyWidth = 0f;
-  
+
   public bool isFacingLeft = false;
   public bool isWalking;
 
@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour {
   public bool heroIsDead = false;
 
   public int hp = 40;
-  
+
   void Awake() {
     body = GetComponent<Rigidbody2D>();
     anim = GetComponent<Animator>();
@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour {
 
         Vector2 beginDiagonalForwardCast = new Vector2(transform.position.x + ((enemyWidth / 2) * direction), transform.position.y + enemyHeight / 4);
         Vector2 diagonalForwardCastDirection = transform.TransformDirection(new Vector2(1 * (direction), -1));
-      
+
         RaycastHit2D diagonalForwardCast = Physics2D.Raycast(beginDiagonalForwardCast, diagonalForwardCastDirection, diagonalForwardCastLength);
         Debug.DrawRay(beginDiagonalForwardCast, diagonalForwardCastDirection.normalized * diagonalForwardCastLength, Color.green);
 
@@ -82,7 +82,7 @@ public class Enemy : MonoBehaviour {
           isFacingLeft = !isFacingLeft;
         }
 
-        if (!heroIsDead) {          
+        if (!heroIsDead) {
           Vector2 beginForwardCast = new Vector2(transform.position.x + ((enemyWidth / 2) * direction), transform.position.y + enemyHeight / 2);
           Vector2 forwardCastDirection = transform.TransformDirection(new Vector2(1 * (direction), 0));
 
@@ -104,8 +104,8 @@ public class Enemy : MonoBehaviour {
               isAttacking = true;
               body.velocity = new Vector2(0, body.velocity.y);
             }
-          } 
-        }       
+          }
+        }
       }
     } else {
       float currentTime = Time.time * 1000;
@@ -115,7 +115,7 @@ public class Enemy : MonoBehaviour {
         needsCoolDown = false;
         playerFound = false;
       }
-    }   
+    }
 
     if (isFacingLeft) {
       transform.localScale = new Vector3(-1, 1, 1);
@@ -147,7 +147,7 @@ public class Enemy : MonoBehaviour {
       // TODO: figure out a way to assign damage to the weapon and not hardcode it
       hp -= 20;
 
-      if (hp > 0) {        
+      if (hp > 0) {
         if (flashEffect != null) {
           flashEffect.Flash();
         }
@@ -155,7 +155,7 @@ public class Enemy : MonoBehaviour {
         isDead = true;
         isWalking = false;
         body.velocity = new Vector2(0, body.velocity.y);
-      }      
+      }
     }
   }
 

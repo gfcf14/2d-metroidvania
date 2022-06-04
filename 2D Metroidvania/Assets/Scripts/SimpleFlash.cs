@@ -18,7 +18,7 @@ public class SimpleFlash : MonoBehaviour {
 
     // The SpriteRenderer that should flash.
     private SpriteRenderer spriteRenderer;
-    
+
     // The material that was in use, when the script started.
     private Material originalMaterial;
 
@@ -39,7 +39,7 @@ public class SimpleFlash : MonoBehaviour {
       // alternatively you could set it from the inspector.
       spriteRenderer = GetComponent<SpriteRenderer>();
 
-      // Get the material that the SpriteRenderer uses, 
+      // Get the material that the SpriteRenderer uses,
       // so we can switch back to it after the flash ended.
       originalMaterial = spriteRenderer.material;
     }
