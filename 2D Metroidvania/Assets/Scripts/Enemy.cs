@@ -26,8 +26,12 @@ public class Enemy : MonoBehaviour {
   public float proximityCastLength = 0.1f;
 
   public float coolDownTime = 750;
-
   public float coolDownStart = 0;
+
+  public bool isHurt = false;
+
+  public float startleTime = 750;
+  public float startleStart = 0;
 
   public bool isDead = false;
 
@@ -64,7 +68,7 @@ public class Enemy : MonoBehaviour {
       }
     }
 
-    if (!needsCoolDown) {
+    if (!needsCoolDown && !isHurt) {
       if (isWalking && !isAttacking) {
         int direction = isFacingLeft ? -1 : 1;
 
@@ -110,10 +114,17 @@ public class Enemy : MonoBehaviour {
     } else {
       float currentTime = Time.time * 1000;
 
-      if ((Time.time * 1000) > (coolDownStart + coolDownTime)) {
-        coolDownStart = 0;
-        needsCoolDown = false;
-        playerFound = false;
+      if (needsCoolDown) {
+        if ((Time.time * 1000) > (coolDownStart + coolDownTime)) {
+          coolDownStart = 0;
+          needsCoolDown = false;
+          playerFound = false;
+        }
+      } else if (isHurt) {
+        if ((Time.time * 1000) > (startleStart + startleTime)) {
+          startleStart = 0;
+          isHurt = false;
+        }
       }
     }
 
@@ -144,13 +155,25 @@ public class Enemy : MonoBehaviour {
 
       attackedFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
 
-      // TODO: figure out a way to assign damage to the weapon and not hardcode it
-      hp -= 20;
+      Hero hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
+      if (hero.isKicking || hero.isDropKicking) {
+        hp -= 10;
+      } else {
+        if (hero.currentWeapon != "fists") {
+          // TODO: figure out a way to assign damage to the weapon and not hardcode it
+          hp -= 20;
+        } else {
+          hp -= 5;
+        }
+      }
 
       if (hp > 0) {
         if (flashEffect != null) {
           flashEffect.Flash();
         }
+
+        startleStart = Time.time * 1000;
+        isHurt = true;
       } else {
         isDead = true;
         isWalking = false;

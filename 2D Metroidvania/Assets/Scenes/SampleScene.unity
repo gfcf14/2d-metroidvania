@@ -578,6 +578,9 @@ MonoBehaviour:
   proximityCastLength: 0.5
   coolDownTime: 750
   coolDownStart: 0
+  isHurt: 0
+  startleTime: 750
+  startleStart: 0
   isDead: 0
   attackedFromBehind: 0
   standardDamage: 20
@@ -772,8 +775,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 1}
+  m_Offset: {x: 0.032199092, y: 1.1327789}
+  m_Size: {x: 0.09120755, y: 0.2884627}
   m_Direction: 0
 --- !u!1 &1702689144
 GameObject:
