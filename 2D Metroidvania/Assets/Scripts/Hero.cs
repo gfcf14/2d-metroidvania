@@ -10,6 +10,7 @@ public class Hero : MonoBehaviour {
 
   public bool isRunning;
   public bool isGrounded;
+  public bool canFlipOnAir;
   public bool isFalling;
   public bool isJumping;
 
@@ -106,7 +107,8 @@ public class Hero : MonoBehaviour {
         }
       }
       // flip player when moving left
-      else if (horizontalInput < -0.01f && isGrounded && !isAttackingSingle) {
+      else if (horizontalInput < -0.01f && (isGrounded || canFlipOnAir) && !isAttackingSingle) {
+        canFlipOnAir = false;
         FlipPlayer();
 
         if (!isDropKicking) {
@@ -261,7 +263,7 @@ public class Hero : MonoBehaviour {
     if (Input.GetKeyDown(KeyCode.Keypad5)) {
       if (isGrounded && !isRunning) {
         isKicking = true;
-      } else if (isJumping) {
+      } else if (isJumping && !isFalling) {
         DropKick();
       }
     }
@@ -451,7 +453,13 @@ public class Hero : MonoBehaviour {
     isFalling = true;
   }
 
-  private void Jump() {
+  public void Jump(bool clearDropKick = false) {
+    if (clearDropKick) {
+      isDropKicking = false;
+      isFalling = false;
+      canFlipOnAir = true;
+    }
+
     body.velocity = new Vector2(body.velocity.x, jumpHeight);
 
     isJumping = true;

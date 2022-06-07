@@ -124,6 +124,7 @@ public class Enemy : MonoBehaviour {
         if ((Time.time * 1000) > (startleStart + startleTime)) {
           startleStart = 0;
           isHurt = false;
+          isWalking = true;
         }
       }
     }
@@ -172,6 +173,7 @@ public class Enemy : MonoBehaviour {
           flashEffect.Flash();
         }
 
+        isWalking = false;
         startleStart = Time.time * 1000;
         isHurt = true;
       } else {

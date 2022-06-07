@@ -741,6 +741,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1552469823}
   - component: {fileID: 1552469824}
+  - component: {fileID: 1552469825}
   m_Layer: 8
   m_Name: WeaponCollider
   m_TagString: Weapon
@@ -778,6 +779,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0.032199092, y: 1.1327789}
   m_Size: {x: 0.09120755, y: 0.2884627}
   m_Direction: 0
+--- !u!114 &1552469825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552469822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52536f5daaf13714c88a8c38df402514, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1702689144
 GameObject:
   m_ObjectHideFlags: 0
