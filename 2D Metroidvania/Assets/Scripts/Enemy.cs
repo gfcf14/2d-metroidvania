@@ -28,12 +28,8 @@ public class Enemy : MonoBehaviour {
   public float coolDownTime = 750;
   public float coolDownStart = 0;
 
-  public bool isHurt = false;
-
-  public float startleTime = 750;
-  public float startleStart = 0;
-
   public bool isDead = false;
+  public bool isStunned = false;
 
   public bool attackedFromBehind = false;
 
@@ -68,7 +64,7 @@ public class Enemy : MonoBehaviour {
       }
     }
 
-    if (!needsCoolDown && !isHurt) {
+    if (!needsCoolDown) {
       if (isWalking && !isAttacking) {
         int direction = isFacingLeft ? -1 : 1;
 
@@ -114,19 +110,11 @@ public class Enemy : MonoBehaviour {
     } else {
       float currentTime = Time.time * 1000;
 
-      if (needsCoolDown) {
-        if ((Time.time * 1000) > (coolDownStart + coolDownTime)) {
+      if ((Time.time * 1000) > (coolDownStart + coolDownTime)) {
           coolDownStart = 0;
           needsCoolDown = false;
           playerFound = false;
         }
-      } else if (isHurt) {
-        if ((Time.time * 1000) > (startleStart + startleTime)) {
-          startleStart = 0;
-          isHurt = false;
-          isWalking = true;
-        }
-      }
     }
 
     if (isFacingLeft) {
@@ -139,6 +127,7 @@ public class Enemy : MonoBehaviour {
     anim.SetBool("isAttacking", isAttacking);
     anim.SetBool("needsCooldown", needsCoolDown);
     anim.SetBool("isDead", isDead);
+    anim.SetBool("isStunned", isStunned);
   }
 
   private void OnCollisionEnter2D(Collision2D col) {
@@ -158,13 +147,13 @@ public class Enemy : MonoBehaviour {
 
       Hero hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
       if (hero.isKicking || hero.isDropKicking) {
-        hp -= 10;
+        // hp -= 10;
       } else {
         if (hero.currentWeapon != "fists") {
           // TODO: figure out a way to assign damage to the weapon and not hardcode it
-          hp -= 20;
+          // hp -= 20;
         } else {
-          hp -= 5;
+          // hp -= 5;
         }
       }
 
@@ -173,15 +162,26 @@ public class Enemy : MonoBehaviour {
           flashEffect.Flash();
         }
 
-        isWalking = false;
-        startleStart = Time.time * 1000;
-        isHurt = true;
+        Stun();
       } else {
         isDead = true;
+        isStunned = false;
         isWalking = false;
         body.velocity = new Vector2(0, body.velocity.y);
       }
     }
+  }
+
+  void Stun() {
+    isStunned = true;
+    isWalking = false;
+
+    body.velocity = Vector2.zero;
+  }
+
+  void Recover() {
+    isStunned = false;
+    isWalking = true;
   }
 
   void FinishAttack() {

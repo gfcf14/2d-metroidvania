@@ -99,7 +99,7 @@ public class Hero : MonoBehaviour {
       body.velocity = new Vector2(!isDropKicking ? horizontalInput * speed : 0, body.velocity.y);
 
       // flip player when moving left
-      if (horizontalInput > 0.01f && isGrounded && !isAttackingSingle) {
+      if (horizontalInput > 0.01f && (isGrounded || canFlipOnAir) && !isAttackingSingle) {
         transform.localScale = Vector3.one;
 
         if (!isDropKicking) {
@@ -108,7 +108,6 @@ public class Hero : MonoBehaviour {
       }
       // flip player when moving left
       else if (horizontalInput < -0.01f && (isGrounded || canFlipOnAir) && !isAttackingSingle) {
-        canFlipOnAir = false;
         FlipPlayer();
 
         if (!isDropKicking) {
@@ -486,6 +485,7 @@ public class Hero : MonoBehaviour {
   }
 
   private void DropKick() {
+    canFlipOnAir = false;
     isDropKicking = true;
   }
 
@@ -536,7 +536,7 @@ public class Hero : MonoBehaviour {
           FlipPlayer(true);
         }
 
-        hp -= enemyCollided.standardDamage;
+        // hp -= enemyCollided.standardDamage;
 
         if (hp > 0) {
           SimulateHurt(2);
