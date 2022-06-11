@@ -353,7 +353,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1.2, y: 2.2905135}
+    oldSize: {x: 1.9300001, y: 2.3405247}
     newSize: {x: 1.2, y: 2.2905135}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -464,6 +464,7 @@ MonoBehaviour:
   jetpackHeight: 20
   isRunning: 0
   isGrounded: 0
+  canFlipOnAir: 0
   isFalling: 0
   isJumping: 0
   isJetpackUp: 0
@@ -578,10 +579,8 @@ MonoBehaviour:
   proximityCastLength: 0.5
   coolDownTime: 750
   coolDownStart: 0
-  isHurt: 0
-  startleTime: 750
-  startleStart: 0
   isDead: 0
+  isStunned: 0
   attackedFromBehind: 0
   standardDamage: 20
   heroIsDead: 0
