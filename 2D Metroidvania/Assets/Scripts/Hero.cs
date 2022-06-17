@@ -28,6 +28,8 @@ public class Hero : MonoBehaviour {
   public int isHurt = 0;
   public int isDead = 0;
 
+  public bool isDefending = false;
+
   public bool isGliding;
   public bool isFacingLeft;
 
@@ -96,7 +98,9 @@ public class Hero : MonoBehaviour {
 
     // x axis movement
     if (!horizontalCollision && isHurt < 1) {
-      body.velocity = new Vector2(!isDropKicking ? horizontalInput * speed : 0, body.velocity.y);
+      if (!isDefending) {
+        body.velocity = new Vector2(!isDropKicking ? horizontalInput * speed : 0, body.velocity.y);
+      }
 
       // flip player when moving left
       if (horizontalInput > 0.01f && (isGrounded || canFlipOnAir) && !isAttackingSingle) {
@@ -284,6 +288,14 @@ public class Hero : MonoBehaviour {
       SimulateHurt(3);
     }
 
+    if (Input.GetKeyDown(KeyCode.Keypad3)) {
+      isDefending = true;
+    }
+
+    if (Input.GetKeyUp(KeyCode.Keypad3)) {
+      DropDefense();
+    }
+
     if (Input.GetKeyDown(KeyCode.Backspace)) {
       SimulateDeath(isGrounded);
     }
@@ -339,6 +351,7 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isTired", hp < tiredThreshold);
     anim.SetInteger("isHurt", isHurt);
     anim.SetInteger("isDead", isDead);
+    anim.SetBool("isDefending", isDefending);
   }
 
   void PauseGame() {
@@ -423,8 +436,13 @@ public class Hero : MonoBehaviour {
     isAttackingHeavy = false;
   }
 
+  void DropDefense() {
+    isDefending = false;
+  }
+
   public void OnGUI() {
     string guiLabel = "HP: " + hp + "\n" +
+                      "Defending: " + isDefending + "\n" +
                       "Running: " + isRunning + "\n" +
                       "Grounded: " + isGrounded + "\n" +
                       "Falling: " + isFalling + "\n" +
@@ -449,7 +467,9 @@ public class Hero : MonoBehaviour {
   }
 
   private void Fall() {
+    isGrounded = false;
     isFalling = true;
+    DropDefense();
   }
 
   public void Jump(bool clearDropKick = false) {
@@ -532,16 +552,23 @@ public class Hero : MonoBehaviour {
         float enemyX = enemyCollided.transform.position.x;
 
         hurtFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
+
+        bool mustTakeDamage = !isDefending || (isDefending && hurtFromBehind);
+
         if (hurtFromBehind) {
           FlipPlayer(true);
         }
 
-        // hp -= enemyCollided.standardDamage;
+        if (mustTakeDamage) {
+          // hp -= enemyCollided.standardDamage;
 
-        if (hp > 0) {
-          SimulateHurt(2);
+          if (hp > 0) {
+            SimulateHurt(2);
+          } else {
+            SimulateDeath(isGrounded);
+          }
         } else {
-          SimulateDeath(isGrounded);
+          // DropDefense();
         }
       }
     }
@@ -571,6 +598,7 @@ public class Hero : MonoBehaviour {
 
     if (collisionCounter == 0) {
       isGrounded = false;
+      DropDefense();
     }
   }
 }

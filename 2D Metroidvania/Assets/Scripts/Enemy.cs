@@ -39,6 +39,8 @@ public class Enemy : MonoBehaviour {
 
   public int hp = 40;
 
+  SpriteRenderer weaponSpriteRenderer;
+
   void Awake() {
     body = GetComponent<Rigidbody2D>();
     anim = GetComponent<Animator>();
@@ -49,6 +51,7 @@ public class Enemy : MonoBehaviour {
     isWalking = true;
 
     flashEffect = GetComponent<SimpleFlash>();
+    weaponSpriteRenderer = GameObject.Find("Weapon").GetComponent<SpriteRenderer>();
   }
 
   void Update() {
@@ -139,7 +142,9 @@ public class Enemy : MonoBehaviour {
   }
 
   private void OnTriggerEnter2D(Collider2D col) {
-    if (col.gameObject.tag == "Weapon") {
+    string colliderTag = col.gameObject.tag;
+
+    if (colliderTag == "Weapon") {
       float currentX = transform.position.x;
       float enemyX = col.transform.position.x;
 
@@ -147,13 +152,14 @@ public class Enemy : MonoBehaviour {
 
       Hero hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
       if (hero.isKicking || hero.isDropKicking) {
-        // hp -= 10;
+        hp -= 10;
       } else {
         if (hero.currentWeapon != "fists") {
           // TODO: figure out a way to assign damage to the weapon and not hardcode it
-          // hp -= 20;
+          string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
+          hp -= Utilities.GetDamage(weaponWielded);
         } else {
-          // hp -= 5;
+          hp -= 5;
         }
       }
 
@@ -168,6 +174,11 @@ public class Enemy : MonoBehaviour {
         isStunned = false;
         isWalking = false;
         body.velocity = new Vector2(0, body.velocity.y);
+      }
+    } else if (colliderTag == "Shield") {
+      if (isAttacking) {
+        // consider reusing for higher level shields
+        // Stun();
       }
     }
   }

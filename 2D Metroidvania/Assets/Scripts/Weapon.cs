@@ -3,26 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour {
-    // Start is called before the first frame update
-    void Start() { }
+  GameObject hero;
 
-    // Update is called once per frame
-    void Update() { }
+  // Start is called before the first frame update
+  void Start() {
+    hero = GameObject.FindGameObjectWithTag("Hero");
+  }
 
-    private void OnTriggerEnter2D(Collider2D col) {
-      if (col.gameObject.tag == "Enemy") {
-        Hero hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
-        float enemyTopBounds = col.transform.position.y + col.gameObject.GetComponent<SpriteRenderer>().bounds.size.y;
+  // Update is called once per frame
+  void Update() { }
 
-        if (hero.isDropKicking) {
-          float heroBottomBounds = GameObject.FindGameObjectWithTag("Hero").transform.position.y;
+  private void OnTriggerEnter2D(Collider2D col) {
+    if (col.gameObject.tag == "Enemy") {
+      Hero heroObject = hero.GetComponent<Hero>();
+      float enemyTopBounds = col.transform.position.y + col.gameObject.GetComponent<SpriteRenderer>().bounds.size.y;
 
-          Debug.Log(heroBottomBounds + " VS " + enemyTopBounds);
+      if (heroObject.isDropKicking) {
+        float heroBottomBounds = GameObject.FindGameObjectWithTag("Hero").transform.position.y;
 
-          if (Mathf.Abs(heroBottomBounds - enemyTopBounds) <= 0.1) {
-            hero.Jump(true);
-          }
+        if (Mathf.Abs(heroBottomBounds - enemyTopBounds) <= 0.1) {
+          heroObject.Jump(true);
         }
       }
     }
+  }
 }
