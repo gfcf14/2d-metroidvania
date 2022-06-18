@@ -155,7 +155,6 @@ public class Enemy : MonoBehaviour {
         hp -= 10;
       } else {
         if (hero.currentWeapon != "fists") {
-          // TODO: figure out a way to assign damage to the weapon and not hardcode it
           string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
           hp -= Utilities.GetDamage(weaponWielded);
         } else {
