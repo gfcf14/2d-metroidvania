@@ -561,6 +561,8 @@ MonoBehaviour:
   isHurt: 0
   isDead: 0
   isDefending: 0
+  isParrying: 0
+  isClashing: 0
   isGliding: 0
   isFacingLeft: 0
   isAttackingSingle: 0
@@ -670,6 +672,7 @@ MonoBehaviour:
   standardDamage: 20
   heroIsDead: 0
   hp: 40
+  stunOnAttack: 0
 --- !u!61 &1287121272
 BoxCollider2D:
   m_ObjectHideFlags: 0

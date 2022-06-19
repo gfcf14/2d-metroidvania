@@ -39,7 +39,10 @@ public class Enemy : MonoBehaviour {
 
   public int hp = 40;
 
+  public bool stunOnAttack = false;
+
   SpriteRenderer weaponSpriteRenderer;
+  Hero hero;
 
   void Awake() {
     body = GetComponent<Rigidbody2D>();
@@ -52,6 +55,7 @@ public class Enemy : MonoBehaviour {
 
     flashEffect = GetComponent<SimpleFlash>();
     weaponSpriteRenderer = GameObject.Find("Weapon").GetComponent<SpriteRenderer>();
+    hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
   }
 
   void Update() {
@@ -131,6 +135,7 @@ public class Enemy : MonoBehaviour {
     anim.SetBool("needsCooldown", needsCoolDown);
     anim.SetBool("isDead", isDead);
     anim.SetBool("isStunned", isStunned);
+    anim.SetBool("isStunnedOnAttack", stunOnAttack);
   }
 
   private void OnCollisionEnter2D(Collision2D col) {
@@ -144,13 +149,12 @@ public class Enemy : MonoBehaviour {
   private void OnTriggerEnter2D(Collider2D col) {
     string colliderTag = col.gameObject.tag;
 
-    if (colliderTag == "Weapon") {
+    if (colliderTag == "Weapon" && !hero.isParrying) {
       float currentX = transform.position.x;
       float enemyX = col.transform.position.x;
 
       attackedFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
 
-      Hero hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
       if (hero.isKicking || hero.isDropKicking) {
         hp -= 10;
       } else {
@@ -182,7 +186,7 @@ public class Enemy : MonoBehaviour {
     }
   }
 
-  void Stun() {
+  public void Stun() {
     isStunned = true;
     isWalking = false;
 
@@ -191,7 +195,14 @@ public class Enemy : MonoBehaviour {
 
   void Recover() {
     isStunned = false;
+    stunOnAttack = false;
     isWalking = true;
+  }
+
+  public void StunOnAttack() {
+    if (stunOnAttack) {
+      Stun();
+    }
   }
 
   void FinishAttack() {

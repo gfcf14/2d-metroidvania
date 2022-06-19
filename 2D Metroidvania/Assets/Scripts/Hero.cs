@@ -29,6 +29,8 @@ public class Hero : MonoBehaviour {
   public int isDead = 0;
 
   public bool isDefending = false;
+  public bool isParrying = false;
+  public bool isClashing = false;
 
   public bool isGliding;
   public bool isFacingLeft;
@@ -98,11 +100,12 @@ public class Hero : MonoBehaviour {
 
     // x axis movement
     if (!horizontalCollision && isHurt < 1) {
-      if (!isDefending) {
+      if (!isDefending && !isParrying && !isClashing) {
+        // movement happens on this line
         body.velocity = new Vector2(!isDropKicking ? horizontalInput * speed : 0, body.velocity.y);
       }
 
-      // flip player when moving left
+      // flip player back when moving right
       if (horizontalInput > 0.01f && (isGrounded || canFlipOnAir) && !isAttackingSingle) {
         transform.localScale = Vector3.one;
 
@@ -118,6 +121,11 @@ public class Hero : MonoBehaviour {
           isFacingLeft = true;
         }
       }
+    }
+
+    if (isClashing) {
+      // TODO: modify the 2 to make it a multiplie based on enemy strength (?)
+      body.velocity = new Vector2( (isFacingLeft ? 1 : -1) * speed * 2, body.velocity.y);
     }
 
     if (isHurt == 1) {
@@ -296,6 +304,14 @@ public class Hero : MonoBehaviour {
       DropDefense();
     }
 
+    if (Input.GetKeyDown(KeyCode.Keypad2) && weapons[weaponIndex] == "heavy") {
+      isParrying = true;
+    }
+
+    if (Input.GetKeyUp(KeyCode.Keypad2)) {
+      isParrying = false;
+    }
+
     if (Input.GetKeyDown(KeyCode.Backspace)) {
       SimulateDeath(isGrounded);
     }
@@ -352,6 +368,8 @@ public class Hero : MonoBehaviour {
     anim.SetInteger("isHurt", isHurt);
     anim.SetInteger("isDead", isDead);
     anim.SetBool("isDefending", isDefending);
+    anim.SetBool("isParrying", isParrying);
+    anim.SetBool("isClashing", isClashing);
   }
 
   void PauseGame() {
@@ -440,9 +458,22 @@ public class Hero : MonoBehaviour {
     isDefending = false;
   }
 
+  public void Clash() {
+    isClashing = true;
+  }
+
+  void DropParry() {
+    body.velocity = Vector2.zero;
+
+    isClashing = false;
+    isParrying = false;
+  }
+
   public void OnGUI() {
     string guiLabel = "HP: " + hp + "\n" +
                       "Defending: " + isDefending + "\n" +
+                      "Parrying: " + isParrying + "\n" +
+                      "Clashing: " + isClashing + "\n" +
                       "Running: " + isRunning + "\n" +
                       "Grounded: " + isGrounded + "\n" +
                       "Falling: " + isFalling + "\n" +
@@ -553,14 +584,14 @@ public class Hero : MonoBehaviour {
 
         hurtFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
 
-        bool mustTakeDamage = !isDefending || (isDefending && hurtFromBehind);
+        bool mustTakeDamage = (!isDefending || (isDefending && hurtFromBehind)) && (!isParrying || (isParrying && hurtFromBehind));
 
         if (hurtFromBehind) {
           FlipPlayer(true);
         }
 
         if (mustTakeDamage) {
-          // hp -= enemyCollided.standardDamage;
+          hp -= enemyCollided.standardDamage;
 
           if (hp > 0) {
             SimulateHurt(2);
@@ -569,6 +600,10 @@ public class Hero : MonoBehaviour {
           }
         } else {
           // DropDefense();
+          if (isParrying) {
+            Clash();
+            enemyCollided.stunOnAttack = true;
+          }
         }
       }
     }
