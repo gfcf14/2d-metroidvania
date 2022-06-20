@@ -599,6 +599,12 @@ MonoBehaviour:
   hurtFromBehind: 0
   hp: 100
   tiredThreshold: 40
+  maxShieldHP: 0
+  currentShieldHP: 0
+  currentShieldRecoverTime: 0
+  shieldDropTime: 0
+  dummyShieldHP: 5
+  dummyShieldRecoverTime: 2000
 --- !u!50 &1177825375
 Rigidbody2D:
   serializedVersion: 4

@@ -84,6 +84,15 @@ public class Hero : MonoBehaviour {
   public int hp = 100;
   public int tiredThreshold = 40;
 
+  private int maxShieldHP = 0;
+  private int currentShieldHP = 0;
+  private float currentShieldRecoverTime = 0;
+  private float shieldDropTime = 0;
+
+  // TODO: remove these variables and add a new dictionary when adding another shield sprite
+  public int dummyShieldHP = 5;
+  public float dummyShieldRecoverTime = 2000;
+
   // called when script is loaded
   private void Awake() {
     body = GetComponent<Rigidbody2D>();
@@ -91,12 +100,26 @@ public class Hero : MonoBehaviour {
     heroRenderer = GetComponent<SpriteRenderer>();
 
     currentWeapon = weapons[weaponIndex % weapons.Length];
+
+    // TODO: move this to shield equipment change once equipment options are available
+    maxShieldHP = dummyShieldHP;
+    currentShieldHP = maxShieldHP;
+    currentShieldRecoverTime = dummyShieldRecoverTime;
   }
 
   // called on every frame of the game
   private void Update() {
     horizontalInput = Input.GetAxis("Horizontal");
     float verticalSpeed = body.velocity.y;
+
+    if (shieldDropTime != 0) {
+      float currentTime = Time.time * 1000;
+
+      if (currentTime > (shieldDropTime + currentShieldRecoverTime)) {
+        currentShieldHP = maxShieldHP;
+        shieldDropTime = 0;
+      }
+    }
 
     // x axis movement
     if (!horizontalCollision && isHurt < 1) {
@@ -297,7 +320,9 @@ public class Hero : MonoBehaviour {
     }
 
     if (Input.GetKeyDown(KeyCode.Keypad3)) {
-      isDefending = true;
+      if (currentShieldHP > 0) {
+        isDefending = true;
+      }
     }
 
     if (Input.GetKeyUp(KeyCode.Keypad3)) {
@@ -599,7 +624,12 @@ public class Hero : MonoBehaviour {
             SimulateDeath(isGrounded);
           }
         } else {
-          // DropDefense();
+          currentShieldHP--;
+
+          if (currentShieldHP == 0) {
+            shieldDropTime = Time.time * 1000;
+            DropDefense();
+          }
           if (isParrying) {
             Clash();
             enemyCollided.stunOnAttack = true;

@@ -117,7 +117,7 @@ public class Enemy : MonoBehaviour {
     } else {
       float currentTime = Time.time * 1000;
 
-      if ((Time.time * 1000) > (coolDownStart + coolDownTime)) {
+      if (currentTime > (coolDownStart + coolDownTime)) {
           coolDownStart = 0;
           needsCoolDown = false;
           playerFound = false;
