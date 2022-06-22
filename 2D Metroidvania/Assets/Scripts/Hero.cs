@@ -601,7 +601,7 @@ public class Hero : MonoBehaviour {
     }
 
     if (objectCollided.tag == "Enemy") {
-      Enemy enemyCollided = objectCollided.GetComponent<Enemy>();
+      Patroller enemyCollided = objectCollided.GetComponent<Patroller>();
 
       if (enemyCollided.isAttacking) {
         float currentX = transform.position.x;

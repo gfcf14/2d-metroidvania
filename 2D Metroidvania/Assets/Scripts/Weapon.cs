@@ -15,7 +15,7 @@ public class Weapon : MonoBehaviour {
 
   private void OnTriggerEnter2D(Collider2D col) {
     if (col.gameObject.tag == "Enemy") {
-      Enemy enemyCollided = col.gameObject.GetComponent<Enemy>();
+      Patroller enemyCollided = col.gameObject.GetComponent<Patroller>();
 
       float enemyTopBounds = col.transform.position.y + col.gameObject.GetComponent<SpriteRenderer>().bounds.size.y;
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 // Made by Bartha Szabolcs of GameDevJourney
 
-public class Enemy : MonoBehaviour {
+public class Patroller : MonoBehaviour {
   [SerializeField] private SimpleFlash flashEffect;
   [SerializeField] public float speed;
 
