@@ -158,11 +158,16 @@ public class Patroller : MonoBehaviour {
       if (hero.isKicking || hero.isDropKicking) {
         hp -= 10;
       } else {
-        if (hero.currentWeapon != "fists") {
+        string currentWeapon = hero.currentWeapon;
+
+        if (currentWeapon == "fists") {
+          hp -= 5;
+        } else if (currentWeapon == "single" || currentWeapon == "heavy") {
           string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
           hp -= Utilities.GetDamage(weaponWielded);
-        } else {
-          hp -= 5;
+        } else if (currentWeapon == "throwables") {
+          string weaponWielded = col.transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite.name;
+          hp -= Utilities.GetDamage(weaponWielded);
         }
       }
 

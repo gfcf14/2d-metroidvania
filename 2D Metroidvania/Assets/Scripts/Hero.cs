@@ -8,6 +8,9 @@ public class Hero : MonoBehaviour {
   private Animator anim;
   private SpriteRenderer heroRenderer;
 
+  private float heroHeight;
+  private float heroWidth;
+
   public bool isRunning;
   public bool isGrounded;
   public bool canFlipOnAir;
@@ -49,6 +52,7 @@ public class Hero : MonoBehaviour {
   public bool isAirShooting;
 
   public bool isThrowing;
+  public bool startThrow = false;
 
   public bool isShootingSingle;
 
@@ -93,6 +97,8 @@ public class Hero : MonoBehaviour {
   public int dummyShieldHP = 5;
   public float dummyShieldRecoverTime = 2000;
 
+  [SerializeField] GameObject throwable;
+
   // called when script is loaded
   private void Awake() {
     body = GetComponent<Rigidbody2D>();
@@ -100,6 +106,9 @@ public class Hero : MonoBehaviour {
     heroRenderer = GetComponent<SpriteRenderer>();
 
     currentWeapon = weapons[weaponIndex % weapons.Length];
+
+    heroHeight = heroRenderer.bounds.size.y;
+    heroWidth = heroRenderer.bounds.size.x;
 
     // TODO: move this to shield equipment change once equipment options are available
     maxShieldHP = dummyShieldHP;
@@ -123,7 +132,7 @@ public class Hero : MonoBehaviour {
 
     // x axis movement
     if (!horizontalCollision && isHurt < 1) {
-      if (!isDefending && !isParrying && !isClashing) {
+      if (!isDefending && !isParrying && !isClashing && !isThrowing) {
         // movement happens on this line
         body.velocity = new Vector2(!isDropKicking ? horizontalInput * speed : 0, body.velocity.y);
       }
@@ -429,6 +438,20 @@ public class Hero : MonoBehaviour {
     if (hurtLevel == 3) {
       throwbackHeight = 15f;
     }
+  }
+
+  void StartThrow() {
+    float throwableX = transform.position.x + (heroWidth / 2);
+    float throwableY = transform.position.y + (heroHeight / 2);
+    GameObject throwableWeapon = Instantiate(throwable, new Vector3(throwableX, throwableY, 0), Quaternion.identity);
+
+    //TODO: make some if statements here based on throwable equipment to decide values to send to the prefab
+    Throwable throwableInstance = throwableWeapon.GetComponent<Throwable>();
+    throwableInstance.maxDistance = 4;
+    throwableInstance.isFacingLeft = isFacingLeft;
+    throwableInstance.startX = throwableX;
+    throwableInstance.startY = throwableY;
+
   }
 
   void Recover() {

@@ -9,7 +9,8 @@ public class WeaponDamage {
 public class Utilities {
   public static Dictionary<string, WeaponDamage> weaponDamages = new Dictionary<string, WeaponDamage> {
     {"sword-1", new WeaponDamage() {damage = 20}},
-    {"longsword-1", new WeaponDamage() {damage = 40}}
+    {"longsword-1", new WeaponDamage() {damage = 40}},
+    {"lance", new WeaponDamage() {damage = 60}}
   };
 
   public static int GetDamage(string weaponWielded) {

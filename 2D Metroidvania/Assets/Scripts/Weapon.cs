@@ -5,12 +5,10 @@ using UnityEngine;
 public class Weapon : MonoBehaviour {
   Hero hero;
 
-  // Start is called before the first frame update
   void Start() {
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
   }
 
-  // Update is called once per frame
   void Update() { }
 
   private void OnTriggerEnter2D(Collider2D col) {

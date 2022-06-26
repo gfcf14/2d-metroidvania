@@ -575,6 +575,7 @@ MonoBehaviour:
   isAirPunching: 0
   isAirShooting: 0
   isThrowing: 0
+  startThrow: 0
   isShootingSingle: 0
   isShootingAuto: 0
   isShootingPull: 0
@@ -601,6 +602,7 @@ MonoBehaviour:
   tiredThreshold: 40
   dummyShieldHP: 5
   dummyShieldRecoverTime: 2000
+  throwable: {fileID: 5807525025387724211, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
 --- !u!50 &1177825375
 Rigidbody2D:
   serializedVersion: 4
