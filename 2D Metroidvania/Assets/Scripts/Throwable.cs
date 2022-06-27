@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class Throwable : MonoBehaviour {
     private Animator anim;
+    private SpriteRenderer objectRenderer;
+
     Hero hero;
+
+    [System.NonSerialized] public bool isFacingLeft;
+    [System.NonSerialized] public bool hasCollided;
+
+    [System.NonSerialized] public int parabolaIncrement = 0;
 
     [System.NonSerialized] public float startX;
     [System.NonSerialized] public float startY;
     [System.NonSerialized] public float maxDistance;
-    [System.NonSerialized] public int increment = 0;
     [System.NonSerialized] public float distanceMultiplier = 0.0125f;
-    [System.NonSerialized] public bool isFacingLeft;
+    [System.NonSerialized] public float collideTime;
+    [System.NonSerialized] public float maxEllapsedCollideTime = 1500f;
 
     float initialAngle;
     float rotationAngle;
@@ -23,6 +30,7 @@ public class Throwable : MonoBehaviour {
 
     void Start() {
       anim = GetComponent<Animator>();
+      objectRenderer = GetComponent<SpriteRenderer>();
       hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
 
       direction = isFacingLeft ? -1 : 1;
@@ -38,16 +46,26 @@ public class Throwable : MonoBehaviour {
     }
 
     void Update() {
-      float newX = direction * distanceMultiplier * increment;
-      float newAngle = initialAngle - ((rotationAngle * increment));
+      if (!hasCollided) {
+        float newX = direction * distanceMultiplier * parabolaIncrement;
+        float newAngle = initialAngle - ((rotationAngle * parabolaIncrement));
 
-      transform.position = new Vector2(startX + newX, startY + parabolaValue(newX));
-      transform.rotation = Quaternion.Euler(0, 0, newAngle);
+        transform.position = new Vector2(startX + newX, startY + parabolaValue(newX));
+        transform.rotation = Quaternion.Euler(0, 0, newAngle);
 
-      if (newAngle <= -90 || newAngle >= 90) {
-        Destroy(gameObject);
+        // if (newAngle <= -90 || newAngle >= 90) {
+        //   Destroy(gameObject);
+        // }
+
+        parabolaIncrement++;
+      } else {
+        float ellapsedCollideTime = (Time.time * 1000) - collideTime;
+
+        if (ellapsedCollideTime < maxEllapsedCollideTime) {
+          objectRenderer.color = new Color(255, 255, 255, 1 - (ellapsedCollideTime / maxEllapsedCollideTime));
+        } else {
+          Destroy(gameObject);
+        }
       }
-
-      increment++;
     }
 }
