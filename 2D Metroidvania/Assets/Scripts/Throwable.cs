@@ -9,10 +9,15 @@ public class Throwable : MonoBehaviour {
     Hero hero;
 
     [System.NonSerialized] public bool isFacingLeft;
-    [System.NonSerialized] public bool hasCollided;
+    [System.NonSerialized] public bool hasCollided = false;
+    [System.NonSerialized] public bool mustBounce = false;
 
     [System.NonSerialized] public int parabolaIncrement = 0;
 
+    [System.NonSerialized] public float bounceRotationMultiplier = 3;
+    [System.NonSerialized] public float bounceX;
+    [System.NonSerialized] public float bounceY;
+    [System.NonSerialized] public float newAngle;
     [System.NonSerialized] public float startX;
     [System.NonSerialized] public float startY;
     [System.NonSerialized] public float maxDistance;
@@ -26,6 +31,10 @@ public class Throwable : MonoBehaviour {
 
     float parabolaValue(float x) {
       return (-0.5f * Mathf.Pow(x, 2)) + (direction * maxDistance * x);
+    }
+
+    float bounceParabolaValue(float x) {
+      return (-0.25f * Mathf.Pow(x, 2)) - (direction * x);
     }
 
     void Start() {
@@ -48,7 +57,7 @@ public class Throwable : MonoBehaviour {
     void Update() {
       if (!hasCollided) {
         float newX = direction * distanceMultiplier * parabolaIncrement;
-        float newAngle = initialAngle - ((rotationAngle * parabolaIncrement));
+        newAngle = initialAngle - (rotationAngle * parabolaIncrement);
 
         transform.position = new Vector2(startX + newX, startY + parabolaValue(newX));
         transform.rotation = Quaternion.Euler(0, 0, newAngle);
@@ -59,6 +68,16 @@ public class Throwable : MonoBehaviour {
 
         parabolaIncrement++;
       } else {
+        if (mustBounce) {
+          float newX = -1 * direction * distanceMultiplier * parabolaIncrement;
+          float bounceAngle = newAngle - (parabolaIncrement * bounceRotationMultiplier);
+
+          transform.position = new Vector2(bounceX + newX, bounceY + bounceParabolaValue(newX));
+          transform.rotation = Quaternion.Euler(0, 0, bounceAngle);
+
+          parabolaIncrement++;
+        }
+
         float ellapsedCollideTime = (Time.time * 1000) - collideTime;
 
         if (ellapsedCollideTime < maxEllapsedCollideTime) {

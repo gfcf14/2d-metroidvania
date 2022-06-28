@@ -10,12 +10,14 @@ public class ThrowableCollider : MonoBehaviour {
       string colliderTag = col.gameObject.tag;
 
       if (colliderTag == "Ground") {
-        GameObject throwableParent = transform.parent.gameObject;
-        string throwableWeapon = throwableParent.GetComponent<SpriteRenderer>().sprite.name;
+        GameObject parentObject = transform.parent.gameObject;
+        string throwableWeapon = parentObject.GetComponent<SpriteRenderer>().sprite.name;
 
         if (throwableWeapon == "lance") {
-          throwableParent.GetComponent<Throwable>().hasCollided = true;
-          throwableParent.GetComponent<Throwable>().collideTime = Time.time * 1000;
+          Throwable parentThrowable = parentObject.GetComponent<Throwable>();
+
+          parentThrowable.hasCollided = true;
+          parentThrowable.collideTime = Time.time * 1000;
         }
       }
     }

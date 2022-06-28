@@ -152,6 +152,7 @@ public class Patroller : MonoBehaviour {
     if (colliderTag == "Weapon" && !hero.isParrying) {
       float currentX = transform.position.x;
       float enemyX = col.transform.position.x;
+      bool mustTakeDamage = true;
 
       attackedFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
 
@@ -166,22 +167,40 @@ public class Patroller : MonoBehaviour {
           string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
           hp -= Utilities.GetDamage(weaponWielded);
         } else if (currentWeapon == "throwables") {
-          string weaponWielded = col.transform.parent.gameObject.GetComponent<SpriteRenderer>().sprite.name;
-          hp -= Utilities.GetDamage(weaponWielded);
+          GameObject parentObject = col.transform.parent.gameObject;
+          Throwable parentThrowable = parentObject.GetComponent<Throwable>();
+          mustTakeDamage = !parentThrowable.hasCollided;
+
+          if (mustTakeDamage) {
+            string weaponWielded = parentObject.GetComponent<SpriteRenderer>().sprite.name;
+            hp -= Utilities.GetDamage(weaponWielded);
+
+            Transform parentTransform = parentObject.GetComponent<Transform>();
+
+            parentThrowable.bounceX = parentTransform.position.x;
+            parentThrowable.bounceY = parentTransform.position.y;
+            parentThrowable.collideTime = Time.time * 1000;
+            parentThrowable.hasCollided = true;
+            parentThrowable.maxEllapsedCollideTime = 1000f;
+            parentThrowable.mustBounce = true;
+            parentThrowable.parabolaIncrement = 0;
+          }
         }
       }
 
-      if (hp > 0) {
-        if (flashEffect != null) {
-          flashEffect.Flash();
-        }
+      if (mustTakeDamage) {
+        if (hp > 0) {
+          if (flashEffect != null) {
+            flashEffect.Flash();
+          }
 
-        Stun();
-      } else {
-        isDead = true;
-        isStunned = false;
-        isWalking = false;
-        body.velocity = new Vector2(0, body.velocity.y);
+          Stun();
+        } else {
+          isDead = true;
+          isStunned = false;
+          isWalking = false;
+          body.velocity = new Vector2(0, body.velocity.y);
+        }
       }
     } else if (colliderTag == "Shield") {
       if (isAttacking) {
