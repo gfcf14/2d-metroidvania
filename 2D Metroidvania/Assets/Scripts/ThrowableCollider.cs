@@ -11,9 +11,9 @@ public class ThrowableCollider : MonoBehaviour {
 
       if (colliderTag == "Ground") {
         GameObject parentObject = transform.parent.gameObject;
-        string throwableWeapon = parentObject.GetComponent<SpriteRenderer>().sprite.name;
+        Sprite throwableSprite = parentObject.GetComponent<SpriteRenderer>().sprite;
 
-        if (throwableWeapon == "lance") {
+        if (throwableSprite != null && throwableSprite.name == "lance") {
           Throwable parentThrowable = parentObject.GetComponent<Throwable>();
 
           parentThrowable.hasCollided = true;

@@ -25,6 +25,8 @@ public class Throwable : MonoBehaviour {
     [System.NonSerialized] public float collideTime;
     [System.NonSerialized] public float maxEllapsedCollideTime = 1500f;
 
+    [System.NonSerialized] public string type;
+
     float initialAngle;
     float rotationAngle;
     int direction;
@@ -41,6 +43,10 @@ public class Throwable : MonoBehaviour {
       anim = GetComponent<Animator>();
       objectRenderer = GetComponent<SpriteRenderer>();
       hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
+
+      if (type == "lance") {
+        objectRenderer.sprite = Resources.Load<Sprite>("Sprites/lance");
+      }
 
       direction = isFacingLeft ? -1 : 1;
       initialAngle = direction * 30f;
