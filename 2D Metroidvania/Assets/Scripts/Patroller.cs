@@ -169,21 +169,25 @@ public class Patroller : MonoBehaviour {
         } else if (currentWeapon == "throwables") {
           GameObject parentObject = col.transform.parent.gameObject;
           Throwable parentThrowable = parentObject.GetComponent<Throwable>();
-          mustTakeDamage = !parentThrowable.hasCollided;
+          string weaponWielded = parentThrowable.type;
+
+          mustTakeDamage = (weaponWielded == "lance" && !parentThrowable.hasCollided) || (weaponWielded == "bomb" && parentThrowable.isExploding);
 
           if (mustTakeDamage) {
-            string weaponWielded = parentObject.GetComponent<SpriteRenderer>().sprite.name;
             hp -= Utilities.GetDamage(weaponWielded);
 
             Transform parentTransform = parentObject.GetComponent<Transform>();
 
-            parentThrowable.bounceX = parentTransform.position.x;
-            parentThrowable.bounceY = parentTransform.position.y;
+            if(weaponWielded == "lance") {
+              parentThrowable.bounceX = parentTransform.position.x;
+              parentThrowable.bounceY = parentTransform.position.y;
+              parentThrowable.mustBounce = true;
+              parentThrowable.parabolaIncrement = 0;
+            }
+
             parentThrowable.collideTime = Time.time * 1000;
             parentThrowable.hasCollided = true;
             parentThrowable.maxEllapsedCollideTime = 1000f;
-            parentThrowable.mustBounce = true;
-            parentThrowable.parabolaIncrement = 0;
           }
         }
       }

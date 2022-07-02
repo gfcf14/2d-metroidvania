@@ -7,10 +7,15 @@ public class WeaponDamage {
 }
 
 public class Utilities {
+  public static Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite> {
+    {"lance", Resources.Load<Sprite>("Sprites/lance")}
+  };
+
   public static Dictionary<string, WeaponDamage> weaponDamages = new Dictionary<string, WeaponDamage> {
     {"sword-1", new WeaponDamage() {damage = 20}},
     {"longsword-1", new WeaponDamage() {damage = 40}},
-    {"lance", new WeaponDamage() {damage = 60}}
+    {"lance", new WeaponDamage() {damage = 60}},
+    {"bomb", new WeaponDamage() {damage = 100}}
   };
 
   public static int GetDamage(string weaponWielded) {

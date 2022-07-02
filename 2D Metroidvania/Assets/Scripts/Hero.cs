@@ -447,8 +447,15 @@ public class Hero : MonoBehaviour {
 
     //TODO: make some if statements here based on throwable equipment to decide values to send to the prefab
     Throwable throwableInstance = throwableWeapon.GetComponent<Throwable>();
-    throwableInstance.type = "lance";
+
+    // for lance
+    // throwableInstance.type = "lance";
+    // throwableInstance.maxDistance = 4;
+
+    // for bomb
+    throwableInstance.type = "bomb";
     throwableInstance.maxDistance = 4;
+
     throwableInstance.isFacingLeft = isFacingLeft;
     throwableInstance.startX = throwableX;
     throwableInstance.startY = throwableY;
