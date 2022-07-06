@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Throwable : MonoBehaviour {
     private SpriteRenderer objectRenderer;
+    private CapsuleCollider2D hitBounds;
 
     Hero hero;
 
@@ -16,7 +17,8 @@ public class Throwable : MonoBehaviour {
     [System.NonSerialized] public bool mustFall = false;
     [System.NonSerialized] public bool isExploding = false;
 
-    [System.NonSerialized] public int parabolaIncrement = 0;
+    [System.NonSerialized] public int transitionIncrement = 0;
+    [System.NonSerialized] public int gravityResistance = 0;
 
     [System.NonSerialized] public float bounceRotationMultiplier = 3;
     [System.NonSerialized] public float bounceX;
@@ -46,6 +48,7 @@ public class Throwable : MonoBehaviour {
     void Start() {
       anim = GetComponent<Animator>();
       objectRenderer = GetComponent<SpriteRenderer>();
+      hitBounds = transform.Find("ThrowableCollider").gameObject.GetComponent<CapsuleCollider2D>();
       extraSprite = transform.Find("Extra").gameObject;
       hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
 
@@ -56,6 +59,14 @@ public class Throwable : MonoBehaviour {
         transform.rotation = Quaternion.Euler(0, 0, initialAngle);
       } else if (type == "bomb") {
         anim.SetBool("isBomb", true);
+      } else if (type == "knife") {
+        DestroyExtra();
+        Destroy(anim);
+        objectRenderer.sprite = Utilities.sprites[type];
+        gravityResistance = 2;
+
+        hitBounds.offset = new Vector2(0.15f, -0.15f);
+        hitBounds.size = new Vector2(0.2f, 1.18f);
       }
 
       direction = isFacingLeft ? -1 : 1;
@@ -71,42 +82,48 @@ public class Throwable : MonoBehaviour {
     void Update() {
       if (!hasCollided) {
         if (!mustFall) {
-          float newX = direction * distanceMultiplier * parabolaIncrement;
-          newAngle = initialAngle - (rotationAngle * parabolaIncrement);
+          float newX = direction * distanceMultiplier * transitionIncrement;
 
-          transform.position = new Vector2(startX + newX, startY + parabolaValue(newX));
+          if (type == "lance" || type == "bomb") {
+            newAngle = initialAngle - (rotationAngle * transitionIncrement);
 
-          if (type != "bomb") {
+            transform.position = new Vector2(startX + newX, startY + parabolaValue(newX));
+
+            if (type != "bomb") {
+              transform.rotation = Quaternion.Euler(0, 0, newAngle);
+            }
+          } else if (type == "knife") {
+            float heightDrop = (transitionIncrement / gravityResistance);
+
+            newAngle = -0.5f * direction * heightDrop;
+
+            transform.position = new Vector2(startX + (newX * 5), startY - (heightDrop * distanceMultiplier));
             transform.rotation = Quaternion.Euler(0, 0, newAngle);
           }
 
-          // if (newAngle <= -90 || newAngle >= 90) {
-          //   Destroy(gameObject);
-          // }
-
-          parabolaIncrement++;
+          transitionIncrement++;
         } else {
           transform.position = new Vector2(transform.position.x, transform.position.y - 0.025f);
         }
       } else {
         if (mustBounce) {
-          float newX = -1 * direction * distanceMultiplier * parabolaIncrement;
-          float bounceAngle = newAngle - (parabolaIncrement * bounceRotationMultiplier);
+          float newX = -1 * direction * distanceMultiplier * transitionIncrement;
+          float bounceAngle = newAngle - (transitionIncrement * bounceRotationMultiplier);
 
           transform.position = new Vector2(bounceX + newX, bounceY + bounceParabolaValue(newX));
           transform.rotation = Quaternion.Euler(0, 0, bounceAngle);
 
-          parabolaIncrement++;
+          transitionIncrement++;
         }
 
         float ellapsedCollideTime = (Time.time * 1000) - collideTime;
 
         if (ellapsedCollideTime < maxEllapsedCollideTime) {
-          if (type == "lance") {
+          if (type == "lance" || type == "knife") {
             objectRenderer.color = new Color(255, 255, 255, 1 - (ellapsedCollideTime / maxEllapsedCollideTime));
           }
         } else {
-          if (type == "lance") {
+          if (type == "lance" || type == "knife") {
             Destroy(gameObject);
           } else if (type == "bomb") {
             isExploding = true;

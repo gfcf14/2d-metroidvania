@@ -171,18 +171,18 @@ public class Patroller : MonoBehaviour {
           Throwable parentThrowable = parentObject.GetComponent<Throwable>();
           string weaponWielded = parentThrowable.type;
 
-          mustTakeDamage = (weaponWielded == "lance" && !parentThrowable.hasCollided) || (weaponWielded == "bomb" && parentThrowable.isExploding);
+          mustTakeDamage = ((weaponWielded == "lance" || weaponWielded == "knife") && !parentThrowable.hasCollided) || (weaponWielded == "bomb" && parentThrowable.isExploding);
 
           if (mustTakeDamage) {
             hp -= Utilities.GetDamage(weaponWielded);
 
             Transform parentTransform = parentObject.GetComponent<Transform>();
 
-            if(weaponWielded == "lance") {
+            if(weaponWielded == "lance" || weaponWielded == "knife") {
               parentThrowable.bounceX = parentTransform.position.x;
               parentThrowable.bounceY = parentTransform.position.y;
               parentThrowable.mustBounce = true;
-              parentThrowable.parabolaIncrement = 0;
+              parentThrowable.transitionIncrement = 0;
             }
 
             parentThrowable.collideTime = Time.time * 1000;

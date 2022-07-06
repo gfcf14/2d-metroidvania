@@ -8,14 +8,16 @@ public class WeaponDamage {
 
 public class Utilities {
   public static Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite> {
-    {"lance", Resources.Load<Sprite>("Sprites/lance")}
+    {"lance", Resources.Load<Sprite>("Sprites/lance")},
+    {"knife", Resources.Load<Sprite>("Sprites/knife")}
   };
 
   public static Dictionary<string, WeaponDamage> weaponDamages = new Dictionary<string, WeaponDamage> {
     {"sword-1", new WeaponDamage() {damage = 20}},
     {"longsword-1", new WeaponDamage() {damage = 40}},
     {"lance", new WeaponDamage() {damage = 60}},
-    {"bomb", new WeaponDamage() {damage = 100}}
+    {"bomb", new WeaponDamage() {damage = 100}},
+    {"knife", new WeaponDamage() {damage = 10}},
   };
 
   public static int GetDamage(string weaponWielded) {

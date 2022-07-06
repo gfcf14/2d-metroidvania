@@ -442,7 +442,11 @@ public class Hero : MonoBehaviour {
 
   void StartThrow() {
     float throwableX = transform.position.x + (heroWidth / 2);
-    float throwableY = transform.position.y + (heroHeight / 2);
+    // float throwableY = transform.position.y + (heroHeight / 2);
+
+    // TODO: remove when making a throwable creation map
+    float throwableY = transform.position.y + (heroHeight * 0.75f);
+
     GameObject throwableWeapon = Instantiate(throwable, new Vector3(throwableX, throwableY, 0), Quaternion.identity);
 
     //TODO: make some if statements here based on throwable equipment to decide values to send to the prefab
@@ -453,8 +457,11 @@ public class Hero : MonoBehaviour {
     // throwableInstance.maxDistance = 4;
 
     // for bomb
-    throwableInstance.type = "bomb";
-    throwableInstance.maxDistance = 4;
+    // throwableInstance.type = "bomb";
+    // throwableInstance.maxDistance = 4;
+
+    // for knife
+    throwableInstance.type = "knife";
 
     throwableInstance.isFacingLeft = isFacingLeft;
     throwableInstance.startX = throwableX;
