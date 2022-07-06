@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ThrowableCollider : MonoBehaviour {
-  string[] groundColliders = { "lance", "bomb", "knife" };
+  string[] groundColliders = { "lance", "bomb", "knife", "kunai" };
 
 
   void Start() {}
@@ -38,7 +38,7 @@ public class ThrowableCollider : MonoBehaviour {
           }
         }
 
-        if ((parentThrowable.type == "lance" || parentThrowable.type == "knife") || (parentThrowable.type == "bomb" && isBottomCollision)) {
+        if ((parentThrowable.type == "lance" || parentThrowable.type == "knife" || parentThrowable.type == "kunai") || (parentThrowable.type == "bomb" && isBottomCollision)) {
           parentThrowable.hasCollided = true;
           parentThrowable.collideTime = Time.time * 1000;
         }

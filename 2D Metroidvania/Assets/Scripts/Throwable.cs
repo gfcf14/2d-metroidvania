@@ -67,6 +67,14 @@ public class Throwable : MonoBehaviour {
 
         hitBounds.offset = new Vector2(0.15f, -0.15f);
         hitBounds.size = new Vector2(0.2f, 1.18f);
+      } else if (type == "kunai") {
+        DestroyExtra();
+        Destroy(anim);
+        objectRenderer.sprite = Utilities.sprites[type];
+        gravityResistance = 5;
+
+        hitBounds.offset = new Vector2(0.15f, -0.15f);
+        hitBounds.size = new Vector2(0.2f, 1.18f);
       }
 
       direction = isFacingLeft ? -1 : 1;
@@ -92,7 +100,7 @@ public class Throwable : MonoBehaviour {
             if (type != "bomb") {
               transform.rotation = Quaternion.Euler(0, 0, newAngle);
             }
-          } else if (type == "knife") {
+          } else if (type == "knife" || type == "kunai") {
             float heightDrop = (transitionIncrement / gravityResistance);
 
             newAngle = -0.5f * direction * heightDrop;
@@ -119,11 +127,11 @@ public class Throwable : MonoBehaviour {
         float ellapsedCollideTime = (Time.time * 1000) - collideTime;
 
         if (ellapsedCollideTime < maxEllapsedCollideTime) {
-          if (type == "lance" || type == "knife") {
+          if (type == "lance" || type == "knife" || type == "kunai") {
             objectRenderer.color = new Color(255, 255, 255, 1 - (ellapsedCollideTime / maxEllapsedCollideTime));
           }
         } else {
-          if (type == "lance" || type == "knife") {
+          if (type == "lance" || type == "knife" || type == "kunai") {
             Destroy(gameObject);
           } else if (type == "bomb") {
             isExploding = true;

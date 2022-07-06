@@ -461,7 +461,10 @@ public class Hero : MonoBehaviour {
     // throwableInstance.maxDistance = 4;
 
     // for knife
-    throwableInstance.type = "knife";
+    // throwableInstance.type = "knife";
+
+    // for kunai
+    throwableInstance.type = "kunai";
 
     throwableInstance.isFacingLeft = isFacingLeft;
     throwableInstance.startX = throwableX;
