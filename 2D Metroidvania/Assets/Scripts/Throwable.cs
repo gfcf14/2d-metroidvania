@@ -51,34 +51,34 @@ public class Throwable : MonoBehaviour {
       hitBounds = transform.Find("ThrowableCollider").gameObject.GetComponent<CapsuleCollider2D>();
       extraSprite = transform.Find("Extra").gameObject;
       hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
+      direction = isFacingLeft ? -1 : 1;
 
-      if (type == "lance") {
-        DestroyExtra();
-        Destroy(anim);
-        objectRenderer.sprite = Utilities.sprites[type];
-        transform.rotation = Quaternion.Euler(0, 0, initialAngle);
-      } else if (type == "bomb") {
-        anim.SetBool("isBomb", true);
-      } else if (type == "knife") {
-        DestroyExtra();
-        Destroy(anim);
-        objectRenderer.sprite = Utilities.sprites[type];
-        gravityResistance = 2;
+      ThrowableObject currentThrowable = Utilities.throwableObjects[type];
 
-        hitBounds.offset = new Vector2(0.15f, -0.15f);
-        hitBounds.size = new Vector2(0.2f, 1.18f);
-      } else if (type == "kunai") {
-        DestroyExtra();
-        Destroy(anim);
-        objectRenderer.sprite = Utilities.sprites[type];
-        gravityResistance = 5;
+      hitBounds.offset = currentThrowable.colliderOffset;
+      hitBounds.size = currentThrowable.colliderSize;
 
-        hitBounds.offset = new Vector2(0.15f, -0.15f);
-        hitBounds.size = new Vector2(0.2f, 1.18f);
+      if (!currentThrowable.hasExtra) {
+        DestroyExtra();
       }
 
-      direction = isFacingLeft ? -1 : 1;
-      initialAngle = direction * 30f;
+      if (!currentThrowable.hasAnim) {
+        Destroy(anim);
+        objectRenderer.sprite = Utilities.throwableSprites[type];
+      } else {
+        if (type == "bomb") {
+          anim.SetBool("isBomb", true);
+        }
+      }
+
+      if (currentThrowable.initialAngle != 0f) {
+        initialAngle = direction * currentThrowable.initialAngle;
+        transform.rotation = Quaternion.Euler(0, 0, initialAngle);
+      }
+
+      if (currentThrowable.gravityResistance != 0) {
+        gravityResistance = currentThrowable.gravityResistance;
+      }
 
       rotationAngle = (maxDistance / initialAngle);
 
@@ -127,11 +127,11 @@ public class Throwable : MonoBehaviour {
         float ellapsedCollideTime = (Time.time * 1000) - collideTime;
 
         if (ellapsedCollideTime < maxEllapsedCollideTime) {
-          if (type == "lance" || type == "knife" || type == "kunai") {
+          if (Utilities.IsNonBouncingThrowable(type)) {
             objectRenderer.color = new Color(255, 255, 255, 1 - (ellapsedCollideTime / maxEllapsedCollideTime));
           }
         } else {
-          if (type == "lance" || type == "knife" || type == "kunai") {
+          if (Utilities.IsNonBouncingThrowable(type)) {
             Destroy(gameObject);
           } else if (type == "bomb") {
             isExploding = true;

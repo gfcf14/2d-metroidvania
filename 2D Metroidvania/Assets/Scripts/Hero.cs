@@ -441,35 +441,22 @@ public class Hero : MonoBehaviour {
   }
 
   void StartThrow() {
-    float throwableX = transform.position.x + (heroWidth / 2);
-    // float throwableY = transform.position.y + (heroHeight / 2);
+    // TODO: use equipped weapon instead, once equipment screen and options are prepared
+    // current test throwables: lance, bomb, knife, kunai
+    string throwableType = "kunai";
 
-    // TODO: remove when making a throwable creation map
-    float throwableY = transform.position.y + (heroHeight * 0.75f);
+    ThrowableObject currentThrowable = Utilities.throwableObjects[throwableType];
+    float throwableX = transform.position.x + (heroWidth * currentThrowable.startX);
+    float throwableY = transform.position.y + (heroHeight * currentThrowable.startY);
 
     GameObject throwableWeapon = Instantiate(throwable, new Vector3(throwableX, throwableY, 0), Quaternion.identity);
-
-    //TODO: make some if statements here based on throwable equipment to decide values to send to the prefab
     Throwable throwableInstance = throwableWeapon.GetComponent<Throwable>();
 
-    // for lance
-    // throwableInstance.type = "lance";
-    // throwableInstance.maxDistance = 4;
-
-    // for bomb
-    // throwableInstance.type = "bomb";
-    // throwableInstance.maxDistance = 4;
-
-    // for knife
-    // throwableInstance.type = "knife";
-
-    // for kunai
-    throwableInstance.type = "kunai";
-
     throwableInstance.isFacingLeft = isFacingLeft;
+    throwableInstance.maxDistance = currentThrowable.maxDistance;
     throwableInstance.startX = throwableX;
     throwableInstance.startY = throwableY;
-
+    throwableInstance.type = throwableType;
   }
 
   void Recover() {

@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ThrowableCollider : MonoBehaviour {
-  string[] groundColliders = { "lance", "bomb", "knife", "kunai" };
-
-
   void Start() {}
 
   void Update() {}
@@ -29,7 +26,7 @@ public class ThrowableCollider : MonoBehaviour {
       GameObject parentObject = transform.parent.gameObject;
       Throwable parentThrowable = parentObject.GetComponent<Throwable>();
 
-      if (System.Array.IndexOf(groundColliders, parentThrowable.type) != -1 && !parentThrowable.hasCollided) {
+      if (Utilities.IsGroundThrowable(parentThrowable.type) && !parentThrowable.hasCollided) {
         if (parentThrowable.type == "bomb") {
           parentThrowable.anim.speed = 0;
 
@@ -38,7 +35,7 @@ public class ThrowableCollider : MonoBehaviour {
           }
         }
 
-        if ((parentThrowable.type == "lance" || parentThrowable.type == "knife" || parentThrowable.type == "kunai") || (parentThrowable.type == "bomb" && isBottomCollision)) {
+        if (Utilities.IsNonBouncingThrowable(parentThrowable.type) || (parentThrowable.type == "bomb" && isBottomCollision)) {
           parentThrowable.hasCollided = true;
           parentThrowable.collideTime = Time.time * 1000;
         }
