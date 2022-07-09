@@ -442,11 +442,11 @@ public class Hero : MonoBehaviour {
 
   void StartThrow() {
     // TODO: use equipped weapon instead, once equipment screen and options are prepared
-    // current test throwables: lance, bomb, knife, kunai
-    string throwableType = "kunai";
+    // current test throwables: lance, bomb, knife, kunai, shuriken-4
+    string throwableType = "shuriken-4";
 
     ThrowableObject currentThrowable = Utilities.throwableObjects[throwableType];
-    float throwableX = transform.position.x + (heroWidth * currentThrowable.startX);
+    float throwableX = transform.position.x + ((isFacingLeft ? -1 : 1) * heroWidth * currentThrowable.startX);
     float throwableY = transform.position.y + (heroHeight * currentThrowable.startY);
 
     GameObject throwableWeapon = Instantiate(throwable, new Vector3(throwableX, throwableY, 0), Quaternion.identity);

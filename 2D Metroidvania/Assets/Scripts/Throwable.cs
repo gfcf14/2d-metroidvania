@@ -37,10 +37,17 @@ public class Throwable : MonoBehaviour {
     float rotationAngle;
     int direction;
 
+    // follows the formula f(x) = -1/2(x^2) + mx
     float parabolaValue(float x) {
       return (-0.5f * Mathf.Pow(x, 2)) + (direction * maxDistance * x);
     }
 
+    // follows the formula f(x) = -1/32(x^2) + 1/8(x)
+    float shurikenParabolaValue(float x) {
+      return (-0.03125f * Mathf.Pow(x, 2)) + (direction * x * 0.125f);
+    }
+
+    // follows the formula f(x) = -1/4(x^2) - mx
     float bounceParabolaValue(float x) {
       return (-0.25f * Mathf.Pow(x, 2)) - (direction * x);
     }
@@ -107,9 +114,17 @@ public class Throwable : MonoBehaviour {
 
             transform.position = new Vector2(startX + (newX * 5), startY - (heightDrop * distanceMultiplier));
             transform.rotation = Quaternion.Euler(0, 0, newAngle);
+          } else if (type == "shuriken-4") {
+            newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier);
+
+            transform.position = new Vector2(startX + newX, startY + shurikenParabolaValue(newX * 2));
+            transform.rotation = Quaternion.Euler(0, 0, newAngle);
+
+            // ensures transition increment doubles so shuriken travels faster
+            transitionIncrement ++;
           }
 
-          transitionIncrement++;
+          transitionIncrement ++;
         } else {
           transform.position = new Vector2(transform.position.x, transform.position.y - 0.025f);
         }
