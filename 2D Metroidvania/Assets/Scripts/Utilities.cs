@@ -27,7 +27,8 @@ public class Utilities {
     {"knife", Resources.Load<Sprite>("Sprites/knife")},
     {"kunai", Resources.Load<Sprite>("Sprites/kunai")},
     {"shuriken-4", Resources.Load<Sprite>("Sprites/shuriken-4")},
-    {"shuriken-6", Resources.Load<Sprite>("Sprites/shuriken-6")}
+    {"shuriken-6", Resources.Load<Sprite>("Sprites/shuriken-6")},
+    {"hatchet", Resources.Load<Sprite>("Sprites/hatchet")}
   };
 
   public static Dictionary<string, ThrowableObject> throwableObjects = new Dictionary<string, ThrowableObject> {
@@ -36,7 +37,8 @@ public class Utilities {
     {"knife", new ThrowableObject() {hasExtra = false, hasAnim = false, initialAngle = 0f, startX = 0.75f, startY = 0.75f, gravityResistance = 2, maxDistance = 0, colliderOffset = new Vector2(0.15f, -0.15f), colliderSize = new Vector2(0.2f, 1.18f)}},
     {"kunai", new ThrowableObject() {hasExtra = false, hasAnim = false, initialAngle = 0f, startX = 0.75f, startY = 0.75f, gravityResistance = 5, maxDistance = 0, colliderOffset = new Vector2(0.15f, -0.15f), colliderSize = new Vector2(0.2f, 1.18f)}},
     {"shuriken-4", new ThrowableObject() {hasExtra = false, hasAnim = false, initialAngle = 0f, startX = 0.75f, startY = 0.75f, gravityResistance = 0, maxDistance = 4, colliderOffset = new Vector2(0, 0), colliderSize = new Vector2(0.6f, 0.6f)}},
-    {"shuriken-6", new ThrowableObject() {hasExtra = false, hasAnim = false, initialAngle = 0f, startX = 0.75f, startY = 0.75f, gravityResistance = 0, maxDistance = 4, colliderOffset = new Vector2(0, 0), colliderSize = new Vector2(0.6f, 0.6f)}}
+    {"shuriken-6", new ThrowableObject() {hasExtra = false, hasAnim = false, initialAngle = 0f, startX = 0.75f, startY = 0.75f, gravityResistance = 0, maxDistance = 4, colliderOffset = new Vector2(0, 0), colliderSize = new Vector2(0.6f, 0.6f)}},
+    {"hatchet", new ThrowableObject() {hasExtra = false, hasAnim = false, initialAngle = 0f, startX = 0.75f, startY = 0.75f, gravityResistance = 0, maxDistance = 4, colliderOffset = new Vector2(0.4f, 0), colliderSize = new Vector2(0.6f, 0.8f)}}
   };
 
   public static Dictionary<string, WeaponDamage> weaponDamages = new Dictionary<string, WeaponDamage> {
@@ -47,11 +49,13 @@ public class Utilities {
     {"knife", new WeaponDamage() {damage = 15}},
     {"kunai", new WeaponDamage() {damage = 10}},
     {"shuriken-4", new WeaponDamage() {damage = 5}},
-    {"shuriken-6", new WeaponDamage() {damage = 10}}
+    {"shuriken-6", new WeaponDamage() {damage = 10}},
+    {"hatchet", new WeaponDamage() {damage = 20}}
   };
 
-  public static string[] groundThrowables = { "lance", "bomb", "knife", "kunai", "shuriken-4", "shuriken-6" };
-  public static string[] nonBouncingThrowables = { "lance", "knife", "kunai", "shuriken-4", "shuriken-6" };
+  public static string[] groundThrowables = { "lance", "bomb", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet" };
+  public static string[] nonBouncingThrowables = { "lance", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet" };
+  public static string[] rotatingThrowables = { "shuriken-4", "shuriken-6", "hatchet" };
 
   public static int GetDamage(string weaponWielded) {
 	  return weaponDamages[weaponWielded].damage;
@@ -63,5 +67,9 @@ public class Utilities {
 
   public static bool IsNonBouncingThrowable(string type) {
     return System.Array.IndexOf(nonBouncingThrowables, type) != -1;
+  }
+
+  public static bool IsRotatingThrowable(string type) {
+    return System.Array.IndexOf(rotatingThrowables, type) != -1;
   }
 }

@@ -114,13 +114,13 @@ public class Throwable : MonoBehaviour {
 
             transform.position = new Vector2(startX + (newX * 5), startY - (heightDrop * distanceMultiplier));
             transform.rotation = Quaternion.Euler(0, 0, newAngle);
-          } else if (type == "shuriken-4" || type == "shuriken-6") {
+          } else if (Utilities.IsRotatingThrowable(type)) {
             newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier);
 
             transform.position = new Vector2(startX + newX, startY + shurikenParabolaValue(newX * (type == "shuriken-4" ? 2 : 1)));
-            transform.rotation = Quaternion.Euler(0, 0, newAngle);
+            transform.rotation = Quaternion.Euler(0, 0, newAngle * (type == "hatchet" ? 0.5f : 1));
 
-            // ensures transition increment doubles so shurikens travel faster
+            // ensures transition increment doubles so rotating throwables travel faster
             transitionIncrement ++;
           }
 
