@@ -442,8 +442,8 @@ public class Hero : MonoBehaviour {
 
   void StartThrow() {
     // TODO: use equipped weapon instead, once equipment screen and options are prepared
-    // current test throwables: lance, bomb, knife, kunai, shuriken-4, shuriken-6, hatchet
-    string throwableType = "hatchet";
+    // current test throwables: lance, bomb, knife, kunai, shuriken-4, shuriken-6, hatchet, axe
+    string throwableType = "axe";
 
     ThrowableObject currentThrowable = Utilities.throwableObjects[throwableType];
     float throwableX = transform.position.x + ((isFacingLeft ? -1 : 1) * heroWidth * currentThrowable.startX);

@@ -87,7 +87,7 @@ public class Throwable : MonoBehaviour {
         gravityResistance = currentThrowable.gravityResistance;
       }
 
-      rotationAngle = (maxDistance / initialAngle);
+      rotationAngle = initialAngle == 0 ? 0 : (maxDistance / initialAngle);
 
       if (isFacingLeft) {
         transform.localScale = new Vector3(-1, 1, 1);
@@ -95,12 +95,21 @@ public class Throwable : MonoBehaviour {
     }
 
     void Update() {
+      // TODO: consider updating this to keep object "alive" for some time/length after off camera
+      if (!objectRenderer.isVisible) {
+        Destroy(gameObject);
+      }
+
       if (!hasCollided) {
         if (!mustFall) {
           float newX = direction * distanceMultiplier * transitionIncrement;
 
-          if (type == "lance" || type == "bomb") {
-            newAngle = initialAngle - (rotationAngle * transitionIncrement);
+          if (type == "lance" || type == "bomb" || type == "axe") {
+            if (type == "lance") {
+              newAngle = initialAngle - (rotationAngle * transitionIncrement);
+            } else if (type == "axe") {
+              newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier * 0.75f);
+            }
 
             transform.position = new Vector2(startX + newX, startY + parabolaValue(newX));
 
@@ -114,7 +123,7 @@ public class Throwable : MonoBehaviour {
 
             transform.position = new Vector2(startX + (newX * 5), startY - (heightDrop * distanceMultiplier));
             transform.rotation = Quaternion.Euler(0, 0, newAngle);
-          } else if (Utilities.IsRotatingThrowable(type)) {
+          } else if (Utilities.IsSmallRotatingThrowable(type)) {
             newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier);
 
             transform.position = new Vector2(startX + newX, startY + shurikenParabolaValue(newX * (type == "shuriken-4" ? 2 : 1)));
