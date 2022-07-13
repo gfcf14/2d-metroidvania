@@ -189,6 +189,20 @@ public class Patroller : MonoBehaviour {
             parentThrowable.hasCollided = true;
             parentThrowable.maxEllapsedCollideTime = 1000f;
           }
+        } else if (currentWeapon == "projectile-pull") {
+          GameObject parentObject = col.transform.parent.gameObject;
+          Arrow parentArrow = parentObject.GetComponent<Arrow>();
+          string arrowUsed = parentArrow.type;
+
+          mustTakeDamage = !parentArrow.hasCollided;
+
+          if (mustTakeDamage) {
+            hp -= Utilities.GetDamage(arrowUsed);
+
+            parentArrow.DestroyArrow();
+
+            //TODO: create the pierce effect here
+          }
         }
       }
 

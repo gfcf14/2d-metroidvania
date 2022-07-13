@@ -98,6 +98,10 @@ public class Hero : MonoBehaviour {
   public float dummyShieldRecoverTime = 2000;
 
   [SerializeField] GameObject throwable;
+  [SerializeField] GameObject arrow;
+
+  private GameObject currentArrow;
+  private GameObject arrowAnchor;
 
   // called when script is loaded
   private void Awake() {
@@ -114,6 +118,8 @@ public class Hero : MonoBehaviour {
     maxShieldHP = dummyShieldHP;
     currentShieldHP = maxShieldHP;
     currentShieldRecoverTime = dummyShieldRecoverTime;
+
+    arrowAnchor = transform.Find("ArrowAnchor").gameObject;
   }
 
   // called on every frame of the game
@@ -497,6 +503,16 @@ public class Hero : MonoBehaviour {
 
   void ClearShootingSingle() {
     isShootingSingle = false;
+  }
+
+  void CreateArrow() {
+    currentArrow = Instantiate(arrow, arrowAnchor.transform.position, Quaternion.identity);
+  }
+
+  void FireArrow() {
+    Arrow arrowInstance = currentArrow.GetComponent<Arrow>();
+    arrowInstance.type = "standard-arrow";
+    arrowInstance.hasFired = true;
   }
 
   void ClearShootingPull() {

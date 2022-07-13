@@ -53,7 +53,8 @@ public class Utilities {
     {"shuriken-4", new WeaponDamage() {damage = 5}},
     {"shuriken-6", new WeaponDamage() {damage = 10}},
     {"hatchet", new WeaponDamage() {damage = 20}},
-    {"axe", new WeaponDamage() {damage = 40}}
+    {"axe", new WeaponDamage() {damage = 40}},
+    {"standard-arrow", new WeaponDamage() {damage = 20}}
   };
 
   public static string[] groundThrowables = { "lance", "bomb", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet" };

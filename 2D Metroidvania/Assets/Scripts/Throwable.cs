@@ -6,8 +6,6 @@ public class Throwable : MonoBehaviour {
     private SpriteRenderer objectRenderer;
     private CapsuleCollider2D hitBounds;
 
-    Hero hero;
-
     [System.NonSerialized] public GameObject extraSprite;
     [System.NonSerialized] public Animator anim;
 
@@ -57,7 +55,6 @@ public class Throwable : MonoBehaviour {
       objectRenderer = GetComponent<SpriteRenderer>();
       hitBounds = transform.Find("ThrowableCollider").gameObject.GetComponent<CapsuleCollider2D>();
       extraSprite = transform.Find("Extra").gameObject;
-      hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
       direction = isFacingLeft ? -1 : 1;
 
       ThrowableObject currentThrowable = Utilities.throwableObjects[type];
@@ -130,10 +127,10 @@ public class Throwable : MonoBehaviour {
             transform.rotation = Quaternion.Euler(0, 0, newAngle * (type == "hatchet" ? 0.5f : 1));
 
             // ensures transition increment doubles so rotating throwables travel faster
-            transitionIncrement ++;
+            transitionIncrement++;
           }
 
-          transitionIncrement ++;
+          transitionIncrement++;
         } else {
           transform.position = new Vector2(transform.position.x, transform.position.y - 0.025f);
         }

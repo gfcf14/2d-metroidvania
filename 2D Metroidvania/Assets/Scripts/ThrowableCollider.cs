@@ -20,7 +20,6 @@ public class ThrowableCollider : MonoBehaviour {
     string colliderTag = col.gameObject.tag;
 
     if (colliderTag == "Ground") {
-      Transform groundTransform = col.gameObject.GetComponent<Transform>();
       bool isBottomCollision = IsBottomCollision(col);
 
       GameObject parentObject = transform.parent.gameObject;
