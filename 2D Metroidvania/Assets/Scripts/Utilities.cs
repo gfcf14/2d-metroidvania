@@ -32,6 +32,10 @@ public class Utilities {
     {"axe", Resources.Load<Sprite>("Sprites/axe")}
   };
 
+  public static Dictionary<string, Sprite> arrowSprites = new Dictionary<string, Sprite> {
+    {"arrow-standard", Resources.Load<Sprite>("Sprites/arrow-standard")},
+  };
+
   public static Dictionary<string, ThrowableObject> throwableObjects = new Dictionary<string, ThrowableObject> {
     {"lance", new ThrowableObject() {hasExtra = false, hasAnim = false, initialAngle = 30f, startX = 0.5f, startY = 0.5f, gravityResistance = 0, maxDistance = 4, colliderOffset = new Vector2(1.4f, -0.14f), colliderSize = new Vector2(0.35f, 1.25f)}},
     {"bomb", new ThrowableObject() {hasExtra = true, hasAnim = true, initialAngle = 0f, startX = 0.5f, startY = 0.5f, gravityResistance = 0, maxDistance = 4, colliderOffset = new Vector2(12.5f, -12.5f), colliderSize = new Vector2(0.6f, 0.6f)}},
@@ -54,7 +58,7 @@ public class Utilities {
     {"shuriken-6", new WeaponDamage() {damage = 10}},
     {"hatchet", new WeaponDamage() {damage = 20}},
     {"axe", new WeaponDamage() {damage = 40}},
-    {"standard-arrow", new WeaponDamage() {damage = 20}}
+    {"arrow-standard", new WeaponDamage() {damage = 20}}
   };
 
   public static string[] groundThrowables = { "lance", "bomb", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet" };

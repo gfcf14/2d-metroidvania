@@ -102,6 +102,7 @@ public class Hero : MonoBehaviour {
 
   private GameObject currentArrow;
   private GameObject arrowAnchor;
+  private Arrow arrowInstance;
 
   // called when script is loaded
   private void Awake() {
@@ -507,11 +508,12 @@ public class Hero : MonoBehaviour {
 
   void CreateArrow() {
     currentArrow = Instantiate(arrow, arrowAnchor.transform.position, Quaternion.identity);
+    arrowInstance = currentArrow.GetComponent<Arrow>();
+
+    arrowInstance.type = "arrow-standard";
   }
 
   void FireArrow() {
-    Arrow arrowInstance = currentArrow.GetComponent<Arrow>();
-    arrowInstance.type = "standard-arrow";
     arrowInstance.hasFired = true;
   }
 

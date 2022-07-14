@@ -9,15 +9,19 @@ public class ArrowCollider : MonoBehaviour {
 
   private void OnTriggerEnter2D(Collider2D col) {
     string colliderTag = col.gameObject.tag;
+    GameObject parentObject = transform.parent.gameObject;
 
     if (colliderTag == "Ground") {
-      GameObject parentObject = transform.parent.gameObject;
       Arrow parentArrow = parentObject.GetComponent<Arrow>();
 
       if (!parentArrow.hasCollided) {
         parentArrow.hasCollided = true;
         parentArrow.collideTime = Time.time * 1000;
       }
+    } else if (colliderTag == "Enemy") {
+      Vector2 collisionPoint = col.ClosestPoint(transform.position);
+
+      Instantiate(parentObject.GetComponent<Arrow>().pierceObject, collisionPoint, Quaternion.identity);
     }
   }
 }
