@@ -41,6 +41,9 @@ public class Patroller : MonoBehaviour {
 
   public bool stunOnAttack = false;
 
+  public Vector2 deadPosition;
+  public int deadAnimationIncrement = 0;
+
   SpriteRenderer weaponSpriteRenderer;
   Hero hero;
 
@@ -65,10 +68,14 @@ public class Patroller : MonoBehaviour {
 
     if (isDead) {
       if (attackedFromBehind) {
-        transform.position = new Vector2(transform.position.x + (isFacingLeft ? -1 : 1) * 0.05f, transform.position.y + 0.02f);
+        // transform.position = new Vector2(transform.position.x + (isFacingLeft ? -1 : 1) * 0.05f, transform.position.y + 0.02f);
+        transform.position = new Vector3(deadPosition.x + deadAnimationIncrement * 0.025f * (isFacingLeft ? -1 : 1), deadPosition.y + 0.01f * deadAnimationIncrement);
       } else {
-        transform.position = new Vector2(transform.position.x + (isFacingLeft ? 1 : -1) * 0.05f, transform.position.y + 0.02f);
+        // transform.position = new Vector2(transform.position.x + (isFacingLeft ? 1 : -1) * 0.05f, transform.position.y + 0.02f);
+        transform.position = new Vector3(deadPosition.x + deadAnimationIncrement * 0.025f * (isFacingLeft ? 1 : -1), deadPosition.y + 0.01f * deadAnimationIncrement);
       }
+
+      deadAnimationIncrement++;
     }
 
     if (!needsCoolDown) {
@@ -217,7 +224,8 @@ public class Patroller : MonoBehaviour {
           isDead = true;
           isStunned = false;
           isWalking = false;
-          body.velocity = new Vector2(0, body.velocity.y);
+          body.velocity = Vector2.zero;
+          deadPosition = new Vector2(transform.position.x, transform.position.y);
         }
       }
     } else if (colliderTag == "Shield") {
