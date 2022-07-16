@@ -21,9 +21,18 @@ public class ThrowableObject {
   public Vector2 colliderSize;
 }
 
+public class ArrowObject {
+  public Sprite sprite;
+
+  public int gravityResistance;
+}
+
 public class Utilities {
   public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject> {
-    {"enemy-explosion", Resources.Load("Prefabs/EnemyExplosion") as GameObject}
+    {"arrow", Resources.Load("Prefabs/Arrow") as GameObject},
+    {"enemy-explosion", Resources.Load("Prefabs/EnemyExplosion") as GameObject},
+    {"pierce", Resources.Load("Prefabs/Pierce") as GameObject},
+    {"throwable", Resources.Load("Prefabs/Throwable") as GameObject}
   };
 
   public static Dictionary<string, Sprite> throwableSprites = new Dictionary<string, Sprite> {
@@ -36,8 +45,9 @@ public class Utilities {
     {"axe", Resources.Load<Sprite>("Sprites/axe")}
   };
 
-  public static Dictionary<string, Sprite> arrowSprites = new Dictionary<string, Sprite> {
-    {"arrow-standard", Resources.Load<Sprite>("Sprites/arrow-standard")},
+  public static Dictionary<string, ArrowObject> arrows = new Dictionary<string, ArrowObject> {
+    {"arrow-standard", new ArrowObject() {sprite = Resources.Load<Sprite>("Sprites/arrow-standard"), gravityResistance = 10}},
+    {"arrow-poison", new ArrowObject() {sprite = Resources.Load<Sprite>("Sprites/arrow-poison"), gravityResistance = 8}},
   };
 
   public static Dictionary<string, ThrowableObject> throwableObjects = new Dictionary<string, ThrowableObject> {
@@ -62,7 +72,8 @@ public class Utilities {
     {"shuriken-6", new WeaponDamage() {damage = 10}},
     {"hatchet", new WeaponDamage() {damage = 20}},
     {"axe", new WeaponDamage() {damage = 40}},
-    {"arrow-standard", new WeaponDamage() {damage = 20}}
+    {"arrow-standard", new WeaponDamage() {damage = 20}},
+    {"arrow-poison", new WeaponDamage() {damage = 10}}
   };
 
   public static string[] groundThrowables = { "lance", "bomb", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet" };

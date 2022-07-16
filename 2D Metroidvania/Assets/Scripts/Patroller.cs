@@ -30,6 +30,7 @@ public class Patroller : MonoBehaviour {
 
   public bool isDead = false;
   public bool isStunned = false;
+  public bool isDeadByPoison = false;
 
   public bool attackedFromBehind = false;
 
@@ -37,12 +38,23 @@ public class Patroller : MonoBehaviour {
 
   public bool heroIsDead = false;
 
-  public int hp = 40;
+  [System.NonSerialized] public int hp = 40;
 
   public bool stunOnAttack = false;
 
   public Vector2 deadPosition;
   public int deadAnimationIncrement = 0;
+
+  public bool isPoisoned = false;
+  public float poisonTime = 0;
+  public float poisonEffectTime = 0;
+  public int poisonAttackCounter = 1;
+
+  // TODO: consider moving these to Utilities
+  [System.NonSerialized] public int maxPoisonAttacks = 3;
+  [System.NonSerialized] public float poisonAttackInterval = 600;
+  [System.NonSerialized] public float poisonEffectDuration = 50;
+  [System.NonSerialized] public int poisonDamage = 10;
 
   SpriteRenderer weaponSpriteRenderer;
   Hero hero;
@@ -64,7 +76,32 @@ public class Patroller : MonoBehaviour {
   void Update() {
     heroIsDead = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().isDead != 0;
 
-    // Debug.Log(GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().isDead);
+    if (isPoisoned) {
+      float currentTime = Time.time * 1000;
+      float nextPoisonAttackTime = poisonTime + (poisonAttackInterval * poisonAttackCounter);
+
+      if (currentTime > poisonEffectTime + poisonEffectDuration) {
+        enemyRenderer.color = Color.white;
+
+        if (poisonAttackCounter == maxPoisonAttacks + 1) {
+          isPoisoned = false;
+        }
+      }
+
+      if (currentTime > nextPoisonAttackTime)  {
+        hp -= 10;
+        poisonEffectTime = Time.time * 1000;
+        enemyRenderer.color = new Color(96, 0, 96);
+        poisonAttackCounter++;
+
+        if (hp <= 0) {
+          isDeadByPoison = true;
+          body.velocity = Vector2.zero;
+        }
+      }
+    } else {
+      enemyRenderer.color = Color.white;
+    }
 
     if (isDead) {
       if (attackedFromBehind) {
@@ -141,6 +178,7 @@ public class Patroller : MonoBehaviour {
     anim.SetBool("isAttacking", isAttacking);
     anim.SetBool("needsCooldown", needsCoolDown);
     anim.SetBool("isDead", isDead);
+    anim.SetBool("isDeadByPoison", isDeadByPoison);
     anim.SetBool("isStunned", isStunned);
     anim.SetBool("isStunnedOnAttack", stunOnAttack);
   }
@@ -206,6 +244,11 @@ public class Patroller : MonoBehaviour {
           if (mustTakeDamage) {
             hp -= Utilities.GetDamage(arrowUsed);
 
+            if (parentArrow.type == "arrow-poison") {
+              isPoisoned = true;
+              poisonTime = Time.time * 1000;
+            }
+
             parentArrow.DestroyArrow();
 
             //TODO: create the pierce effect here
@@ -222,6 +265,7 @@ public class Patroller : MonoBehaviour {
           Stun();
         } else {
           isDead = true;
+          isPoisoned = false;
           isStunned = false;
           isWalking = false;
           body.velocity = Vector2.zero;

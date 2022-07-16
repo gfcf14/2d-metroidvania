@@ -8,7 +8,6 @@ public class Arrow : MonoBehaviour {
   private GameObject arrowAnchor;
 
   Hero hero;
-  [SerializeField] public GameObject pierceObject;
 
   [System.NonSerialized] public GameObject extraSprite;
 
@@ -40,11 +39,13 @@ public class Arrow : MonoBehaviour {
     hitBounds.offset = new Vector2(0.4f, 0);
     hitBounds.size = new Vector2(0.3f, 0.2f);
 
-    objectRenderer.sprite = Utilities.arrowSprites[type];
+    ArrowObject currentArrow = Utilities.arrows[type];
+
+    objectRenderer.sprite = currentArrow.sprite;
 
     // TODO: add extra check when making the fire arrow
 
-    gravityResistance = 10;
+    gravityResistance = currentArrow.gravityResistance;
 
     if (isFacingLeft) {
       transform.localScale = new Vector3(-1, 1, 1);

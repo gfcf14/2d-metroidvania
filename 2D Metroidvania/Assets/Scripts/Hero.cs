@@ -97,9 +97,6 @@ public class Hero : MonoBehaviour {
   public int dummyShieldHP = 5;
   public float dummyShieldRecoverTime = 2000;
 
-  [SerializeField] GameObject throwable;
-  [SerializeField] GameObject arrow;
-
   private GameObject currentArrow;
   private GameObject arrowAnchor;
   private Arrow arrowInstance;
@@ -456,7 +453,7 @@ public class Hero : MonoBehaviour {
     float throwableX = transform.position.x + ((isFacingLeft ? -1 : 1) * heroWidth * currentThrowable.startX);
     float throwableY = transform.position.y + (heroHeight * currentThrowable.startY);
 
-    GameObject throwableWeapon = Instantiate(throwable, new Vector3(throwableX, throwableY, 0), Quaternion.identity);
+    GameObject throwableWeapon = Instantiate(Utilities.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
     Throwable throwableInstance = throwableWeapon.GetComponent<Throwable>();
 
     throwableInstance.isFacingLeft = isFacingLeft;
@@ -507,10 +504,10 @@ public class Hero : MonoBehaviour {
   }
 
   void CreateArrow() {
-    currentArrow = Instantiate(arrow, arrowAnchor.transform.position, Quaternion.identity);
+    currentArrow = Instantiate(Utilities.prefabs["arrow"], arrowAnchor.transform.position, Quaternion.identity);
     arrowInstance = currentArrow.GetComponent<Arrow>();
 
-    arrowInstance.type = "arrow-standard";
+    arrowInstance.type = "arrow-poison";
   }
 
   void FireArrow() {

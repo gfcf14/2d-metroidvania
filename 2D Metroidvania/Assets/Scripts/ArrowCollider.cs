@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ArrowCollider : MonoBehaviour {
-  void Start() {}
+  [System.NonSerialized] GameObject parentObject;
+  [System.NonSerialized] Arrow parentArrow;
+
+  void Start() {
+    parentObject = transform.parent.gameObject;
+    parentArrow = parentObject.GetComponent<Arrow>();
+  }
 
   void Update() {}
 
   private void OnTriggerEnter2D(Collider2D col) {
     string colliderTag = col.gameObject.tag;
-    GameObject parentObject = transform.parent.gameObject;
 
     if (colliderTag == "Ground") {
-      Arrow parentArrow = parentObject.GetComponent<Arrow>();
-
       if (!parentArrow.hasCollided) {
         parentArrow.hasCollided = true;
         parentArrow.collideTime = Time.time * 1000;
@@ -21,7 +24,11 @@ public class ArrowCollider : MonoBehaviour {
     } else if (colliderTag == "Enemy") {
       Vector2 collisionPoint = col.ClosestPoint(transform.position);
 
-      Instantiate(parentObject.GetComponent<Arrow>().pierceObject, collisionPoint, Quaternion.identity);
+      GameObject pierceEffect = Instantiate(Utilities.prefabs["pierce"], collisionPoint, Quaternion.identity);
+
+      if (parentArrow.type == "arrow-poison") {
+        pierceEffect.GetComponent<Pierce>().color = new Color(96, 0, 96);
+      }
     }
   }
 }
