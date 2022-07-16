@@ -22,6 +22,10 @@ public class ThrowableObject {
 }
 
 public class Utilities {
+  public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject> {
+    {"enemy-explosion", Resources.Load("Prefabs/EnemyExplosion") as GameObject}
+  };
+
   public static Dictionary<string, Sprite> throwableSprites = new Dictionary<string, Sprite> {
     {"lance", Resources.Load<Sprite>("Sprites/lance")},
     {"knife", Resources.Load<Sprite>("Sprites/knife")},

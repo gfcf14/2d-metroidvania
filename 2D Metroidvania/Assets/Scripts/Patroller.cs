@@ -260,6 +260,7 @@ public class Patroller : MonoBehaviour {
   }
 
   void Destroy() {
+    Instantiate(Utilities.prefabs["enemy-explosion"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
     Destroy(gameObject);
   }
 }
