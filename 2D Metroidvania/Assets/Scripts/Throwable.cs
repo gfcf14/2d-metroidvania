@@ -149,7 +149,7 @@ public class Throwable : MonoBehaviour {
 
         if (ellapsedCollideTime < maxEllapsedCollideTime) {
           if (Utilities.IsNonBouncingThrowable(type)) {
-            objectRenderer.color = new Color(255, 255, 255, 1 - (ellapsedCollideTime / maxEllapsedCollideTime));
+            objectRenderer.color = new Color(1, 1, 1, 1 - (ellapsedCollideTime / maxEllapsedCollideTime));
           }
         } else {
           if (Utilities.IsNonBouncingThrowable(type)) {

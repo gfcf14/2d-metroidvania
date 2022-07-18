@@ -24,10 +24,14 @@ public class ArrowCollider : MonoBehaviour {
     } else if (colliderTag == "Enemy") {
       Vector2 collisionPoint = col.ClosestPoint(transform.position);
 
-      GameObject pierceEffect = Instantiate(Utilities.prefabs["pierce"], collisionPoint, Quaternion.identity);
+      if (parentArrow.type != "arrow-fire") {
+        GameObject pierceEffect = Instantiate(Utilities.prefabs["pierce"], collisionPoint, Quaternion.identity);
 
-      if (parentArrow.type == "arrow-poison") {
-        pierceEffect.GetComponent<Pierce>().color = new Color(96, 0, 96);
+        if (parentArrow.type == "arrow-poison") {
+          pierceEffect.GetComponent<Pierce>().color = new Color(0.4f, 0, 0.4f);
+        }
+      } else {
+        GameObject arrowExplosion = Instantiate(Utilities.prefabs["arrow-explosion"], collisionPoint, Quaternion.identity);
       }
     }
   }

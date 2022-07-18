@@ -59,6 +59,17 @@ public class Patroller : MonoBehaviour {
   SpriteRenderer weaponSpriteRenderer;
   Hero hero;
 
+  string[] elementResistances;
+  Color enemyColor;
+
+  public bool isBurning = false;
+  public bool isDeadByBurning = false;
+
+  public float burnTime = 0;
+
+  // TODO: consider moving these to Utilities
+  [System.NonSerialized] public float burningDuration = 3000;
+
   void Awake() {
     body = GetComponent<Rigidbody2D>();
     anim = GetComponent<Animator>();
@@ -71,17 +82,32 @@ public class Patroller : MonoBehaviour {
     flashEffect = GetComponent<SimpleFlash>();
     weaponSpriteRenderer = GameObject.Find("Weapon").GetComponent<SpriteRenderer>();
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
+
+    elementResistances = new string[] {"fire"};
+    enemyColor = Utilities.GetColorFromResistances(elementResistances);
   }
 
   void Update() {
+    enemyRenderer.color = enemyColor;
+
     heroIsDead = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().isDead != 0;
+
+    if (isBurning) {
+      enemyColor = Utilities.specialColors["ash"];
+      float currentTime = Time.time * 1000;
+
+      if (currentTime > burnTime + burningDuration) {
+        isBurning = false;
+        isDeadByBurning = true;
+      }
+    }
 
     if (isPoisoned) {
       float currentTime = Time.time * 1000;
       float nextPoisonAttackTime = poisonTime + (poisonAttackInterval * poisonAttackCounter);
 
       if (currentTime > poisonEffectTime + poisonEffectDuration) {
-        enemyRenderer.color = Color.white;
+        enemyRenderer.color = enemyColor;
 
         if (poisonAttackCounter == maxPoisonAttacks + 1) {
           isPoisoned = false;
@@ -91,16 +117,17 @@ public class Patroller : MonoBehaviour {
       if (currentTime > nextPoisonAttackTime)  {
         hp -= 10;
         poisonEffectTime = Time.time * 1000;
-        enemyRenderer.color = new Color(96, 0, 96);
+        enemyRenderer.color = new Color(0.4f, 0, 0.4f);
         poisonAttackCounter++;
 
         if (hp <= 0) {
           isDeadByPoison = true;
+          isWalking = false;
           body.velocity = Vector2.zero;
         }
       }
     } else {
-      enemyRenderer.color = Color.white;
+      enemyRenderer.color = enemyColor;
     }
 
     if (isDead) {
@@ -119,7 +146,11 @@ public class Patroller : MonoBehaviour {
       if (isWalking && !isAttacking) {
         int direction = isFacingLeft ? -1 : 1;
 
-        body.velocity = new Vector2(direction * speed, body.velocity.y);
+        if (!isDead && !isDeadByBurning && !isDeadByPoison && !isBurning && !isStunned) {
+          body.velocity = new Vector2(direction * speed, body.velocity.y);
+        } else {
+          body.velocity = Vector2.zero;
+        }
 
         Vector2 beginDiagonalForwardCast = new Vector2(transform.position.x + ((enemyWidth / 2) * direction), transform.position.y + enemyHeight / 4);
         Vector2 diagonalForwardCastDirection = transform.TransformDirection(new Vector2(1 * (direction), -1));
@@ -153,7 +184,7 @@ public class Patroller : MonoBehaviour {
 
             if (proximityCast && proximityCast.collider.tag == "Hero") {
               isAttacking = true;
-              body.velocity = new Vector2(0, body.velocity.y);
+              body.velocity = Vector2.zero;
             }
           }
         }
@@ -168,10 +199,12 @@ public class Patroller : MonoBehaviour {
         }
     }
 
-    if (isFacingLeft) {
-      transform.localScale = new Vector3(-1, 1, 1);
-    } else {
-      transform.localScale = Vector3.one;
+    if (!isBurning) {
+      if (isFacingLeft) {
+        transform.localScale = new Vector3(-1, 1, 1);
+      } else {
+        transform.localScale = Vector3.one;
+      }
     }
 
     anim.SetBool("isWalking", isWalking);
@@ -181,6 +214,8 @@ public class Patroller : MonoBehaviour {
     anim.SetBool("isDeadByPoison", isDeadByPoison);
     anim.SetBool("isStunned", isStunned);
     anim.SetBool("isStunnedOnAttack", stunOnAttack);
+    anim.SetBool("isBurning", isBurning);
+    anim.SetBool("isDeadByBurning", isDeadByBurning);
   }
 
   private void OnCollisionEnter2D(Collision2D col) {
@@ -198,6 +233,7 @@ public class Patroller : MonoBehaviour {
       float currentX = transform.position.x;
       float enemyX = col.transform.position.x;
       bool mustTakeDamage = true;
+      bool willBurn = false;
 
       attackedFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
 
@@ -240,6 +276,7 @@ public class Patroller : MonoBehaviour {
           string arrowUsed = parentArrow.type;
 
           mustTakeDamage = !parentArrow.hasCollided;
+          willBurn = parentArrow.type == "arrow-fire" && !Utilities.IsFireResistant(elementResistances) && hp <= Utilities.arrowExplosionDamage;
 
           if (mustTakeDamage) {
             hp -= Utilities.GetDamage(arrowUsed);
@@ -262,7 +299,9 @@ public class Patroller : MonoBehaviour {
             flashEffect.Flash();
           }
 
-          Stun();
+          if (!willBurn) {
+            Stun();
+          }
         } else {
           isDead = true;
           isPoisoned = false;
@@ -277,7 +316,40 @@ public class Patroller : MonoBehaviour {
         // consider reusing for higher level shields
         // Stun();
       }
+    } else if (colliderTag == "Explosion") {
+      string colName = col.gameObject.name.Replace("(Clone)", "");
+
+      if (colName == "ArrowExplosion" || colName == "ArrowBurn") {
+        bool willBurn = !Utilities.IsFireResistant(elementResistances) && hp <= Utilities.arrowExplosionDamage;
+
+        if (willBurn) {
+          float currentTime = Time.time * 1000;
+
+          if (!isBurning) {
+            GameObject arrowBurn = Instantiate(Utilities.prefabs["arrow-burn"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
+            arrowBurn.GetComponent<ArrowBurn>().startTime = currentTime;
+          }
+
+          isBurning = true;
+          isWalking = false;
+          body.velocity = Vector2.zero;
+          burnTime = currentTime;
+        } else {
+          if (!Utilities.IsFireResistant(elementResistances)) {
+            hp -= Utilities.arrowExplosionDamage;
+
+            if (flashEffect != null) {
+              flashEffect.Flash();
+              Stun();
+            }
+          }
+        }
+      }
     }
+  }
+
+  public void Flip() {
+    transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
   }
 
   public void Stun() {
@@ -307,4 +379,9 @@ public class Patroller : MonoBehaviour {
     Instantiate(Utilities.prefabs["enemy-explosion"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
     Destroy(gameObject);
   }
+
+  // public void OnGUI() {
+  //   string guiLabel = "HP: " + hp + "\n";
+  //   GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
+  // }
 }

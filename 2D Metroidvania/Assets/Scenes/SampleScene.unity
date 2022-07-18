@@ -708,8 +708,6 @@ MonoBehaviour:
   tiredThreshold: 40
   dummyShieldHP: 5
   dummyShieldRecoverTime: 2000
-  throwable: {fileID: 5807525025387724211, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
-  arrow: {fileID: 4720674856278464378, guid: 478da28ce91fbb6479ed15ccd9650712, type: 3}
 --- !u!50 &1177825375
 Rigidbody2D:
   serializedVersion: 4
@@ -861,11 +859,20 @@ MonoBehaviour:
   coolDownStart: 0
   isDead: 0
   isStunned: 0
+  isDeadByPoison: 0
   attackedFromBehind: 0
   standardDamage: 20
   heroIsDead: 0
-  hp: 40
   stunOnAttack: 0
+  deadPosition: {x: 0, y: 0}
+  deadAnimationIncrement: 0
+  isPoisoned: 0
+  poisonTime: 0
+  poisonEffectTime: 0
+  poisonAttackCounter: 1
+  isBurning: 0
+  isDeadByBurning: 0
+  burnTime: 0
 --- !u!61 &1287121272
 BoxCollider2D:
   m_ObjectHideFlags: 0

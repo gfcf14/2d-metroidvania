@@ -24,12 +24,24 @@ public class ThrowableObject {
 public class ArrowObject {
   public Sprite sprite;
 
+  public bool hasExtra;
+
   public int gravityResistance;
 }
 
 public class Utilities {
+  public static Dictionary<string, Color> elementResistancesColors = new Dictionary<string, Color> {
+    {"fire", new Color(0.9f, 0, 0)}
+  };
+
+  public static Dictionary<string, Color> specialColors = new Dictionary<string, Color> {
+    {"ash", new Color(0.3f, 0.3f, 0.3f)}
+  };
+
   public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject> {
     {"arrow", Resources.Load("Prefabs/Arrow") as GameObject},
+    {"arrow-burn", Resources.Load("Prefabs/ArrowBurn") as GameObject},
+    {"arrow-explosion", Resources.Load("Prefabs/ArrowExplosion") as GameObject},
     {"enemy-explosion", Resources.Load("Prefabs/EnemyExplosion") as GameObject},
     {"pierce", Resources.Load("Prefabs/Pierce") as GameObject},
     {"throwable", Resources.Load("Prefabs/Throwable") as GameObject}
@@ -46,8 +58,9 @@ public class Utilities {
   };
 
   public static Dictionary<string, ArrowObject> arrows = new Dictionary<string, ArrowObject> {
-    {"arrow-standard", new ArrowObject() {sprite = Resources.Load<Sprite>("Sprites/arrow-standard"), gravityResistance = 10}},
-    {"arrow-poison", new ArrowObject() {sprite = Resources.Load<Sprite>("Sprites/arrow-poison"), gravityResistance = 8}},
+    {"arrow-fire", new ArrowObject() {sprite = Resources.Load<Sprite>("Sprites/arrow-fire"), hasExtra = true, gravityResistance = 6}},
+    {"arrow-poison", new ArrowObject() {sprite = Resources.Load<Sprite>("Sprites/arrow-poison"), hasExtra = false, gravityResistance = 8}},
+    {"arrow-standard", new ArrowObject() {sprite = Resources.Load<Sprite>("Sprites/arrow-standard"), hasExtra = false, gravityResistance = 10}}
   };
 
   public static Dictionary<string, ThrowableObject> throwableObjects = new Dictionary<string, ThrowableObject> {
@@ -72,13 +85,16 @@ public class Utilities {
     {"shuriken-6", new WeaponDamage() {damage = 10}},
     {"hatchet", new WeaponDamage() {damage = 20}},
     {"axe", new WeaponDamage() {damage = 40}},
-    {"arrow-standard", new WeaponDamage() {damage = 20}},
-    {"arrow-poison", new WeaponDamage() {damage = 10}}
+    {"arrow-fire", new WeaponDamage() {damage = 5}},
+    {"arrow-poison", new WeaponDamage() {damage = 10}},
+    {"arrow-standard", new WeaponDamage() {damage = 20}}
   };
 
   public static string[] groundThrowables = { "lance", "bomb", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet" };
   public static string[] nonBouncingThrowables = { "lance", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet", "axe" };
   public static string[] smallRotatingThrowables = { "shuriken-4", "shuriken-6", "hatchet" };
+
+  public static int arrowExplosionDamage = 50;
 
   public static int GetDamage(string weaponWielded) {
 	  return weaponDamages[weaponWielded].damage;
@@ -94,5 +110,29 @@ public class Utilities {
 
   public static bool IsSmallRotatingThrowable(string type) {
     return System.Array.IndexOf(smallRotatingThrowables, type) != -1;
+  }
+
+  public static Color GetColorFromResistances(string[] elementResistances) {
+    int resistancesLength = elementResistances.Length;
+
+    if (resistancesLength == 0) {
+      return Color.white;
+    }
+
+    float r = 0;
+    float g = 0;
+    float b = 0;
+
+    foreach (string currentElementResistance in elementResistances) {
+      r += elementResistancesColors[currentElementResistance].r;
+      g += elementResistancesColors[currentElementResistance].g;
+      b += elementResistancesColors[currentElementResistance].b;
+    }
+
+    return new Color(r / resistancesLength, g / resistancesLength, b / resistancesLength);
+  }
+
+  public static bool IsFireResistant(string[] resistances) {
+    return System.Array.IndexOf(resistances, "fire") != -1;
   }
 }

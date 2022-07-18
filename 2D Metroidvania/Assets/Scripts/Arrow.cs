@@ -34,12 +34,17 @@ public class Arrow : MonoBehaviour {
     arrowAnchor = hero.transform.Find("ArrowAnchor").gameObject;
     objectRenderer = GetComponent<SpriteRenderer>();
     hitBounds = transform.Find("ArrowCollider").gameObject.GetComponent<CapsuleCollider2D>();
+    extraSprite = transform.Find("Extra").gameObject;
     direction = isFacingLeft ? -1 : 1;
 
     hitBounds.offset = new Vector2(0.4f, 0);
     hitBounds.size = new Vector2(0.3f, 0.2f);
 
     ArrowObject currentArrow = Utilities.arrows[type];
+
+    if (!currentArrow.hasExtra) {
+      DestroyExtra();
+    }
 
     objectRenderer.sprite = currentArrow.sprite;
 
@@ -73,7 +78,7 @@ public class Arrow : MonoBehaviour {
         float ellapsedCollideTime = (Time.time * 1000) - collideTime;
 
         if (ellapsedCollideTime < maxEllapsedCollideTime) {
-          objectRenderer.color = new Color(255, 255, 255, 1 - (ellapsedCollideTime / maxEllapsedCollideTime));
+          objectRenderer.color = new Color(1, 1, 1, 1 - (ellapsedCollideTime / maxEllapsedCollideTime));
         } else {
           DestroyArrow();
         }
@@ -82,6 +87,12 @@ public class Arrow : MonoBehaviour {
       transform.position = arrowAnchor.GetComponent<Transform>().position;
       startX = transform.position.x;
       startY = transform.position.y;
+    }
+  }
+
+  void DestroyExtra() {
+    if (extraSprite != null) {
+      Destroy(extraSprite);
     }
   }
 
