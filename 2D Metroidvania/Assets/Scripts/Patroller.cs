@@ -83,7 +83,7 @@ public class Patroller : MonoBehaviour {
     weaponSpriteRenderer = GameObject.Find("Weapon").GetComponent<SpriteRenderer>();
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
 
-    elementResistances = new string[] {"fire"};
+    elementResistances = new string[] {};
     enemyColor = Utilities.GetColorFromResistances(elementResistances);
   }
 
@@ -219,10 +219,14 @@ public class Patroller : MonoBehaviour {
   }
 
   private void OnCollisionEnter2D(Collision2D col) {
-    if (col.gameObject.tag == "Hero") {
+    GameObject colliderObject = col.gameObject;
+
+    if (colliderObject.tag == "Hero") {
       // isAttacking = false;
       needsCoolDown = true;
       coolDownStart = Time.time * 1000;
+    } else if (colliderObject.tag == "Enemy") {
+      Physics2D.IgnoreCollision(colliderObject.GetComponent<BoxCollider2D>(), GetComponent<BoxCollider2D>());
     }
   }
 
@@ -328,12 +332,12 @@ public class Patroller : MonoBehaviour {
           if (!isBurning) {
             GameObject arrowBurn = Instantiate(Utilities.prefabs["arrow-burn"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
             arrowBurn.GetComponent<ArrowBurn>().startTime = currentTime;
-          }
 
-          isBurning = true;
-          isWalking = false;
-          body.velocity = Vector2.zero;
-          burnTime = currentTime;
+            burnTime = currentTime;
+            isBurning = true;
+            isWalking = false;
+            body.velocity = Vector2.zero;
+          }
         } else {
           if (!Utilities.IsFireResistant(elementResistances)) {
             hp -= Utilities.arrowExplosionDamage;
