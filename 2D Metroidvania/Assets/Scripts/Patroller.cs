@@ -38,7 +38,7 @@ public class Patroller : MonoBehaviour {
 
   public bool heroIsDead = false;
 
-  [System.NonSerialized] public int hp = 40;
+  [SerializeField] public int hp = 40;
 
   public bool stunOnAttack = false;
 
