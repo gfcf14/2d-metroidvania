@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine;
 
 public class SimpleFlash : MonoBehaviour {
+    public Color repaintColor;
+
     #region Datamembers
 
     #region Editor Settings
@@ -56,6 +58,7 @@ public class SimpleFlash : MonoBehaviour {
       }
 
       // Start the Coroutine, and store the reference for it.
+      spriteRenderer.color = Color.white;
       flashRoutine = StartCoroutine(FlashRoutine());
     }
 
@@ -67,6 +70,7 @@ public class SimpleFlash : MonoBehaviour {
       yield return new WaitForSeconds(duration);
 
       // After the pause, swap back to the original material.
+      spriteRenderer.color = repaintColor;
       spriteRenderer.material = originalMaterial;
 
       // Set the routine to null, signaling that it's finished.

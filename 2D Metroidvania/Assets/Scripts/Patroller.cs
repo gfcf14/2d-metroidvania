@@ -83,13 +83,14 @@ public class Patroller : MonoBehaviour {
     weaponSpriteRenderer = GameObject.Find("Weapon").GetComponent<SpriteRenderer>();
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
 
-    elementResistances = new string[] {};
+    elementResistances = new string[] {"fire"};
     enemyColor = Utilities.GetColorFromResistances(elementResistances);
+    flashEffect.repaintColor = enemyColor;
     enemyRenderer.color = enemyColor;
   }
 
   void Update() {
-    if (!isPoisoned) {
+    if (!isPoisoned && !isStunned) {
       enemyRenderer.color = enemyColor;
     }
 
@@ -110,7 +111,9 @@ public class Patroller : MonoBehaviour {
       float nextPoisonAttackTime = poisonTime + (poisonAttackInterval * poisonAttackCounter);
 
       if (currentTime > poisonEffectTime + poisonEffectDuration) {
-        enemyRenderer.color = enemyColor;
+        if (!isStunned) {
+          enemyRenderer.color = enemyColor;
+        }
 
         if (poisonAttackCounter == maxPoisonAttacks + 1) {
           isPoisoned = false;
@@ -129,8 +132,6 @@ public class Patroller : MonoBehaviour {
           body.velocity = Vector2.zero;
         }
       }
-    } else {
-      enemyRenderer.color = enemyColor;
     }
 
     if (isDead) {
@@ -294,8 +295,6 @@ public class Patroller : MonoBehaviour {
             }
 
             parentArrow.DestroyArrow();
-
-            //TODO: create the pierce effect here
           }
         }
       }
@@ -320,7 +319,7 @@ public class Patroller : MonoBehaviour {
       }
     } else if (colliderTag == "Shield") {
       if (isAttacking) {
-        // consider reusing for higher level shields
+        // TODO: consider reusing for higher level shields
         // Stun();
       }
     } else if (colliderTag == "Explosion") {
@@ -361,6 +360,7 @@ public class Patroller : MonoBehaviour {
 
   public void Stun() {
     isStunned = true;
+    enemyRenderer.color = Color.white;
     isWalking = false;
 
     body.velocity = Vector2.zero;

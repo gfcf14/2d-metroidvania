@@ -507,7 +507,7 @@ public class Hero : MonoBehaviour {
     currentArrow = Instantiate(Utilities.prefabs["arrow"], arrowAnchor.transform.position, Quaternion.identity);
     arrowInstance = currentArrow.GetComponent<Arrow>();
 
-    arrowInstance.type = "arrow-fire";
+    arrowInstance.type = "arrow-poison";
   }
 
   void FireArrow() {
