@@ -85,10 +85,13 @@ public class Patroller : MonoBehaviour {
 
     elementResistances = new string[] {};
     enemyColor = Utilities.GetColorFromResistances(elementResistances);
+    enemyRenderer.color = enemyColor;
   }
 
   void Update() {
-    enemyRenderer.color = enemyColor;
+    if (!isPoisoned) {
+      enemyRenderer.color = enemyColor;
+    }
 
     heroIsDead = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().isDead != 0;
 
@@ -117,7 +120,7 @@ public class Patroller : MonoBehaviour {
       if (currentTime > nextPoisonAttackTime)  {
         hp -= 10;
         poisonEffectTime = Time.time * 1000;
-        enemyRenderer.color = new Color(0.4f, 0, 0.4f);
+        enemyRenderer.color = Utilities.specialColors["poisoned"];
         poisonAttackCounter++;
 
         if (hp <= 0) {
@@ -285,7 +288,7 @@ public class Patroller : MonoBehaviour {
           if (mustTakeDamage) {
             hp -= Utilities.GetDamage(arrowUsed);
 
-            if (parentArrow.type == "arrow-poison") {
+            if (parentArrow.type == "arrow-poison" && !Utilities.IsPoisonResistant(elementResistances)) {
               isPoisoned = true;
               poisonTime = Time.time * 1000;
             }
