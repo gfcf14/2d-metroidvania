@@ -100,6 +100,7 @@ public class Hero : MonoBehaviour {
   private GameObject currentArrow;
   private GameObject arrowAnchor;
   private Arrow arrowInstance;
+  private GameObject arrowMask;
 
   // called when script is loaded
   private void Awake() {
@@ -506,11 +507,17 @@ public class Hero : MonoBehaviour {
   void CreateArrow() {
     currentArrow = Instantiate(Utilities.prefabs["arrow"], arrowAnchor.transform.position, Quaternion.identity);
     arrowInstance = currentArrow.GetComponent<Arrow>();
+    arrowMask = currentArrow.transform.Find("Mask").gameObject;
 
     arrowInstance.type = "arrow-poison";
   }
 
+  void ShowCurrentArrowMask() {
+    arrowMask.GetComponent<SpriteMask>().enabled = true;
+  }
+
   void FireArrow() {
+    Destroy(arrowMask);
     arrowInstance.hasFired = true;
   }
 

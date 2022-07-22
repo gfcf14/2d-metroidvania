@@ -6,6 +6,7 @@ public class Arrow : MonoBehaviour {
   private SpriteRenderer objectRenderer;
   private CapsuleCollider2D hitBounds;
   private GameObject arrowAnchor;
+  private GameObject arrowMask;
 
   Hero hero;
 
@@ -32,6 +33,7 @@ public class Arrow : MonoBehaviour {
   void Start() {
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
     arrowAnchor = hero.transform.Find("ArrowAnchor").gameObject;
+    arrowMask = transform.Find("Mask").gameObject;
     objectRenderer = GetComponent<SpriteRenderer>();
     hitBounds = transform.Find("ArrowCollider").gameObject.GetComponent<CapsuleCollider2D>();
     extraSprite = transform.Find("Extra").gameObject;
@@ -64,6 +66,8 @@ public class Arrow : MonoBehaviour {
     }
 
     if (hasFired) {
+      Destroy(arrowMask);
+
       if (!hasCollided) {
         float newX = direction * distanceMultiplier * transitionIncrement;
         float heightDrop = (transitionIncrement / gravityResistance);
