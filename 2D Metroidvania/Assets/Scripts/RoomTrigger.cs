@@ -7,13 +7,13 @@ public class RoomTrigger : MonoBehaviour {
   [SerializeField] GameObject virtualCam;
 
   private void OnTriggerEnter2D(Collider2D col) {
-    if (col.CompareTag("Hero")) {
+    if (col.CompareTag("RoomTraverser")) {
       virtualCam.SetActive(true);
     }
   }
 
   private void OnTriggerExit2D(Collider2D col) {
-    if (col.CompareTag("Hero")) {
+    if (col.CompareTag("RoomTraverser")) {
       virtualCam.SetActive(false);
     }
   }
