@@ -141,4 +141,13 @@ public class Utilities {
   public static bool IsPoisonResistant(string[] resistances) {
     return System.Array.IndexOf(resistances, "poison") != -1;
   }
+
+  public static void TogglePause(bool pauseState, GameObject pauseCanvas) {
+    if (pauseState) {
+      Time.timeScale = 0;
+      pauseCanvas.SetActive(pauseState);
+    } else {
+      pauseCanvas.GetComponent<Animator>().Play("pause-fade-out");
+    }
+  }
 }

@@ -102,6 +102,9 @@ public class Hero : MonoBehaviour {
   private Arrow arrowInstance;
   private GameObject arrowMask;
 
+  public bool isPaused;
+  [SerializeField] GameObject pauseCanvas;
+
   // called when script is loaded
   private void Awake() {
     body = GetComponent<Rigidbody2D>();
@@ -355,6 +358,11 @@ public class Hero : MonoBehaviour {
       SimulateDeath(isGrounded);
     }
 
+    if (Input.GetKeyDown(KeyCode.P)) {
+      isPaused = !isPaused;
+      Utilities.TogglePause(isPaused, pauseCanvas);
+    }
+
     if (isDropKicking) {
       body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.75));
     }
@@ -409,14 +417,6 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isDefending", isDefending);
     anim.SetBool("isParrying", isParrying);
     anim.SetBool("isClashing", isClashing);
-  }
-
-  void PauseGame() {
-    Time.timeScale = 0;
-  }
-
-  void ResumeGame() {
-    Time.timeScale = 0;
   }
 
   void FlipPlayer(bool hasBeenHurt = false) {
