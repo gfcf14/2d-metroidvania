@@ -71,7 +71,8 @@ public class Pause : MonoBehaviour {
     }
 
     if (status != heroScript.status) {
-      statusObject.GetComponent<Text>().text = (heroScript.status).ToString();
+      string statusString = (heroScript.status).ToString();
+      statusObject.GetComponent<Text>().text = char.ToUpper(statusString[0]) + statusString.Substring(1);
     }
 
     if (exp != heroScript.exp) {
@@ -103,7 +104,7 @@ public class Pause : MonoBehaviour {
     }
 
     if (criticalPercentage != heroScript.criticalPercentage) {
-      critical.GetComponent<Text>().text = ((int)(heroScript.criticalPercentage * 100)).ToString();
+      critical.GetComponent<Text>().text = ((int)(heroScript.criticalPercentage * 100)).ToString() + " %";
     }
   }
 
