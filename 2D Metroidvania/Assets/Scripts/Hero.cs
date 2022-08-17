@@ -85,7 +85,22 @@ public class Hero : MonoBehaviour {
 
   public bool hurtFromBehind = false;
 
-  public int hp = 100;
+  public string playerEquipment = "equipment-1";
+  public int playerLevel = 1;
+  public int currentHP = 80;
+  public int maxHP = 100;
+  public int currentMP = 10;
+  public int maxMP = 20;
+  public string status = "good";
+  public int exp = 343;
+  public int next = 350;
+  public int gold = 650;
+  public int atkLeft = 5;
+  public int atkRight = 10;
+  public int defLeft = 5;
+  public int defRight = 10;
+  public float criticalPercentage = 0.5f;
+
   public int tiredThreshold = 40;
 
   private int maxShieldHP = 0;
@@ -411,7 +426,7 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isAttackingHeavy", isAttackingHeavy);
     anim.SetBool("isJetpackHorizontal", jetpackHorizontal != "");
     anim.SetBool("isGliding", isGliding);
-    anim.SetBool("isTired", hp < tiredThreshold);
+    anim.SetBool("isTired", currentHP < tiredThreshold);
     anim.SetInteger("isHurt", isHurt);
     anim.SetInteger("isDead", isDead);
     anim.SetBool("isDefending", isDefending);
@@ -545,7 +560,7 @@ public class Hero : MonoBehaviour {
   }
 
   public void OnGUI() {
-    string guiLabel = "HP: " + hp + "\n" +
+    string guiLabel = "HP: " + currentHP + "\n" +
                       "Defending: " + isDefending + "\n" +
                       "Parrying: " + isParrying + "\n" +
                       "Clashing: " + isClashing + "\n" +
@@ -666,9 +681,9 @@ public class Hero : MonoBehaviour {
         }
 
         if (mustTakeDamage) {
-          hp -= enemyCollided.standardDamage;
+          currentHP -= enemyCollided.standardDamage;
 
-          if (hp > 0) {
+          if (currentHP > 0) {
             SimulateHurt(2);
           } else {
             SimulateDeath(isGrounded);

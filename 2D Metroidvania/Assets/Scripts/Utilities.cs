@@ -30,6 +30,10 @@ public class ArrowObject {
 }
 
 public class Utilities {
+  public static Dictionary<string, Sprite> pauseAvatars = new Dictionary<string, Sprite> {
+    {"equipment-1", Resources.Load<Sprite>("Pause/PlayerAvatars/equipment-1")}
+  };
+
   public static Dictionary<string, Color> elementResistancesColors = new Dictionary<string, Color> {
     {"fire", new Color(0.9f, 0, 0)},
     {"poison", new Color(0.7f, 0.86f, 0.19f)}
