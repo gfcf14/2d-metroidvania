@@ -9086,7 +9086,21 @@ MonoBehaviour:
   weaponIndex: 0
   currentWeapon: 
   hurtFromBehind: 0
-  hp: 100
+  playerEquipment: equipment-1
+  playerLevel: 1
+  currentHP: 80
+  maxHP: 100
+  currentMP: 10
+  maxMP: 20
+  status: good
+  exp: 343
+  next: 350
+  gold: 650
+  atkLeft: 5
+  atkRight: 10
+  defLeft: 5
+  defRight: 10
+  criticalPercentage: 0.5
   tiredThreshold: 40
   dummyShieldHP: 5
   dummyShieldRecoverTime: 2000
@@ -11199,6 +11213,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f397a22b50879da48b83fc1f7b2ab223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hero: {fileID: 1177825369}
+  playerAvatar: {fileID: 1801636754}
+  level: {fileID: 1644664480}
+  currentHPObject: {fileID: 1472772797}
+  totalHP: {fileID: 1891139623}
+  currentMPObject: {fileID: 50161435}
+  totalMP: {fileID: 1679129709}
+  statusObject: {fileID: 1886403284}
+  expObject: {fileID: 398868757}
+  nextObject: {fileID: 2039824199}
+  goldObject: {fileID: 462675286}
+  atkLeftObject: {fileID: 1708440535}
+  atkRightObject: {fileID: 1900817093}
+  defLeftObject: {fileID: 1601167466}
+  defRightObject: {fileID: 1482367768}
+  critical: {fileID: 700869546}
   pauseFirstSelected: {fileID: 745498594}
 --- !u!95 &1437520761
 Animator:
@@ -12675,7 +12705,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 2
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -14192,7 +14222,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 2
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0

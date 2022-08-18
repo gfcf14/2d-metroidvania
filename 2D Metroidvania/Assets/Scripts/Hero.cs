@@ -100,6 +100,8 @@ public class Hero : MonoBehaviour {
   public int defLeft = 5;
   public int defRight = 10;
   public float criticalPercentage = 0.5f;
+  public string location = "meadows";
+  public string[] magicResistances = new string[] {"earth", "air", "water", "fire", "lightning", "ice", "light", "dark"};
 
   public int tiredThreshold = 40;
 

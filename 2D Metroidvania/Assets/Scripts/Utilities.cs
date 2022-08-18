@@ -30,6 +30,23 @@ public class ArrowObject {
 }
 
 public class Utilities {
+  public static Sprite[] elements = Resources.LoadAll<Sprite>("Pause/elements");
+
+  public static Dictionary<string, Sprite> magicResistances = new Dictionary<string, Sprite> {
+    {"air", elements[0]},
+    {"dark", elements[1]},
+    {"earth", elements[2]},
+    {"fire", elements[3]},
+    {"ice", elements[4]},
+    {"light", elements[5]},
+    {"lightning", elements[6]},
+    {"water", elements[7]}
+  };
+
+  public static Dictionary<string, Sprite> locationImages = new Dictionary<string, Sprite> {
+    {"meadows", Resources.Load<Sprite>("Pause/Locations/meadows")}
+  };
+
   public static Dictionary<string, Sprite> pauseAvatars = new Dictionary<string, Sprite> {
     {"equipment-1", Resources.Load<Sprite>("Pause/PlayerAvatars/equipment-1")}
   };

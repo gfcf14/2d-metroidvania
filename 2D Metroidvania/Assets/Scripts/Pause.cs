@@ -23,6 +23,15 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject defRightObject;
   [SerializeField] GameObject critical;
   [SerializeField] GameObject pauseFirstSelected;
+  [SerializeField] GameObject locationObject;
+  [SerializeField] GameObject resistance1Object;
+  [SerializeField] GameObject resistance2Object;
+  [SerializeField] GameObject resistance3Object;
+  [SerializeField] GameObject resistance4Object;
+  [SerializeField] GameObject resistance5Object;
+  [SerializeField] GameObject resistance6Object;
+  [SerializeField] GameObject resistance7Object;
+  [SerializeField] GameObject resistance8Object;
 
   [System.NonSerialized] Hero heroScript;
   [System.NonSerialized] string playerEquipment = "";
@@ -40,6 +49,8 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] int defLeft = -1;
   [System.NonSerialized] int defRight = -1;
   [System.NonSerialized] float criticalPercentage = -0.1f;
+  [System.NonSerialized] string location = "";
+  [System.NonSerialized] string magicResistances = "";
 
   void Start() {
     heroScript = hero.GetComponent<Hero>();
@@ -105,6 +116,26 @@ public class Pause : MonoBehaviour {
 
     if (criticalPercentage != heroScript.criticalPercentage) {
       critical.GetComponent<Text>().text = ((int)(heroScript.criticalPercentage * 100)).ToString() + " %";
+    }
+
+    if (location != heroScript.location) {
+      locationObject.GetComponent<Image>().sprite = Utilities.locationImages[heroScript.location];
+    }
+
+    string currentMagicResistances = String.Join(",", heroScript.magicResistances);
+
+    if (magicResistances != currentMagicResistances) {
+      GameObject[] magicResistanceObjects = new GameObject[] {resistance1Object, resistance2Object, resistance3Object, resistance4Object, resistance5Object, resistance6Object, resistance7Object, resistance8Object};
+
+      int i = 0;
+      foreach (string currMagicResistance in heroScript.magicResistances) {
+        Debug.Log(currMagicResistance);
+        magicResistanceObjects[i].GetComponent<Image>().sprite = Utilities.magicResistances[currMagicResistance];
+        resistance1Object.GetComponent<Image>().sprite = Utilities.magicResistances[currMagicResistance];
+        i++;
+      }
+
+      magicResistances = currentMagicResistances;
     }
   }
 
