@@ -50,7 +50,7 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] int defRight = -1;
   [System.NonSerialized] float criticalPercentage = -0.1f;
   [System.NonSerialized] string location = "";
-  [System.NonSerialized] string magicResistances = "";
+  [System.NonSerialized] string magicResistances = " ";
 
   void Start() {
     heroScript = hero.GetComponent<Hero>();
@@ -126,12 +126,17 @@ public class Pause : MonoBehaviour {
 
     if (magicResistances != currentMagicResistances) {
       GameObject[] magicResistanceObjects = new GameObject[] {resistance1Object, resistance2Object, resistance3Object, resistance4Object, resistance5Object, resistance6Object, resistance7Object, resistance8Object};
+      string[] heroMagicResistances = heroScript.magicResistances;
 
       int i = 0;
-      foreach (string currMagicResistance in heroScript.magicResistances) {
-        Debug.Log(currMagicResistance);
-        magicResistanceObjects[i].GetComponent<Image>().sprite = Utilities.magicResistances[currMagicResistance];
-        resistance1Object.GetComponent<Image>().sprite = Utilities.magicResistances[currMagicResistance];
+      foreach (GameObject currMagicResistanceObject in magicResistanceObjects) {
+        if (i >= heroMagicResistances.Length) {
+          currMagicResistanceObject.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+        } else {
+          currMagicResistanceObject.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+          currMagicResistanceObject.GetComponent<Image>().sprite = Utilities.magicResistances[heroMagicResistances[i]];
+          resistance1Object.GetComponent<Image>().sprite = Utilities.magicResistances[heroMagicResistances[i]];
+        }
         i++;
       }
 

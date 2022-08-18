@@ -85,23 +85,25 @@ public class Hero : MonoBehaviour {
 
   public bool hurtFromBehind = false;
 
-  public string playerEquipment = "equipment-1";
-  public int playerLevel = 1;
-  public int currentHP = 80;
-  public int maxHP = 100;
-  public int currentMP = 10;
-  public int maxMP = 20;
-  public string status = "good";
-  public int exp = 343;
-  public int next = 350;
-  public int gold = 650;
-  public int atkLeft = 5;
-  public int atkRight = 10;
-  public int defLeft = 5;
-  public int defRight = 10;
-  public float criticalPercentage = 0.5f;
-  public string location = "meadows";
-  public string[] magicResistances = new string[] {"earth", "air", "water", "fire", "lightning", "ice", "light", "dark"};
+  [System.NonSerialized] public string playerEquipment = "equipment-1";
+  [System.NonSerialized] public int playerLevel = 1;
+  [System.NonSerialized] public int currentHP = 80;
+  [System.NonSerialized] public int maxHP = 100;
+  [System.NonSerialized] public int currentMP = 10;
+  [System.NonSerialized] public int maxMP = 20;
+  [System.NonSerialized] public string status = "good";
+  [System.NonSerialized] public int exp = 343;
+  [System.NonSerialized] public int next = 350;
+  [System.NonSerialized] public int gold = 650;
+  [System.NonSerialized] public int atkLeft = 5;
+  [System.NonSerialized] public int atkRight = 10;
+  [System.NonSerialized] public int defLeft = 5;
+  [System.NonSerialized] public int defRight = 10;
+  [System.NonSerialized] public float criticalPercentage = 0.5f;
+  [System.NonSerialized] public string location = "meadows";
+  [System.NonSerialized] public string[] magicResistances = new string[] {"earth", "air", "water", "fire", "lightning", "ice", "light", "dark"};
+  // [System.NonSerialized] public string[] magicResistances = new string[] {"lightning", "dark", "earth"};
+  // [System.NonSerialized] public string[] magicResistances = new string[] {};
 
   public int tiredThreshold = 40;
 
