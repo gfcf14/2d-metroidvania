@@ -6,6 +6,14 @@ using UnityEngine.EventSystems;
 using System;
 
 public class Pause : MonoBehaviour {
+  [SerializeField] EventSystem eventSystem;
+  [SerializeField] GameObject mainCanvas;
+  [SerializeField] GameObject quitCanvas;
+
+  [SerializeField] GameObject pauseFirstSelected;
+  [SerializeField] GameObject quitButton;
+  [SerializeField] GameObject quitFirstSelected;
+
   [SerializeField] GameObject hero;
   [SerializeField] GameObject playerAvatar;
   [SerializeField] GameObject level;
@@ -23,7 +31,6 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject defRightObject;
   [SerializeField] GameObject luck;
   [SerializeField] GameObject critical;
-  [SerializeField] GameObject pauseFirstSelected;
   [SerializeField] GameObject locationObject;
   [SerializeField] GameObject resistance1Object;
   [SerializeField] GameObject resistance2Object;
@@ -56,6 +63,7 @@ public class Pause : MonoBehaviour {
 
   void Start() {
     heroScript = hero.GetComponent<Hero>();
+    eventSystem = EventSystem.current;
   }
 
   void Update() {
@@ -141,7 +149,6 @@ public class Pause : MonoBehaviour {
         } else {
           currMagicResistanceObject.GetComponent<Image>().color = new Color(1, 1, 1, 1);
           currMagicResistanceObject.GetComponent<Image>().sprite = Utilities.magicResistances[heroMagicResistances[i]];
-          resistance1Object.GetComponent<Image>().sprite = Utilities.magicResistances[heroMagicResistances[i]];
         }
         i++;
       }
@@ -151,12 +158,31 @@ public class Pause : MonoBehaviour {
   }
 
   void FadeOut() {
+    quitCanvas.SetActive(false);
+    mainCanvas.SetActive(true);
     gameObject.SetActive(false);
     Time.timeScale = 1;
   }
 
   void SelectItemsButton() {
-    EventSystem eventSystem = EventSystem.current;
     eventSystem.SetSelectedGameObject(pauseFirstSelected, new BaseEventData(eventSystem));
+  }
+
+  public void ShowQuitCanvas() {
+    mainCanvas.SetActive(false);
+    quitCanvas.SetActive(true);
+
+    eventSystem.SetSelectedGameObject(quitFirstSelected, new BaseEventData(eventSystem));
+  }
+
+  public void GoBackToMainFromQuit() {
+    quitCanvas.SetActive(false);
+    mainCanvas.SetActive(true);
+
+    eventSystem.SetSelectedGameObject(quitButton, new BaseEventData(eventSystem));
+  }
+
+  public void QuitGame() {
+    Debug.Log("should return to title screen");
   }
 }
