@@ -21,6 +21,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject atkRightObject;
   [SerializeField] GameObject defLeftObject;
   [SerializeField] GameObject defRightObject;
+  [SerializeField] GameObject luck;
   [SerializeField] GameObject critical;
   [SerializeField] GameObject pauseFirstSelected;
   [SerializeField] GameObject locationObject;
@@ -48,6 +49,7 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] int atkRight = -1;
   [System.NonSerialized] int defLeft = -1;
   [System.NonSerialized] int defRight = -1;
+  [System.NonSerialized] float luckPercentage = -0.1f;
   [System.NonSerialized] float criticalPercentage = -0.1f;
   [System.NonSerialized] string location = "";
   [System.NonSerialized] string magicResistances = " ";
@@ -116,6 +118,10 @@ public class Pause : MonoBehaviour {
 
     if (criticalPercentage != heroScript.criticalPercentage) {
       critical.GetComponent<Text>().text = ((int)(heroScript.criticalPercentage * 100)).ToString() + " %";
+    }
+
+    if (luckPercentage != heroScript.luckPercentage) {
+      luck.GetComponent<Text>().text = ((int)(heroScript.luckPercentage * 100)).ToString() + " %";
     }
 
     if (location != heroScript.location) {

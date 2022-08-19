@@ -99,6 +99,7 @@ public class Hero : MonoBehaviour {
   [System.NonSerialized] public int atkRight = 10;
   [System.NonSerialized] public int defLeft = 5;
   [System.NonSerialized] public int defRight = 10;
+  [System.NonSerialized] public float luckPercentage = 0.2f;
   [System.NonSerialized] public float criticalPercentage = 0.5f;
   [System.NonSerialized] public string location = "meadows";
   [System.NonSerialized] public string[] magicResistances = new string[] {"earth", "air", "water", "fire", "lightning", "ice", "light", "dark"};
