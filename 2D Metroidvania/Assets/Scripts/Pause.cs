@@ -40,6 +40,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject resistance6Object;
   [SerializeField] GameObject resistance7Object;
   [SerializeField] GameObject resistance8Object;
+  [SerializeField] GameObject magicEmptyObject;
 
   [System.NonSerialized] Hero heroScript;
   [System.NonSerialized] string playerEquipment = "";
@@ -141,6 +142,12 @@ public class Pause : MonoBehaviour {
     if (magicResistances != currentMagicResistances) {
       GameObject[] magicResistanceObjects = new GameObject[] {resistance1Object, resistance2Object, resistance3Object, resistance4Object, resistance5Object, resistance6Object, resistance7Object, resistance8Object};
       string[] heroMagicResistances = heroScript.magicResistances;
+
+      if (heroMagicResistances.Length > 1) {
+        magicEmptyObject.SetActive(false);
+      } else {
+        magicEmptyObject.SetActive(true);
+      }
 
       int i = 0;
       foreach (GameObject currMagicResistanceObject in magicResistanceObjects) {
