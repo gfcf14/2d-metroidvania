@@ -30,6 +30,8 @@ public class ArrowObject {
 }
 
 public class Utilities {
+  public static string preferredInput = "gamepad";
+
   public static Sprite[] elements = Resources.LoadAll<Sprite>("Pause/elements");
 
   public static Dictionary<string, Sprite> magicResistances = new Dictionary<string, Sprite> {

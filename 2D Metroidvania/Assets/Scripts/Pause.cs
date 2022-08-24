@@ -14,6 +14,9 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject quitButton;
   [SerializeField] GameObject quitFirstSelected;
 
+  [SerializeField] GameObject mainButtonPanel;
+  [SerializeField] GameObject mainKeysPanel;
+
   [SerializeField] GameObject hero;
   [SerializeField] GameObject playerAvatar;
   [SerializeField] GameObject level;
@@ -42,6 +45,8 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject resistance8Object;
   [SerializeField] GameObject magicEmptyObject;
 
+  [System.NonSerialized] bool hasGamepad = false;
+
   [System.NonSerialized] Hero heroScript;
   [System.NonSerialized] string playerEquipment = "";
   [System.NonSerialized] int playerLevel = -1;
@@ -68,6 +73,8 @@ public class Pause : MonoBehaviour {
   }
 
   void Update() {
+    CheckIfGamepad();
+
     if (playerEquipment != heroScript.playerEquipment) {
       playerAvatar.GetComponent<Image>().sprite = Utilities.pauseAvatars[heroScript.playerEquipment];
     }
@@ -191,5 +198,31 @@ public class Pause : MonoBehaviour {
 
   public void QuitGame() {
     Debug.Log("should return to title screen");
+  }
+
+  void CheckIfGamepad() {
+    List<string> validGamepads = new List<String>();
+    foreach(string s in Input.GetJoystickNames()) {
+      if (s != "") {
+        validGamepads.Add(s);
+      }
+    }
+    hasGamepad = validGamepads.Count > 0;
+
+    if (hasGamepad && mainButtonPanel.activeInHierarchy == false) {
+      ShowGamePadOptions();
+    } else if (!hasGamepad && mainKeysPanel.activeInHierarchy == false) {
+      ShowKeyboardOptions();
+    }
+  }
+
+  void ShowGamePadOptions() {
+    mainKeysPanel.SetActive(false);
+    mainButtonPanel.SetActive(true);
+  }
+
+  void ShowKeyboardOptions() {
+    mainButtonPanel.SetActive(false);
+    mainKeysPanel.SetActive(true);
   }
 }
