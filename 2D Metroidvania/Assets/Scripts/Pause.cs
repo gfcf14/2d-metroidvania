@@ -9,13 +9,16 @@ public class Pause : MonoBehaviour {
   [SerializeField] EventSystem eventSystem;
   [SerializeField] GameObject mainCanvas;
   [SerializeField] GameObject optionsCanvas;
+  [SerializeField] GameObject preferredInputCanvas;
   [SerializeField] GameObject quitCanvas;
 
   [SerializeField] GameObject pauseFirstSelected;
   [SerializeField] GameObject optionsButton;
+  [SerializeField] GameObject optionsFirstSelected;
+  [SerializeField] GameObject preferredInputButton;
+  [SerializeField] GameObject preferredInputFirstSelected;
   [SerializeField] GameObject quitButton;
   [SerializeField] GameObject quitFirstSelected;
-  [SerializeField] GameObject optionsFirstSelected;
 
   [SerializeField] GameObject mainButtonPanel;
   [SerializeField] GameObject mainKeysPanel;
@@ -47,6 +50,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject resistance7Object;
   [SerializeField] GameObject resistance8Object;
   [SerializeField] GameObject magicEmptyObject;
+  [SerializeField] GameObject preferredInputObject;
 
   [System.NonSerialized] bool hasGamepad = false;
 
@@ -69,6 +73,7 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] float criticalPercentage = -0.1f;
   [System.NonSerialized] string location = "";
   [System.NonSerialized] string magicResistances = " ";
+  [System.NonSerialized] string preferredInputString = "";
 
   void Start() {
     heroScript = hero.GetComponent<Hero>();
@@ -77,6 +82,12 @@ public class Pause : MonoBehaviour {
 
   void Update() {
     CheckIfGamepad();
+
+    if (preferredInputString != Utilities.preferredInput) {
+      preferredInputString = Utilities.preferredInput;
+
+      preferredInputObject.GetComponent<Text>().text = preferredInputString.ToUpper();
+    }
 
     if (playerEquipment != heroScript.playerEquipment) {
       playerAvatar.GetComponent<Image>().sprite = Utilities.pauseAvatars[heroScript.playerEquipment];
@@ -176,6 +187,7 @@ public class Pause : MonoBehaviour {
 
   void FadeOut() {
     optionsCanvas.SetActive(false);
+    preferredInputCanvas.SetActive(false);
     quitCanvas.SetActive(false);
     mainCanvas.SetActive(true);
     gameObject.SetActive(false);
@@ -193,6 +205,13 @@ public class Pause : MonoBehaviour {
     eventSystem.SetSelectedGameObject(optionsFirstSelected, new BaseEventData(eventSystem));
   }
 
+  public void ShowPreferredInputCanvas() {
+    optionsCanvas.SetActive(false);
+    preferredInputCanvas.SetActive(true);
+
+    eventSystem.SetSelectedGameObject(preferredInputFirstSelected, new BaseEventData(eventSystem));
+  }
+
   public void ShowQuitCanvas() {
     mainCanvas.SetActive(false);
     quitCanvas.SetActive(true);
@@ -205,6 +224,13 @@ public class Pause : MonoBehaviour {
     mainCanvas.SetActive(true);
 
     eventSystem.SetSelectedGameObject(optionsButton, new BaseEventData(eventSystem));
+  }
+
+  public void GoBackToOptionsFromPreferredInput() {
+    preferredInputCanvas.SetActive(false);
+    optionsCanvas.SetActive(true);
+
+    eventSystem.SetSelectedGameObject(preferredInputButton, new BaseEventData(eventSystem));
   }
 
   public void GoBackToMainFromQuit() {
@@ -242,5 +268,13 @@ public class Pause : MonoBehaviour {
   void ShowKeyboardOptions() {
     mainButtonPanel.SetActive(false);
     mainKeysPanel.SetActive(true);
+  }
+
+  public void SetKeyboardAsPreferredInput() {
+    Utilities.preferredInput = "keyboard";
+  }
+
+  public void SetGamepadAsPreferredInput() {
+    Utilities.preferredInput = "gamepad";
   }
 }
