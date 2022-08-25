@@ -8,11 +8,14 @@ using System;
 public class Pause : MonoBehaviour {
   [SerializeField] EventSystem eventSystem;
   [SerializeField] GameObject mainCanvas;
+  [SerializeField] GameObject optionsCanvas;
   [SerializeField] GameObject quitCanvas;
 
   [SerializeField] GameObject pauseFirstSelected;
+  [SerializeField] GameObject optionsButton;
   [SerializeField] GameObject quitButton;
   [SerializeField] GameObject quitFirstSelected;
+  [SerializeField] GameObject optionsFirstSelected;
 
   [SerializeField] GameObject mainButtonPanel;
   [SerializeField] GameObject mainKeysPanel;
@@ -172,6 +175,7 @@ public class Pause : MonoBehaviour {
   }
 
   void FadeOut() {
+    optionsCanvas.SetActive(false);
     quitCanvas.SetActive(false);
     mainCanvas.SetActive(true);
     gameObject.SetActive(false);
@@ -182,11 +186,25 @@ public class Pause : MonoBehaviour {
     eventSystem.SetSelectedGameObject(pauseFirstSelected, new BaseEventData(eventSystem));
   }
 
+  public void ShowOptionsCanvas() {
+    mainCanvas.SetActive(false);
+    optionsCanvas.SetActive(true);
+
+    eventSystem.SetSelectedGameObject(optionsFirstSelected, new BaseEventData(eventSystem));
+  }
+
   public void ShowQuitCanvas() {
     mainCanvas.SetActive(false);
     quitCanvas.SetActive(true);
 
     eventSystem.SetSelectedGameObject(quitFirstSelected, new BaseEventData(eventSystem));
+  }
+
+  public void GoBackToMainFromOptions() {
+    optionsCanvas.SetActive(false);
+    mainCanvas.SetActive(true);
+
+    eventSystem.SetSelectedGameObject(optionsButton, new BaseEventData(eventSystem));
   }
 
   public void GoBackToMainFromQuit() {
@@ -209,9 +227,9 @@ public class Pause : MonoBehaviour {
     }
     hasGamepad = validGamepads.Count > 0;
 
-    if (hasGamepad && mainButtonPanel.activeInHierarchy == false) {
+    if (hasGamepad && Utilities.preferredInput == "gamepad" && mainButtonPanel.activeInHierarchy == false ) {
       ShowGamePadOptions();
-    } else if (!hasGamepad && mainKeysPanel.activeInHierarchy == false) {
+    } else if ((!hasGamepad || Utilities.preferredInput == "keyboard") && mainKeysPanel.activeInHierarchy == false) {
       ShowKeyboardOptions();
     }
   }
