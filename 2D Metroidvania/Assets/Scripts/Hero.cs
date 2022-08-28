@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Hero : MonoBehaviour {
   [SerializeField] public float speed;
@@ -102,9 +104,9 @@ public class Hero : MonoBehaviour {
   [System.NonSerialized] public float luckPercentage = 0.2f;
   [System.NonSerialized] public float criticalPercentage = 0.5f;
   [System.NonSerialized] public string location = "meadows";
-  // [System.NonSerialized] public string[] magicResistances = new string[] {"earth", "air", "water", "fire", "lightning", "ice", "light", "dark"};
+  [System.NonSerialized] public string[] magicResistances = new string[] {"earth", "air", "water", "fire", "lightning", "ice", "light", "dark"};
   // [System.NonSerialized] public string[] magicResistances = new string[] {"lightning", "dark", "earth"};
-  [System.NonSerialized] public string[] magicResistances = new string[] {};
+  // [System.NonSerialized] public string[] magicResistances = new string[] {};
 
   public int tiredThreshold = 40;
 
@@ -254,8 +256,11 @@ public class Hero : MonoBehaviour {
       }
     }
 
+    // Debug.Log(KeyCode.Space);
+
     // jumping
-    if (Input.GetKey(KeyCode.Space)) {
+    // if (Input.GetKey(KeyCode.Space)) {
+    if (Input.GetKey((KeyCode)Enum.Parse(typeof(KeyCode), "Space"))) {
       userInput += "$";
       if (isGrounded) {
         if (userInput.Contains(jetpackUp)) {
@@ -380,7 +385,7 @@ public class Hero : MonoBehaviour {
 
     if (Input.GetKeyDown(KeyCode.P)) {
       isPaused = !isPaused;
-      Utilities.TogglePause(isPaused, pauseCanvas);
+      Helpers.TogglePause(isPaused, pauseCanvas);
     }
 
     if (isDropKicking) {
@@ -470,11 +475,11 @@ public class Hero : MonoBehaviour {
     // current test throwables: lance, bomb, knife, kunai, shuriken-4, shuriken-6, hatchet, axe
     string throwableType = "lance";
 
-    ThrowableObject currentThrowable = Utilities.throwableObjects[throwableType];
+    ThrowableObject currentThrowable = Objects.throwableObjects[throwableType];
     float throwableX = transform.position.x + ((isFacingLeft ? -1 : 1) * heroWidth * currentThrowable.startX);
     float throwableY = transform.position.y + (heroHeight * currentThrowable.startY);
 
-    GameObject throwableWeapon = Instantiate(Utilities.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
+    GameObject throwableWeapon = Instantiate(Objects.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
     Throwable throwableInstance = throwableWeapon.GetComponent<Throwable>();
 
     throwableInstance.isFacingLeft = isFacingLeft;
@@ -525,7 +530,7 @@ public class Hero : MonoBehaviour {
   }
 
   void CreateArrow() {
-    currentArrow = Instantiate(Utilities.prefabs["arrow"], arrowAnchor.transform.position, Quaternion.identity);
+    currentArrow = Instantiate(Objects.prefabs["arrow"], arrowAnchor.transform.position, Quaternion.identity);
     arrowInstance = currentArrow.GetComponent<Arrow>();
     arrowMask = currentArrow.transform.Find("Mask").gameObject;
 

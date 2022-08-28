@@ -25,7 +25,7 @@ public class ThrowableCollider : MonoBehaviour {
       GameObject parentObject = transform.parent.gameObject;
       Throwable parentThrowable = parentObject.GetComponent<Throwable>();
 
-      if (Utilities.IsGroundThrowable(parentThrowable.type) && !parentThrowable.hasCollided) {
+      if (Helpers.IsGroundThrowable(parentThrowable.type) && !parentThrowable.hasCollided) {
         if (parentThrowable.type == "bomb") {
           parentThrowable.anim.speed = 0;
 
@@ -34,7 +34,7 @@ public class ThrowableCollider : MonoBehaviour {
           }
         }
 
-        if (Utilities.IsNonBouncingThrowable(parentThrowable.type) || (parentThrowable.type == "bomb" && isBottomCollision)) {
+        if (Helpers.IsNonBouncingThrowable(parentThrowable.type) || (parentThrowable.type == "bomb" && isBottomCollision)) {
           parentThrowable.hasCollided = true;
           parentThrowable.collideTime = Time.time * 1000;
         }

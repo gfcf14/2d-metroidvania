@@ -266,7 +266,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 5
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -2680,7 +2680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &299332789
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4800,8 +4800,8 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 330321981}
-    m_SelectOnDown: {fileID: 745498595}
+    m_SelectOnUp: {fileID: 1966028982}
+    m_SelectOnDown: {fileID: 1039764756}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -4831,7 +4831,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1437520760}
         m_TargetAssemblyTypeName: Pause, Assembly-CSharp
-        m_MethodName: ShowQuitCanvas
+        m_MethodName: SetKeyboardAsPreferredInput
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5632,7 +5632,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &703887124
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9705,8 +9705,8 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 330321981}
-    m_SelectOnDown: {fileID: 745498595}
+    m_SelectOnUp: {fileID: 616289618}
+    m_SelectOnDown: {fileID: 1966028982}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -9736,7 +9736,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1437520760}
         m_TargetAssemblyTypeName: Pause, Assembly-CSharp
-        m_MethodName: ShowQuitCanvas
+        m_MethodName: GoBackToOptionsFromPreferredInput
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12183,6 +12183,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1212108170}
   m_CullTransparentMesh: 1
+--- !u!1 &1216068220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1216068221}
+  - component: {fileID: 1216068223}
+  - component: {fileID: 1216068222}
+  m_Layer: 5
+  m_Name: Note
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1216068221
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216068220}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2000951915}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -4.4157, y: -360.74084}
+  m_SizeDelta: {x: 836.3687, y: 75.8804}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1216068222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216068220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 6d7922d713f43094993c4298ddd1616d, type: 3}
+    m_FontSize: 32
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Note that Keyboard legend will show if no Gamepad is connected
+--- !u!222 &1216068223
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216068220}
+  m_CullTransparentMesh: 1
 --- !u!1 &1222160762
 GameObject:
   m_ObjectHideFlags: 0
@@ -13770,7 +13849,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1361776218}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1437520760}
+        m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+        m_MethodName: ShowPreferredInputCanvas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1361776218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14094,7 +14185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1437520756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14193,12 +14284,15 @@ MonoBehaviour:
   eventSystem: {fileID: 0}
   mainCanvas: {fileID: 703887123}
   optionsCanvas: {fileID: 1915349975}
+  preferredInputCanvas: {fileID: 2000951914}
   quitCanvas: {fileID: 1597272105}
   pauseFirstSelected: {fileID: 745498594}
   optionsButton: {fileID: 330321979}
+  optionsFirstSelected: {fileID: 1067068070}
+  preferredInputButton: {fileID: 1361776216}
+  preferredInputFirstSelected: {fileID: 1966028980}
   quitButton: {fileID: 436692379}
   quitFirstSelected: {fileID: 846177675}
-  optionsFirstSelected: {fileID: 1067068070}
   mainButtonPanel: {fileID: 780574608}
   mainKeysPanel: {fileID: 74340929}
   hero: {fileID: 1177825369}
@@ -14228,6 +14322,7 @@ MonoBehaviour:
   resistance7Object: {fileID: 1457485744}
   resistance8Object: {fileID: 1776263053}
   magicEmptyObject: {fileID: 873881571}
+  preferredInputObject: {fileID: 17253750}
 --- !u!95 &1437520761
 Animator:
   serializedVersion: 3
@@ -18811,8 +18906,8 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 1330589465}
-    m_SelectOnDown: {fileID: 436692381}
+    m_SelectOnUp: {fileID: 1039764756}
+    m_SelectOnDown: {fileID: 616289618}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -18842,7 +18937,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1437520760}
         m_TargetAssemblyTypeName: Pause, Assembly-CSharp
-        m_MethodName: ShowOptionsCanvas
+        m_MethodName: SetGamepadAsPreferredInput
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -19100,7 +19195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2000951915
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19120,6 +19215,7 @@ RectTransform:
   - {fileID: 1966028981}
   - {fileID: 616289617}
   - {fileID: 1039764755}
+  - {fileID: 1216068221}
   m_Father: {fileID: 589711694}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

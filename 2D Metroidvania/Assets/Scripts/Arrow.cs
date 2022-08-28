@@ -42,7 +42,7 @@ public class Arrow : MonoBehaviour {
     hitBounds.offset = new Vector2(0.4f, 0);
     hitBounds.size = new Vector2(0.3f, 0.2f);
 
-    ArrowObject currentArrow = Utilities.arrows[type];
+    ArrowObject currentArrow = Objects.arrows[type];
 
     if (!currentArrow.hasExtra) {
       DestroyExtra();

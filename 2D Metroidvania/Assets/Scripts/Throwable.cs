@@ -57,7 +57,7 @@ public class Throwable : MonoBehaviour {
       extraSprite = transform.Find("Extra").gameObject;
       direction = isFacingLeft ? -1 : 1;
 
-      ThrowableObject currentThrowable = Utilities.throwableObjects[type];
+      ThrowableObject currentThrowable = Objects.throwableObjects[type];
 
       hitBounds.offset = currentThrowable.colliderOffset;
       hitBounds.size = currentThrowable.colliderSize;
@@ -68,7 +68,7 @@ public class Throwable : MonoBehaviour {
 
       if (!currentThrowable.hasAnim) {
         Destroy(anim);
-        objectRenderer.sprite = Utilities.throwableSprites[type];
+        objectRenderer.sprite = Sprites.throwableSprites[type];
       } else {
         if (type == "bomb") {
           anim.SetBool("isBomb", true);
@@ -120,7 +120,7 @@ public class Throwable : MonoBehaviour {
 
             transform.position = new Vector2(startX + (newX * 5), startY - (heightDrop * distanceMultiplier));
             transform.rotation = Quaternion.Euler(0, 0, newAngle);
-          } else if (Utilities.IsSmallRotatingThrowable(type)) {
+          } else if (Helpers.IsSmallRotatingThrowable(type)) {
             newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier);
 
             transform.position = new Vector2(startX + newX, startY + shurikenParabolaValue(newX * (type == "shuriken-4" ? 2 : 1)));
@@ -148,11 +148,11 @@ public class Throwable : MonoBehaviour {
         float ellapsedCollideTime = (Time.time * 1000) - collideTime;
 
         if (ellapsedCollideTime < maxEllapsedCollideTime) {
-          if (Utilities.IsNonBouncingThrowable(type)) {
+          if (Helpers.IsNonBouncingThrowable(type)) {
             objectRenderer.color = new Color(1, 1, 1, 1 - (ellapsedCollideTime / maxEllapsedCollideTime));
           }
         } else {
-          if (Utilities.IsNonBouncingThrowable(type)) {
+          if (Helpers.IsNonBouncingThrowable(type)) {
             Destroy(gameObject);
           } else if (type == "bomb") {
             isExploding = true;

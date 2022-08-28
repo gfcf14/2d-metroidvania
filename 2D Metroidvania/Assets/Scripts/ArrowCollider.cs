@@ -25,13 +25,13 @@ public class ArrowCollider : MonoBehaviour {
       Vector2 collisionPoint = col.ClosestPoint(transform.position);
 
       if (parentArrow.type != "arrow-fire") {
-        GameObject pierceEffect = Instantiate(Utilities.prefabs["pierce"], collisionPoint, Quaternion.identity);
+        GameObject pierceEffect = Instantiate(Objects.prefabs["pierce"], collisionPoint, Quaternion.identity);
 
         if (parentArrow.type == "arrow-poison") {
-          pierceEffect.GetComponent<Pierce>().color = Utilities.specialColors["poisoned"];
+          pierceEffect.GetComponent<Pierce>().color = Colors.statusColors["poisoned"];
         }
       } else {
-        GameObject arrowExplosion = Instantiate(Utilities.prefabs["arrow-explosion"], collisionPoint, Quaternion.identity);
+        GameObject arrowExplosion = Instantiate(Objects.prefabs["arrow-explosion"], collisionPoint, Quaternion.identity);
       }
     }
   }

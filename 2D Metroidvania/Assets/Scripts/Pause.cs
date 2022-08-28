@@ -83,14 +83,14 @@ public class Pause : MonoBehaviour {
   void Update() {
     CheckIfGamepad();
 
-    if (preferredInputString != Utilities.preferredInput) {
-      preferredInputString = Utilities.preferredInput;
+    if (preferredInputString != Constants.preferredInput) {
+      preferredInputString = Constants.preferredInput;
 
       preferredInputObject.GetComponent<Text>().text = preferredInputString.ToUpper();
     }
 
     if (playerEquipment != heroScript.playerEquipment) {
-      playerAvatar.GetComponent<Image>().sprite = Utilities.pauseAvatars[heroScript.playerEquipment];
+      playerAvatar.GetComponent<Image>().sprite = Sprites.pauseAvatars[heroScript.playerEquipment];
     }
 
     if (playerLevel != heroScript.playerLevel) {
@@ -155,7 +155,7 @@ public class Pause : MonoBehaviour {
     }
 
     if (location != heroScript.location) {
-      locationObject.GetComponent<Image>().sprite = Utilities.locationImages[heroScript.location];
+      locationObject.GetComponent<Image>().sprite = Sprites.locationImages[heroScript.location];
     }
 
     string currentMagicResistances = String.Join(",", heroScript.magicResistances);
@@ -176,7 +176,7 @@ public class Pause : MonoBehaviour {
           currMagicResistanceObject.GetComponent<Image>().color = new Color(0, 0, 0, 0);
         } else {
           currMagicResistanceObject.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-          currMagicResistanceObject.GetComponent<Image>().sprite = Utilities.magicResistances[heroMagicResistances[i]];
+          currMagicResistanceObject.GetComponent<Image>().sprite = Sprites.magicResistances[heroMagicResistances[i]];
         }
         i++;
       }
@@ -253,9 +253,9 @@ public class Pause : MonoBehaviour {
     }
     hasGamepad = validGamepads.Count > 0;
 
-    if (hasGamepad && Utilities.preferredInput == "gamepad" && mainButtonPanel.activeInHierarchy == false ) {
+    if (hasGamepad && Constants.preferredInput == "gamepad" && mainButtonPanel.activeInHierarchy == false ) {
       ShowGamePadOptions();
-    } else if ((!hasGamepad || Utilities.preferredInput == "keyboard") && mainKeysPanel.activeInHierarchy == false) {
+    } else if ((!hasGamepad || Constants.preferredInput == "keyboard") && mainKeysPanel.activeInHierarchy == false) {
       ShowKeyboardOptions();
     }
   }
@@ -271,10 +271,10 @@ public class Pause : MonoBehaviour {
   }
 
   public void SetKeyboardAsPreferredInput() {
-    Utilities.preferredInput = "keyboard";
+    Constants.preferredInput = "keyboard";
   }
 
   public void SetGamepadAsPreferredInput() {
-    Utilities.preferredInput = "gamepad";
+    Constants.preferredInput = "gamepad";
   }
 }

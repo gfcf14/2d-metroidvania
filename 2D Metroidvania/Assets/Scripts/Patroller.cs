@@ -84,7 +84,7 @@ public class Patroller : MonoBehaviour {
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
 
     elementResistances = new string[] {"fire"};
-    enemyColor = Utilities.GetColorFromResistances(elementResistances);
+    enemyColor = Helpers.GetColorFromResistances(elementResistances);
     flashEffect.repaintColor = enemyColor;
     enemyRenderer.color = enemyColor;
   }
@@ -97,7 +97,7 @@ public class Patroller : MonoBehaviour {
     heroIsDead = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().isDead != 0;
 
     if (isBurning) {
-      enemyColor = Utilities.specialColors["ash"];
+      enemyColor = Colors.statusColors["burned"];
       float currentTime = Time.time * 1000;
 
       if (currentTime > burnTime + burningDuration) {
@@ -123,7 +123,7 @@ public class Patroller : MonoBehaviour {
       if (currentTime > nextPoisonAttackTime)  {
         hp -= 10;
         poisonEffectTime = Time.time * 1000;
-        enemyRenderer.color = Utilities.specialColors["poisoned"];
+        enemyRenderer.color = Colors.statusColors["poisoned"];
         poisonAttackCounter++;
 
         if (hp <= 0) {
@@ -254,20 +254,20 @@ public class Patroller : MonoBehaviour {
           hp -= 5;
         } else if (currentWeapon == "single" || currentWeapon == "heavy") {
           string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
-          hp -= Utilities.GetDamage(weaponWielded);
+          hp -= Helpers.GetDamage(weaponWielded);
         } else if (currentWeapon == "throwables") {
           GameObject parentObject = col.transform.parent.gameObject;
           Throwable parentThrowable = parentObject.GetComponent<Throwable>();
           string weaponWielded = parentThrowable.type;
 
-          mustTakeDamage = (Utilities.IsNonBouncingThrowable(weaponWielded) && !parentThrowable.hasCollided) || (weaponWielded == "bomb" && parentThrowable.isExploding);
+          mustTakeDamage = (Helpers.IsNonBouncingThrowable(weaponWielded) && !parentThrowable.hasCollided) || (weaponWielded == "bomb" && parentThrowable.isExploding);
 
           if (mustTakeDamage) {
-            hp -= Utilities.GetDamage(weaponWielded);
+            hp -= Helpers.GetDamage(weaponWielded);
 
             Transform parentTransform = parentObject.GetComponent<Transform>();
 
-            if(Utilities.IsNonBouncingThrowable(weaponWielded)) {
+            if(Helpers.IsNonBouncingThrowable(weaponWielded)) {
               parentThrowable.bounceX = parentTransform.position.x;
               parentThrowable.bounceY = parentTransform.position.y;
               parentThrowable.mustBounce = true;
@@ -284,12 +284,12 @@ public class Patroller : MonoBehaviour {
           string arrowUsed = parentArrow.type;
 
           mustTakeDamage = !parentArrow.hasCollided;
-          willBurn = parentArrow.type == "arrow-fire" && !Utilities.IsFireResistant(elementResistances) && hp <= Utilities.arrowExplosionDamage;
+          willBurn = parentArrow.type == "arrow-fire" && !Helpers.IsFireResistant(elementResistances) && hp <= Constants.arrowExplosionDamage;
 
           if (mustTakeDamage) {
-            hp -= Utilities.GetDamage(arrowUsed);
+            hp -= Helpers.GetDamage(arrowUsed);
 
-            if (parentArrow.type == "arrow-poison" && !Utilities.IsPoisonResistant(elementResistances)) {
+            if (parentArrow.type == "arrow-poison" && !Helpers.IsPoisonResistant(elementResistances)) {
               isPoisoned = true;
               poisonTime = Time.time * 1000;
             }
@@ -326,13 +326,13 @@ public class Patroller : MonoBehaviour {
       string colName = col.gameObject.name.Replace("(Clone)", "");
 
       if (colName == "ArrowExplosion" || colName == "ArrowBurn") {
-        bool willBurn = !Utilities.IsFireResistant(elementResistances) && hp <= Utilities.arrowExplosionDamage;
+        bool willBurn = !Helpers.IsFireResistant(elementResistances) && hp <= Constants.arrowExplosionDamage;
 
         if (willBurn) {
           float currentTime = Time.time * 1000;
 
           if (!isBurning) {
-            GameObject arrowBurn = Instantiate(Utilities.prefabs["arrow-burn"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
+            GameObject arrowBurn = Instantiate(Objects.prefabs["arrow-burn"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
             arrowBurn.GetComponent<ArrowBurn>().startTime = currentTime;
 
             burnTime = currentTime;
@@ -341,8 +341,8 @@ public class Patroller : MonoBehaviour {
             body.velocity = Vector2.zero;
           }
         } else {
-          if (!Utilities.IsFireResistant(elementResistances)) {
-            hp -= Utilities.arrowExplosionDamage;
+          if (!Helpers.IsFireResistant(elementResistances)) {
+            hp -= Constants.arrowExplosionDamage;
 
             if (flashEffect != null) {
               flashEffect.Flash();
@@ -383,7 +383,7 @@ public class Patroller : MonoBehaviour {
   }
 
   void Destroy() {
-    Instantiate(Utilities.prefabs["enemy-explosion"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
+    Instantiate(Objects.prefabs["enemy-explosion"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
     Destroy(gameObject);
   }
 
