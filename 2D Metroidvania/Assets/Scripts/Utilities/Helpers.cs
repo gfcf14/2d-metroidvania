@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -53,5 +54,30 @@ public class Helpers {
     } else {
       pauseCanvas.GetComponent<Animator>().Play("pause-fade-out");
     }
+  }
+
+  public static bool IsKeyHeld(string key) {
+    return Input.GetKey((KeyCode)Enum.Parse(typeof(KeyCode), key));
+  }
+
+  public static bool IsKeyDown(string key) {
+    return Input.GetKeyDown((KeyCode)Enum.Parse(typeof(KeyCode), key));
+  }
+
+  public static bool IsKeyUp(string key) {
+    return Input.GetKeyUp((KeyCode)Enum.Parse(typeof(KeyCode), key));
+  }
+
+  // ensure proper mapping works for several kinds of gamepads
+  public static bool IsPauseKeyUp() {
+    return Input.GetKeyUp(KeyCode.Escape) || Input.GetKeyUp(KeyCode.JoystickButton9);
+  }
+
+  public static bool IsForbiddenToRemap(string keyCode) {
+    return System.Array.IndexOf(Constants.forbiddenKeys, keyCode) != -1 || keyCode.Contains("Mouse") || keyCode.Contains("Button9");
+  }
+
+  public static bool IsGamepadKey(string keyCode) {
+    return keyCode.Contains("Joystick");
   }
 }

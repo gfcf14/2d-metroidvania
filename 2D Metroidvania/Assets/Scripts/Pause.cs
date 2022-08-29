@@ -6,23 +6,40 @@ using UnityEngine.EventSystems;
 using System;
 
 public class Pause : MonoBehaviour {
+  // Canvases
   [SerializeField] EventSystem eventSystem;
   [SerializeField] GameObject mainCanvas;
   [SerializeField] GameObject optionsCanvas;
+  [SerializeField] GameObject controlsCanvas;
   [SerializeField] GameObject preferredInputCanvas;
   [SerializeField] GameObject quitCanvas;
 
+  // Objects to select first upon reaching a canvas
   [SerializeField] GameObject pauseFirstSelected;
   [SerializeField] GameObject optionsButton;
   [SerializeField] GameObject optionsFirstSelected;
+  [SerializeField] GameObject controlsButton;
+  [SerializeField] GameObject controlsFirstSelected;
   [SerializeField] GameObject preferredInputButton;
   [SerializeField] GameObject preferredInputFirstSelected;
   [SerializeField] GameObject quitButton;
   [SerializeField] GameObject quitFirstSelected;
 
+  // Control buttons
+  [SerializeField] GameObject jumpButton;
+  [SerializeField] GameObject atk1Button;
+  [SerializeField] GameObject atk2Button;
+
+  // Awaiting Input Objects
+  [SerializeField] GameObject jumpAwaitLabel;
+  [SerializeField] GameObject atk1AwaitLabel;
+  [SerializeField] GameObject atk2AwaitLabel;
+
+  // main footer legends
   [SerializeField] GameObject mainButtonPanel;
   [SerializeField] GameObject mainKeysPanel;
 
+  // dynamic objects
   [SerializeField] GameObject hero;
   [SerializeField] GameObject playerAvatar;
   [SerializeField] GameObject level;
@@ -54,6 +71,7 @@ public class Pause : MonoBehaviour {
 
   [System.NonSerialized] bool hasGamepad = false;
 
+  // variables to keep track of stats and preferences
   [System.NonSerialized] Hero heroScript;
   [System.NonSerialized] string playerEquipment = "";
   [System.NonSerialized] int playerLevel = -1;
@@ -74,6 +92,9 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] string location = "";
   [System.NonSerialized] string magicResistances = " ";
   [System.NonSerialized] string preferredInputString = "";
+
+  // current mapping button
+  [System.NonSerialized] public static string currentlyMapping = "";
 
   void Start() {
     heroScript = hero.GetComponent<Hero>();
@@ -187,6 +208,7 @@ public class Pause : MonoBehaviour {
 
   void FadeOut() {
     optionsCanvas.SetActive(false);
+    controlsCanvas.SetActive(false);
     preferredInputCanvas.SetActive(false);
     quitCanvas.SetActive(false);
     mainCanvas.SetActive(true);
@@ -203,6 +225,13 @@ public class Pause : MonoBehaviour {
     optionsCanvas.SetActive(true);
 
     eventSystem.SetSelectedGameObject(optionsFirstSelected, new BaseEventData(eventSystem));
+  }
+
+  public void ShowControlsCanvas() {
+    optionsCanvas.SetActive(false);
+    controlsCanvas.SetActive(true);
+
+    eventSystem.SetSelectedGameObject(controlsFirstSelected, new BaseEventData(eventSystem));
   }
 
   public void ShowPreferredInputCanvas() {
@@ -224,6 +253,13 @@ public class Pause : MonoBehaviour {
     mainCanvas.SetActive(true);
 
     eventSystem.SetSelectedGameObject(optionsButton, new BaseEventData(eventSystem));
+  }
+
+  public void GoBackToOptionsFromControls() {
+    controlsCanvas.SetActive(false);
+    optionsCanvas.SetActive(true);
+
+    eventSystem.SetSelectedGameObject(controlsButton, new BaseEventData(eventSystem));
   }
 
   public void GoBackToOptionsFromPreferredInput() {
@@ -276,5 +312,62 @@ public class Pause : MonoBehaviour {
 
   public void SetGamepadAsPreferredInput() {
     Constants.preferredInput = "gamepad";
+  }
+
+  public void AwaitInput(String key) {
+    eventSystem.SetSelectedGameObject(null, new BaseEventData(eventSystem));
+
+    switch(key) {
+      case "jump":
+        jumpAwaitLabel.SetActive(true);
+        break;
+      case "atk1":
+        atk1AwaitLabel.SetActive(true);
+        break;
+      case "atk2":
+        atk2AwaitLabel.SetActive(true);
+        break;
+      default:
+        break;
+    }
+
+    currentlyMapping = key;
+  }
+
+  public void FinishMapping(String keyCode) {
+    switch(currentlyMapping) {
+      case "jump":
+        if (Helpers.IsGamepadKey(keyCode)) {
+          Controls.currentGamepadJump = keyCode;
+        } else {
+          Controls.currentKeyboardJump = keyCode;
+        }
+
+        jumpAwaitLabel.SetActive(false);
+        eventSystem.SetSelectedGameObject(jumpButton, new BaseEventData(eventSystem));
+        break;
+      case "atk1":
+        if (Helpers.IsGamepadKey(keyCode)) {
+          Controls.currentGamepadAttack1 = keyCode;
+        } else {
+          Controls.currentKeyboardAttack1 = keyCode;
+        }
+
+        atk1AwaitLabel.SetActive(false);
+        eventSystem.SetSelectedGameObject(atk1Button, new BaseEventData(eventSystem));
+        break;
+      case "atk2":
+        if (Helpers.IsGamepadKey(keyCode)) {
+          Controls.currentGamepadAttack2 = keyCode;
+        } else {
+          Controls.currentKeyboardAttack2 = keyCode;
+        }
+
+        atk2AwaitLabel.SetActive(false);
+        eventSystem.SetSelectedGameObject(atk2Button, new BaseEventData(eventSystem));
+        break;
+      default:
+        break;
+    }
   }
 }

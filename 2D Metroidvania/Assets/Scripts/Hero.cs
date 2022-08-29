@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Hero : MonoBehaviour {
   [SerializeField] public float speed;
@@ -127,6 +125,8 @@ public class Hero : MonoBehaviour {
   public bool isPaused;
   [SerializeField] GameObject pauseCanvas;
 
+  [System.NonSerialized] bool canMap = false;
+
   // called when script is loaded
   private void Awake() {
     body = GetComponent<Rigidbody2D>();
@@ -211,6 +211,7 @@ public class Hero : MonoBehaviour {
       }
     }
 
+    // TODO: remove key combinations as they will not be used to favor two keys pressed
     foreach (KeyCode currentKey in System.Enum.GetValues(typeof(KeyCode))) {
       if(Input.GetKeyUp(currentKey)) {
         if (userInput.Length == 0) {
@@ -251,6 +252,18 @@ public class Hero : MonoBehaviour {
         // } else if (userInput == "s") { // jumping?
         //   Jump();
         // }
+
+        if (isPaused && Pause.currentlyMapping != "") {
+          // do something to interact with Pause here
+          if (canMap) {
+            if (!Helpers.IsForbiddenToRemap(currentKey.ToString())) {
+              // Debug.Log("Now trying to map: " + currentKey);
+              pauseCanvas.GetComponent<Pause>().FinishMapping(currentKey.ToString());
+            }
+          } else {
+            canMap = true;
+          }
+        }
       } else if (Time.time > timeoutTime && userInput.Length > 0) { // input is cleared
         userInput = "";
       }
@@ -260,7 +273,8 @@ public class Hero : MonoBehaviour {
 
     // jumping
     // if (Input.GetKey(KeyCode.Space)) {
-    if (Input.GetKey((KeyCode)Enum.Parse(typeof(KeyCode), "Space"))) {
+    // if (Input.GetKey((KeyCode)Enum.Parse(typeof(KeyCode), Controls.currentJump))) {
+    if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
       userInput += "$";
       if (isGrounded) {
         if (userInput.Contains(jetpackUp)) {
@@ -383,7 +397,7 @@ public class Hero : MonoBehaviour {
       SimulateDeath(isGrounded);
     }
 
-    if (Input.GetKeyDown(KeyCode.P)) {
+    if (Helpers.IsPauseKeyUp()) {
       isPaused = !isPaused;
       Helpers.TogglePause(isPaused, pauseCanvas);
     }
