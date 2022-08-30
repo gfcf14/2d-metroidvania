@@ -213,6 +213,7 @@ public class Pause : MonoBehaviour {
     quitCanvas.SetActive(false);
     mainCanvas.SetActive(true);
     gameObject.SetActive(false);
+    eventSystem.SetSelectedGameObject(null, new BaseEventData(eventSystem));
     Time.timeScale = 1;
   }
 
@@ -338,8 +339,20 @@ public class Pause : MonoBehaviour {
     switch(currentlyMapping) {
       case "jump":
         if (Helpers.IsGamepadKey(keyCode)) {
+          if (keyCode == Controls.currentGamepadAttack1) {
+            Controls.currentGamepadAttack1 = Controls.currentGamepadJump;
+          } else if (keyCode == Controls.currentGamepadAttack2) {
+            Controls.currentGamepadAttack2 = Controls.currentGamepadJump;
+          }
+
           Controls.currentGamepadJump = keyCode;
         } else {
+          if (keyCode == Controls.currentKeyboardAttack1) {
+            Controls.currentKeyboardAttack1 = Controls.currentKeyboardJump;
+          } else if (keyCode == Controls.currentKeyboardAttack2) {
+            Controls.currentKeyboardAttack2 = Controls.currentKeyboardJump;
+          }
+
           Controls.currentKeyboardJump = keyCode;
         }
 
@@ -348,8 +361,20 @@ public class Pause : MonoBehaviour {
         break;
       case "atk1":
         if (Helpers.IsGamepadKey(keyCode)) {
+          if (keyCode == Controls.currentGamepadJump) {
+            Controls.currentGamepadJump = Controls.currentGamepadAttack1;
+          } else if (keyCode == Controls.currentGamepadAttack2) {
+            Controls.currentGamepadAttack2 = Controls.currentGamepadAttack1;
+          }
+
           Controls.currentGamepadAttack1 = keyCode;
         } else {
+          if (keyCode == Controls.currentKeyboardJump) {
+            Controls.currentKeyboardJump = Controls.currentKeyboardAttack1;
+          } else if (keyCode == Controls.currentKeyboardAttack2) {
+            Controls.currentKeyboardAttack2 = Controls.currentKeyboardAttack1;
+          }
+
           Controls.currentKeyboardAttack1 = keyCode;
         }
 
@@ -358,8 +383,20 @@ public class Pause : MonoBehaviour {
         break;
       case "atk2":
         if (Helpers.IsGamepadKey(keyCode)) {
+          if (keyCode == Controls.currentGamepadJump) {
+            Controls.currentGamepadJump = Controls.currentGamepadAttack2;
+          } else if (keyCode == Controls.currentGamepadAttack1) {
+            Controls.currentGamepadAttack1 = Controls.currentGamepadAttack2;
+          }
+
           Controls.currentGamepadAttack2 = keyCode;
         } else {
+          if (keyCode == Controls.currentKeyboardJump) {
+            Controls.currentKeyboardJump = Controls.currentKeyboardAttack2;
+          } else if (keyCode == Controls.currentKeyboardAttack1) {
+            Controls.currentKeyboardAttack1 = Controls.currentKeyboardAttack2;
+          }
+
           Controls.currentKeyboardAttack2 = keyCode;
         }
 

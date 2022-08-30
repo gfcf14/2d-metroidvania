@@ -259,6 +259,7 @@ public class Hero : MonoBehaviour {
             if (!Helpers.IsForbiddenToRemap(currentKey.ToString())) {
               // Debug.Log("Now trying to map: " + currentKey);
               pauseCanvas.GetComponent<Pause>().FinishMapping(currentKey.ToString());
+              canMap = false;
             }
           } else {
             canMap = true;
