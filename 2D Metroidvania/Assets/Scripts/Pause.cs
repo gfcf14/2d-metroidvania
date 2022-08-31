@@ -502,4 +502,14 @@ public class Pause : MonoBehaviour {
         break;
     }
   }
+
+  public void ResetMapping() {
+    Controls.currentKeyboardJump = Controls.DEFAULT_KEYBOARD_JUMP;
+    Controls.currentKeyboardAttack1 = Controls.DEFAULT_KEYBOARD_ATTACK_1;
+    Controls.currentKeyboardAttack2 = Controls.DEFAULT_KEYBOARD_ATTACK_2;
+
+    Controls.currentGamepadJump = Controls.DEFAULT_GAMEPAD_JUMP;
+    Controls.currentGamepadAttack1 = Controls.DEFAULT_GAMEPAD_ATTACK_1;
+    Controls.currentGamepadAttack2 = Controls.DEFAULT_GAMEPAD_ATTACK_2;
+  }
 }
