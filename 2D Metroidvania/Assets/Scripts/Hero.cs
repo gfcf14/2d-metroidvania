@@ -95,10 +95,10 @@ public class Hero : MonoBehaviour {
   [System.NonSerialized] public int exp = 343;
   [System.NonSerialized] public int next = 350;
   [System.NonSerialized] public int gold = 650;
-  [System.NonSerialized] public int atkLeft = 5;
-  [System.NonSerialized] public int atkRight = 10;
-  [System.NonSerialized] public int defLeft = 5;
-  [System.NonSerialized] public int defRight = 10;
+  [System.NonSerialized] public int atk1 = 5;
+  [System.NonSerialized] public int atk2 = 10;
+  [System.NonSerialized] public int def1 = 5;
+  [System.NonSerialized] public int def2 = 10;
   [System.NonSerialized] public float luckPercentage = 0.2f;
   [System.NonSerialized] public float criticalPercentage = 0.5f;
   [System.NonSerialized] public string location = "meadows";

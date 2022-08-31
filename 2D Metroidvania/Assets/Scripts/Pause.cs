@@ -7,14 +7,16 @@ using System;
 
 public class Pause : MonoBehaviour {
   // Canvases
-  [SerializeField] EventSystem eventSystem;
+  [Header("Canvases")]
   [SerializeField] GameObject mainCanvas;
   [SerializeField] GameObject optionsCanvas;
   [SerializeField] GameObject controlsCanvas;
   [SerializeField] GameObject preferredInputCanvas;
   [SerializeField] GameObject quitCanvas;
+  [Space(10)]
 
   // Objects to select first upon reaching a canvas
+  [Header("First Selections")]
   [SerializeField] GameObject pauseFirstSelected;
   [SerializeField] GameObject optionsButton;
   [SerializeField] GameObject optionsFirstSelected;
@@ -24,22 +26,42 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject preferredInputFirstSelected;
   [SerializeField] GameObject quitButton;
   [SerializeField] GameObject quitFirstSelected;
+  [Space(10)]
 
   // Control buttons
+  [Header("Jump Controls")]
   [SerializeField] GameObject jumpButton;
+  [SerializeField] GameObject jumpKeyboardImage;
+  [SerializeField] GameObject jumpGamepadImage;
+  [Space(10)]
+
+  [Header("ATK1 Controls")]
   [SerializeField] GameObject atk1Button;
+  [SerializeField] GameObject atk1KeyboardImage;
+  [SerializeField] GameObject atk1GamepadImage;
+  [Space(10)]
+
+  [Header("ATK2 Controls")]
   [SerializeField] GameObject atk2Button;
+  [SerializeField] GameObject atk2KeyboardImage;
+  [SerializeField] GameObject atk2GamepadImage;
+  [Space(10)]
 
   // Awaiting Input Objects
+  [Header("Awaiting Input Labels")]
   [SerializeField] GameObject jumpAwaitLabel;
   [SerializeField] GameObject atk1AwaitLabel;
   [SerializeField] GameObject atk2AwaitLabel;
+  [Space(10)]
 
   // main footer legends
+  [Header("Footer Legends")]
   [SerializeField] GameObject mainButtonPanel;
   [SerializeField] GameObject mainKeysPanel;
+  [Space(10)]
 
-  // dynamic objects
+  // dynamic hero objects
+  [Header("Hero Objects")]
   [SerializeField] GameObject hero;
   [SerializeField] GameObject playerAvatar;
   [SerializeField] GameObject level;
@@ -51,13 +73,17 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject expObject;
   [SerializeField] GameObject nextObject;
   [SerializeField] GameObject goldObject;
-  [SerializeField] GameObject atkLeftObject;
-  [SerializeField] GameObject atkRightObject;
-  [SerializeField] GameObject defLeftObject;
-  [SerializeField] GameObject defRightObject;
+  [SerializeField] GameObject atk1Object;
+  [SerializeField] GameObject atk2Object;
+  [SerializeField] GameObject def1Object;
+  [SerializeField] GameObject def2Object;
   [SerializeField] GameObject luck;
   [SerializeField] GameObject critical;
   [SerializeField] GameObject locationObject;
+  [Space(10)]
+
+  // magic resistances
+  [Header("Magic Resistances")]
   [SerializeField] GameObject resistance1Object;
   [SerializeField] GameObject resistance2Object;
   [SerializeField] GameObject resistance3Object;
@@ -67,7 +93,13 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject resistance7Object;
   [SerializeField] GameObject resistance8Object;
   [SerializeField] GameObject magicEmptyObject;
+  [Space(10)]
+
+  // miscellaneous
+  [Header("Miscellaneous")]
   [SerializeField] GameObject preferredInputObject;
+  [SerializeField] EventSystem eventSystem;
+  [Space(10)]
 
   [System.NonSerialized] bool hasGamepad = false;
 
@@ -83,15 +115,21 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] int exp = -1;
   [System.NonSerialized] int next = -1;
   [System.NonSerialized] int gold = -1;
-  [System.NonSerialized] int atkLeft = -1;
-  [System.NonSerialized] int atkRight = -1;
-  [System.NonSerialized] int defLeft = -1;
-  [System.NonSerialized] int defRight = -1;
+  [System.NonSerialized] int atk1 = -1;
+  [System.NonSerialized] int atk2 = -1;
+  [System.NonSerialized] int def1 = -1;
+  [System.NonSerialized] int def2 = -1;
   [System.NonSerialized] float luckPercentage = -0.1f;
   [System.NonSerialized] float criticalPercentage = -0.1f;
   [System.NonSerialized] string location = "";
   [System.NonSerialized] string magicResistances = " ";
   [System.NonSerialized] string preferredInputString = "";
+  [System.NonSerialized] string jumpKeyboardString = "";
+  [System.NonSerialized] string jumpGamepadString = "";
+  [System.NonSerialized] string atk1KeyboardString = "";
+  [System.NonSerialized] string atk1GamepadString = "";
+  [System.NonSerialized] string atk2KeyboardString = "";
+  [System.NonSerialized] string atk2GamepadString = "";
 
   // current mapping button
   [System.NonSerialized] public static string currentlyMapping = "";
@@ -103,107 +141,10 @@ public class Pause : MonoBehaviour {
 
   void Update() {
     CheckIfGamepad();
-
-    if (preferredInputString != Constants.preferredInput) {
-      preferredInputString = Constants.preferredInput;
-
-      preferredInputObject.GetComponent<Text>().text = preferredInputString.ToUpper();
-    }
-
-    if (playerEquipment != heroScript.playerEquipment) {
-      playerAvatar.GetComponent<Image>().sprite = Sprites.pauseAvatars[heroScript.playerEquipment];
-    }
-
-    if (playerLevel != heroScript.playerLevel) {
-      level.GetComponent<Text>().text = (heroScript.playerLevel).ToString();
-    }
-
-    if (currentHP != heroScript.currentHP) {
-      currentHPObject.GetComponent<Text>().text = (heroScript.currentHP).ToString();
-    }
-
-    if (maxHP != heroScript.maxHP) {
-      totalHP.GetComponent<Text>().text = (heroScript.maxHP).ToString();
-    }
-
-    if (currentMP != heroScript.currentMP) {
-      currentMPObject.GetComponent<Text>().text = (heroScript.currentMP).ToString();
-    }
-
-    if (maxMP != heroScript.maxMP) {
-      totalMP.GetComponent<Text>().text = (heroScript.maxMP).ToString();
-    }
-
-    if (status != heroScript.status) {
-      string statusString = (heroScript.status).ToString();
-      statusObject.GetComponent<Text>().text = char.ToUpper(statusString[0]) + statusString.Substring(1);
-    }
-
-    if (exp != heroScript.exp) {
-      expObject.GetComponent<Text>().text = (heroScript.exp).ToString();
-    }
-
-    if (next != heroScript.next) {
-      nextObject.GetComponent<Text>().text = (heroScript.next).ToString();
-    }
-
-    if (gold != heroScript.gold) {
-      goldObject.GetComponent<Text>().text = (heroScript.gold).ToString();
-    }
-
-    if (atkLeft != heroScript.atkLeft) {
-      atkLeftObject.GetComponent<Text>().text = (heroScript.atkLeft).ToString();
-    }
-
-    if (atkRight != heroScript.atkRight) {
-      atkRightObject.GetComponent<Text>().text = (heroScript.atkRight).ToString();
-    }
-
-    if (defLeft != heroScript.defLeft) {
-      defLeftObject.GetComponent<Text>().text = (heroScript.defLeft).ToString();
-    }
-
-    if (defRight != heroScript.defRight) {
-      defRightObject.GetComponent<Text>().text = (heroScript.defRight).ToString();
-    }
-
-    if (criticalPercentage != heroScript.criticalPercentage) {
-      critical.GetComponent<Text>().text = ((int)(heroScript.criticalPercentage * 100)).ToString() + " %";
-    }
-
-    if (luckPercentage != heroScript.luckPercentage) {
-      luck.GetComponent<Text>().text = ((int)(heroScript.luckPercentage * 100)).ToString() + " %";
-    }
-
-    if (location != heroScript.location) {
-      locationObject.GetComponent<Image>().sprite = Sprites.locationImages[heroScript.location];
-    }
-
-    string currentMagicResistances = String.Join(",", heroScript.magicResistances);
-
-    if (magicResistances != currentMagicResistances) {
-      GameObject[] magicResistanceObjects = new GameObject[] {resistance1Object, resistance2Object, resistance3Object, resistance4Object, resistance5Object, resistance6Object, resistance7Object, resistance8Object};
-      string[] heroMagicResistances = heroScript.magicResistances;
-
-      if (heroMagicResistances.Length > 1) {
-        magicEmptyObject.SetActive(false);
-      } else {
-        magicEmptyObject.SetActive(true);
-      }
-
-      int i = 0;
-      foreach (GameObject currMagicResistanceObject in magicResistanceObjects) {
-        if (i >= heroMagicResistances.Length) {
-          currMagicResistanceObject.GetComponent<Image>().color = new Color(0, 0, 0, 0);
-        } else {
-          currMagicResistanceObject.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-          currMagicResistanceObject.GetComponent<Image>().sprite = Sprites.magicResistances[heroMagicResistances[i]];
-        }
-        i++;
-      }
-
-      magicResistances = currentMagicResistances;
-    }
+    UpdateControls();
+    UpdatePreferredInput();
+    UpdatePlayerStats();
+    UpdateMagicResistances();
   }
 
   void FadeOut() {
@@ -294,6 +235,160 @@ public class Pause : MonoBehaviour {
       ShowGamePadOptions();
     } else if ((!hasGamepad || Constants.preferredInput == "keyboard") && mainKeysPanel.activeInHierarchy == false) {
       ShowKeyboardOptions();
+    }
+  }
+
+  void UpdateControls() {
+    if (jumpKeyboardString != Controls.currentKeyboardJump) {
+      jumpKeyboardString = Controls.currentKeyboardJump;
+      jumpKeyboardImage.GetComponent<Image>().sprite = Sprites.keycodeSprites[jumpKeyboardString];
+    }
+
+    if (jumpGamepadString != Controls.currentGamepadJump) {
+      jumpGamepadString = Controls.currentGamepadJump;
+      jumpGamepadImage.GetComponent<Image>().sprite = Sprites.keycodeSprites[jumpGamepadString];
+    }
+
+    if (atk1KeyboardString != Controls.currentKeyboardAttack1) {
+      atk1KeyboardString = Controls.currentKeyboardAttack1;
+      atk1KeyboardImage.GetComponent<Image>().sprite = Sprites.keycodeSprites[atk1KeyboardString];
+    }
+
+    if (atk1GamepadString != Controls.currentGamepadAttack1) {
+      atk1GamepadString = Controls.currentGamepadAttack1;
+      atk1GamepadImage.GetComponent<Image>().sprite = Sprites.keycodeSprites[atk1GamepadString];
+    }
+
+    if (atk2KeyboardString != Controls.currentKeyboardAttack2) {
+      atk2KeyboardString = Controls.currentKeyboardAttack2;
+      atk2KeyboardImage.GetComponent<Image>().sprite = Sprites.keycodeSprites[atk2KeyboardString];
+    }
+
+    if (atk2GamepadString != Controls.currentGamepadAttack2) {
+      atk2GamepadString = Controls.currentGamepadAttack2;
+      atk2GamepadImage.GetComponent<Image>().sprite = Sprites.keycodeSprites[atk2GamepadString];
+    }
+  }
+
+  void UpdatePreferredInput() {
+    if (preferredInputString != Constants.preferredInput) {
+      preferredInputString = Constants.preferredInput;
+      preferredInputObject.GetComponent<Text>().text = preferredInputString.ToUpper();
+    }
+  }
+
+  void UpdatePlayerStats() {
+    if (playerEquipment != heroScript.playerEquipment) {
+      playerEquipment = heroScript.playerEquipment;
+      playerAvatar.GetComponent<Image>().sprite = Sprites.pauseAvatars[playerEquipment];
+    }
+
+    if (playerLevel != heroScript.playerLevel) {
+      playerLevel = heroScript.playerLevel;
+      level.GetComponent<Text>().text = (playerLevel).ToString();
+    }
+
+    if (currentHP != heroScript.currentHP) {
+      currentHP = heroScript.currentHP;
+      currentHPObject.GetComponent<Text>().text = (currentHP).ToString();
+    }
+
+    if (maxHP != heroScript.maxHP) {
+      maxHP = heroScript.maxHP;
+      totalHP.GetComponent<Text>().text = (maxHP).ToString();
+    }
+
+    if (currentMP != heroScript.currentMP) {
+      currentMP = heroScript.currentMP;
+      currentMPObject.GetComponent<Text>().text = (currentMP).ToString();
+    }
+
+    if (maxMP != heroScript.maxMP) {
+      maxMP = heroScript.maxMP;
+      totalMP.GetComponent<Text>().text = (maxMP).ToString();
+    }
+
+    if (status != heroScript.status) {
+      status = heroScript.status;
+      statusObject.GetComponent<Text>().text = char.ToUpper(status[0]) + status.Substring(1);
+    }
+
+    if (exp != heroScript.exp) {
+      exp = heroScript.exp;
+      expObject.GetComponent<Text>().text = (exp).ToString();
+    }
+
+    if (next != heroScript.next) {
+      next = heroScript.next;
+      nextObject.GetComponent<Text>().text = (next).ToString();
+    }
+
+    if (gold != heroScript.gold) {
+      gold = heroScript.gold;
+      goldObject.GetComponent<Text>().text = (gold).ToString();
+    }
+
+    if (atk1 != heroScript.atk1) {
+      atk1 = heroScript.atk1;
+      atk1Object.GetComponent<Text>().text = (atk1).ToString();
+    }
+
+    if (atk2 != heroScript.atk2) {
+      atk2 = heroScript.atk2;
+      atk2Object.GetComponent<Text>().text = (atk2).ToString();
+    }
+
+    if (def1 != heroScript.def1) {
+      def1 = heroScript.def1;
+      def1Object.GetComponent<Text>().text = (def1).ToString();
+    }
+
+    if (def2 != heroScript.def2) {
+      def2 = heroScript.def2;
+      def2Object.GetComponent<Text>().text = (def2).ToString();
+    }
+
+    if (criticalPercentage != heroScript.criticalPercentage) {
+      criticalPercentage = heroScript.criticalPercentage;
+      critical.GetComponent<Text>().text = ((int)(criticalPercentage * 100)).ToString() + " %";
+    }
+
+    if (luckPercentage != heroScript.luckPercentage) {
+      luckPercentage = heroScript.luckPercentage;
+      luck.GetComponent<Text>().text = ((int)(luckPercentage * 100)).ToString() + " %";
+    }
+
+    if (location != heroScript.location) {
+      location = heroScript.location;
+      locationObject.GetComponent<Image>().sprite = Sprites.locationImages[location];
+    }
+  }
+
+  void UpdateMagicResistances() {
+    string currentMagicResistances = String.Join(",", heroScript.magicResistances);
+
+    if (magicResistances != currentMagicResistances) {
+      GameObject[] magicResistanceObjects = new GameObject[] {resistance1Object, resistance2Object, resistance3Object, resistance4Object, resistance5Object, resistance6Object, resistance7Object, resistance8Object};
+      string[] heroMagicResistances = heroScript.magicResistances;
+
+      if (heroMagicResistances.Length > 1) {
+        magicEmptyObject.SetActive(false);
+      } else {
+        magicEmptyObject.SetActive(true);
+      }
+
+      int i = 0;
+      foreach (GameObject currMagicResistanceObject in magicResistanceObjects) {
+        if (i >= heroMagicResistances.Length) {
+          currMagicResistanceObject.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+        } else {
+          currMagicResistanceObject.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+          currMagicResistanceObject.GetComponent<Image>().sprite = Sprites.magicResistances[heroMagicResistances[i]];
+        }
+        i++;
+      }
+
+      magicResistances = currentMagicResistances;
     }
   }
 
