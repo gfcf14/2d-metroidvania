@@ -501,6 +501,8 @@ public class Pause : MonoBehaviour {
       default:
         break;
     }
+
+    currentlyMapping = "";
   }
 
   public void ResetMapping() {

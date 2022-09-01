@@ -255,14 +255,16 @@ public class Hero : MonoBehaviour {
 
         if (isPaused && Pause.currentlyMapping != "") {
           // do something to interact with Pause here
-          if (canMap) {
-            if (!Helpers.IsForbiddenToRemap(currentKey.ToString())) {
-              // Debug.Log("Now trying to map: " + currentKey);
-              pauseCanvas.GetComponent<Pause>().FinishMapping(currentKey.ToString());
-              canMap = false;
+          if ((currentKey.ToString()).Contains("JoystickButton") && Input.GetJoystickNames()[0] != "") {
+            if (canMap) {
+              if (!Helpers.IsForbiddenToRemap(currentKey.ToString())) {
+                // Debug.Log("Now trying to map: " + currentKey);
+                pauseCanvas.GetComponent<Pause>().FinishMapping(currentKey.ToString());
+                canMap = false;
+              }
+            } else {
+              canMap = true;
             }
-          } else {
-            canMap = true;
           }
         }
       } else if (Time.time > timeoutTime && userInput.Length > 0) { // input is cleared
