@@ -255,7 +255,7 @@ public class Hero : MonoBehaviour {
 
         if (isPaused && Pause.currentlyMapping != "") {
           // do something to interact with Pause here
-          if ((currentKey.ToString()).Contains("JoystickButton") && Input.GetJoystickNames()[0] != "") {
+          if (((currentKey.ToString()).Contains("JoystickButton") && Input.GetJoystickNames()[0] != "") || !(currentKey.ToString()).Contains("Joystick")) {
             if (canMap) {
               if (!Helpers.IsForbiddenToRemap(currentKey.ToString())) {
                 // Debug.Log("Now trying to map: " + currentKey);
