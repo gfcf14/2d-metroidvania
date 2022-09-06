@@ -254,11 +254,9 @@ public class Hero : MonoBehaviour {
         // }
 
         if (isPaused && Pause.currentlyMapping != "") {
-          // do something to interact with Pause here
           if (((currentKey.ToString()).Contains("JoystickButton") && Input.GetJoystickNames()[0] != "") || !(currentKey.ToString()).Contains("Joystick")) {
             if (canMap) {
               if (!Helpers.IsForbiddenToRemap(currentKey.ToString())) {
-                // Debug.Log("Now trying to map: " + currentKey);
                 pauseCanvas.GetComponent<Pause>().FinishMapping(currentKey.ToString());
                 canMap = false;
               }
@@ -403,6 +401,18 @@ public class Hero : MonoBehaviour {
     if (Helpers.IsPauseKeyUp()) {
       isPaused = !isPaused;
       Helpers.TogglePause(isPaused, pauseCanvas);
+    }
+
+    if (Helpers.IsBackKeyDown() && isPaused) {
+      // do not perform "BACK" if a key is being mapped
+      if (Pause.canvasStatus != "mapping") {
+        if (Pause.canvasStatus == "main") {
+          isPaused = !isPaused;
+          Helpers.TogglePause(isPaused, pauseCanvas);
+        } else {
+          pauseCanvas.GetComponent<Pause>().PerformBack();
+        }
+      }
     }
 
     if (isDropKicking) {

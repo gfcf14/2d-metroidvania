@@ -72,6 +72,9 @@ public class Helpers {
   public static bool IsPauseKeyUp() {
     return Input.GetKeyUp(KeyCode.Escape) || Input.GetKeyUp(KeyCode.JoystickButton9);
   }
+  public static bool IsBackKeyDown() {
+    return Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.JoystickButton0);
+  }
 
   public static bool IsForbiddenToRemap(string keyCode) {
     return System.Array.IndexOf(Constants.forbiddenKeys, keyCode) != -1 || keyCode.Contains("Mouse") || keyCode.Contains("Button9");

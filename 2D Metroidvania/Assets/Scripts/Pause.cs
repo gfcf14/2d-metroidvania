@@ -133,6 +133,8 @@ public class Pause : MonoBehaviour {
 
   // current mapping button
   [System.NonSerialized] public static string currentlyMapping = "";
+  // current pause status (to match with canvas display)
+  [System.NonSerialized] public static string canvasStatus = "main";
 
   void Start() {
     heroScript = hero.GetComponent<Hero>();
@@ -148,6 +150,7 @@ public class Pause : MonoBehaviour {
   }
 
   void FadeOut() {
+    canvasStatus = "";
     optionsCanvas.SetActive(false);
     controlsCanvas.SetActive(false);
     preferredInputCanvas.SetActive(false);
@@ -159,10 +162,12 @@ public class Pause : MonoBehaviour {
   }
 
   void SelectItemsButton() {
+    canvasStatus = "main";
     eventSystem.SetSelectedGameObject(pauseFirstSelected, new BaseEventData(eventSystem));
   }
 
   public void ShowOptionsCanvas() {
+    canvasStatus = "options";
     mainCanvas.SetActive(false);
     optionsCanvas.SetActive(true);
 
@@ -170,6 +175,7 @@ public class Pause : MonoBehaviour {
   }
 
   public void ShowControlsCanvas() {
+    canvasStatus = "options_controls";
     optionsCanvas.SetActive(false);
     controlsCanvas.SetActive(true);
 
@@ -177,6 +183,7 @@ public class Pause : MonoBehaviour {
   }
 
   public void ShowPreferredInputCanvas() {
+    canvasStatus = "options_preferred-input";
     optionsCanvas.SetActive(false);
     preferredInputCanvas.SetActive(true);
 
@@ -184,6 +191,7 @@ public class Pause : MonoBehaviour {
   }
 
   public void ShowQuitCanvas() {
+    canvasStatus = "quit";
     mainCanvas.SetActive(false);
     quitCanvas.SetActive(true);
 
@@ -191,6 +199,7 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToMainFromOptions() {
+    canvasStatus = "main";
     optionsCanvas.SetActive(false);
     mainCanvas.SetActive(true);
 
@@ -198,6 +207,7 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToOptionsFromControls() {
+    canvasStatus = "options";
     controlsCanvas.SetActive(false);
     optionsCanvas.SetActive(true);
 
@@ -205,6 +215,7 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToOptionsFromPreferredInput() {
+    canvasStatus = "options";
     preferredInputCanvas.SetActive(false);
     optionsCanvas.SetActive(true);
 
@@ -212,10 +223,31 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToMainFromQuit() {
+    canvasStatus = "main";
     quitCanvas.SetActive(false);
     mainCanvas.SetActive(true);
 
     eventSystem.SetSelectedGameObject(quitButton, new BaseEventData(eventSystem));
+  }
+
+  public void PerformBack() {
+    switch (canvasStatus) {
+      case "options":
+        GoBackToMainFromOptions();
+      break;
+      case "options_controls":
+        GoBackToOptionsFromControls();
+      break;
+      case "options_preferred-input":
+        GoBackToOptionsFromPreferredInput();
+      break;
+      case "quit":
+        GoBackToMainFromQuit();
+      break;
+      default:
+        Debug.Log("unknown canvas status: " + canvasStatus);
+      break;
+    }
   }
 
   public void QuitGame() {
@@ -411,6 +443,7 @@ public class Pause : MonoBehaviour {
   }
 
   public void AwaitInput(String key) {
+    canvasStatus = "mapping";
     eventSystem.SetSelectedGameObject(null, new BaseEventData(eventSystem));
 
     switch(key) {
@@ -424,6 +457,7 @@ public class Pause : MonoBehaviour {
         atk2AwaitLabel.SetActive(true);
         break;
       default:
+        Debug.Log("Unknown await case: " + key);
         break;
     }
 
@@ -499,10 +533,12 @@ public class Pause : MonoBehaviour {
         eventSystem.SetSelectedGameObject(atk2Button, new BaseEventData(eventSystem));
         break;
       default:
+        Debug.Log("unknown map case: " + currentlyMapping);
         break;
     }
 
     currentlyMapping = "";
+    canvasStatus = "options_controls";
   }
 
   public void ResetMapping() {
