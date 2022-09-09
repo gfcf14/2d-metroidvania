@@ -31,6 +31,15 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject quitFirstSelected;
   [Space(10)]
 
+  // Item Objects
+  [Header("Item Objects")]
+  [SerializeField] GameObject itemsContainer;
+  [SerializeField] GameObject itemImage;
+  [SerializeField] GameObject itemName;
+  [SerializeField] GameObject itemDescription;
+  [SerializeField] GameObject itemUseRectangle;
+  [Space(10)]
+
   // Control buttons
   [Header("Jump Controls")]
   [SerializeField] GameObject jumpButton;
@@ -101,7 +110,6 @@ public class Pause : MonoBehaviour {
   // miscellaneous
   [Header("Miscellaneous")]
   [SerializeField] GameObject preferredInputObject;
-  [SerializeField] GameObject itemsContainer;
   [SerializeField] EventSystem eventSystem;
   [Space(10)]
 
@@ -141,6 +149,7 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] public static string canvasStatus = "main";
   // items list for added item buttons
   [System.NonSerialized] public List<GameObject> itemButtons = new List<GameObject>();
+  [System.NonSerialized] public int currentItemButtonIndex = -1;
 
   void Start() {
     heroScript = hero.GetComponent<Hero>();
@@ -153,6 +162,12 @@ public class Pause : MonoBehaviour {
     UpdatePreferredInput();
     UpdatePlayerStats();
     UpdateMagicResistances();
+    UpdateItemView();
+
+    // if canvasStatus is items and selection changed (catch with onKeyDown in Hero?)
+      // loop through itemButtons
+        // if any of these is the current selected
+          // set text, image, etc.
   }
 
   void FadeOut() {
@@ -184,6 +199,11 @@ public class Pause : MonoBehaviour {
     itemButtons.Clear();
 
     // adds all items in the hero item list
+    PopulateItemsContainer();
+    eventSystem.SetSelectedGameObject(itemButtons.ElementAt(0), new BaseEventData(eventSystem));
+  }
+
+  void PopulateItemsContainer() {
     int i = 0;
     foreach(Item currentItem in heroScript.items) {
       string currentKey = currentItem.key;
@@ -227,8 +247,30 @@ public class Pause : MonoBehaviour {
 
       i++;
     }
+  }
 
-    eventSystem.SetSelectedGameObject(itemButtons.ElementAt(0), new BaseEventData(eventSystem));
+  void UpdateItemView() {
+    if (canvasStatus == "items" && itemButtons.Count > 0) {
+      int i = 0;
+      foreach(GameObject currentItemButton in itemButtons) {
+        if (eventSystem.currentSelectedGameObject == currentItemButton) {
+          SetItemInfo(i);
+          break;
+        }
+
+        i++;
+      }
+    }
+  }
+
+  void SetItemInfo(int index) {
+    currentItemButtonIndex = index;
+
+    PauseItem currentPauseItem = Objects.pauseItems[heroScript.items.ElementAt(currentItemButtonIndex).key];
+    itemName.GetComponent<Text>().text = currentPauseItem.name.ToUpper();
+    itemImage.GetComponent<Image>().sprite = currentPauseItem.image;
+    itemDescription.GetComponent<Text>().text = currentPauseItem.description;
+    itemUseRectangle.SetActive(Helpers.IsUsableItem(currentPauseItem.type));
   }
 
   public void ShowOptionsCanvas() {
@@ -265,6 +307,7 @@ public class Pause : MonoBehaviour {
 
   public void GoBackToMainFromItems() {
     canvasStatus = "main";
+    itemUseRectangle.SetActive(false);
     itemsCanvas.SetActive(false);
     mainCanvas.SetActive(true);
 

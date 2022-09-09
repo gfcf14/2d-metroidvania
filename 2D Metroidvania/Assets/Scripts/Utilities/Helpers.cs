@@ -19,6 +19,10 @@ public class Helpers {
     return System.Array.IndexOf(Constants.smallRotatingThrowables, type) != -1;
   }
 
+  public static bool IsUsableItem(string type) {
+    return System.Array.IndexOf(Constants.usableItemTypes, type) != -1;
+  }
+
   public static Color GetColorFromResistances(string[] elementResistances) {
     int resistancesLength = elementResistances.Length;
 

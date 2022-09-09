@@ -12,4 +12,6 @@ public class Constants {
 
   public static float startItemY = 252;
   public static float itemIncrementY = -48;
+
+  public static string[] usableItemTypes = {"food", "potion"};
 }
