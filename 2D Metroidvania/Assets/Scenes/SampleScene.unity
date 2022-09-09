@@ -466,7 +466,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -778.109
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -813,7 +813,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: QUIT
+  m_Text: PAUSE > QUIT
 --- !u!222 &45292909
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1050,7 +1050,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ITEMS
+  m_Text: PAUSE > ITEMS
 --- !u!222 &65238187
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1841,7 +1841,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -792.1697
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -3747,7 +3747,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &299332789
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6057,7 +6057,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -518.4797
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -7374,7 +7374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &703887124
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8901,7 +8901,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PAUSE > CONTROLS
+  m_Text: PAUSE > OPTIONS > CONTROLS
 --- !u!222 &846601855
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17323,7 +17323,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1437520756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17437,6 +17437,7 @@ MonoBehaviour:
   quitFirstSelected: {fileID: 846177675}
   itemsContainer: {fileID: 1123726119}
   itemImage: {fileID: 2134287771}
+  itemName: {fileID: 2107502603}
   itemDescription: {fileID: 1049455697}
   itemUseRectangle: {fileID: 174715834}
   jumpButton: {fileID: 708334161}
@@ -20712,7 +20713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1774517607
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23021,7 +23022,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PAUSE > PREFERRED INPUT
+  m_Text: PAUSE > OPTIONS > PREFERRED INPUT
 --- !u!222 &1929044949
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -24671,7 +24672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2077960037
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26784,7 +26785,7 @@ GameObject:
   - component: {fileID: 2107502606}
   - component: {fileID: 2107502605}
   m_Layer: 5
-  m_Name: ItemTitle
+  m_Name: ItemName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28547,7 +28548,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: OPTIONS
+  m_Text: PAUSE > OPTIONS
 --- !u!222 &2145277200
 CanvasRenderer:
   m_ObjectHideFlags: 0
