@@ -31,3 +31,23 @@ public class ArrowObject {
 
   public int gravityResistance;
 }
+
+public class Item {
+  public string key { get; set; }
+  public int amount { get; set; }
+
+  public Item(string key, int amount) {
+    this.key = key;
+    this.amount = amount;
+  }
+}
+
+public class PauseItem {
+  public Sprite thumbnail;
+  public Sprite image;
+  public string name;
+  public string description;
+  public string type;
+
+  // TODO: add values to increase player stats (atk, def, two-handed, etc.)
+}

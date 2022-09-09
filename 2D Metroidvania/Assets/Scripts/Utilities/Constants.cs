@@ -9,4 +9,7 @@ public class Constants {
   public static string[] smallRotatingThrowables = { "shuriken-4", "shuriken-6", "hatchet" };
   public static string[] forbiddenKeys = {"Escape", "KeypadEnter", "Return", "W", "A", "S", "D", "UpArrow", "DownArrow", "RightArrow", "LeftArrow"};
   public static int arrowExplosionDamage = 50;
+
+  public static float startItemY = 252;
+  public static float itemIncrementY = -48;
 }

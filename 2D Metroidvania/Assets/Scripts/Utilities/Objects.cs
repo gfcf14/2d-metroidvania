@@ -8,6 +8,7 @@ public class Objects {
     {"arrow-burn", Resources.Load("Prefabs/ArrowBurn") as GameObject},
     {"arrow-explosion", Resources.Load("Prefabs/ArrowExplosion") as GameObject},
     {"enemy-explosion", Resources.Load("Prefabs/EnemyExplosion") as GameObject},
+    {"item-button", Resources.Load("Prefabs/ItemButton") as GameObject},
     {"pierce", Resources.Load("Prefabs/Pierce") as GameObject},
     {"throwable", Resources.Load("Prefabs/Throwable") as GameObject}
   };
@@ -27,5 +28,12 @@ public class Objects {
     {"shuriken-6", new ThrowableObject() {hasExtra = false, hasAnim = false, initialAngle = 0f, startX = 0.75f, startY = 0.75f, gravityResistance = 0, maxDistance = 4, colliderOffset = new Vector2(0, 0), colliderSize = new Vector2(0.6f, 0.6f)}},
     {"hatchet", new ThrowableObject() {hasExtra = false, hasAnim = false, initialAngle = 0f, startX = 0.75f, startY = 0.75f, gravityResistance = 0, maxDistance = 4, colliderOffset = new Vector2(0.4f, 0), colliderSize = new Vector2(0.6f, 0.8f)}},
     {"axe", new ThrowableObject() {hasExtra = false, hasAnim = false, initialAngle = 0f, startX = 0.5f, startY = 0.5f, gravityResistance = 0, maxDistance = 4, colliderOffset = new Vector2(0.6f, 0), colliderSize = new Vector2(1.1f, 0.8f)}}
+  };
+
+  public static Dictionary<string, PauseItem> pauseItems = new Dictionary<string, PauseItem> {
+    {"basic-longsword", new PauseItem() { thumbnail=Sprites.itemThumbnails[0], image=Sprites.itemImages[0], name="Basic Longsword", description="Useful two-handed weapon.", type="double"}},
+    {"basic-sword", new PauseItem() { thumbnail=Sprites.itemThumbnails[1], image=Sprites.itemImages[1], name="Basic Sword", description="Standard adventurer's sword.", type="single"}},
+    {"basic-shield", new PauseItem() { thumbnail=Sprites.itemThumbnails[2], image=Sprites.itemImages[2], name="Basic Shield", description="Can also be used to start a campfire.", type="defense"}},
+    {"chicken-drumstick", new PauseItem() { thumbnail=Sprites.itemThumbnails[3], image=Sprites.itemImages[3], name="Chicken Drumstick", description="From range-free raised fowl.", type="food"}}
   };
 }

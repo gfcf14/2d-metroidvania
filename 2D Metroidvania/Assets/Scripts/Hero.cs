@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Hero : MonoBehaviour {
@@ -106,6 +107,8 @@ public class Hero : MonoBehaviour {
   // [System.NonSerialized] public string[] magicResistances = new string[] {"lightning", "dark", "earth"};
   // [System.NonSerialized] public string[] magicResistances = new string[] {};
 
+  [System.NonSerialized] public List<Item> items = new List<Item>();
+
   public int tiredThreshold = 40;
 
   private int maxShieldHP = 0;
@@ -144,6 +147,24 @@ public class Hero : MonoBehaviour {
     currentShieldRecoverTime = dummyShieldRecoverTime;
 
     arrowAnchor = transform.Find("ArrowAnchor").gameObject;
+
+    //test items
+    items.Add(new Item("chicken-drumstick", 5));
+    items.Add(new Item("basic-shield", 2));
+    items.Add(new Item("basic-sword", 1));
+    items.Add(new Item("basic-longsword", 1));
+    // items.Add(new Item("chicken-drumstick", 5));
+    // items.Add(new Item("basic-shield", 2));
+    // items.Add(new Item("basic-sword", 1));
+    // items.Add(new Item("basic-longsword", 1));
+    // items.Add(new Item("chicken-drumstick", 5));
+    // items.Add(new Item("basic-shield", 2));
+    // items.Add(new Item("basic-sword", 1));
+    // items.Add(new Item("basic-longsword", 1));
+    // items.Add(new Item("chicken-drumstick", 5));
+    // items.Add(new Item("basic-shield", 2));
+    // items.Add(new Item("basic-sword", 1));
+    // items.Add(new Item("basic-longsword", 1));
   }
 
   // called on every frame of the game

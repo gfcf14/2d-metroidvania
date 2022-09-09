@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -9,6 +10,7 @@ public class Pause : MonoBehaviour {
   // Canvases
   [Header("Canvases")]
   [SerializeField] GameObject mainCanvas;
+  [SerializeField] GameObject itemsCanvas;
   [SerializeField] GameObject optionsCanvas;
   [SerializeField] GameObject controlsCanvas;
   [SerializeField] GameObject preferredInputCanvas;
@@ -18,6 +20,7 @@ public class Pause : MonoBehaviour {
   // Objects to select first upon reaching a canvas
   [Header("First Selections")]
   [SerializeField] GameObject pauseFirstSelected;
+  [SerializeField] GameObject itemsButton;
   [SerializeField] GameObject optionsButton;
   [SerializeField] GameObject optionsFirstSelected;
   [SerializeField] GameObject controlsButton;
@@ -98,6 +101,7 @@ public class Pause : MonoBehaviour {
   // miscellaneous
   [Header("Miscellaneous")]
   [SerializeField] GameObject preferredInputObject;
+  [SerializeField] GameObject itemsContainer;
   [SerializeField] EventSystem eventSystem;
   [Space(10)]
 
@@ -135,6 +139,8 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] public static string currentlyMapping = "";
   // current pause status (to match with canvas display)
   [System.NonSerialized] public static string canvasStatus = "main";
+  // items list for added item buttons
+  [System.NonSerialized] public List<GameObject> itemButtons = new List<GameObject>();
 
   void Start() {
     heroScript = hero.GetComponent<Hero>();
@@ -164,6 +170,65 @@ public class Pause : MonoBehaviour {
   void SelectItemsButton() {
     canvasStatus = "main";
     eventSystem.SetSelectedGameObject(pauseFirstSelected, new BaseEventData(eventSystem));
+  }
+
+  public void ShowItemsCanvas() {
+    canvasStatus = "items";
+    mainCanvas.SetActive(false);
+    itemsCanvas.SetActive(true);
+
+    // destroys all current children of the items container to avoid duplicating
+    foreach (Transform child in itemsContainer.transform) {
+      GameObject.Destroy(child.gameObject);
+    }
+    itemButtons.Clear();
+
+    // adds all items in the hero item list
+    int i = 0;
+    foreach(Item currentItem in heroScript.items) {
+      string currentKey = currentItem.key;
+      int currentAmount = currentItem.amount;
+      PauseItem currentPauseItem = Objects.pauseItems[currentKey];
+
+      GameObject currentItemButton = Instantiate(Objects.prefabs["item-button"], Vector2.zero, Quaternion.identity);
+      currentItemButton.transform.SetParent(itemsContainer.transform);
+      currentItemButton.transform.position = new Vector2(itemsContainer.transform.position.x, itemsContainer.transform.position.y + Constants.startItemY + (i * Constants.itemIncrementY));
+      currentItemButton.transform.localScale = Vector3.one;
+      currentItemButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = currentPauseItem.thumbnail;
+      currentItemButton.transform.Find("Text").gameObject.GetComponent<Text>().text = currentPauseItem.name;
+      currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = currentAmount.ToString();
+
+      itemButtons.Add(currentItemButton);
+
+      if (i > 1 && i < heroScript.items.Count()) {
+        Navigation buttonNavigation = new Navigation();
+        buttonNavigation.mode = Navigation.Mode.Explicit;
+        buttonNavigation.selectOnDown = currentItemButton.GetComponent<Button>();
+        buttonNavigation.selectOnUp = itemButtons.ElementAt(i - 2).GetComponent<Button>();
+
+        itemButtons.ElementAt(i - 1).GetComponent<Button>().navigation = buttonNavigation;
+      }
+
+      if (i == heroScript.items.Count() - 1) {
+        Navigation lastButtonNavigation = new Navigation();
+        lastButtonNavigation.mode = Navigation.Mode.Explicit;
+        lastButtonNavigation.selectOnDown = itemButtons.ElementAt(0).GetComponent<Button>();
+        lastButtonNavigation.selectOnUp = itemButtons.ElementAt(i - 1).GetComponent<Button>();
+
+        itemButtons.ElementAt(i).GetComponent<Button>().navigation = lastButtonNavigation;
+
+        Navigation firstButtonNavigation = new Navigation();
+        firstButtonNavigation.mode = Navigation.Mode.Explicit;
+        firstButtonNavigation.selectOnDown = itemButtons.ElementAt(1).GetComponent<Button>();
+        firstButtonNavigation.selectOnUp = itemButtons.ElementAt(i).GetComponent<Button>();
+
+        itemButtons.ElementAt(0).GetComponent<Button>().navigation = firstButtonNavigation;
+      }
+
+      i++;
+    }
+
+    eventSystem.SetSelectedGameObject(itemButtons.ElementAt(0), new BaseEventData(eventSystem));
   }
 
   public void ShowOptionsCanvas() {
@@ -196,6 +261,14 @@ public class Pause : MonoBehaviour {
     quitCanvas.SetActive(true);
 
     eventSystem.SetSelectedGameObject(quitFirstSelected, new BaseEventData(eventSystem));
+  }
+
+  public void GoBackToMainFromItems() {
+    canvasStatus = "main";
+    itemsCanvas.SetActive(false);
+    mainCanvas.SetActive(true);
+
+    eventSystem.SetSelectedGameObject(itemsButton, new BaseEventData(eventSystem));
   }
 
   public void GoBackToMainFromOptions() {
@@ -232,6 +305,9 @@ public class Pause : MonoBehaviour {
 
   public void PerformBack() {
     switch (canvasStatus) {
+      case "items":
+        GoBackToMainFromItems();
+      break;
       case "options":
         GoBackToMainFromOptions();
       break;
