@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,6 +49,25 @@ public class PauseItem {
   public string name;
   public string description;
   public string type;
+
+  public PauseItem(Sprite thumbnail, Sprite image, string name, string description, string type) {
+    this.thumbnail = thumbnail;
+    this.image = image;
+
+    if (name.Length > Constants.maxItemNameLength) {
+      throw new Exception("An item name (\"" + name + "\") must not exceed " + Constants.maxItemNameLength + " characters");
+    } else {
+      this.name = name;
+    }
+
+    if (description.Length > Constants.maxItemDescriptionLength) {
+      throw new Exception("An item description (\"" + description + "\") must not exceed " + Constants.maxItemDescriptionLength + " characters");
+    } else {
+      this.description = description;
+    }
+
+    this.type = type;
+  }
 
   // TODO: add values to increase player stats (atk, def, two-handed, etc.)
 }

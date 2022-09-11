@@ -153,18 +153,6 @@ public class Hero : MonoBehaviour {
     items.Add(new Item("basic-shield", 2));
     items.Add(new Item("basic-sword", 1));
     items.Add(new Item("basic-longsword", 1));
-    // items.Add(new Item("chicken-drumstick", 5));
-    // items.Add(new Item("basic-shield", 2));
-    // items.Add(new Item("basic-sword", 1));
-    // items.Add(new Item("basic-longsword", 1));
-    // items.Add(new Item("chicken-drumstick", 5));
-    // items.Add(new Item("basic-shield", 2));
-    // items.Add(new Item("basic-sword", 1));
-    // items.Add(new Item("basic-longsword", 1));
-    // items.Add(new Item("chicken-drumstick", 5));
-    // items.Add(new Item("basic-shield", 2));
-    // items.Add(new Item("basic-sword", 1));
-    // items.Add(new Item("basic-longsword", 1));
   }
 
   // called on every frame of the game
@@ -273,6 +261,8 @@ public class Hero : MonoBehaviour {
         // } else if (userInput == "s") { // jumping?
         //   Jump();
         // }
+
+        // Debug.Log(currentKey.ToString());
 
         if (isPaused && Pause.currentlyMapping != "") {
           if (((currentKey.ToString()).Contains("JoystickButton") && Input.GetJoystickNames()[0] != "") || !(currentKey.ToString()).Contains("Joystick")) {

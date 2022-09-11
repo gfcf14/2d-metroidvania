@@ -30,10 +30,11 @@ public class Objects {
     {"axe", new ThrowableObject() {hasExtra = false, hasAnim = false, initialAngle = 0f, startX = 0.5f, startY = 0.5f, gravityResistance = 0, maxDistance = 4, colliderOffset = new Vector2(0.6f, 0), colliderSize = new Vector2(1.1f, 0.8f)}}
   };
 
+  // initialize constructable PauseItem objects by: new PauseItem(thumbnail, image, name, description, type)
   public static Dictionary<string, PauseItem> pauseItems = new Dictionary<string, PauseItem> {
-    {"basic-longsword", new PauseItem() { thumbnail=Sprites.itemThumbnails[0], image=Sprites.itemImages[0], name="Basic Longsword", description="Useful two-handed weapon.", type="double"}},
-    {"basic-sword", new PauseItem() { thumbnail=Sprites.itemThumbnails[1], image=Sprites.itemImages[1], name="Basic Sword", description="Standard adventurer's sword.", type="single"}},
-    {"basic-shield", new PauseItem() { thumbnail=Sprites.itemThumbnails[2], image=Sprites.itemImages[2], name="Basic Shield", description="Can also be used to start a campfire.", type="defense"}},
-    {"chicken-drumstick", new PauseItem() { thumbnail=Sprites.itemThumbnails[3], image=Sprites.itemImages[3], name="Chicken Drumstick", description="From range-free raised fowl.", type="food"}}
+    {"basic-longsword", new PauseItem(Sprites.itemThumbnails[0], Sprites.itemImages[0], "Basic Longsword", "Useful two-handed weapon.", "double")},
+    {"basic-sword", new PauseItem(Sprites.itemThumbnails[1], Sprites.itemImages[1], "Basic Sword", "Standard adventurer's sword.", "single")},
+    {"basic-shield", new PauseItem(Sprites.itemThumbnails[2], Sprites.itemImages[2], "Basic Shield", "Can also be used to start a campfire.", "defense")},
+    {"chicken-drumstick", new PauseItem(Sprites.itemThumbnails[3], Sprites.itemImages[3], "Chicken Drumstick", "From range-free raised fowl.", "food")}
   };
 }

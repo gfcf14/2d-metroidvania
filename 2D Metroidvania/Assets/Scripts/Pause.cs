@@ -38,6 +38,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject itemName;
   [SerializeField] GameObject itemDescription;
   [SerializeField] GameObject itemUseRectangle;
+  [SerializeField] GameObject itemUseYes;
   [Space(10)]
 
   // Control buttons
@@ -149,6 +150,7 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] public static string canvasStatus = "main";
   // items list for added item buttons
   [System.NonSerialized] public List<GameObject> itemButtons = new List<GameObject>();
+  // current index to display info
   [System.NonSerialized] public int currentItemButtonIndex = -1;
 
   void Start() {
@@ -172,6 +174,8 @@ public class Pause : MonoBehaviour {
 
   void FadeOut() {
     canvasStatus = "";
+    itemsCanvas.SetActive(false);
+    itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
     optionsCanvas.SetActive(false);
     controlsCanvas.SetActive(false);
     preferredInputCanvas.SetActive(false);
@@ -212,7 +216,7 @@ public class Pause : MonoBehaviour {
 
       GameObject currentItemButton = Instantiate(Objects.prefabs["item-button"], Vector2.zero, Quaternion.identity);
       currentItemButton.transform.SetParent(itemsContainer.transform);
-      currentItemButton.transform.position = new Vector2(itemsContainer.transform.position.x, itemsContainer.transform.position.y + Constants.startItemY + (i * Constants.itemIncrementY));
+      currentItemButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Constants.startItemY + (i * Constants.itemIncrementY * -1));
       currentItemButton.transform.localScale = Vector3.one;
       currentItemButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = currentPauseItem.thumbnail;
       currentItemButton.transform.Find("Text").gameObject.GetComponent<Text>().text = currentPauseItem.name;
@@ -245,8 +249,26 @@ public class Pause : MonoBehaviour {
         itemButtons.ElementAt(0).GetComponent<Button>().navigation = firstButtonNavigation;
       }
 
+      if (Helpers.IsUsableItem(currentPauseItem.type)) {
+        currentItemButton.GetComponent<Button>().onClick.AddListener(ProceedToUse);
+      }
+
       i++;
     }
+  }
+
+  public void ProceedToUse() {
+    canvasStatus = "items_use";
+    eventSystem.SetSelectedGameObject(itemUseYes, new BaseEventData(eventSystem));
+  }
+
+  public void UseItem() {
+    // TODO: decrement/remove from hero items array and add those stats to user. Possibly call a function from heroScript to do it there
+  }
+
+  public void CancelItemUse() {
+    canvasStatus = "items";
+    eventSystem.SetSelectedGameObject(itemButtons.ElementAt(currentItemButtonIndex), new BaseEventData(eventSystem));
   }
 
   void UpdateItemView() {
@@ -254,7 +276,38 @@ public class Pause : MonoBehaviour {
       int i = 0;
       foreach(GameObject currentItemButton in itemButtons) {
         if (eventSystem.currentSelectedGameObject == currentItemButton) {
-          SetItemInfo(i);
+          // do not change item view info if indices match; this means the item is already displaying
+          if (currentItemButtonIndex != i) {
+            int indexDifference = i - currentItemButtonIndex;
+            // going down
+            if (indexDifference == 1) {
+              if (i > Constants.maxItemContainerHeight - 1) {
+                int movingItemLocation = (int)(Constants.startItemY - (Constants.itemIncrementY * (Constants.maxItemContainerHeight - 1)));
+                int selectedItemLocation = (int)(itemButtons.ElementAt(i - 1).GetComponent<RectTransform>().anchoredPosition.y + itemsContainer.GetComponent<RectTransform>().anchoredPosition.y);
+
+                // to avoid moving the container up if the selected button is not at the bottom
+                if (selectedItemLocation == movingItemLocation) {
+                  itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(itemsContainer.GetComponent<RectTransform>().anchoredPosition.x, itemsContainer.GetComponent<RectTransform>().anchoredPosition.y + Constants.itemIncrementY);
+                }
+              }
+            } else if (indexDifference == -1) { //going up
+              if (i < Constants.maxItemContainerHeight + 2) {
+                int movingItemLocation = (int)(Constants.startItemY - (Constants.itemIncrementY * (heroScript.items.Count - Constants.maxItemContainerHeight)));
+                int selectedItemLocation = (int)(itemButtons.ElementAt(i).GetComponent<RectTransform>().anchoredPosition.y + (itemsContainer.GetComponent<RectTransform>().anchoredPosition.y - ((heroScript.items.Count + 1 - Constants.maxItemContainerHeight) * Constants.itemIncrementY)));
+
+                // to avoid moving the container down if the selected button is not at the top
+                if (selectedItemLocation == movingItemLocation) {
+                  itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(itemsContainer.GetComponent<RectTransform>().anchoredPosition.x, itemsContainer.GetComponent<RectTransform>().anchoredPosition.y - Constants.itemIncrementY);
+                }
+              }
+            } else if (indexDifference == heroScript.items.Count - 1 && heroScript.items.Count > Constants.maxItemContainerHeight) { // from first item to last
+              itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(itemsContainer.GetComponent<RectTransform>().anchoredPosition.x, (Constants.itemIncrementY * (heroScript.items.Count - Constants.maxItemContainerHeight)));
+            } else if (indexDifference == -(heroScript.items.Count - 1)) { // from last item to first
+              itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+            }
+
+            SetItemInfo(i);
+          }
           break;
         }
 
@@ -350,6 +403,9 @@ public class Pause : MonoBehaviour {
     switch (canvasStatus) {
       case "items":
         GoBackToMainFromItems();
+      break;
+      case "items_use":
+        CancelItemUse();
       break;
       case "options":
         GoBackToMainFromOptions();
