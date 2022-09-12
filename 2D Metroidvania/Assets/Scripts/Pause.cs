@@ -208,6 +208,7 @@ public class Pause : MonoBehaviour {
     // adds all items in the hero item list
     PopulateItemsContainer();
     Helpers.FocusUIElement(itemButtons.ElementAt(0));
+    SetItemInfo(0);
   }
 
   void PopulateItemsContainer() {
