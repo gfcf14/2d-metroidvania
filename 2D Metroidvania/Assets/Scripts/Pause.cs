@@ -61,10 +61,13 @@ public class Pause : MonoBehaviour {
   [Space(10)]
 
   // Awaiting Input Objects
-  [Header("Awaiting Input Labels")]
+  [Header("Awaiting Input")]
   [SerializeField] GameObject jumpAwaitLabel;
   [SerializeField] GameObject atk1AwaitLabel;
   [SerializeField] GameObject atk2AwaitLabel;
+  [SerializeField] GameObject resetButton;
+  [SerializeField] GameObject resetRectangle;
+  [SerializeField] GameObject resetYes;
   [Space(10)]
 
   // main footer legends
@@ -413,6 +416,9 @@ public class Pause : MonoBehaviour {
       case "options_controls":
         GoBackToOptionsFromControls();
       break;
+      case "options_controls_reset":
+        CancelReset();
+      break;
       case "options_preferred-input":
         GoBackToOptionsFromPreferredInput();
       break;
@@ -716,6 +722,12 @@ public class Pause : MonoBehaviour {
     canvasStatus = "options_controls";
   }
 
+  public void ProceedToReset() {
+    canvasStatus = "options_controls_reset";
+    resetRectangle.SetActive(true);
+    eventSystem.SetSelectedGameObject(resetYes, new BaseEventData(eventSystem));
+  }
+
   public void ResetMapping() {
     Controls.currentKeyboardJump = Controls.DEFAULT_KEYBOARD_JUMP;
     Controls.currentKeyboardAttack1 = Controls.DEFAULT_KEYBOARD_ATTACK_1;
@@ -724,5 +736,11 @@ public class Pause : MonoBehaviour {
     Controls.currentGamepadJump = Controls.DEFAULT_GAMEPAD_JUMP;
     Controls.currentGamepadAttack1 = Controls.DEFAULT_GAMEPAD_ATTACK_1;
     Controls.currentGamepadAttack2 = Controls.DEFAULT_GAMEPAD_ATTACK_2;
+  }
+
+  public void CancelReset() {
+    canvasStatus = "options_controls";
+    resetRectangle.SetActive(false);
+    eventSystem.SetSelectedGameObject(resetButton, new BaseEventData(eventSystem));
   }
 }
