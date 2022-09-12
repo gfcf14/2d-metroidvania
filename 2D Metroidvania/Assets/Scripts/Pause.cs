@@ -114,7 +114,7 @@ public class Pause : MonoBehaviour {
   // miscellaneous
   [Header("Miscellaneous")]
   [SerializeField] GameObject preferredInputObject;
-  [SerializeField] EventSystem eventSystem;
+  [SerializeField] public static EventSystem eventSystem;
   [Space(10)]
 
   [System.NonSerialized] bool hasGamepad = false;
@@ -185,13 +185,13 @@ public class Pause : MonoBehaviour {
     quitCanvas.SetActive(false);
     mainCanvas.SetActive(true);
     gameObject.SetActive(false);
-    eventSystem.SetSelectedGameObject(null, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(null);
     Time.timeScale = 1;
   }
 
   void SelectItemsButton() {
     canvasStatus = "main";
-    eventSystem.SetSelectedGameObject(pauseFirstSelected, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(pauseFirstSelected);
   }
 
   public void ShowItemsCanvas() {
@@ -207,7 +207,7 @@ public class Pause : MonoBehaviour {
 
     // adds all items in the hero item list
     PopulateItemsContainer();
-    eventSystem.SetSelectedGameObject(itemButtons.ElementAt(0), new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(itemButtons.ElementAt(0));
   }
 
   void PopulateItemsContainer() {
@@ -262,7 +262,7 @@ public class Pause : MonoBehaviour {
 
   public void ProceedToUse() {
     canvasStatus = "items_use";
-    eventSystem.SetSelectedGameObject(itemUseYes, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(itemUseYes);
   }
 
   public void UseItem() {
@@ -271,7 +271,7 @@ public class Pause : MonoBehaviour {
 
   public void CancelItemUse() {
     canvasStatus = "items";
-    eventSystem.SetSelectedGameObject(itemButtons.ElementAt(currentItemButtonIndex), new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(itemButtons.ElementAt(currentItemButtonIndex));
   }
 
   void UpdateItemView() {
@@ -334,7 +334,7 @@ public class Pause : MonoBehaviour {
     mainCanvas.SetActive(false);
     optionsCanvas.SetActive(true);
 
-    eventSystem.SetSelectedGameObject(optionsFirstSelected, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(optionsFirstSelected);
   }
 
   public void ShowControlsCanvas() {
@@ -342,7 +342,7 @@ public class Pause : MonoBehaviour {
     optionsCanvas.SetActive(false);
     controlsCanvas.SetActive(true);
 
-    eventSystem.SetSelectedGameObject(controlsFirstSelected, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(controlsFirstSelected);
   }
 
   public void ShowPreferredInputCanvas() {
@@ -350,7 +350,7 @@ public class Pause : MonoBehaviour {
     optionsCanvas.SetActive(false);
     preferredInputCanvas.SetActive(true);
 
-    eventSystem.SetSelectedGameObject(preferredInputFirstSelected, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(preferredInputFirstSelected);
   }
 
   public void ShowQuitCanvas() {
@@ -358,7 +358,7 @@ public class Pause : MonoBehaviour {
     mainCanvas.SetActive(false);
     quitCanvas.SetActive(true);
 
-    eventSystem.SetSelectedGameObject(quitFirstSelected, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(quitFirstSelected);
   }
 
   public void GoBackToMainFromItems() {
@@ -367,7 +367,7 @@ public class Pause : MonoBehaviour {
     itemsCanvas.SetActive(false);
     mainCanvas.SetActive(true);
 
-    eventSystem.SetSelectedGameObject(itemsButton, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(itemsButton);
   }
 
   public void GoBackToMainFromOptions() {
@@ -375,7 +375,7 @@ public class Pause : MonoBehaviour {
     optionsCanvas.SetActive(false);
     mainCanvas.SetActive(true);
 
-    eventSystem.SetSelectedGameObject(optionsButton, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(optionsButton);
   }
 
   public void GoBackToOptionsFromControls() {
@@ -383,7 +383,7 @@ public class Pause : MonoBehaviour {
     controlsCanvas.SetActive(false);
     optionsCanvas.SetActive(true);
 
-    eventSystem.SetSelectedGameObject(controlsButton, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(controlsButton);
   }
 
   public void GoBackToOptionsFromPreferredInput() {
@@ -391,7 +391,7 @@ public class Pause : MonoBehaviour {
     preferredInputCanvas.SetActive(false);
     optionsCanvas.SetActive(true);
 
-    eventSystem.SetSelectedGameObject(preferredInputButton, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(preferredInputButton);
   }
 
   public void GoBackToMainFromQuit() {
@@ -399,7 +399,7 @@ public class Pause : MonoBehaviour {
     quitCanvas.SetActive(false);
     mainCanvas.SetActive(true);
 
-    eventSystem.SetSelectedGameObject(quitButton, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(quitButton);
   }
 
   public void PerformBack() {
@@ -625,7 +625,7 @@ public class Pause : MonoBehaviour {
 
   public void AwaitInput(String key) {
     canvasStatus = "mapping";
-    eventSystem.SetSelectedGameObject(null, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(null);
 
     switch(key) {
       case "jump":
@@ -667,7 +667,7 @@ public class Pause : MonoBehaviour {
         }
 
         jumpAwaitLabel.SetActive(false);
-        eventSystem.SetSelectedGameObject(jumpButton, new BaseEventData(eventSystem));
+        Helpers.FocusUIElement(jumpButton);
         break;
       case "atk1":
         if (Helpers.IsGamepadKey(keyCode)) {
@@ -689,7 +689,7 @@ public class Pause : MonoBehaviour {
         }
 
         atk1AwaitLabel.SetActive(false);
-        eventSystem.SetSelectedGameObject(atk1Button, new BaseEventData(eventSystem));
+        Helpers.FocusUIElement(atk1Button);
         break;
       case "atk2":
         if (Helpers.IsGamepadKey(keyCode)) {
@@ -711,7 +711,7 @@ public class Pause : MonoBehaviour {
         }
 
         atk2AwaitLabel.SetActive(false);
-        eventSystem.SetSelectedGameObject(atk2Button, new BaseEventData(eventSystem));
+        Helpers.FocusUIElement(atk2Button);
         break;
       default:
         Debug.Log("unknown map case: " + currentlyMapping);
@@ -725,7 +725,7 @@ public class Pause : MonoBehaviour {
   public void ProceedToReset() {
     canvasStatus = "options_controls_reset";
     resetRectangle.SetActive(true);
-    eventSystem.SetSelectedGameObject(resetYes, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(resetYes);
   }
 
   public void ResetMapping() {
@@ -741,6 +741,6 @@ public class Pause : MonoBehaviour {
   public void CancelReset() {
     canvasStatus = "options_controls";
     resetRectangle.SetActive(false);
-    eventSystem.SetSelectedGameObject(resetButton, new BaseEventData(eventSystem));
+    Helpers.FocusUIElement(resetButton);
   }
 }

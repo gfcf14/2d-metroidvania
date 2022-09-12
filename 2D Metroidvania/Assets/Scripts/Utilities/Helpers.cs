@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Helpers {
   public static int GetDamage(string weaponWielded) {
@@ -86,5 +87,9 @@ public class Helpers {
 
   public static bool IsGamepadKey(string keyCode) {
     return keyCode.Contains("Joystick");
+  }
+
+  public static void FocusUIElement(GameObject element) {
+    Pause.eventSystem.SetSelectedGameObject(element, new BaseEventData(Pause.eventSystem));
   }
 }
