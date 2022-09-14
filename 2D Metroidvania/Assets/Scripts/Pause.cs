@@ -811,6 +811,10 @@ public class Pause : MonoBehaviour {
     Controls.currentGamepadJump = Controls.DEFAULT_GAMEPAD_JUMP;
     Controls.currentGamepadAttack1 = Controls.DEFAULT_GAMEPAD_ATTACK_1;
     Controls.currentGamepadAttack2 = Controls.DEFAULT_GAMEPAD_ATTACK_2;
+
+    canvasStatus = "options_controls";
+    resetRectangle.SetActive(false);
+    Helpers.FocusUIElement(resetButton);
   }
 
   public void CancelReset() {
