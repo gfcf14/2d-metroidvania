@@ -37,6 +37,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject itemImage;
   [SerializeField] GameObject itemName;
   [SerializeField] GameObject itemDescription;
+  [SerializeField] GameObject itemEffects;
   [SerializeField] GameObject itemUseRectangle;
   [SerializeField] GameObject itemUseYes;
   [Space(10)]
@@ -328,6 +329,79 @@ public class Pause : MonoBehaviour {
     itemImage.GetComponent<Image>().sprite = currentPauseItem.image;
     itemDescription.GetComponent<Text>().text = currentPauseItem.description;
     itemUseRectangle.SetActive(Helpers.IsUsableItem(currentPauseItem.type));
+
+    string effectsText = "None";
+
+    if (currentPauseItem.effects != null) {
+      Effects itemEffects = currentPauseItem.effects;
+      effectsText = "";
+
+      if (itemEffects.duration != null) {
+        effectsText += itemEffects.duration + " " + (itemEffects.duration == 1 ? "sec" : "secs") + "\n";
+      }
+
+      if (itemEffects.hp != null) {
+        effectsText += "HP" + (itemEffects.hp >= 0 ? "+" : "") + itemEffects.hp + "\n";
+      }
+
+      if (itemEffects.mp != null) {
+        effectsText += "MP" + (itemEffects.mp >= 0 ? "+" : "") + itemEffects.mp + "\n";
+      }
+
+      if (itemEffects.statusHeal != null) {
+        effectsText += "Heals ";
+
+        int i = 0;
+        foreach(string currStatusHeal in itemEffects.statusHeal) {
+          effectsText += currStatusHeal + (i < itemEffects.statusHeal.Length - 1 ? ", " : "\n");
+          i++;
+        }
+      }
+
+      if (itemEffects.atk != null) {
+        effectsText += "ATK" + (itemEffects.atk >= 0 ? "+" : "") + itemEffects.atk + "\n";
+      }
+
+      if (itemEffects.def != null) {
+        effectsText += "DEF" + (itemEffects.def >= 0 ? "+" : "") + itemEffects.def + "\n";
+      }
+
+      if (itemEffects.crit != null) {
+        effectsText += "CRIT" + (itemEffects.crit >= 0 ? "+" : "") + (int)(itemEffects.crit * 100) + "%\n";
+      }
+
+      if (itemEffects.luck != null) {
+        effectsText += "LUCK" + (itemEffects.luck >= 0 ? "+" : "") + (int)(itemEffects.luck * 100) + "%\n";
+      }
+
+      if (itemEffects.magicResistances != null) {
+        string addingResistances = "";
+        string removingResistances = "";
+
+        int i = 0;
+        foreach(MagicResistance currMagicResistance in itemEffects.magicResistances) {
+          if (currMagicResistance.type == "add") {
+            if (addingResistances == "") {
+              addingResistances += "Adds: ";
+            }
+            addingResistances += currMagicResistance.name + ", ";
+          } else if (currMagicResistance.type == "remove") {
+            if (removingResistances == "") {
+              removingResistances += "Removes: ";
+            }
+            removingResistances += currMagicResistance.name + ", ";
+          }
+          i++;
+        }
+
+        addingResistances.TrimEnd(new Char[]{ ',', ' '});
+        removingResistances.TrimEnd(new Char[]{ ',', ' '});
+
+        effectsText += addingResistances + "\n" + removingResistances;
+      }
+    }
+
+    itemEffects.GetComponent<Text>().text = effectsText;
   }
 
   public void ShowOptionsCanvas() {

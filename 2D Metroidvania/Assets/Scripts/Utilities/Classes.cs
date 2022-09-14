@@ -43,14 +43,32 @@ public class Item {
   }
 }
 
+public class MagicResistance {
+  public string name;
+  public string type; // add or remove
+}
+
+public class Effects {
+  public float? duration; // to be measured in seconds
+  public int? hp;
+  public int? mp;
+  public string[] statusHeal;
+  public int? atk;
+  public int? def;
+  public float? crit; // number between 0 and 1
+  public float? luck;
+  public MagicResistance[] magicResistances;
+}
+
 public class PauseItem {
   public Sprite thumbnail;
   public Sprite image;
   public string name;
   public string description;
   public string type;
+  public Effects effects;
 
-  public PauseItem(Sprite thumbnail, Sprite image, string name, string description, string type) {
+  public PauseItem(Sprite thumbnail, Sprite image, string name, string description, string type, Effects effects = null) {
     this.thumbnail = thumbnail;
     this.image = image;
 
@@ -67,6 +85,10 @@ public class PauseItem {
     }
 
     this.type = type;
+
+    if (effects != null) {
+      this.effects = effects;
+    }
   }
 
   // TODO: add values to increase player stats (atk, def, two-handed, etc.)
