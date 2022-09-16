@@ -31,13 +31,26 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject quitFirstSelected;
   [Space(10)]
 
+  // Effects Objects
+  [Header("Effects")]
+  [SerializeField] GameObject effectsCurrentHP;
+  [SerializeField] GameObject effectsTotalHP;
+  [SerializeField] GameObject effectsCurrentMP;
+  [SerializeField] GameObject effectsTotalMP;
+  [SerializeField] GameObject effectsATK1;
+  [SerializeField] GameObject effectsATK2;
+  [SerializeField] GameObject effectsDEF1;
+  [SerializeField] GameObject effectsDEF2;
+  [SerializeField] GameObject effectsCritical;
+  [SerializeField] GameObject effectsLuck;
+
   // Item Objects
   [Header("Item Objects")]
   [SerializeField] GameObject itemsContainer;
   [SerializeField] GameObject itemImage;
   [SerializeField] GameObject itemName;
   [SerializeField] GameObject itemDescription;
-  [SerializeField] GameObject itemEffects;
+  [SerializeField] GameObject itemEffectsObject;
   [SerializeField] GameObject itemUseRectangle;
   [SerializeField] GameObject itemUseYes;
   [Space(10)]
@@ -169,11 +182,6 @@ public class Pause : MonoBehaviour {
     UpdatePlayerStats();
     UpdateMagicResistances();
     UpdateItemView();
-
-    // if canvasStatus is items and selection changed (catch with onKeyDown in Hero?)
-      // loop through itemButtons
-        // if any of these is the current selected
-          // set text, image, etc.
   }
 
   void FadeOut() {
@@ -200,21 +208,24 @@ public class Pause : MonoBehaviour {
     mainCanvas.SetActive(false);
     itemsCanvas.SetActive(true);
 
-    // destroys all current children of the items container to avoid duplicating
-    foreach (Transform child in itemsContainer.transform) {
-      GameObject.Destroy(child.gameObject);
-    }
-    itemButtons.Clear();
-
-    // adds all items in the hero item list
+    ClearItems();
     PopulateItemsContainer();
     Helpers.FocusUIElement(itemButtons.ElementAt(0));
     SetItemInfo(0);
   }
 
+  // destroys all current children of the items container to avoid duplicating
+  void ClearItems() {
+    foreach (Transform child in itemsContainer.transform) {
+      GameObject.Destroy(child.gameObject);
+    }
+    itemButtons.Clear();
+  }
+
+  // adds all items in the hero item list
   void PopulateItemsContainer() {
     int i = 0;
-    foreach(Item currentItem in heroScript.items) {
+    foreach (Item currentItem in heroScript.items) {
       string currentKey = currentItem.key;
       int currentAmount = currentItem.amount;
       PauseItem currentPauseItem = Objects.pauseItems[currentKey];
@@ -268,7 +279,37 @@ public class Pause : MonoBehaviour {
   }
 
   public void UseItem() {
-    // TODO: decrement/remove from hero items array and add those stats to user. Possibly call a function from heroScript to do it there
+    Item heroItem = heroScript.items.ElementAt(currentItemButtonIndex);
+    PauseItem currentPauseItem = Objects.pauseItems[heroItem.key];
+
+    if (currentPauseItem.effects != null) {
+      Effects itemEffects = currentPauseItem.effects;
+
+      if (itemEffects.hp != null) {
+        effectsCurrentHP.transform.Find("Text").gameObject.GetComponent<Text>().text = (itemEffects.hp >= 0 ? "+" : "") + itemEffects.hp;
+        effectsCurrentHP.SetActive(true);
+
+        // TODO: ensure that this can be either temporary (for potions of limited time use) or permanent (for single use items)
+        heroScript.UpdateStats("hp", itemEffects.hp);
+      }
+
+      // TODO: build the others as more items are created!
+
+      // determines what to do with the item and its amount
+      if (heroItem.amount > 1) {
+        heroScript.ConsumeItem(heroItem.key);
+        itemButtons.ElementAt(0).transform.Find("Amount").gameObject.GetComponent<Text>().text = (heroItem.amount).ToString();
+        Helpers.FocusUIElement(itemButtons.ElementAt(currentItemButtonIndex));
+      } else {
+        heroScript.RemoveItem(currentItemButtonIndex);
+        ClearItems();
+        PopulateItemsContainer();
+        Helpers.FocusUIElement(itemButtons.ElementAt(0));
+        SetItemInfo(0);
+      }
+    }
+
+    canvasStatus = "items";
   }
 
   public void CancelItemUse() {
@@ -279,7 +320,7 @@ public class Pause : MonoBehaviour {
   void UpdateItemView() {
     if (canvasStatus == "items" && itemButtons.Count > 0) {
       int i = 0;
-      foreach(GameObject currentItemButton in itemButtons) {
+      foreach (GameObject currentItemButton in itemButtons) {
         if (eventSystem.currentSelectedGameObject == currentItemButton) {
           // do not change item view info if indices match; this means the item is already displaying
           if (currentItemButtonIndex != i) {
@@ -352,7 +393,7 @@ public class Pause : MonoBehaviour {
         effectsText += "Heals ";
 
         int i = 0;
-        foreach(string currStatusHeal in itemEffects.statusHeal) {
+        foreach (string currStatusHeal in itemEffects.statusHeal) {
           effectsText += currStatusHeal + (i < itemEffects.statusHeal.Length - 1 ? ", " : "\n");
           i++;
         }
@@ -379,7 +420,7 @@ public class Pause : MonoBehaviour {
         string removingResistances = "";
 
         int i = 0;
-        foreach(MagicResistance currMagicResistance in itemEffects.magicResistances) {
+        foreach (MagicResistance currMagicResistance in itemEffects.magicResistances) {
           if (currMagicResistance.type == "add") {
             if (addingResistances == "") {
               addingResistances += "Adds: ";
@@ -401,7 +442,7 @@ public class Pause : MonoBehaviour {
       }
     }
 
-    itemEffects.GetComponent<Text>().text = effectsText;
+    itemEffectsObject.GetComponent<Text>().text = effectsText;
   }
 
   public void ShowOptionsCanvas() {
@@ -512,7 +553,7 @@ public class Pause : MonoBehaviour {
 
   void CheckIfGamepad() {
     List<string> validGamepads = new List<String>();
-    foreach(string s in Input.GetJoystickNames()) {
+    foreach (string s in Input.GetJoystickNames()) {
       if (s != "") {
         validGamepads.Add(s);
       }

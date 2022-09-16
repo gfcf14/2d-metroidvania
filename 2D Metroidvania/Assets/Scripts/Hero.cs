@@ -155,6 +155,41 @@ public class Hero : MonoBehaviour {
     items.Add(new Item("basic-longsword", 1));
   }
 
+  public void UpdateStats(string stat, int? aggregate) {
+    switch (stat) {
+      case "hp":
+        int hpAggregate = aggregate ?? 0;
+
+        // condition below prevents healing more than allowed
+        if ((currentHP + hpAggregate) >= maxHP) {
+          currentHP = maxHP;
+        } else {
+          currentHP += hpAggregate;
+        }
+      break;
+      default:
+        Debug.Log("Value for stat \"" + stat + "\" doesn't correspond to this function. Either overload another or check the type");
+      break;
+    }
+
+    // TODO: build the others as more items are created!
+  }
+
+  public void ConsumeItem(string key) {
+    int i = 0;
+    foreach (Item currItem in items) {
+      if (key == currItem.key) {
+        currItem.amount--;
+        break;
+      }
+      i++;
+    }
+  }
+
+  public void RemoveItem(int index) {
+    items.RemoveAt(index);
+  }
+
   // called on every frame of the game
   private void Update() {
     horizontalInput = Input.GetAxis("Horizontal");
