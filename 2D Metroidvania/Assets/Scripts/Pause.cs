@@ -11,6 +11,7 @@ public class Pause : MonoBehaviour {
   [Header("Canvases")]
   [SerializeField] GameObject mainCanvas;
   [SerializeField] GameObject itemsCanvas;
+  [SerializeField] GameObject equipmentCanvas;
   [SerializeField] GameObject optionsCanvas;
   [SerializeField] GameObject controlsCanvas;
   [SerializeField] GameObject preferredInputCanvas;
@@ -21,6 +22,8 @@ public class Pause : MonoBehaviour {
   [Header("First Selections")]
   [SerializeField] GameObject pauseFirstSelected;
   [SerializeField] GameObject itemsButton;
+  [SerializeField] GameObject equipmentButton;
+  [SerializeField] GameObject equipmentFirstSelected;
   [SerializeField] GameObject optionsButton;
   [SerializeField] GameObject optionsFirstSelected;
   [SerializeField] GameObject controlsButton;
@@ -445,6 +448,14 @@ public class Pause : MonoBehaviour {
     itemEffectsObject.GetComponent<Text>().text = effectsText;
   }
 
+  public void ShowEquipmentCanvas() {
+    canvasStatus = "equipment";
+    mainCanvas.SetActive(false);
+    equipmentCanvas.SetActive(true);
+
+    Helpers.FocusUIElement(equipmentFirstSelected);
+  }
+
   public void ShowOptionsCanvas() {
     canvasStatus = "options";
     mainCanvas.SetActive(false);
@@ -486,6 +497,14 @@ public class Pause : MonoBehaviour {
     Helpers.FocusUIElement(itemsButton);
   }
 
+  public void GoBackToMainFromEquipment() {
+    canvasStatus = "main";
+    equipmentCanvas.SetActive(false);
+    mainCanvas.SetActive(true);
+
+    Helpers.FocusUIElement(equipmentButton);
+  }
+
   public void GoBackToMainFromOptions() {
     canvasStatus = "main";
     optionsCanvas.SetActive(false);
@@ -525,6 +544,9 @@ public class Pause : MonoBehaviour {
       break;
       case "items_use":
         CancelItemUse();
+      break;
+      case "equipment":
+        GoBackToMainFromEquipment();
       break;
       case "options":
         GoBackToMainFromOptions();
