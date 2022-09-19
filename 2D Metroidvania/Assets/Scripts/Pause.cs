@@ -885,4 +885,8 @@ public class Pause : MonoBehaviour {
     resetRectangle.SetActive(false);
     Helpers.FocusUIElement(resetButton);
   }
+
+  public void PopulateBodyEquipment() {
+    Debug.Log("should populate body equipment");
+  }
 }
