@@ -36,7 +36,16 @@ public class Objects {
     {"basic-longsword", new PauseItem(Sprites.itemThumbnails[0], Sprites.itemImages[0], "Basic Longsword", "Useful two-handed weapon.", "double")},
     {"basic-sword", new PauseItem(Sprites.itemThumbnails[1], Sprites.itemImages[1], "Basic Sword", "Standard adventurer's sword.", "single")},
     {"basic-shield", new PauseItem(Sprites.itemThumbnails[2], Sprites.itemImages[2], "Basic Shield", "Can also be used to start a campfire.", "defense")},
-    {"chicken-drumstick", new PauseItem(Sprites.itemThumbnails[3], Sprites.itemImages[3], "Chicken Drumstick", "From range-free raised fowl.", "food", new Effects() {hp = 20})}
+    {"chicken-drumstick", new PauseItem(Sprites.itemThumbnails[3], Sprites.itemImages[3], "Chicken Drumstick", "From range-free raised fowl.", "food", new Effects() {hp = 20})},
+    {"love-necklace", new PauseItem(Sprites.itemThumbnails[4], Sprites.itemImages[4], "Necklace of Love", "A family heirloom that belonged to the princess.", "neck")},
+    {"solomon-ring", new PauseItem(Sprites.itemThumbnails[5], Sprites.itemImages[5], "Ring of Solomon", "Ever sought after, wearer will rule the world!", "ring")},
+    {"ra-ring", new PauseItem(Sprites.itemThumbnails[6], Sprites.itemImages[6], "Ring of Ra", "Said to have been created by the people of Atlantis.", "ring")},
+    {"skull-ring", new PauseItem(Sprites.itemThumbnails[7], Sprites.itemImages[7], "Skull Ring", "Most priced possession of the commander of dark armies.", "ring")},
+    {"gold-bracelet", new PauseItem(Sprites.itemThumbnails[8], Sprites.itemImages[8], "Gold Bracelet", "Imbued with notable attack power.", "armwear")},
+    {"silver-bracelet", new PauseItem(Sprites.itemThumbnails[9], Sprites.itemImages[9], "Silver Bracelet", "Imbued with significant defense.", "armwear")},
+    {"rabbit-paw", new PauseItem(Sprites.itemThumbnails[10], Sprites.itemImages[10], "Rabbit's Paw", "Carefully crafted from grade-A bunnies.", "neck")},
+    {"moonlight-pendant", new PauseItem(Sprites.itemThumbnails[11], Sprites.itemImages[11], "Moonlight Pendant", "Protects from harsh environments and increases visibility.", "neck")},
+    {"rainbow-bracer", new PauseItem(Sprites.itemThumbnails[12], Sprites.itemImages[12], "Rainbow Bracer", "Protects against most magic elements.", "armwear")}
 
     // Example of having everything
     // {"chicken-drumstick", new PauseItem(Sprites.itemThumbnails[3], Sprites.itemImages[3], "Chicken Drumstick", "From range-free raised fowl.", "food", new Effects() {hp = 99, mp=99, statusHeal=new string[]{"Poison", "Curse", "Drain"}, atk=-99, def=99, crit=0.5f, luck=-0.2f, magicResistances=new MagicResistance[]{new MagicResistance(){name="Earth", type="add"}, new MagicResistance(){name="Air", type="add"}, new MagicResistance(){name="Water", type="add"}, new MagicResistance(){name="Fire", type="add"}, new MagicResistance(){name="Lightning", type="remove"}, new MagicResistance(){name="Ice", type="remove"}, new MagicResistance(){name="Light", type="remove"}, new MagicResistance(){name="Dark", type="remove"}}})}
