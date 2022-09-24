@@ -45,7 +45,8 @@ public class Objects {
     {"silver-bracelet", new PauseItem(Sprites.itemThumbnails[9], Sprites.itemImages[9], "Silver Bracelet", "Imbued with significant defense.", "armwear")},
     {"rabbit-paw", new PauseItem(Sprites.itemThumbnails[10], Sprites.itemImages[10], "Rabbit's Paw", "Carefully crafted from grade-A bunnies.", "neck")},
     {"moonlight-pendant", new PauseItem(Sprites.itemThumbnails[11], Sprites.itemImages[11], "Moonlight Pendant", "Protects from harsh environments and increases visibility.", "neck")},
-    {"rainbow-bracer", new PauseItem(Sprites.itemThumbnails[12], Sprites.itemImages[12], "Rainbow Bracer", "Protects against most magic elements.", "armwear")}
+    {"rainbow-bracer", new PauseItem(Sprites.itemThumbnails[12], Sprites.itemImages[12], "Rainbow Bracer", "Protects against most magic elements.", "armwear")},
+    {"body-1", new PauseItem(Sprites.itemThumbnails[13], Sprites.itemImages[13], "Townsman Tunic", "Your basic countryman attire, custom dyed.", "body")}
 
     // Example of having everything
     // {"chicken-drumstick", new PauseItem(Sprites.itemThumbnails[3], Sprites.itemImages[3], "Chicken Drumstick", "From range-free raised fowl.", "food", new Effects() {hp = 99, mp=99, statusHeal=new string[]{"Poison", "Curse", "Drain"}, atk=-99, def=99, crit=0.5f, luck=-0.2f, magicResistances=new MagicResistance[]{new MagicResistance(){name="Earth", type="add"}, new MagicResistance(){name="Air", type="add"}, new MagicResistance(){name="Water", type="add"}, new MagicResistance(){name="Fire", type="add"}, new MagicResistance(){name="Lightning", type="remove"}, new MagicResistance(){name="Ice", type="remove"}, new MagicResistance(){name="Light", type="remove"}, new MagicResistance(){name="Dark", type="remove"}}})}

@@ -263,7 +263,7 @@ public class Pause : MonoBehaviour {
         itemButtons.ElementAt(i - 1).GetComponent<Button>().navigation = buttonNavigation;
       }
 
-      if (i == itemsList.Count() - 1) {
+      if (i == itemsList.Count() - 1 && itemsList.Count() > 1) {
         Navigation lastButtonNavigation = new Navigation();
         lastButtonNavigation.mode = Navigation.Mode.Explicit;
         lastButtonNavigation.selectOnDown = itemButtons.ElementAt(0).GetComponent<Button>();
@@ -902,7 +902,7 @@ public class Pause : MonoBehaviour {
 
     switch(equipmentType) {
       case "body":
-        Debug.Log("Do nothing for now since I forgot to draw the first body equipment");
+        PopulateItemsContainer(Helpers.GetSpecificItemList(Constants.bodyEquipmentTypes, heroScript.items), false, equipmentContainer);
       break;
       case "arms":
         PopulateItemsContainer(Helpers.GetSpecificItemList(Constants.armEquipmentTypes, heroScript.items), false, equipmentContainer);

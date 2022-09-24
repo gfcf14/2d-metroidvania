@@ -162,6 +162,7 @@ public class Hero : MonoBehaviour {
     items.Add(new Item("rabbit-paw", 1));
     items.Add(new Item("moonlight-pendant", 1));
     items.Add(new Item("rainbow-bracer", 1));
+    items.Add(new Item("body-1", 1));
   }
 
   public void UpdateStats(string stat, int? aggregate) {
