@@ -58,6 +58,11 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject itemUseYes;
   [Space(10)]
 
+  // Equipment Objects
+  [Header("Equipment Objects")]
+  [SerializeField] GameObject equipmentContainer;
+  [Space(10)]
+
   // Control buttons
   [Header("Jump Controls")]
   [SerializeField] GameObject jumpButton;
@@ -191,6 +196,8 @@ public class Pause : MonoBehaviour {
     canvasStatus = "";
     itemsCanvas.SetActive(false);
     itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+    equipmentCanvas.SetActive(false);
+    equipmentContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
     optionsCanvas.SetActive(false);
     controlsCanvas.SetActive(false);
     preferredInputCanvas.SetActive(false);
@@ -211,39 +218,43 @@ public class Pause : MonoBehaviour {
     mainCanvas.SetActive(false);
     itemsCanvas.SetActive(true);
 
-    ClearItems();
-    PopulateItemsContainer();
+    ClearItems(itemsContainer);
+    PopulateItemsContainer(heroScript.items, true, itemsContainer);
     Helpers.FocusUIElement(itemButtons.ElementAt(0));
     SetItemInfo(0);
   }
 
   // destroys all current children of the items container to avoid duplicating
-  void ClearItems() {
-    foreach (Transform child in itemsContainer.transform) {
+  void ClearItems(GameObject container) {
+    foreach (Transform child in container.transform) {
       GameObject.Destroy(child.gameObject);
     }
     itemButtons.Clear();
   }
 
-  // adds all items in the hero item list
-  void PopulateItemsContainer() {
+  // adds all items in the hero item list or equipment list
+  void PopulateItemsContainer(List<Item> itemsList, bool isItemList, GameObject parentContainer) {
     int i = 0;
-    foreach (Item currentItem in heroScript.items) {
+    foreach (Item currentItem in itemsList) {
       string currentKey = currentItem.key;
       int currentAmount = currentItem.amount;
       PauseItem currentPauseItem = Objects.pauseItems[currentKey];
 
       GameObject currentItemButton = Instantiate(Objects.prefabs["item-button"], Vector2.zero, Quaternion.identity);
-      currentItemButton.transform.SetParent(itemsContainer.transform);
+
+      currentItemButton.transform.SetParent(parentContainer.transform);
       currentItemButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Constants.startItemY + (i * Constants.itemIncrementY * -1));
       currentItemButton.transform.localScale = Vector3.one;
       currentItemButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = currentPauseItem.thumbnail;
       currentItemButton.transform.Find("Text").gameObject.GetComponent<Text>().text = currentPauseItem.name;
-      currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = currentAmount.ToString();
+
+      if (isItemList) {
+        currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = currentAmount.ToString();
+      }
 
       itemButtons.Add(currentItemButton);
 
-      if (i > 1 && i < heroScript.items.Count()) {
+      if (i > 1 && i < itemsList.Count()) {
         Navigation buttonNavigation = new Navigation();
         buttonNavigation.mode = Navigation.Mode.Explicit;
         buttonNavigation.selectOnDown = currentItemButton.GetComponent<Button>();
@@ -252,7 +263,7 @@ public class Pause : MonoBehaviour {
         itemButtons.ElementAt(i - 1).GetComponent<Button>().navigation = buttonNavigation;
       }
 
-      if (i == heroScript.items.Count() - 1) {
+      if (i == itemsList.Count() - 1) {
         Navigation lastButtonNavigation = new Navigation();
         lastButtonNavigation.mode = Navigation.Mode.Explicit;
         lastButtonNavigation.selectOnDown = itemButtons.ElementAt(0).GetComponent<Button>();
@@ -305,8 +316,8 @@ public class Pause : MonoBehaviour {
         Helpers.FocusUIElement(itemButtons.ElementAt(currentItemButtonIndex));
       } else {
         heroScript.RemoveItem(currentItemButtonIndex);
-        ClearItems();
-        PopulateItemsContainer();
+        ClearItems(itemsContainer);
+        PopulateItemsContainer(heroScript.items, true, itemsContainer);
         Helpers.FocusUIElement(itemButtons.ElementAt(0));
         SetItemInfo(0);
       }
@@ -886,7 +897,28 @@ public class Pause : MonoBehaviour {
     Helpers.FocusUIElement(resetButton);
   }
 
-  public void PopulateBodyEquipment() {
-    Debug.Log("should populate body equipment");
+  public void PopulateEquipmentContainer(string equipmentType) {
+    ClearItems(equipmentContainer);
+
+    switch(equipmentType) {
+      case "body":
+        Debug.Log("Do nothing for now since I forgot to draw the first body equipment");
+      break;
+      case "arms":
+        PopulateItemsContainer(Helpers.GetSpecificItemList(Constants.armEquipmentTypes, heroScript.items), false, equipmentContainer);
+      break;
+      case "neck":
+        PopulateItemsContainer(Helpers.GetSpecificItemList(Constants.neckEquipmentTypes, heroScript.items), false, equipmentContainer);
+      break;
+      case "armwear":
+        PopulateItemsContainer(Helpers.GetSpecificItemList(Constants.armwearEquipmentTypes, heroScript.items), false, equipmentContainer);
+      break;
+      case "rings":
+        PopulateItemsContainer(Helpers.GetSpecificItemList(Constants.ringEquipmentTypes, heroScript.items), false, equipmentContainer);
+      break;
+      default:
+        Debug.Log("Unknown equipmentType: " + equipmentType);
+      break;
+    }
   }
 }

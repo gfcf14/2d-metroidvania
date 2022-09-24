@@ -11,6 +11,14 @@ public class Constants {
   public static string[] forbiddenKeys = {"Escape", "KeypadEnter", "Return", "W", "A", "S", "D", "UpArrow", "DownArrow", "RightArrow", "LeftArrow"};
   public static string[] usableItemTypes = {"food", "potion"};
 
+  public static string[] armEquipmentTypes = {"double", "single", "defense"};
+
+  public static string[] neckEquipmentTypes = {"neck"};
+
+  public static string[] armwearEquipmentTypes = {"armwear"};
+
+  public static string[] ringEquipmentTypes = {"ring"};
+
   public static int arrowExplosionDamage = 50;
   public static int maxItemNameLength = 20;
   public static int maxItemDescriptionLength = 120;

@@ -92,4 +92,17 @@ public class Helpers {
   public static void FocusUIElement(GameObject element) {
     Pause.eventSystem.SetSelectedGameObject(element, new BaseEventData(Pause.eventSystem));
   }
+
+  public static List<Item> GetSpecificItemList(string[] includedTypes, List<Item> itemsList) {
+    string types = String.Join(",", includedTypes);
+    List<Item> specificItems = new List<Item>();
+
+    foreach (Item currItem in itemsList) {
+      if (System.Array.IndexOf(includedTypes, Objects.pauseItems[currItem.key].type) != -1) {
+        specificItems.Add(currItem);
+      }
+    }
+
+    return specificItems;
+  }
 }
