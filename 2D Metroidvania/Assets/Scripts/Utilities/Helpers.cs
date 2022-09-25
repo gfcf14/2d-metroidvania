@@ -9,19 +9,19 @@ public class Helpers {
   }
 
   public static bool IsGroundThrowable(string type) {
-    return System.Array.IndexOf(Constants.groundThrowables, type) != -1;
+    return IsValueInArray(Constants.groundThrowables, type);
   }
 
   public static bool IsNonBouncingThrowable(string type) {
-    return System.Array.IndexOf(Constants.nonBouncingThrowables, type) != -1;
+    return IsValueInArray(Constants.nonBouncingThrowables, type);
   }
 
   public static bool IsSmallRotatingThrowable(string type) {
-    return System.Array.IndexOf(Constants.smallRotatingThrowables, type) != -1;
+    return IsValueInArray(Constants.smallRotatingThrowables, type);
   }
 
   public static bool IsUsableItem(string type) {
-    return System.Array.IndexOf(Constants.usableItemTypes, type) != -1;
+    return IsValueInArray(Constants.usableItemTypes, type);
   }
 
   public static Color GetColorFromResistances(string[] elementResistances) {
@@ -45,11 +45,11 @@ public class Helpers {
   }
 
   public static bool IsFireResistant(string[] resistances) {
-    return System.Array.IndexOf(resistances, "fire") != -1;
+    return IsValueInArray(resistances, "fire");
   }
 
   public static bool IsPoisonResistant(string[] resistances) {
-    return System.Array.IndexOf(resistances, "poison") != -1;
+    return IsValueInArray(resistances, "poison");
   }
 
   public static void TogglePause(bool pauseState, GameObject pauseCanvas) {
@@ -82,7 +82,7 @@ public class Helpers {
   }
 
   public static bool IsForbiddenToRemap(string keyCode) {
-    return System.Array.IndexOf(Constants.forbiddenKeys, keyCode) != -1 || keyCode.Contains("Mouse") || keyCode.Contains("Button9");
+    return IsValueInArray(Constants.forbiddenKeys, keyCode) || keyCode.Contains("Mouse") || keyCode.Contains("Button9");
   }
 
   public static bool IsGamepadKey(string keyCode) {
@@ -98,11 +98,19 @@ public class Helpers {
     List<Item> specificItems = new List<Item>();
 
     foreach (Item currItem in itemsList) {
-      if (System.Array.IndexOf(includedTypes, Objects.pauseItems[currItem.key].type) != -1) {
+      if (IsValueInArray(includedTypes, Objects.pauseItems[currItem.key].type)) {
         specificItems.Add(currItem);
       }
     }
 
     return specificItems;
+  }
+
+  public static bool IsValueInArray(string[] arr, string val) {
+    return System.Array.IndexOf(arr, val) != -1;
+  }
+
+  public static bool IsOnItemContainerState(string[] containerStates, string currentState) {
+    return IsValueInArray(containerStates, currentState);
   }
 }

@@ -340,8 +340,10 @@ public class Pause : MonoBehaviour {
   }
 
   void UpdateItemView() {
-    if (canvasStatus == "items" && itemButtons.Count > 0) {
+    if (Helpers.IsOnItemContainerState(Constants.itemContainerStates, canvasStatus) && itemButtons.Count > 0) {
       int i = 0;
+      GameObject currentContainer = canvasStatus == "items" ? itemsContainer : canvasStatus == "equipment_select" ? equipmentContainer : null;
+
       foreach (GameObject currentItemButton in itemButtons) {
         if (eventSystem.currentSelectedGameObject == currentItemButton) {
           // do not change item view info if indices match; this means the item is already displaying
@@ -351,27 +353,27 @@ public class Pause : MonoBehaviour {
             if (indexDifference == 1) {
               if (i > Constants.maxItemContainerHeight - 1) {
                 int movingItemLocation = (int)(Constants.startItemY - (Constants.itemIncrementY * (Constants.maxItemContainerHeight - 1)));
-                int selectedItemLocation = (int)(itemButtons.ElementAt(i - 1).GetComponent<RectTransform>().anchoredPosition.y + itemsContainer.GetComponent<RectTransform>().anchoredPosition.y);
+                int selectedItemLocation = (int)(itemButtons.ElementAt(i - 1).GetComponent<RectTransform>().anchoredPosition.y + currentContainer.GetComponent<RectTransform>().anchoredPosition.y);
 
                 // to avoid moving the container up if the selected button is not at the bottom
                 if (selectedItemLocation == movingItemLocation) {
-                  itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(itemsContainer.GetComponent<RectTransform>().anchoredPosition.x, itemsContainer.GetComponent<RectTransform>().anchoredPosition.y + Constants.itemIncrementY);
+                  currentContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(currentContainer.GetComponent<RectTransform>().anchoredPosition.x, currentContainer.GetComponent<RectTransform>().anchoredPosition.y + Constants.itemIncrementY);
                 }
               }
             } else if (indexDifference == -1) { //going up
               if (i < Constants.maxItemContainerHeight + 2) {
-                int movingItemLocation = (int)(Constants.startItemY - (Constants.itemIncrementY * (heroScript.items.Count - Constants.maxItemContainerHeight)));
-                int selectedItemLocation = (int)(itemButtons.ElementAt(i).GetComponent<RectTransform>().anchoredPosition.y + (itemsContainer.GetComponent<RectTransform>().anchoredPosition.y - ((heroScript.items.Count + 1 - Constants.maxItemContainerHeight) * Constants.itemIncrementY)));
+                int movingItemLocation = (int)(Constants.startItemY - (Constants.itemIncrementY * (itemButtons.Count - Constants.maxItemContainerHeight)));
+                int selectedItemLocation = (int)(itemButtons.ElementAt(i).GetComponent<RectTransform>().anchoredPosition.y + (currentContainer.GetComponent<RectTransform>().anchoredPosition.y - ((itemButtons.Count + 1 - Constants.maxItemContainerHeight) * Constants.itemIncrementY)));
 
                 // to avoid moving the container down if the selected button is not at the top
                 if (selectedItemLocation == movingItemLocation) {
-                  itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(itemsContainer.GetComponent<RectTransform>().anchoredPosition.x, itemsContainer.GetComponent<RectTransform>().anchoredPosition.y - Constants.itemIncrementY);
+                  currentContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(currentContainer.GetComponent<RectTransform>().anchoredPosition.x, currentContainer.GetComponent<RectTransform>().anchoredPosition.y - Constants.itemIncrementY);
                 }
               }
-            } else if (indexDifference == heroScript.items.Count - 1 && heroScript.items.Count > Constants.maxItemContainerHeight) { // from first item to last
-              itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(itemsContainer.GetComponent<RectTransform>().anchoredPosition.x, (Constants.itemIncrementY * (heroScript.items.Count - Constants.maxItemContainerHeight)));
-            } else if (indexDifference == -(heroScript.items.Count - 1)) { // from last item to first
-              itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+            } else if (indexDifference == itemButtons.Count - 1 && itemButtons.Count > Constants.maxItemContainerHeight) { // from first item to last
+              currentContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(currentContainer.GetComponent<RectTransform>().anchoredPosition.x, (Constants.itemIncrementY * (itemButtons.Count - Constants.maxItemContainerHeight)));
+            } else if (indexDifference == -(itemButtons.Count - 1)) { // from last item to first
+              currentContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
             }
 
             SetItemInfo(i);

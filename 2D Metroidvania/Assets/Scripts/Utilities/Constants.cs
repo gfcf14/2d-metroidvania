@@ -17,6 +17,8 @@ public class Constants {
   public static string[] armwearEquipmentTypes = {"armwear"};
   public static string[] ringEquipmentTypes = {"ring"};
 
+  public static string[] itemContainerStates = {"items", "equipment_select"};
+
   public static int arrowExplosionDamage = 50;
   public static int maxItemNameLength = 20;
   public static int maxItemDescriptionLength = 120;
