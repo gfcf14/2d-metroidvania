@@ -177,6 +177,8 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] public List<GameObject> itemButtons = new List<GameObject>();
   // current index to display info
   [System.NonSerialized] public int currentItemButtonIndex = -1;
+  // tracks the previously selected game button to return to after equipping or cancelling
+  [System.NonSerialized] GameObject previouslySelectedEquipmentButton;
 
   void Start() {
     heroScript = hero.GetComponent<Hero>();
@@ -329,6 +331,12 @@ public class Pause : MonoBehaviour {
   public void CancelItemUse() {
     canvasStatus = "items";
     Helpers.FocusUIElement(itemButtons.ElementAt(currentItemButtonIndex));
+  }
+
+  public void CancelEquipmentSelection() {
+    canvasStatus = "equipment";
+    Helpers.FocusUIElement(previouslySelectedEquipmentButton);
+    previouslySelectedEquipmentButton = null;
   }
 
   void UpdateItemView() {
@@ -558,6 +566,9 @@ public class Pause : MonoBehaviour {
       break;
       case "equipment":
         GoBackToMainFromEquipment();
+      break;
+      case "equipment_select":
+        CancelEquipmentSelection();
       break;
       case "options":
         GoBackToMainFromOptions();
@@ -920,5 +931,11 @@ public class Pause : MonoBehaviour {
         Debug.Log("Unknown equipmentType: " + equipmentType);
       break;
     }
+  }
+
+  public void SelectEquipment() {
+    canvasStatus = "equipment_select";
+    previouslySelectedEquipmentButton = eventSystem.currentSelectedGameObject;
+    Helpers.FocusUIElement(itemButtons.ElementAt(0));
   }
 }
