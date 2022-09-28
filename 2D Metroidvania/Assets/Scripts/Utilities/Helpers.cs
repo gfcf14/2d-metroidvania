@@ -109,6 +109,9 @@ public class Helpers {
   public static bool IsValueInArray(string[] arr, string val) {
     return System.Array.IndexOf(arr, val) != -1;
   }
+  public static bool IsValueInArray(int[] arr, int val) {
+    return System.Array.IndexOf(arr, val) != -1;
+  }
 
   public static bool IsOnItemContainerState(string[] containerStates, string currentState) {
     return IsValueInArray(containerStates, currentState);

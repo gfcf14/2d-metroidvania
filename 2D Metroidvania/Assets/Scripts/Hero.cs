@@ -86,26 +86,46 @@ public class Hero : MonoBehaviour {
 
   public bool hurtFromBehind = false;
 
-  [System.NonSerialized] public string playerEquipment = "equipment-1";
-  [System.NonSerialized] public int playerLevel = 1;
-  [System.NonSerialized] public int currentHP = 80;
-  [System.NonSerialized] public int maxHP = 100;
-  [System.NonSerialized] public int currentMP = 10;
-  [System.NonSerialized] public int maxMP = 20;
-  [System.NonSerialized] public string status = "good";
-  [System.NonSerialized] public int exp = 343;
-  [System.NonSerialized] public int next = 350;
-  [System.NonSerialized] public int gold = 650;
-  [System.NonSerialized] public int atk1 = 5;
-  [System.NonSerialized] public int atk2 = 10;
-  [System.NonSerialized] public int def1 = 5;
-  [System.NonSerialized] public int def2 = 10;
-  [System.NonSerialized] public float luckPercentage = 0.2f;
-  [System.NonSerialized] public float criticalPercentage = 0.5f;
-  [System.NonSerialized] public string location = "meadows";
-  [System.NonSerialized] public string[] magicResistances = new string[] {"earth", "air", "water", "fire", "lightning", "ice", "light", "dark"};
-  // [System.NonSerialized] public string[] magicResistances = new string[] {"lightning", "dark", "earth"};
-  // [System.NonSerialized] public string[] magicResistances = new string[] {};
+  // PLAYER STATS
+    [System.NonSerialized] public int playerLevel = 1;
+    [System.NonSerialized] public int currentHP = 80;
+    [System.NonSerialized] public int maxHP = 100;
+    [System.NonSerialized] public int currentMP = 10;
+    [System.NonSerialized] public int maxMP = 20;
+    [System.NonSerialized] public string status = "good";
+    [System.NonSerialized] public int exp = 343;
+    [System.NonSerialized] public int next = 350;
+    [System.NonSerialized] public int gold = 650;
+    [System.NonSerialized] public int strength = 5;
+    [System.NonSerialized] public int stamina = 5;
+    [System.NonSerialized] public float luckPercentage = 0.05f;
+    [System.NonSerialized] public float criticalPercentage = 0.05f;
+    [System.NonSerialized] public string location = "meadows";
+    [System.NonSerialized] public string[] magicResistances = new string[] {"earth", "air", "water", "fire", "lightning", "ice", "light", "dark"};
+    // [System.NonSerialized] public string[] magicResistances = new string[] {"lightning", "dark", "earth"};
+    // [System.NonSerialized] public string[] magicResistances = new string[] {};
+
+  // PLAYER EQUIPMENT
+    [System.NonSerialized] public static string bodyEquipment = "body-1";
+    [System.NonSerialized] public static string arm1Equipment = "";
+    [System.NonSerialized] public static string arm2Equipment = "basic-shield";
+    [System.NonSerialized] public static string neckEquipment = "";
+    [System.NonSerialized] public static string armwear1Equipment = "";
+    [System.NonSerialized] public static string armwear2Equipment = "";
+    [System.NonSerialized] public static string ring1Equipment = "";
+    [System.NonSerialized] public static string ring2Equipment = "";
+
+    [System.NonSerialized] public string[] equipmentArray = { bodyEquipment, arm1Equipment, arm2Equipment, neckEquipment, armwear1Equipment, armwear2Equipment, ring1Equipment, ring2Equipment};
+
+  // PLAYER EQUIPPED STATS
+    [System.NonSerialized] public float equippedSTR = 0f;
+    [System.NonSerialized] public float equippedSTA = 0f;
+    [System.NonSerialized] public float equippedLUCK = 0f;
+    [System.NonSerialized] public float equippedCRIT = 0f;
+    [System.NonSerialized] public int equippedATK1 = 0;
+    [System.NonSerialized] public int equippedATK2 = 0;
+    [System.NonSerialized] public int equippedDEF1 = 0;
+    [System.NonSerialized] public int equippedDEF2 = 0;
 
   [System.NonSerialized] public List<Item> items = new List<Item>();
 
@@ -163,90 +183,41 @@ public class Hero : MonoBehaviour {
     items.Add(new Item("moonlight-pendant", 1));
     items.Add(new Item("rainbow-bracer", 1));
     items.Add(new Item("body-1", 1));
-    items.Add(new Item("chicken-drumstick", 5));
-    items.Add(new Item("basic-shield", 2));
-    items.Add(new Item("basic-sword", 1));
-    items.Add(new Item("basic-longsword", 1));
-    items.Add(new Item("love-necklace", 1));
-    items.Add(new Item("solomon-ring", 1));
-    items.Add(new Item("ra-ring", 1));
-    items.Add(new Item("skull-ring", 1));
-    items.Add(new Item("gold-bracelet", 1));
-    items.Add(new Item("silver-bracelet", 1));
-    items.Add(new Item("rabbit-paw", 1));
-    items.Add(new Item("moonlight-pendant", 1));
-    items.Add(new Item("rainbow-bracer", 1));
-    items.Add(new Item("body-1", 1));
-    items.Add(new Item("chicken-drumstick", 5));
-    items.Add(new Item("basic-shield", 2));
-    items.Add(new Item("basic-sword", 1));
-    items.Add(new Item("basic-longsword", 1));
-    items.Add(new Item("love-necklace", 1));
-    items.Add(new Item("solomon-ring", 1));
-    items.Add(new Item("ra-ring", 1));
-    items.Add(new Item("skull-ring", 1));
-    items.Add(new Item("gold-bracelet", 1));
-    items.Add(new Item("silver-bracelet", 1));
-    items.Add(new Item("rabbit-paw", 1));
-    items.Add(new Item("moonlight-pendant", 1));
-    items.Add(new Item("rainbow-bracer", 1));
-    items.Add(new Item("body-1", 1));
-    items.Add(new Item("chicken-drumstick", 5));
-    items.Add(new Item("basic-shield", 2));
-    items.Add(new Item("basic-sword", 1));
-    items.Add(new Item("basic-longsword", 1));
-    items.Add(new Item("love-necklace", 1));
-    items.Add(new Item("solomon-ring", 1));
-    items.Add(new Item("ra-ring", 1));
-    items.Add(new Item("skull-ring", 1));
-    items.Add(new Item("gold-bracelet", 1));
-    items.Add(new Item("silver-bracelet", 1));
-    items.Add(new Item("rabbit-paw", 1));
-    items.Add(new Item("moonlight-pendant", 1));
-    items.Add(new Item("rainbow-bracer", 1));
-    items.Add(new Item("body-1", 1));
-    items.Add(new Item("chicken-drumstick", 5));
-    items.Add(new Item("basic-shield", 2));
-    items.Add(new Item("basic-sword", 1));
-    items.Add(new Item("basic-longsword", 1));
-    items.Add(new Item("love-necklace", 1));
-    items.Add(new Item("solomon-ring", 1));
-    items.Add(new Item("ra-ring", 1));
-    items.Add(new Item("skull-ring", 1));
-    items.Add(new Item("gold-bracelet", 1));
-    items.Add(new Item("silver-bracelet", 1));
-    items.Add(new Item("rabbit-paw", 1));
-    items.Add(new Item("moonlight-pendant", 1));
-    items.Add(new Item("rainbow-bracer", 1));
-    items.Add(new Item("body-1", 1));
-    items.Add(new Item("chicken-drumstick", 5));
-    items.Add(new Item("basic-shield", 2));
-    items.Add(new Item("basic-sword", 1));
-    items.Add(new Item("basic-longsword", 1));
-    items.Add(new Item("love-necklace", 1));
-    items.Add(new Item("solomon-ring", 1));
-    items.Add(new Item("ra-ring", 1));
-    items.Add(new Item("skull-ring", 1));
-    items.Add(new Item("gold-bracelet", 1));
-    items.Add(new Item("silver-bracelet", 1));
-    items.Add(new Item("rabbit-paw", 1));
-    items.Add(new Item("moonlight-pendant", 1));
-    items.Add(new Item("rainbow-bracer", 1));
-    items.Add(new Item("body-1", 1));
-    items.Add(new Item("chicken-drumstick", 5));
-    items.Add(new Item("basic-shield", 2));
-    items.Add(new Item("basic-sword", 1));
-    items.Add(new Item("basic-longsword", 1));
-    items.Add(new Item("love-necklace", 1));
-    items.Add(new Item("solomon-ring", 1));
-    items.Add(new Item("ra-ring", 1));
-    items.Add(new Item("skull-ring", 1));
-    items.Add(new Item("gold-bracelet", 1));
-    items.Add(new Item("silver-bracelet", 1));
-    items.Add(new Item("rabbit-paw", 1));
-    items.Add(new Item("moonlight-pendant", 1));
-    items.Add(new Item("rainbow-bracer", 1));
-    items.Add(new Item("body-1", 1));
+
+    UpdateStatsValues();
+  }
+
+  public void UpdateStatsValues() {
+    equippedSTR = PrepareEquippedStat("atk", new int[]{1, 2});
+    equippedSTA = PrepareEquippedStat("def", new int[]{1, 2});
+    equippedLUCK = PrepareEquippedStat("luck");
+    equippedCRIT = PrepareEquippedStat("crit");
+
+    equippedATK1 = arm1Equipment != "" ? Objects.pauseItems[arm1Equipment].effects.atk != null ? (int)Objects.pauseItems[arm1Equipment].effects.atk : 0 : 0;
+    equippedATK2 = arm2Equipment != "" ? Objects.pauseItems[arm2Equipment].effects.atk != null ? (int)Objects.pauseItems[arm2Equipment].effects.atk : 0 : 0;
+    equippedDEF1 = arm1Equipment != "" ? Objects.pauseItems[arm1Equipment].effects.def != null ? (int)Objects.pauseItems[arm1Equipment].effects.def : 0 : 0;
+    equippedDEF2 = arm2Equipment != "" ? Objects.pauseItems[arm2Equipment].effects.def != null ? (int)Objects.pauseItems[arm2Equipment].effects.def : 0 : 0;
+
+    equippedSTR = equippedSTR - equippedATK1 - equippedATK2;
+    equippedSTA = equippedSTA - equippedDEF1 - equippedDEF2;
+  }
+
+  public float PrepareEquippedStat(string effect, int[] equipmentsIgnored = null) {
+    float totalStat = 0.0f;
+
+    int i = 0;
+    foreach (string currentEquipment in equipmentArray) {
+      if (currentEquipment != "") {
+        Effects currentEffects = Objects.pauseItems[currentEquipment].effects;
+        if (currentEffects.GetType().GetField(effect).GetValue(currentEffects) != null) {
+          totalStat += float.Parse(currentEffects.GetType().GetField(effect).GetValue(currentEffects).ToString());
+        }
+      }
+
+      i++;
+    }
+
+    return totalStat;
   }
 
   public void UpdateStats(string stat, int? aggregate) {

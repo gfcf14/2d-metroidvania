@@ -8,6 +8,19 @@ public class Sprites {
   public static Sprite[] itemThumbnails = Resources.LoadAll<Sprite>("Pause/Items/thumbnails");
   public static Sprite[] itemImages = Resources.LoadAll<Sprite>("Pause/Items/images");
 
+  public static Sprite[] equipmentButtonIcons = Resources.LoadAll<Sprite>("Pause/equipment-icons");
+
+  public static Dictionary<string, Sprite> equipmentIcons = new Dictionary<string, Sprite> {
+    {"body", equipmentButtonIcons[0]},
+    {"arm1", equipmentButtonIcons[1]},
+    {"arm2", equipmentButtonIcons[5]},
+    {"neck", equipmentButtonIcons[4]},
+    {"armwear1", equipmentButtonIcons[2]},
+    {"armwear2", equipmentButtonIcons[6]},
+    {"ring1", equipmentButtonIcons[3]},
+    {"ring2", equipmentButtonIcons[7]},
+  };
+
   public static Dictionary<string, Sprite> magicResistances = new Dictionary<string, Sprite> {
     {"air", elements[0]},
     {"dark", elements[1]},
@@ -258,7 +271,7 @@ public class Sprites {
   };
 
   public static Dictionary<string, Sprite> pauseAvatars = new Dictionary<string, Sprite> {
-    {"equipment-1", Resources.Load<Sprite>("Pause/PlayerAvatars/equipment-1")}
+    {"body-1", Resources.Load<Sprite>("Pause/PlayerAvatars/body-1")}
   };
 
   public static Dictionary<string, Sprite> throwableSprites = new Dictionary<string, Sprite> {

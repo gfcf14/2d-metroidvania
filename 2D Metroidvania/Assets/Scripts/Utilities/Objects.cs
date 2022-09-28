@@ -33,20 +33,20 @@ public class Objects {
 
   // initialize constructable PauseItem objects by: new PauseItem(thumbnail, image, name, description, type, effects)
   public static Dictionary<string, PauseItem> pauseItems = new Dictionary<string, PauseItem> {
-    {"basic-longsword", new PauseItem(Sprites.itemThumbnails[0], Sprites.itemImages[0], "Basic Longsword", "Useful two-handed weapon.", "double")},
-    {"basic-sword", new PauseItem(Sprites.itemThumbnails[1], Sprites.itemImages[1], "Basic Sword", "Standard adventurer's sword.", "single")},
-    {"basic-shield", new PauseItem(Sprites.itemThumbnails[2], Sprites.itemImages[2], "Basic Shield", "Can also be used to start a campfire.", "defense")},
+    {"basic-longsword", new PauseItem(Sprites.itemThumbnails[0], Sprites.itemImages[0], "Basic Longsword", "Useful two-handed weapon.", "double", new Effects() {atk=40})},
+    {"basic-sword", new PauseItem(Sprites.itemThumbnails[1], Sprites.itemImages[1], "Basic Sword", "Standard adventurer's sword.", "single", new Effects() {atk=20})},
+    {"basic-shield", new PauseItem(Sprites.itemThumbnails[2], Sprites.itemImages[2], "Basic Shield", "Can also be used to start a campfire.", "defense", new Effects() {def=10})},
     {"chicken-drumstick", new PauseItem(Sprites.itemThumbnails[3], Sprites.itemImages[3], "Chicken Drumstick", "From range-free raised fowl.", "food", new Effects() {hp = 20})},
-    {"love-necklace", new PauseItem(Sprites.itemThumbnails[4], Sprites.itemImages[4], "Necklace of Love", "A family heirloom that belonged to the princess.", "neck")},
-    {"solomon-ring", new PauseItem(Sprites.itemThumbnails[5], Sprites.itemImages[5], "Ring of Solomon", "Ever sought after, wearer will rule the world!", "ring")},
-    {"ra-ring", new PauseItem(Sprites.itemThumbnails[6], Sprites.itemImages[6], "Ring of Ra", "Said to have been created by the people of Atlantis.", "ring")},
-    {"skull-ring", new PauseItem(Sprites.itemThumbnails[7], Sprites.itemImages[7], "Skull Ring", "Most priced possession of the commander of dark armies.", "ring")},
-    {"gold-bracelet", new PauseItem(Sprites.itemThumbnails[8], Sprites.itemImages[8], "Gold Bracelet", "Imbued with notable attack power.", "armwear")},
-    {"silver-bracelet", new PauseItem(Sprites.itemThumbnails[9], Sprites.itemImages[9], "Silver Bracelet", "Imbued with significant defense.", "armwear")},
-    {"rabbit-paw", new PauseItem(Sprites.itemThumbnails[10], Sprites.itemImages[10], "Rabbit's Paw", "Carefully crafted from grade-A bunnies.", "neck")},
-    {"moonlight-pendant", new PauseItem(Sprites.itemThumbnails[11], Sprites.itemImages[11], "Moonlight Pendant", "Protects from harsh environments and increases visibility.", "neck")},
-    {"rainbow-bracer", new PauseItem(Sprites.itemThumbnails[12], Sprites.itemImages[12], "Rainbow Bracer", "Protects against most magic elements.", "armwear")},
-    {"body-1", new PauseItem(Sprites.itemThumbnails[13], Sprites.itemImages[13], "Townsman Tunic", "Your basic countryman attire, custom dyed.", "body")}
+    {"love-necklace", new PauseItem(Sprites.itemThumbnails[4], Sprites.itemImages[4], "Necklace of Love", "A family heirloom that belonged to the princess.", "neck", new Effects() {def=50, luck=0.1f})},
+    {"solomon-ring", new PauseItem(Sprites.itemThumbnails[5], Sprites.itemImages[5], "Ring of Solomon", "Ever sought after, wearer will rule the world!", "ring", new Effects() {atk=100, def=100, crit=0.3f, luck=0.3f})},
+    {"ra-ring", new PauseItem(Sprites.itemThumbnails[6], Sprites.itemImages[6], "Ring of Ra", "Said to have been created by the people of Atlantis.", "ring", new Effects() {def=50, magicResistances=new MagicResistance[]{new MagicResistance(){name="Dark", type="add"}}})},
+    {"skull-ring", new PauseItem(Sprites.itemThumbnails[7], Sprites.itemImages[7], "Skull Ring", "Most priced possession of the commander of dark armies.", "ring", new Effects() {def=50, crit=0.2f})},
+    {"gold-bracelet", new PauseItem(Sprites.itemThumbnails[8], Sprites.itemImages[8], "Gold Bracelet", "Imbued with notable attack power.", "armwear", new Effects() {atk=25})},
+    {"silver-bracelet", new PauseItem(Sprites.itemThumbnails[9], Sprites.itemImages[9], "Silver Bracelet", "Imbued with significant defense.", "armwear", new Effects() {def=25})},
+    {"rabbit-paw", new PauseItem(Sprites.itemThumbnails[10], Sprites.itemImages[10], "Rabbit's Paw", "Carefully crafted from grade-A bunnies.", "neck", new Effects() {luck=0.2f})},
+    {"moonlight-pendant", new PauseItem(Sprites.itemThumbnails[11], Sprites.itemImages[11], "Moonlight Pendant", "Protects from harsh environments and increases visibility.", "neck", new Effects() {def=10, crit=0.1f})},
+    {"rainbow-bracer", new PauseItem(Sprites.itemThumbnails[12], Sprites.itemImages[12], "Rainbow Bracer", "Protects against most magic elements.", "armwear", new Effects() {magicResistances=new MagicResistance[]{new MagicResistance(){name="Earth", type="add"}, new MagicResistance(){name="Air", type="add"}, new MagicResistance(){name="Water", type="add"}, new MagicResistance(){name="Fire", type="add"}, new MagicResistance(){name="Lightning", type="add"}, new MagicResistance(){name="Ice", type="add"}, new MagicResistance(){name="Light", type="add"}}})},
+    {"body-1", new PauseItem(Sprites.itemThumbnails[13], Sprites.itemImages[13], "Townsman Tunic", "Your basic countryman attire, custom dyed.", "body", new Effects() {def=10, crit=0.05f, luck=0.05f})}
 
     // Example of having everything
     // {"chicken-drumstick", new PauseItem(Sprites.itemThumbnails[3], Sprites.itemImages[3], "Chicken Drumstick", "From range-free raised fowl.", "food", new Effects() {hp = 99, mp=99, statusHeal=new string[]{"Poison", "Curse", "Drain"}, atk=-99, def=99, crit=0.5f, luck=-0.2f, magicResistances=new MagicResistance[]{new MagicResistance(){name="Earth", type="add"}, new MagicResistance(){name="Air", type="add"}, new MagicResistance(){name="Water", type="add"}, new MagicResistance(){name="Fire", type="add"}, new MagicResistance(){name="Lightning", type="remove"}, new MagicResistance(){name="Ice", type="remove"}, new MagicResistance(){name="Light", type="remove"}, new MagicResistance(){name="Dark", type="remove"}}})}

@@ -61,6 +61,23 @@ public class Pause : MonoBehaviour {
   // Equipment Objects
   [Header("Equipment Objects")]
   [SerializeField] GameObject equipmentContainer;
+  [SerializeField] GameObject bodyButton;
+  [SerializeField] GameObject arm1Button;
+  [SerializeField] GameObject arm2Button;
+  [SerializeField] GameObject neckButton;
+  [SerializeField] GameObject armwear1Button;
+  [SerializeField] GameObject armwear2Button;
+  [SerializeField] GameObject ring1Button;
+  [SerializeField] GameObject ring2Button;
+  [SerializeField] GameObject EquippedSTRLabel;
+  [SerializeField] GameObject EquippedSTALabel;
+  [SerializeField] GameObject EquippedATK1Label;
+  [SerializeField] GameObject EquippedATK2Label;
+  [SerializeField] GameObject EquippedDEF1Label;
+  [SerializeField] GameObject EquippedDEF2Label;
+  [SerializeField] GameObject EquippedCRITLabel;
+  [SerializeField] GameObject EquippedLUCKLabel;
+
   [Space(10)]
 
   // Control buttons
@@ -111,6 +128,8 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject expObject;
   [SerializeField] GameObject nextObject;
   [SerializeField] GameObject goldObject;
+  [SerializeField] GameObject strObject;
+  [SerializeField] GameObject staObject;
   [SerializeField] GameObject atk1Object;
   [SerializeField] GameObject atk2Object;
   [SerializeField] GameObject def1Object;
@@ -141,9 +160,9 @@ public class Pause : MonoBehaviour {
 
   [System.NonSerialized] bool hasGamepad = false;
 
-  // variables to keep track of stats and preferences
+  // variables to keep track of stats
   [System.NonSerialized] Hero heroScript;
-  [System.NonSerialized] string playerEquipment = "";
+  [System.NonSerialized] string bodyEquipment = "";
   [System.NonSerialized] int playerLevel = -1;
   [System.NonSerialized] int currentHP = -1;
   [System.NonSerialized] int maxHP = -1;
@@ -153,6 +172,8 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] int exp = -1;
   [System.NonSerialized] int next = -1;
   [System.NonSerialized] int gold = -1;
+  [System.NonSerialized] int strength = -1;
+  [System.NonSerialized] int stamina = -1;
   [System.NonSerialized] int atk1 = -1;
   [System.NonSerialized] int atk2 = -1;
   [System.NonSerialized] int def1 = -1;
@@ -161,6 +182,8 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] float criticalPercentage = -0.1f;
   [System.NonSerialized] string location = "";
   [System.NonSerialized] string magicResistances = " ";
+
+  // variables to keep track of preferences
   [System.NonSerialized] string preferredInputString = "";
   [System.NonSerialized] string jumpKeyboardString = "";
   [System.NonSerialized] string jumpGamepadString = "";
@@ -168,6 +191,16 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] string atk1GamepadString = "";
   [System.NonSerialized] string atk2KeyboardString = "";
   [System.NonSerialized] string atk2GamepadString = "";
+
+  // variables to keep track of equipment
+  [System.NonSerialized] string bodyEquipmentKey = "";
+  [System.NonSerialized] string arm1EquipmentKey = "";
+  [System.NonSerialized] string arm2EquipmentKey = "";
+  [System.NonSerialized] string neckEquipmentKey = "";
+  [System.NonSerialized] string armwear1EquipmentKey = "";
+  [System.NonSerialized] string armwear2EquipmentKey = "";
+  [System.NonSerialized] string ring1EquipmentKey = "";
+  [System.NonSerialized] string ring2EquipmentKey = "";
 
   // current mapping button
   [System.NonSerialized] public static string currentlyMapping = "";
@@ -192,6 +225,7 @@ public class Pause : MonoBehaviour {
     UpdatePlayerStats();
     UpdateMagicResistances();
     UpdateItemView();
+    UpdateEquipmentPromptButtons();
   }
 
   void FadeOut() {
@@ -334,6 +368,7 @@ public class Pause : MonoBehaviour {
   }
 
   public void CancelEquipmentSelection() {
+    HideEquipmentLabels();
     canvasStatus = "equipment";
     Helpers.FocusUIElement(previouslySelectedEquipmentButton);
     previouslySelectedEquipmentButton = null;
@@ -376,7 +411,11 @@ public class Pause : MonoBehaviour {
               currentContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
             }
 
-            SetItemInfo(i);
+            if (canvasStatus == "items") {
+              SetItemInfo(i);
+            } else if (canvasStatus == "equipment_select") {
+              SetEquipmentProspect(i);
+            }
           }
           break;
         }
@@ -384,6 +423,32 @@ public class Pause : MonoBehaviour {
         i++;
       }
     }
+  }
+
+  void HideEquipmentLabels() {
+    EquippedSTRLabel.SetActive(false);
+    EquippedSTALabel.SetActive(false);
+    EquippedATK1Label.SetActive(false);
+    EquippedATK2Label.SetActive(false);
+    EquippedDEF1Label.SetActive(false);
+    EquippedDEF2Label.SetActive(false);
+    EquippedCRITLabel.SetActive(false);
+    EquippedLUCKLabel.SetActive(false);
+  }
+
+  void SetEquipmentProspect(int index) {
+    HideEquipmentLabels();
+
+    currentItemButtonIndex = index;
+
+    // grab current selected based on index
+    // grab current equipped
+    // compare to corresponding equipped variable in Hero (might need an extra string to be set on equipment button press)
+    // create value based on subtracting the current equipped from stats, and add values from current selected
+    // compare if it's less or more than stats. If so, set values to labels and make labels visible and set color (green for more, red for less)
+
+    // if selected, write current selected key to current equipped and update stats on Hero
+    // BE SURE TO MODIFY THE ONCLICK FUNCTION FOR EQUIPMENT!
   }
 
   void SetItemInfo(int index) {
@@ -653,9 +718,9 @@ public class Pause : MonoBehaviour {
   }
 
   void UpdatePlayerStats() {
-    if (playerEquipment != heroScript.playerEquipment) {
-      playerEquipment = heroScript.playerEquipment;
-      playerAvatar.GetComponent<Image>().sprite = Sprites.pauseAvatars[playerEquipment];
+    if (bodyEquipment != Hero.bodyEquipment) {
+      bodyEquipment = Hero.bodyEquipment;
+      playerAvatar.GetComponent<Image>().sprite = Sprites.pauseAvatars[bodyEquipment];
     }
 
     if (playerLevel != heroScript.playerLevel) {
@@ -703,39 +768,147 @@ public class Pause : MonoBehaviour {
       goldObject.GetComponent<Text>().text = (gold).ToString();
     }
 
-    if (atk1 != heroScript.atk1) {
-      atk1 = heroScript.atk1;
+    if (strength != (heroScript.strength + (int)heroScript.equippedSTR)) {
+      strength = heroScript.strength + (int)heroScript.equippedSTR;
+      strObject.GetComponent<Text>().text = (strength).ToString();
+    }
+
+    if (stamina != (heroScript.stamina + (int)heroScript.equippedSTA)) {
+      stamina = heroScript.stamina + (int)heroScript.equippedSTA;
+      staObject.GetComponent<Text>().text = (stamina).ToString();
+    }
+
+    if (atk1 != heroScript.equippedATK1) {
+      atk1 = heroScript.equippedATK1;
       atk1Object.GetComponent<Text>().text = (atk1).ToString();
     }
 
-    if (atk2 != heroScript.atk2) {
-      atk2 = heroScript.atk2;
+    if (atk2 != heroScript.equippedATK2) {
+      atk2 = heroScript.equippedATK2;
       atk2Object.GetComponent<Text>().text = (atk2).ToString();
     }
 
-    if (def1 != heroScript.def1) {
-      def1 = heroScript.def1;
+    if (def1 != heroScript.equippedDEF1) {
+      def1 = heroScript.equippedDEF1;
       def1Object.GetComponent<Text>().text = (def1).ToString();
     }
 
-    if (def2 != heroScript.def2) {
-      def2 = heroScript.def2;
+    if (def2 != heroScript.equippedDEF2) {
+      def2 = heroScript.equippedDEF2;
       def2Object.GetComponent<Text>().text = (def2).ToString();
     }
 
     if (criticalPercentage != heroScript.criticalPercentage) {
-      criticalPercentage = heroScript.criticalPercentage;
+      criticalPercentage = heroScript.criticalPercentage + heroScript.equippedCRIT;
       critical.GetComponent<Text>().text = ((int)(criticalPercentage * 100)).ToString() + " %";
     }
 
     if (luckPercentage != heroScript.luckPercentage) {
-      luckPercentage = heroScript.luckPercentage;
+      luckPercentage = heroScript.luckPercentage + heroScript.equippedLUCK;
       luck.GetComponent<Text>().text = ((int)(luckPercentage * 100)).ToString() + " %";
     }
 
     if (location != heroScript.location) {
       location = heroScript.location;
       locationObject.GetComponent<Image>().sprite = Sprites.locationImages[location];
+    }
+  }
+
+  void UpdateEquipmentPromptButtons() {
+    if (bodyEquipmentKey != Hero.bodyEquipment) {
+      bodyEquipmentKey = Hero.bodyEquipment;
+
+      if (bodyEquipmentKey == "") {
+        bodyButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["body"];
+        bodyButton.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
+      } else {
+        bodyButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[bodyEquipmentKey].thumbnail;
+        bodyButton.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[bodyEquipmentKey].name;
+      }
+    }
+
+    if (arm1EquipmentKey != Hero.arm1Equipment) {
+      arm1EquipmentKey = Hero.arm1Equipment;
+
+      if (arm1EquipmentKey == "") {
+        arm1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["arm1"];
+        arm1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
+      } else {
+        arm1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[arm1EquipmentKey].thumbnail;
+        arm1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[arm1EquipmentKey].name;
+      }
+    }
+
+    if (arm2EquipmentKey != Hero.arm2Equipment) {
+      arm2EquipmentKey = Hero.arm2Equipment;
+
+      if (arm2EquipmentKey == "") {
+        arm2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["arm2"];
+        arm2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
+      } else {
+        arm2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[arm2EquipmentKey].thumbnail;
+        arm2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[arm2EquipmentKey].name;
+      }
+    }
+
+    if (neckEquipmentKey != Hero.neckEquipment) {
+      neckEquipmentKey = Hero.neckEquipment;
+
+      if (arm2EquipmentKey == "") {
+        neckButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["neck"];
+        neckButton.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
+      } else {
+        neckButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[neckEquipmentKey].thumbnail;
+        neckButton.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[neckEquipmentKey].name;
+      }
+    }
+
+    if (armwear1EquipmentKey != Hero.armwear1Equipment) {
+      armwear1EquipmentKey = Hero.armwear1Equipment;
+
+      if (armwear1EquipmentKey == "") {
+        armwear1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["armwear1"];
+        armwear1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
+      } else {
+        armwear1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[armwear1EquipmentKey].thumbnail;
+        armwear1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[armwear1EquipmentKey].name;
+      }
+    }
+
+    if (armwear2EquipmentKey != Hero.armwear2Equipment) {
+      armwear2EquipmentKey = Hero.armwear2Equipment;
+
+      if (armwear2EquipmentKey == "") {
+        armwear2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["armwear2"];
+        armwear2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
+      } else {
+        armwear2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[armwear2EquipmentKey].thumbnail;
+        armwear2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[armwear2EquipmentKey].name;
+      }
+    }
+
+    if (ring1EquipmentKey != Hero.ring1Equipment) {
+      ring1EquipmentKey = Hero.ring1Equipment;
+
+      if (ring1EquipmentKey == "") {
+        ring1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["ring1"];
+        ring1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
+      } else {
+        ring1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[ring1EquipmentKey].thumbnail;
+        ring1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[ring1EquipmentKey].name;
+      }
+    }
+
+    if (ring2EquipmentKey != Hero.ring2Equipment) {
+      ring2EquipmentKey = Hero.ring2Equipment;
+
+      if (ring2EquipmentKey == "") {
+        ring2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["ring2"];
+        ring2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
+      } else {
+        ring2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[ring2EquipmentKey].thumbnail;
+        ring2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[ring2EquipmentKey].name;
+      }
     }
   }
 
