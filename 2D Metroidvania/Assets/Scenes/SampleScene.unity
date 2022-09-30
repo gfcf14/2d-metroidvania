@@ -413,7 +413,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -775.1492
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -6220,7 +6220,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -775.1492
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -7332,7 +7332,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -518.4797
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -19309,7 +19309,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1789059202}
-  m_RootOrder: 31
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -19543,7 +19543,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1789059202}
-  m_RootOrder: 35
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -19994,8 +19994,8 @@ MonoBehaviour:
   armwear2Button: {fileID: 8623231183918564925}
   ring1Button: {fileID: 8623231182660574651}
   ring2Button: {fileID: 8623231182215025373}
-  EquippedSTRLabel: {fileID: 0}
-  EquippedSTALabel: {fileID: 0}
+  EquippedSTRLabel: {fileID: 1499143526}
+  EquippedSTALabel: {fileID: 1793864893}
   EquippedATK1Label: {fileID: 982430943}
   EquippedATK2Label: {fileID: 1726884157}
   EquippedDEF1Label: {fileID: 221633619}
@@ -20921,7 +20921,7 @@ RectTransform:
   m_Children:
   - {fileID: 26710650}
   m_Father: {fileID: 1789059202}
-  m_RootOrder: 30
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -22310,8 +22310,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.870041, y: -10.000046}
-  m_SizeDelta: {x: 203.99, y: 28}
+  m_AnchoredPosition: {x: 0.0012283, y: 0}
+  m_SizeDelta: {x: 204, y: 28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1588109192
 MonoBehaviour:
@@ -24865,12 +24865,12 @@ RectTransform:
   - {fileID: 1968251814}
   - {fileID: 807792438}
   - {fileID: 1711354219}
-  - {fileID: 1499143527}
   - {fileID: 1362999786}
+  - {fileID: 1499143527}
   - {fileID: 1515661812}
   - {fileID: 1883225718}
-  - {fileID: 1793864894}
   - {fileID: 1378532415}
+  - {fileID: 1793864894}
   - {fileID: 1892147749}
   - {fileID: 602524782}
   - {fileID: 1708440536}
@@ -25105,12 +25105,12 @@ RectTransform:
   m_Children:
   - {fileID: 1588109191}
   m_Father: {fileID: 1789059202}
-  m_RootOrder: 34
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 239.67, y: -138.54996}
-  m_SizeDelta: {x: 215.73, y: 28}
+  m_AnchoredPosition: {x: 233.8, y: -148.54999}
+  m_SizeDelta: {x: 204, y: 28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1793864895
 MonoBehaviour:
@@ -37727,11 +37727,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1437520760}
         m_TargetAssemblyTypeName: Pause, Assembly-CSharp
         m_MethodName: SelectEquipment
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -37783,11 +37783,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1437520760}
         m_TargetAssemblyTypeName: Pause, Assembly-CSharp
         m_MethodName: SelectEquipment
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -37839,7 +37839,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1437520760}
         m_TargetAssemblyTypeName: Pause, Assembly-CSharp
         m_MethodName: SelectEquipment
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -37895,11 +37895,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1437520760}
         m_TargetAssemblyTypeName: Pause, Assembly-CSharp
         m_MethodName: SelectEquipment
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -37951,11 +37951,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1437520760}
         m_TargetAssemblyTypeName: Pause, Assembly-CSharp
         m_MethodName: SelectEquipment
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -38007,11 +38007,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1437520760}
         m_TargetAssemblyTypeName: Pause, Assembly-CSharp
         m_MethodName: SelectEquipment
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 7
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -38063,11 +38063,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1437520760}
         m_TargetAssemblyTypeName: Pause, Assembly-CSharp
         m_MethodName: SelectEquipment
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -38119,11 +38119,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1437520760}
         m_TargetAssemblyTypeName: Pause, Assembly-CSharp
         m_MethodName: SelectEquipment
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

@@ -12,4 +12,9 @@ public class Colors {
     {"burned", new Color(0.3f, 0.3f, 0.3f)},
     {"poisoned", new Color(0.4f, 0, 0.4f)}
   };
+
+  public static Dictionary<string, Color> pauseStatsColors = new Dictionary<string, Color> {
+    {"higher", new Color(0, 1, 0)},
+    {"lower", new Color(1, 0, 0)}
+  };
 }

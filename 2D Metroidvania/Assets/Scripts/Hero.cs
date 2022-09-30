@@ -108,9 +108,9 @@ public class Hero : MonoBehaviour {
   // PLAYER EQUIPMENT
     [System.NonSerialized] public static string bodyEquipment = "body-1";
     [System.NonSerialized] public static string arm1Equipment = "";
-    [System.NonSerialized] public static string arm2Equipment = "basic-shield";
+    [System.NonSerialized] public static string arm2Equipment = "";
     [System.NonSerialized] public static string neckEquipment = "";
-    [System.NonSerialized] public static string armwear1Equipment = "";
+    [System.NonSerialized] public static string armwear1Equipment = "silver-bracelet";
     [System.NonSerialized] public static string armwear2Equipment = "";
     [System.NonSerialized] public static string ring1Equipment = "";
     [System.NonSerialized] public static string ring2Equipment = "";
@@ -188,8 +188,8 @@ public class Hero : MonoBehaviour {
   }
 
   public void UpdateStatsValues() {
-    equippedSTR = PrepareEquippedStat("atk", new int[]{1, 2});
-    equippedSTA = PrepareEquippedStat("def", new int[]{1, 2});
+    equippedSTR = PrepareEquippedStat("atk");
+    equippedSTA = PrepareEquippedStat("def");
     equippedLUCK = PrepareEquippedStat("luck");
     equippedCRIT = PrepareEquippedStat("crit");
 
@@ -202,7 +202,7 @@ public class Hero : MonoBehaviour {
     equippedSTA = equippedSTA - equippedDEF1 - equippedDEF2;
   }
 
-  public float PrepareEquippedStat(string effect, int[] equipmentsIgnored = null) {
+  public float PrepareEquippedStat(string effect) {
     float totalStat = 0.0f;
 
     int i = 0;
