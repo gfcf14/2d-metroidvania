@@ -281,48 +281,55 @@ public class Pause : MonoBehaviour {
       int currentAmount = currentItem.amount;
       PauseItem currentPauseItem = Objects.pauseItems[currentKey];
 
-      GameObject currentItemButton = Instantiate(Objects.prefabs["item-button"], Vector2.zero, Quaternion.identity);
+      // TODO: do not add button (for equipment) if its amount is 2 (or less) and it's already equipped twice)
+      // if ((canvasStatus == "equipment" && ((Helpers.IsValueInArraySeveralTimes(heroScript.equipmentArray, currentKey, 2) && currentAmount > 2) || !Helpers.IsValueInArraySeveralTimes(heroScript.equipmentArray, currentKey, 2))) || canvasStatus == "items") {
+        GameObject currentItemButton = Instantiate(Objects.prefabs["item-button"], Vector2.zero, Quaternion.identity);
 
-      currentItemButton.transform.SetParent(parentContainer.transform);
-      currentItemButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Constants.startItemY + (i * Constants.itemIncrementY * -1));
-      currentItemButton.transform.localScale = Vector3.one;
-      currentItemButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = currentPauseItem.thumbnail;
-      currentItemButton.transform.Find("Text").gameObject.GetComponent<Text>().text = currentPauseItem.name;
+        currentItemButton.transform.SetParent(parentContainer.transform);
+        currentItemButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Constants.startItemY + (i * Constants.itemIncrementY * -1));
+        currentItemButton.transform.localScale = Vector3.one;
+        currentItemButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = currentPauseItem.thumbnail;
+        currentItemButton.transform.Find("Text").gameObject.GetComponent<Text>().text = currentPauseItem.name;
 
-      if (isItemList) {
-        currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = currentAmount.ToString();
-      }
+        if (isItemList) {
+          currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = currentAmount.ToString();
+        }
 
-      itemButtons.Add(currentItemButton);
+        itemButtons.Add(currentItemButton);
 
-      if (i > 1 && i < itemsList.Count()) {
-        Navigation buttonNavigation = new Navigation();
-        buttonNavigation.mode = Navigation.Mode.Explicit;
-        buttonNavigation.selectOnDown = currentItemButton.GetComponent<Button>();
-        buttonNavigation.selectOnUp = itemButtons.ElementAt(i - 2).GetComponent<Button>();
+        if (i > 1 && i < itemsList.Count()) {
+          Navigation buttonNavigation = new Navigation();
+          buttonNavigation.mode = Navigation.Mode.Explicit;
+          buttonNavigation.selectOnDown = currentItemButton.GetComponent<Button>();
+          buttonNavigation.selectOnUp = itemButtons.ElementAt(i - 2).GetComponent<Button>();
 
-        itemButtons.ElementAt(i - 1).GetComponent<Button>().navigation = buttonNavigation;
-      }
+          itemButtons.ElementAt(i - 1).GetComponent<Button>().navigation = buttonNavigation;
+        }
 
-      if (i == itemsList.Count() - 1 && itemsList.Count() > 1) {
-        Navigation lastButtonNavigation = new Navigation();
-        lastButtonNavigation.mode = Navigation.Mode.Explicit;
-        lastButtonNavigation.selectOnDown = itemButtons.ElementAt(0).GetComponent<Button>();
-        lastButtonNavigation.selectOnUp = itemButtons.ElementAt(i - 1).GetComponent<Button>();
+        if (i == itemsList.Count() - 1 && itemsList.Count() > 1) {
+          Navigation lastButtonNavigation = new Navigation();
+          lastButtonNavigation.mode = Navigation.Mode.Explicit;
+          lastButtonNavigation.selectOnDown = itemButtons.ElementAt(0).GetComponent<Button>();
+          lastButtonNavigation.selectOnUp = itemButtons.ElementAt(i - 1).GetComponent<Button>();
 
-        itemButtons.ElementAt(i).GetComponent<Button>().navigation = lastButtonNavigation;
+          itemButtons.ElementAt(i).GetComponent<Button>().navigation = lastButtonNavigation;
 
-        Navigation firstButtonNavigation = new Navigation();
-        firstButtonNavigation.mode = Navigation.Mode.Explicit;
-        firstButtonNavigation.selectOnDown = itemButtons.ElementAt(1).GetComponent<Button>();
-        firstButtonNavigation.selectOnUp = itemButtons.ElementAt(i).GetComponent<Button>();
+          Navigation firstButtonNavigation = new Navigation();
+          firstButtonNavigation.mode = Navigation.Mode.Explicit;
+          firstButtonNavigation.selectOnDown = itemButtons.ElementAt(1).GetComponent<Button>();
+          firstButtonNavigation.selectOnUp = itemButtons.ElementAt(i).GetComponent<Button>();
 
-        itemButtons.ElementAt(0).GetComponent<Button>().navigation = firstButtonNavigation;
-      }
+          itemButtons.ElementAt(0).GetComponent<Button>().navigation = firstButtonNavigation;
+        }
 
-      if (Helpers.IsUsableItem(currentPauseItem.type)) {
-        currentItemButton.GetComponent<Button>().onClick.AddListener(ProceedToUse);
-      }
+        if (canvasStatus == "items" && Helpers.IsUsableItem(currentPauseItem.type)) {
+          currentItemButton.GetComponent<Button>().onClick.AddListener(ProceedToUse);
+        }
+
+        if (canvasStatus == "equipment") {
+          currentItemButton.GetComponent<Button>().onClick.AddListener(Equip);
+        }
+      // }
 
       i++;
     }
@@ -331,6 +338,12 @@ public class Pause : MonoBehaviour {
   public void ProceedToUse() {
     canvasStatus = "items_use";
     Helpers.FocusUIElement(itemUseYes);
+  }
+
+  public void Equip() {
+    string newItemKey = currentEquipmentItems.ElementAt(currentItemButtonIndex).key;
+    heroScript.EquipItem(newItemKey, currentlyEquippedIndex);
+    CancelEquipmentSelection();
   }
 
   public void UseItem() {
@@ -559,12 +572,8 @@ public class Pause : MonoBehaviour {
       EquippedLUCKLabel.SetActive(true);
     }
 
-    // compare to corresponding equipped variable in Hero (might need an extra string to be set on equipment button press)
-    // create value based on subtracting the current equipped from stats, and add values from current selected
-    // compare if it's less or more than stats. If so, set values to labels and make labels visible and set color (green for more, red for less)
-
-    // if selected, write current selected key to current equipped and update stats on Hero
-    // BE SURE TO MODIFY THE ONCLICK FUNCTION FOR EQUIPMENT!
+    // TODO: make a check for adding/removing magic resistances
+    // TODO: make a check for type to remove defenses if the weapon equipped is "double"
   }
 
   void SetItemInfo(int index) {
@@ -971,7 +980,7 @@ public class Pause : MonoBehaviour {
     if (neckEquipmentKey != Hero.neckEquipment) {
       neckEquipmentKey = Hero.neckEquipment;
 
-      if (arm2EquipmentKey == "") {
+      if (neckEquipmentKey == "") {
         neckButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["neck"];
         neckButton.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
       } else {

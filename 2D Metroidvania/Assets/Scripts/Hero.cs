@@ -220,6 +220,41 @@ public class Hero : MonoBehaviour {
     return totalStat;
   }
 
+  public void EquipItem(string newItem, int itemIndex) {
+    switch (itemIndex) {
+      case 0:
+        bodyEquipment = newItem;
+      break;
+      case 1:
+        arm1Equipment = newItem;
+      break;
+      case 2:
+        arm2Equipment = newItem;
+      break;
+      case 3:
+        neckEquipment = newItem;
+      break;
+      case 4:
+        armwear1Equipment = newItem;
+      break;
+      case 5:
+        armwear2Equipment = newItem;
+      break;
+      case 6:
+        ring1Equipment = newItem;
+      break;
+      case 7:
+        ring2Equipment = newItem;
+      break;
+      default:
+        Debug.Log("Updating item " + newItem + " at index " + itemIndex + " somehow");
+      break;
+    }
+
+    equipmentArray = new string[] { bodyEquipment, arm1Equipment, arm2Equipment, neckEquipment, armwear1Equipment, armwear2Equipment, ring1Equipment, ring2Equipment};
+    UpdateStatsValues();
+  }
+
   public void UpdateStats(string stat, int? aggregate) {
     switch (stat) {
       case "hp":

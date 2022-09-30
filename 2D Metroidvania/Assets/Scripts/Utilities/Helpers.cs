@@ -113,6 +113,20 @@ public class Helpers {
     return System.Array.IndexOf(arr, val) != -1;
   }
 
+  public static bool IsValueInArraySeveralTimes(string[] arr, string val, int times) {
+    int i = 0;
+    int totalTimes = 0;
+    foreach (string currentVal in arr) {
+      if (currentVal == val) {
+        totalTimes++;
+      }
+
+      i++;
+    }
+
+    return totalTimes == times;
+  }
+
   public static bool IsOnItemContainerState(string[] containerStates, string currentState) {
     return IsValueInArray(containerStates, currentState);
   }
