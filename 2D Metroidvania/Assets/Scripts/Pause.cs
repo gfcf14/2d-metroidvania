@@ -467,10 +467,13 @@ public class Pause : MonoBehaviour {
     // check if the selected equipment is a double handed item
     bool isEquippingDouble = selectedEquipment.type == "double";
 
+    // check if the current equipment is a double handed item
+    bool equippedIsDouble = currentEquipment != null ? currentEquipment.type == "double" : false;
+
     // Check ATK1
-    if (currentlyEquippedIndex == 1 || (currentlyEquippedIndex == 2 && isEquippingDouble)) {
+    if (currentlyEquippedIndex == 1 || (currentlyEquippedIndex == 2 && (isEquippingDouble || equippedIsDouble))) {
       PauseItem otherArmEquipment = heroScript.equipmentArray[1] != "" ? Objects.pauseItems[heroScript.equipmentArray[1]] : null;
-      PauseItem equippedSelected = (currentlyEquippedIndex == 2 && isEquippingDouble) ? otherArmEquipment : currentEquipment;
+      PauseItem equippedSelected = (currentlyEquippedIndex == 2 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
 
       int newEquippedATK1 = (selectedEquipment.effects.atk ?? 0) + (heroScript.equippedATK1 - (equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0));
       if (newEquippedATK1 != heroScript.equippedATK1) {
@@ -485,9 +488,9 @@ public class Pause : MonoBehaviour {
     }
 
     // Check ATK2
-    if (currentlyEquippedIndex == 2 || (currentlyEquippedIndex == 1 && isEquippingDouble)) {
+    if (currentlyEquippedIndex == 2 || (currentlyEquippedIndex == 1 && (isEquippingDouble || equippedIsDouble))) {
       PauseItem otherArmEquipment = heroScript.equipmentArray[2] != "" ? Objects.pauseItems[heroScript.equipmentArray[2]] : null;
-      PauseItem equippedSelected = (currentlyEquippedIndex == 1 && isEquippingDouble) ? otherArmEquipment : currentEquipment;
+      PauseItem equippedSelected = (currentlyEquippedIndex == 1 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
 
       int newEquippedATK2 = (selectedEquipment.effects.atk ?? 0) + (heroScript.equippedATK2 - (equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0));
       if (newEquippedATK2 != heroScript.equippedATK2) {
@@ -502,9 +505,9 @@ public class Pause : MonoBehaviour {
     }
 
     // Check DEF1
-    if (currentlyEquippedIndex == 1 || (currentlyEquippedIndex == 2 && isEquippingDouble)) {
+    if (currentlyEquippedIndex == 1 || (currentlyEquippedIndex == 2 && (isEquippingDouble))) {
       PauseItem otherArmEquipment = heroScript.equipmentArray[1] != "" ? Objects.pauseItems[heroScript.equipmentArray[1]] : null;
-      PauseItem equippedSelected = (currentlyEquippedIndex == 2 && isEquippingDouble) ? otherArmEquipment : currentEquipment;
+      PauseItem equippedSelected = (currentlyEquippedIndex == 2 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
 
       int newEquippedDEF1 = (selectedEquipment.effects.def ?? 0) + (heroScript.equippedDEF1 - (equippedSelected != null ? equippedSelected.effects.def ?? 0 : 0));
       if (newEquippedDEF1 != heroScript.equippedDEF1) {
@@ -521,7 +524,7 @@ public class Pause : MonoBehaviour {
     // Check DEF2
     if (currentlyEquippedIndex == 2 || (currentlyEquippedIndex == 1 && isEquippingDouble)) {
       PauseItem otherArmEquipment = heroScript.equipmentArray[2] != "" ? Objects.pauseItems[heroScript.equipmentArray[2]] : null;
-      PauseItem equippedSelected = (currentlyEquippedIndex == 1 && isEquippingDouble) ? otherArmEquipment : currentEquipment;
+      PauseItem equippedSelected = (currentlyEquippedIndex == 1 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
 
       int newEquippedDEF2 = (selectedEquipment.effects.def ?? 0) + (heroScript.equippedDEF2 - (equippedSelected != null ? equippedSelected.effects.def ?? 0 : 0));
       if (newEquippedDEF2 != heroScript.equippedDEF2) {
