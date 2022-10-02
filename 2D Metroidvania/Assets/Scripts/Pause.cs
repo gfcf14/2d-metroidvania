@@ -464,14 +464,20 @@ public class Pause : MonoBehaviour {
     // grab current equipped
     PauseItem currentEquipment = heroScript.equipmentArray[currentlyEquippedIndex] != "" ? Objects.pauseItems[heroScript.equipmentArray[currentlyEquippedIndex]] : null;
 
+    // check if the selected equipment is a double handed item
+    bool isEquippingDouble = selectedEquipment.type == "double";
+
     // Check ATK1
-    if (currentlyEquippedIndex == 1) {
-      int newEquippedATK1 = (selectedEquipment.effects.atk ?? 0) + (heroScript.equippedATK1 - (currentEquipment != null ? currentEquipment.effects.atk ?? 0 : 0));
+    if (currentlyEquippedIndex == 1 || (currentlyEquippedIndex == 2 && isEquippingDouble)) {
+      PauseItem otherArmEquipment = heroScript.equipmentArray[1] != "" ? Objects.pauseItems[heroScript.equipmentArray[1]] : null;
+      PauseItem equippedSelected = (currentlyEquippedIndex == 2 && isEquippingDouble) ? otherArmEquipment : currentEquipment;
+
+      int newEquippedATK1 = (selectedEquipment.effects.atk ?? 0) + (heroScript.equippedATK1 - (equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0));
       if (newEquippedATK1 != heroScript.equippedATK1) {
         Color equippedLabelColor = newEquippedATK1 > heroScript.equippedATK1 ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
         Text equipmentText = EquippedATK1Label.transform.Find("Text").gameObject.GetComponent<Text>();
-        equipmentText.text = newEquippedATK1.ToString();
+        equipmentText.text = newEquippedATK1 > 0 ? newEquippedATK1.ToString() : "0";
         equipmentText.color = equippedLabelColor;
 
         EquippedATK1Label.SetActive(true);
@@ -479,13 +485,16 @@ public class Pause : MonoBehaviour {
     }
 
     // Check ATK2
-    if (currentlyEquippedIndex == 2) {
-      int newEquippedATK2 = (selectedEquipment.effects.atk ?? 0) + (heroScript.equippedATK2 - (currentEquipment != null ? currentEquipment.effects.atk ?? 0 : 0));
+    if (currentlyEquippedIndex == 2 || (currentlyEquippedIndex == 1 && isEquippingDouble)) {
+      PauseItem otherArmEquipment = heroScript.equipmentArray[2] != "" ? Objects.pauseItems[heroScript.equipmentArray[2]] : null;
+      PauseItem equippedSelected = (currentlyEquippedIndex == 1 && isEquippingDouble) ? otherArmEquipment : currentEquipment;
+
+      int newEquippedATK2 = (selectedEquipment.effects.atk ?? 0) + (heroScript.equippedATK2 - (equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0));
       if (newEquippedATK2 != heroScript.equippedATK2) {
         Color equippedLabelColor = newEquippedATK2 > heroScript.equippedATK2 ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
         Text equipmentText = EquippedATK2Label.transform.Find("Text").gameObject.GetComponent<Text>();
-        equipmentText.text = newEquippedATK2.ToString();
+        equipmentText.text = newEquippedATK2 > 0 ? newEquippedATK2.ToString() : "0";
         equipmentText.color = equippedLabelColor;
 
         EquippedATK2Label.SetActive(true);
@@ -493,13 +502,16 @@ public class Pause : MonoBehaviour {
     }
 
     // Check DEF1
-    if (currentlyEquippedIndex == 1) {
-      int newEquippedDEF1 = (selectedEquipment.effects.def ?? 0) + (heroScript.equippedDEF1 - (currentEquipment != null ? currentEquipment.effects.def ?? 0 : 0));
+    if (currentlyEquippedIndex == 1 || (currentlyEquippedIndex == 2 && isEquippingDouble)) {
+      PauseItem otherArmEquipment = heroScript.equipmentArray[1] != "" ? Objects.pauseItems[heroScript.equipmentArray[1]] : null;
+      PauseItem equippedSelected = (currentlyEquippedIndex == 2 && isEquippingDouble) ? otherArmEquipment : currentEquipment;
+
+      int newEquippedDEF1 = (selectedEquipment.effects.def ?? 0) + (heroScript.equippedDEF1 - (equippedSelected != null ? equippedSelected.effects.def ?? 0 : 0));
       if (newEquippedDEF1 != heroScript.equippedDEF1) {
         Color equippedLabelColor = newEquippedDEF1 > heroScript.equippedDEF1 ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
         Text equipmentText = EquippedDEF1Label.transform.Find("Text").gameObject.GetComponent<Text>();
-        equipmentText.text = newEquippedDEF1.ToString();
+        equipmentText.text = newEquippedDEF1 > 0 ? newEquippedDEF1.ToString() : "0";
         equipmentText.color = equippedLabelColor;
 
         EquippedDEF1Label.SetActive(true);
@@ -507,13 +519,16 @@ public class Pause : MonoBehaviour {
     }
 
     // Check DEF2
-    if (currentlyEquippedIndex == 2) {
-      int newEquippedDEF2 = (selectedEquipment.effects.def ?? 0) + (heroScript.equippedDEF2 - (currentEquipment != null ? currentEquipment.effects.def ?? 0 : 0));
+    if (currentlyEquippedIndex == 2 || (currentlyEquippedIndex == 1 && isEquippingDouble)) {
+      PauseItem otherArmEquipment = heroScript.equipmentArray[2] != "" ? Objects.pauseItems[heroScript.equipmentArray[2]] : null;
+      PauseItem equippedSelected = (currentlyEquippedIndex == 1 && isEquippingDouble) ? otherArmEquipment : currentEquipment;
+
+      int newEquippedDEF2 = (selectedEquipment.effects.def ?? 0) + (heroScript.equippedDEF2 - (equippedSelected != null ? equippedSelected.effects.def ?? 0 : 0));
       if (newEquippedDEF2 != heroScript.equippedDEF2) {
         Color equippedLabelColor = newEquippedDEF2 > heroScript.equippedDEF2 ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
         Text equipmentText = EquippedDEF2Label.transform.Find("Text").gameObject.GetComponent<Text>();
-        equipmentText.text = newEquippedDEF2.ToString();
+        equipmentText.text = newEquippedDEF2 > 0 ? newEquippedDEF2.ToString() : "0";
         equipmentText.color = equippedLabelColor;
 
         EquippedDEF2Label.SetActive(true);
@@ -521,29 +536,33 @@ public class Pause : MonoBehaviour {
     }
 
     // Check STR
-    int totalEquippedSTR = heroScript.strength + (int)heroScript.equippedSTR;
-    float newEquippedSTR = (selectedEquipment.effects.atk ?? 0) + (totalEquippedSTR - (currentEquipment != null ? currentEquipment.effects.atk ?? 0 : 0));
-    if (newEquippedSTR != totalEquippedSTR) {
-      Color equippedLabelColor = newEquippedSTR > totalEquippedSTR ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
+    if (currentlyEquippedIndex > 2) {
+      int totalEquippedSTR = heroScript.strength + (int)heroScript.equippedSTR;
+      float newEquippedSTR = (selectedEquipment.effects.atk ?? 0) + (totalEquippedSTR - (currentEquipment != null ? currentEquipment.effects.atk ?? 0 : 0));
+      if (newEquippedSTR != totalEquippedSTR) {
+        Color equippedLabelColor = newEquippedSTR > totalEquippedSTR ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
-      Text equipmentText = EquippedSTRLabel.transform.Find("Text").gameObject.GetComponent<Text>();
-      equipmentText.text = newEquippedSTR.ToString();
-      equipmentText.color = equippedLabelColor;
+        Text equipmentText = EquippedSTRLabel.transform.Find("Text").gameObject.GetComponent<Text>();
+        equipmentText.text = newEquippedSTR > 0 ? newEquippedSTR.ToString() : "0";
+        equipmentText.color = equippedLabelColor;
 
-      EquippedSTRLabel.SetActive(true);
+        EquippedSTRLabel.SetActive(true);
+      }
     }
 
     // Check STA
-    int totalEquippedSTA = heroScript.stamina + (int)heroScript.equippedSTA;
-    float newEquippedSTA = (selectedEquipment.effects.def ?? 0) + (totalEquippedSTA - (currentEquipment != null ? currentEquipment.effects.def ?? 0 : 0));
-    if (newEquippedSTA != totalEquippedSTA) {
-      Color equippedLabelColor = newEquippedSTA > totalEquippedSTA ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
+    if (currentlyEquippedIndex > 2) {
+      int totalEquippedSTA = heroScript.stamina + (int)heroScript.equippedSTA;
+      float newEquippedSTA = (selectedEquipment.effects.def ?? 0) + (totalEquippedSTA - (currentEquipment != null ? currentEquipment.effects.def ?? 0 : 0));
+      if (newEquippedSTA != totalEquippedSTA) {
+        Color equippedLabelColor = newEquippedSTA > totalEquippedSTA ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
-      Text equipmentText = EquippedSTALabel.transform.Find("Text").gameObject.GetComponent<Text>();
-      equipmentText.text = newEquippedSTA.ToString();
-      equipmentText.color = equippedLabelColor;
+        Text equipmentText = EquippedSTALabel.transform.Find("Text").gameObject.GetComponent<Text>();
+        equipmentText.text = newEquippedSTA > 0 ? newEquippedSTA.ToString() : "0";
+        equipmentText.color = equippedLabelColor;
 
-      EquippedSTALabel.SetActive(true);
+        EquippedSTALabel.SetActive(true);
+      }
     }
 
     // Check CRIT
@@ -553,7 +572,7 @@ public class Pause : MonoBehaviour {
       Color equippedLabelColor = newEquippedCRIT > totalEquippedCRIT ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
       Text equipmentText = EquippedCRITLabel.transform.Find("Text").gameObject.GetComponent<Text>();
-      equipmentText.text = ((int)(newEquippedCRIT * 100)).ToString() + " %";
+      equipmentText.text = newEquippedCRIT > 0 ? ((int)(newEquippedCRIT * 100)).ToString() + " %" : "0 %";
       equipmentText.color = equippedLabelColor;
 
       EquippedCRITLabel.SetActive(true);
@@ -566,14 +585,13 @@ public class Pause : MonoBehaviour {
       Color equippedLabelColor = newEquippedLUCK > totalEquippedLUCK ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
       Text equipmentText = EquippedLUCKLabel.transform.Find("Text").gameObject.GetComponent<Text>();
-      equipmentText.text = ((int)(newEquippedLUCK * 100)).ToString() + " %";
+      equipmentText.text = newEquippedLUCK > 0 ? ((int)(newEquippedLUCK * 100)).ToString() + " %" : "0 %";
       equipmentText.color = equippedLabelColor;
 
       EquippedLUCKLabel.SetActive(true);
     }
 
     // TODO: make a check for adding/removing magic resistances
-    // TODO: make a check for type to remove defenses if the weapon equipped is "double"
   }
 
   void SetItemInfo(int index) {

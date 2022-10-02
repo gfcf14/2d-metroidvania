@@ -221,15 +221,41 @@ public class Hero : MonoBehaviour {
   }
 
   public void EquipItem(string newItem, int itemIndex) {
+    string newItemType = Objects.pauseItems[newItem].type;
+
     switch (itemIndex) {
       case 0:
         bodyEquipment = newItem;
       break;
       case 1:
         arm1Equipment = newItem;
+
+        if (newItemType == "double") {
+          arm2Equipment = newItem;
+        } else {
+          if (arm2Equipment != "") {
+            string arm2Type = Objects.pauseItems[arm2Equipment].type;
+
+            if (arm2Type == "double") {
+              arm2Equipment = "";
+            }
+          }
+        }
       break;
       case 2:
         arm2Equipment = newItem;
+
+        if (newItemType == "double") {
+          arm1Equipment = newItem;
+        } else {
+          if (arm1Equipment != "") {
+            string arm1Type = Objects.pauseItems[arm1Equipment].type;
+
+            if (arm1Type == "double") {
+              arm1Equipment = "";
+            }
+          }
+        }
       break;
       case 3:
         neckEquipment = newItem;
