@@ -260,7 +260,7 @@ public class Pause : MonoBehaviour {
     itemsCanvas.SetActive(true);
 
     ClearItems(itemsContainer);
-    PopulateItemsContainer(heroScript.items, true, itemsContainer);
+    PopulateItemsContainer(heroScript.items, itemsContainer);
     Helpers.FocusUIElement(itemButtons.ElementAt(0));
     SetItemInfo(0);
   }
@@ -274,64 +274,79 @@ public class Pause : MonoBehaviour {
   }
 
   // adds all items in the hero item list or equipment list
-  void PopulateItemsContainer(List<Item> itemsList, bool isItemList, GameObject parentContainer) {
+  void PopulateItemsContainer(List<Item> itemsList, GameObject parentContainer) {
     int i = 0;
+    List<string> itemsToRemove = new List<string>();
+    List<string> itemTypes = new List<string>();
     foreach (Item currentItem in itemsList) {
       string currentKey = currentItem.key;
       int currentAmount = currentItem.amount;
       PauseItem currentPauseItem = Objects.pauseItems[currentKey];
 
-      // TODO: do not add button (for equipment) if its amount is 2 (or less) and it's already equipped twice)
-      // if ((canvasStatus == "equipment" && ((Helpers.IsValueInArraySeveralTimes(heroScript.equipmentArray, currentKey, 2) && currentAmount > 2) || !Helpers.IsValueInArraySeveralTimes(heroScript.equipmentArray, currentKey, 2))) || canvasStatus == "items") {
+      int itemUsageFrequency = Helpers.ValueFrequencyInArray(heroScript.equipmentArray, currentKey);
+
+      if ((canvasStatus == "equipment" && itemUsageFrequency < currentAmount) || canvasStatus == "items") {
         GameObject currentItemButton = Instantiate(Objects.prefabs["item-button"], Vector2.zero, Quaternion.identity);
 
         currentItemButton.transform.SetParent(parentContainer.transform);
-        currentItemButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Constants.startItemY + (i * Constants.itemIncrementY * -1));
+        currentItemButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Constants.startItemY + (itemButtons.Count * Constants.itemIncrementY * -1));
         currentItemButton.transform.localScale = Vector3.one;
         currentItemButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = currentPauseItem.thumbnail;
         currentItemButton.transform.Find("Text").gameObject.GetComponent<Text>().text = currentPauseItem.name;
 
-        if (isItemList) {
-          currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = currentAmount.ToString();
-        }
+        currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = (canvasStatus == "equipment" ? currentAmount - itemUsageFrequency : currentAmount).ToString();
 
         itemButtons.Add(currentItemButton);
-
-        if (i > 1 && i < itemsList.Count()) {
-          Navigation buttonNavigation = new Navigation();
-          buttonNavigation.mode = Navigation.Mode.Explicit;
-          buttonNavigation.selectOnDown = currentItemButton.GetComponent<Button>();
-          buttonNavigation.selectOnUp = itemButtons.ElementAt(i - 2).GetComponent<Button>();
-
-          itemButtons.ElementAt(i - 1).GetComponent<Button>().navigation = buttonNavigation;
+        itemTypes.Add(currentPauseItem.type);
+      } else {
+        if (itemUsageFrequency >= currentAmount) {
+          itemsToRemove.Add(currentKey);
         }
-
-        if (i == itemsList.Count() - 1 && itemsList.Count() > 1) {
-          Navigation lastButtonNavigation = new Navigation();
-          lastButtonNavigation.mode = Navigation.Mode.Explicit;
-          lastButtonNavigation.selectOnDown = itemButtons.ElementAt(0).GetComponent<Button>();
-          lastButtonNavigation.selectOnUp = itemButtons.ElementAt(i - 1).GetComponent<Button>();
-
-          itemButtons.ElementAt(i).GetComponent<Button>().navigation = lastButtonNavigation;
-
-          Navigation firstButtonNavigation = new Navigation();
-          firstButtonNavigation.mode = Navigation.Mode.Explicit;
-          firstButtonNavigation.selectOnDown = itemButtons.ElementAt(1).GetComponent<Button>();
-          firstButtonNavigation.selectOnUp = itemButtons.ElementAt(i).GetComponent<Button>();
-
-          itemButtons.ElementAt(0).GetComponent<Button>().navigation = firstButtonNavigation;
-        }
-
-        if (canvasStatus == "items" && Helpers.IsUsableItem(currentPauseItem.type)) {
-          currentItemButton.GetComponent<Button>().onClick.AddListener(ProceedToUse);
-        }
-
-        if (canvasStatus == "equipment") {
-          currentItemButton.GetComponent<Button>().onClick.AddListener(Equip);
-        }
-      // }
+      }
 
       i++;
+    }
+
+    for (int j = 0; j < itemsToRemove.Count; j++) {
+      currentEquipmentItems.RemoveAll(currItem => currItem.key == itemsToRemove[j]);
+    }
+
+    int k = 0;
+    foreach (GameObject currentItemButton in itemButtons) {
+      if (k > 1 && k < itemButtons.Count()) {
+        Navigation buttonNavigation = new Navigation();
+        buttonNavigation.mode = Navigation.Mode.Explicit;
+        buttonNavigation.selectOnDown = currentItemButton.GetComponent<Button>();
+        buttonNavigation.selectOnUp = itemButtons.ElementAt(k - 2).GetComponent<Button>();
+
+        itemButtons.ElementAt(k - 1).GetComponent<Button>().navigation = buttonNavigation;
+      }
+
+      if (k == itemButtons.Count() - 1 && itemButtons.Count() > 1) {
+        Navigation lastButtonNavigation = new Navigation();
+        lastButtonNavigation.mode = Navigation.Mode.Explicit;
+        lastButtonNavigation.selectOnDown = itemButtons.ElementAt(0).GetComponent<Button>();
+        lastButtonNavigation.selectOnUp = itemButtons.ElementAt(k - 1).GetComponent<Button>();
+
+        itemButtons.ElementAt(k).GetComponent<Button>().navigation = lastButtonNavigation;
+
+        Navigation firstButtonNavigation = new Navigation();
+        firstButtonNavigation.mode = Navigation.Mode.Explicit;
+        firstButtonNavigation.selectOnDown = itemButtons.ElementAt(1).GetComponent<Button>();
+        firstButtonNavigation.selectOnUp = itemButtons.ElementAt(k).GetComponent<Button>();
+
+        itemButtons.ElementAt(0).GetComponent<Button>().navigation = firstButtonNavigation;
+      }
+
+      if (canvasStatus == "items" && Helpers.IsUsableItem(itemTypes[k])) {
+        currentItemButton.GetComponent<Button>().onClick.AddListener(ProceedToUse);
+      }
+
+      if (canvasStatus == "equipment") {
+        currentItemButton.GetComponent<Button>().onClick.AddListener(Equip);
+      }
+
+      k++;
     }
   }
 
@@ -371,7 +386,7 @@ public class Pause : MonoBehaviour {
       } else {
         heroScript.RemoveItem(currentItemButtonIndex);
         ClearItems(itemsContainer);
-        PopulateItemsContainer(heroScript.items, true, itemsContainer);
+        PopulateItemsContainer(heroScript.items, itemsContainer);
         Helpers.FocusUIElement(itemButtons.ElementAt(0));
         SetItemInfo(0);
       }
@@ -1236,35 +1251,36 @@ public class Pause : MonoBehaviour {
     switch(equipmentType) {
       case "body":
         currentEquipmentItems = Helpers.GetSpecificItemList(Constants.bodyEquipmentTypes, heroScript.items);
-        PopulateItemsContainer(currentEquipmentItems, false, equipmentContainer);
       break;
       case "arms":
         currentEquipmentItems = Helpers.GetSpecificItemList(Constants.armEquipmentTypes, heroScript.items);
-        PopulateItemsContainer(currentEquipmentItems, false, equipmentContainer);
       break;
       case "neck":
         currentEquipmentItems = Helpers.GetSpecificItemList(Constants.neckEquipmentTypes, heroScript.items);
-        PopulateItemsContainer(currentEquipmentItems, false, equipmentContainer);
       break;
       case "armwear":
         currentEquipmentItems = Helpers.GetSpecificItemList(Constants.armwearEquipmentTypes, heroScript.items);
-        PopulateItemsContainer(currentEquipmentItems, false, equipmentContainer);
       break;
       case "rings":
         currentEquipmentItems = Helpers.GetSpecificItemList(Constants.ringEquipmentTypes, heroScript.items);
-        PopulateItemsContainer(currentEquipmentItems, false, equipmentContainer);
       break;
       default:
         Debug.Log("Unknown equipmentType: " + equipmentType);
       break;
     }
+
+    if (currentEquipmentItems.Count > 0) {
+      PopulateItemsContainer(currentEquipmentItems, equipmentContainer);
+    }
   }
 
   public void SelectEquipment(int selectedIndex) {
-    canvasStatus = "equipment_select";
-    currentlyEquippedIndex = selectedIndex;
-    previouslySelectedEquipmentButton = eventSystem.currentSelectedGameObject;
-    Helpers.FocusUIElement(itemButtons.ElementAt(0));
-    SetEquipmentProspect(0);
+    if (currentEquipmentItems.Count > 0) {
+      canvasStatus = "equipment_select";
+      currentlyEquippedIndex = selectedIndex;
+      previouslySelectedEquipmentButton = eventSystem.currentSelectedGameObject;
+      Helpers.FocusUIElement(itemButtons.ElementAt(0));
+      SetEquipmentProspect(0);
+    }
   }
 }
