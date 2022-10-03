@@ -77,6 +77,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject EquippedDEF2Label;
   [SerializeField] GameObject EquippedCRITLabel;
   [SerializeField] GameObject EquippedLUCKLabel;
+  [SerializeField] GameObject EquippedResistancesContainer;
 
   [Space(10)]
 
@@ -458,6 +459,16 @@ public class Pause : MonoBehaviour {
     }
   }
 
+  void HideEquippedResistances() {
+    foreach (Transform magicResistanceChild in EquippedResistancesContainer.transform) {
+      Image currentImage = magicResistanceChild.gameObject.GetComponent<Image>();
+      currentImage.sprite = null;
+      currentImage.color = Colors.pauseBackground;
+    }
+
+    EquippedResistancesContainer.SetActive(false);
+  }
+
   void HideEquipmentLabels() {
     EquippedSTRLabel.SetActive(false);
     EquippedSTALabel.SetActive(false);
@@ -467,6 +478,7 @@ public class Pause : MonoBehaviour {
     EquippedDEF2Label.SetActive(false);
     EquippedCRITLabel.SetActive(false);
     EquippedLUCKLabel.SetActive(false);
+    HideEquippedResistances();
   }
 
   void SetEquipmentProspect(int index) {
@@ -609,7 +621,41 @@ public class Pause : MonoBehaviour {
       EquippedLUCKLabel.SetActive(true);
     }
 
-    // TODO: make a check for adding/removing magic resistances
+    // Check magic resistances
+    if (selectedEquipment.effects.magicResistances != null) {
+      MagicResistance[] possibleNewMagicResistances = selectedEquipment.effects.magicResistances;
+      List<string> newMagicResistances = new List<string>(heroScript.magicResistances);
+
+      int i = 0;
+      foreach(MagicResistance currentMagicResistance in possibleNewMagicResistances) {
+        if (Helpers.IsValueInArray(heroScript.magicResistances, currentMagicResistance.name.ToLower())) {
+          if (currentMagicResistance.type == "remove") {
+            newMagicResistances.RemoveAll(currResistance => currResistance == currentMagicResistance.name.ToLower());
+          }
+        } else {
+          if (currentMagicResistance.type == "add") {
+            newMagicResistances.Add(currentMagicResistance.name);
+          }
+        }
+
+        i++;
+      }
+
+      if (newMagicResistances.Count > 0) {
+        int j = 0;
+        string allnewMR = "";
+        foreach (string currentMagicResistance in newMagicResistances) {
+          allnewMR += currentMagicResistance + ", ";
+          Image currentResistanceImage = EquippedResistancesContainer.transform.GetChild(j).gameObject.GetComponent<Image>();
+          currentResistanceImage.sprite = Sprites.magicResistances[currentMagicResistance.ToLower()];
+          currentResistanceImage.color = Color.white;
+
+          j++;
+        }
+
+        EquippedResistancesContainer.SetActive(true);
+      }
+    }
   }
 
   void SetItemInfo(int index) {

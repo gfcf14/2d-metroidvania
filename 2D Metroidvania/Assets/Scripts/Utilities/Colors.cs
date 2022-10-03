@@ -17,4 +17,6 @@ public class Colors {
     {"higher", new Color(0, 1, 0)},
     {"lower", new Color(1, 0, 0)}
   };
+
+  public static Color pauseBackground = new Color(20f/255f, 44f/255f, 36f/255f);
 }
