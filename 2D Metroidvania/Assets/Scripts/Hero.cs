@@ -101,9 +101,27 @@ public class Hero : MonoBehaviour {
     [System.NonSerialized] public float luckPercentage = 0.05f;
     [System.NonSerialized] public float criticalPercentage = 0.05f;
     [System.NonSerialized] public string location = "meadows";
-    // [System.NonSerialized] public string[] magicResistances = new string[] {"earth", "air", "water", "fire", "lightning", "ice", "light", "dark"};
-    [System.NonSerialized] public string[] magicResistances = new string[] {"lightning", "dark", "earth"};
-    // [System.NonSerialized] public string[] magicResistances = new string[] {};
+    [System.NonSerialized] public HeroMagicResistance[] magicResistances = new HeroMagicResistance[] {
+      new HeroMagicResistance() {name = "earth", frequency = 1},
+      new HeroMagicResistance() {name = "air", frequency = 0},
+      new HeroMagicResistance() {name = "water", frequency = 0},
+      new HeroMagicResistance() {name = "fire", frequency = 0},
+      new HeroMagicResistance() {name = "lightning", frequency = 1},
+      new HeroMagicResistance() {name = "ice", frequency = 0},
+      new HeroMagicResistance() {name = "light", frequency = 0},
+      new HeroMagicResistance() {name = "dark", frequency = 0}
+    };
+
+    [System.NonSerialized] public Dictionary<string, int> magicResistanceTypeIndex = new Dictionary<string, int> {
+      {"Earth", 0},
+      {"Air", 1},
+      {"Water", 2},
+      {"Fire", 3},
+      {"Lightning", 4},
+      {"Ice", 5},
+      {"Light", 6},
+      {"Dark", 7},
+    };
 
   // PLAYER EQUIPMENT
     [System.NonSerialized] public static string bodyEquipment = "body-1";
@@ -200,6 +218,8 @@ public class Hero : MonoBehaviour {
 
     equippedSTR = equippedSTR - equippedATK1 - equippedATK2;
     equippedSTA = equippedSTA - equippedDEF1 - equippedDEF2;
+
+    UpdateMagicResistances();
   }
 
   public float PrepareEquippedStat(string effect) {
@@ -218,6 +238,24 @@ public class Hero : MonoBehaviour {
     }
 
     return totalStat;
+  }
+
+  public void UpdateMagicResistances() {
+    foreach (HeroMagicResistance currHeroMR in magicResistances) {
+      currHeroMR.frequency = 0;
+    }
+
+    foreach (string currentEquipment in equipmentArray) {
+      if (currentEquipment != "") {
+        PauseItem currentPauseItem = Objects.pauseItems[currentEquipment];
+
+        if (currentPauseItem.effects.magicResistances != null) {
+          foreach (MagicResistance currMagicResistance in currentPauseItem.effects.magicResistances) {
+            magicResistances[magicResistanceTypeIndex[currMagicResistance.name]].frequency += currMagicResistance.type == "add" ? 1 : -1;
+          }
+        }
+      }
+    }
   }
 
   public void EquipItem(string newItem, int itemIndex) {

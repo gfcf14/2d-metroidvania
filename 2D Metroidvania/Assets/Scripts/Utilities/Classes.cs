@@ -93,3 +93,8 @@ public class PauseItem {
 
   // TODO: add values to increase player stats (atk, def, two-handed, etc.)
 }
+
+public class HeroMagicResistance {
+  public string name;
+  public int frequency;
+}

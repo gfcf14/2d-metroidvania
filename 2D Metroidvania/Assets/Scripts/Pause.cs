@@ -276,7 +276,6 @@ public class Pause : MonoBehaviour {
 
   // adds all items in the hero item list or equipment list
   void PopulateItemsContainer(List<Item> itemsList, GameObject parentContainer) {
-    int i = 0;
     List<string> itemsToRemove = new List<string>();
     List<string> itemTypes = new List<string>();
     foreach (Item currentItem in itemsList) {
@@ -304,8 +303,6 @@ public class Pause : MonoBehaviour {
           itemsToRemove.Add(currentKey);
         }
       }
-
-      i++;
     }
 
     for (int j = 0; j < itemsToRemove.Count; j++) {
@@ -622,40 +619,36 @@ public class Pause : MonoBehaviour {
     }
 
     // Check magic resistances
-    if (selectedEquipment.effects.magicResistances != null) {
-      MagicResistance[] possibleNewMagicResistances = selectedEquipment.effects.magicResistances;
-      List<string> newMagicResistances = new List<string>(heroScript.magicResistances);
+    MagicResistance[] possibleNewMagicResistances = selectedEquipment.effects.magicResistances ?? null;
+    // clones the heroScript.magicResistances array to a new instance to compare
+    HeroMagicResistance[] newMagicResistances = Array.ConvertAll(heroScript.magicResistances, currMR => new HeroMagicResistance() {name=(string)currMR.name.Clone(),  frequency=(int)currMR.frequency});
 
-      int i = 0;
-      foreach(MagicResistance currentMagicResistance in possibleNewMagicResistances) {
-        if (Helpers.IsValueInArray(heroScript.magicResistances, currentMagicResistance.name.ToLower())) {
-          if (currentMagicResistance.type == "remove") {
-            newMagicResistances.RemoveAll(currResistance => currResistance == currentMagicResistance.name.ToLower());
-          }
-        } else {
-          if (currentMagicResistance.type == "add") {
-            newMagicResistances.Add(currentMagicResistance.name);
-          }
-        }
-
-        i++;
-      }
-
-      if (newMagicResistances.Count > 0) {
-        int j = 0;
-        string allnewMR = "";
-        foreach (string currentMagicResistance in newMagicResistances) {
-          allnewMR += currentMagicResistance + ", ";
-          Image currentResistanceImage = EquippedResistancesContainer.transform.GetChild(j).gameObject.GetComponent<Image>();
-          currentResistanceImage.sprite = Sprites.magicResistances[currentMagicResistance.ToLower()];
-          currentResistanceImage.color = Color.white;
-
-          j++;
-        }
-
-        EquippedResistancesContainer.SetActive(true);
+    // removes the current equipment's magic resistances (if any)
+    if (currentEquipment != null && currentEquipment.effects.magicResistances != null) {
+      foreach (MagicResistance currMagicResistance in currentEquipment.effects.magicResistances) {
+        newMagicResistances[heroScript.magicResistanceTypeIndex[currMagicResistance.name]].frequency += currMagicResistance.type == "add" ? -1 : 1;
       }
     }
+
+    if (possibleNewMagicResistances != null) {
+      foreach (MagicResistance currentMagicResistance in possibleNewMagicResistances) {
+        newMagicResistances[heroScript.magicResistanceTypeIndex[currentMagicResistance.name]].frequency += currentMagicResistance.type == "add" ? 1 : -1;
+      }
+    }
+
+    int equippedResistanceIndex = 0;
+    foreach (HeroMagicResistance currentMagicResistance in newMagicResistances) {
+      // if frequency is 0, then it shouldn't be added
+      if (currentMagicResistance.frequency >= 1) {
+        Image currentResistanceImage = EquippedResistancesContainer.transform.GetChild(equippedResistanceIndex).gameObject.GetComponent<Image>();
+        currentResistanceImage.sprite = Sprites.magicResistances[currentMagicResistance.name.ToLower()];
+        currentResistanceImage.color = Color.white;
+
+        equippedResistanceIndex++;
+      }
+    }
+
+    EquippedResistancesContainer.SetActive(true);
   }
 
   void SetItemInfo(int index) {
@@ -715,7 +708,6 @@ public class Pause : MonoBehaviour {
         string addingResistances = "";
         string removingResistances = "";
 
-        int i = 0;
         foreach (MagicResistance currMagicResistance in itemEffects.magicResistances) {
           if (currMagicResistance.type == "add") {
             if (addingResistances == "") {
@@ -728,7 +720,6 @@ public class Pause : MonoBehaviour {
             }
             removingResistances += currMagicResistance.name + ", ";
           }
-          i++;
         }
 
         addingResistances.TrimEnd(new Char[]{ ',', ' '});
@@ -1121,13 +1112,22 @@ public class Pause : MonoBehaviour {
   }
 
   void UpdateMagicResistances() {
-    string currentMagicResistances = String.Join(",", heroScript.magicResistances);
+    string currentMagicResistances = "";
+    foreach(HeroMagicResistance currentMagicResistance in heroScript.magicResistances) {
+      if (currentMagicResistance.frequency >= 1) {
+        currentMagicResistances += currentMagicResistance.name + ",";
+      }
+    }
+
+    if (currentMagicResistances.EndsWith(",")) {
+      currentMagicResistances = currentMagicResistances.Remove(currentMagicResistances.Length - 1, 1);
+    }
 
     if (magicResistances != currentMagicResistances) {
       GameObject[] magicResistanceObjects = new GameObject[] {resistance1Object, resistance2Object, resistance3Object, resistance4Object, resistance5Object, resistance6Object, resistance7Object, resistance8Object};
-      string[] heroMagicResistances = heroScript.magicResistances;
+      string[] heroMagicResistances = currentMagicResistances.Split(',');
 
-      if (heroMagicResistances.Length > 1) {
+      if (heroMagicResistances.Length > 0) {
         magicEmptyObject.SetActive(false);
       } else {
         magicEmptyObject.SetActive(true);
@@ -1135,7 +1135,7 @@ public class Pause : MonoBehaviour {
 
       int i = 0;
       foreach (GameObject currMagicResistanceObject in magicResistanceObjects) {
-        if (i >= heroMagicResistances.Length) {
+        if (i >= heroMagicResistances.Length || currentMagicResistances == "") {
           currMagicResistanceObject.GetComponent<Image>().color = new Color(0, 0, 0, 0);
         } else {
           currMagicResistanceObject.GetComponent<Image>().color = new Color(1, 1, 1, 1);
