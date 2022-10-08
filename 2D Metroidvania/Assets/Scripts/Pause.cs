@@ -53,7 +53,11 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject itemImage;
   [SerializeField] GameObject itemName;
   [SerializeField] GameObject itemDescription;
-  [SerializeField] GameObject itemEffectsObject;
+  [SerializeField] GameObject itemEffectsPanel;
+  [SerializeField] GameObject itemEffectsStatusHealLabel;
+  [SerializeField] GameObject itemEffectsAddsPanel;
+  [SerializeField] GameObject itemEffectsRemovesPanel;
+  [SerializeField] GameObject itemEffectsTimeLabel;
   [SerializeField] GameObject itemUseRectangle;
   [SerializeField] GameObject itemUseYes;
   [Space(10)]
@@ -217,10 +221,37 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] List<Item> currentEquipmentItems;
   // tracks which equipment should be compared to a new equipment
   [System.NonSerialized] int currentlyEquippedIndex;
+  // tracks each effect in the effect panel
+  [System.NonSerialized] List<GameObject> effectsList = new List<GameObject>();
+  // tracks each magic resistance in the adds list
+  [System.NonSerialized] List<GameObject> addsList = new List<GameObject>();
+  // tracks each magic resistance in the removes list
+  [System.NonSerialized] List<GameObject> removesList = new List<GameObject>();
 
   void Start() {
     heroScript = hero.GetComponent<Hero>();
     eventSystem = EventSystem.current;
+
+    // adds all single effects to the list
+    foreach (Transform currentChild in itemEffectsPanel.transform) {
+      if (currentChild.name == "SingleEffect") {
+        effectsList.Add(currentChild.gameObject);
+      }
+    }
+
+    // adds all magic resistances to the adds list
+    foreach (Transform currentChild in itemEffectsAddsPanel.transform) {
+      if (currentChild.name == "MagicResistance") {
+        addsList.Add(currentChild.gameObject);
+      }
+    }
+
+    // adds all magic resistances to the removes list
+    foreach (Transform currentChild in itemEffectsRemovesPanel.transform) {
+      if (currentChild.name == "MagicResistance") {
+        addsList.Add(currentChild.gameObject);
+      }
+    }
   }
 
   void Update() {
@@ -651,7 +682,28 @@ public class Pause : MonoBehaviour {
     EquippedResistancesContainer.SetActive(true);
   }
 
+  void HideEffectsObjects() {
+    foreach(GameObject child in effectsList) {
+      child.SetActive(false);
+    }
+
+    itemEffectsStatusHealLabel.SetActive(false);
+
+    foreach(GameObject child in addsList) {
+      child.SetActive(false);
+    }
+    itemEffectsAddsPanel.SetActive(false);
+
+    foreach(GameObject child in removesList) {
+      child.SetActive(false);
+    }
+    itemEffectsRemovesPanel.SetActive(false);
+
+    itemEffectsTimeLabel.SetActive(false);
+  }
+
   void SetItemInfo(int index) {
+    HideEffectsObjects();
     currentItemButtonIndex = index;
 
     PauseItem currentPauseItem = Objects.pauseItems[heroScript.items.ElementAt(currentItemButtonIndex).key];
@@ -660,76 +712,98 @@ public class Pause : MonoBehaviour {
     itemDescription.GetComponent<Text>().text = currentPauseItem.description;
     itemUseRectangle.SetActive(Helpers.IsUsableItem(currentPauseItem.type));
 
-    string effectsText = "None";
-
     if (currentPauseItem.effects != null) {
       Effects itemEffects = currentPauseItem.effects;
-      effectsText = "";
 
-      if (itemEffects.duration != null) {
-        effectsText += itemEffects.duration + " " + (itemEffects.duration == 1 ? "sec" : "secs") + "\n";
-      }
+      int effectsCounter = 0;
 
       if (itemEffects.hp != null) {
-        effectsText += "HP" + (itemEffects.hp >= 0 ? "+" : "") + itemEffects.hp + "\n";
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[0];
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.hp >= 0 ? "+" : "") + itemEffects.hp;
+        effectsList.ElementAt(effectsCounter).SetActive(true);
+        effectsCounter++;
       }
 
       if (itemEffects.mp != null) {
-        effectsText += "MP" + (itemEffects.mp >= 0 ? "+" : "") + itemEffects.mp + "\n";
-      }
-
-      if (itemEffects.statusHeal != null) {
-        effectsText += "Heals ";
-
-        int i = 0;
-        foreach (string currStatusHeal in itemEffects.statusHeal) {
-          effectsText += currStatusHeal + (i < itemEffects.statusHeal.Length - 1 ? ", " : "\n");
-          i++;
-        }
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[1];
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.mp >= 0 ? "+" : "") + itemEffects.mp;
+        effectsList.ElementAt(effectsCounter).SetActive(true);
+        effectsCounter++;
       }
 
       if (itemEffects.atk != null) {
-        effectsText += "ATK" + (itemEffects.atk >= 0 ? "+" : "") + itemEffects.atk + "\n";
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[6];
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.atk >= 0 ? "+" : "") + itemEffects.atk;
+        effectsList.ElementAt(effectsCounter).SetActive(true);
+        effectsCounter++;
       }
 
       if (itemEffects.def != null) {
-        effectsText += "DEF" + (itemEffects.def >= 0 ? "+" : "") + itemEffects.def + "\n";
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[7];
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.def >= 0 ? "+" : "") + itemEffects.def;
+        effectsList.ElementAt(effectsCounter).SetActive(true);
+        effectsCounter++;
       }
 
       if (itemEffects.crit != null) {
-        effectsText += "CRIT" + (itemEffects.crit >= 0 ? "+" : "") + (int)(itemEffects.crit * 100) + "%\n";
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[10];
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.crit >= 0 ? "+" : "") + (int)(itemEffects.crit * 100);
+        effectsList.ElementAt(effectsCounter).SetActive(true);
+        effectsCounter++;
       }
 
       if (itemEffects.luck != null) {
-        effectsText += "LUCK" + (itemEffects.luck >= 0 ? "+" : "") + (int)(itemEffects.luck * 100) + "%\n";
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[11];
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.luck >= 0 ? "+" : "") + (int)(itemEffects.luck * 100);
+        effectsList.ElementAt(effectsCounter).SetActive(true);
+        effectsCounter++;
+      }
+
+      if (itemEffects.statusHeal != null) {
+        string statusEffectsText = "Heals ";
+
+        int i = 0;
+        foreach (string currStatusHeal in itemEffects.statusHeal) {
+          statusEffectsText += currStatusHeal + (i < itemEffects.statusHeal.Length - 1 ? ", " : "\n");
+          i++;
+        }
+
+        itemEffectsStatusHealLabel.GetComponent<Text>().text = statusEffectsText;
+        itemEffectsStatusHealLabel.SetActive(true);
       }
 
       if (itemEffects.magicResistances != null) {
-        string addingResistances = "";
-        string removingResistances = "";
+        int addsElementCounter = 0;
+        int removesElementCounter = 0;
 
         foreach (MagicResistance currMagicResistance in itemEffects.magicResistances) {
           if (currMagicResistance.type == "add") {
-            if (addingResistances == "") {
-              addingResistances += "Adds: ";
-            }
-            addingResistances += currMagicResistance.name + ", ";
+            addsList.ElementAt(addsElementCounter).GetComponent<Image>().sprite = Sprites.magicResistances[currMagicResistance.name.ToLower()];
+            addsList.ElementAt(addsElementCounter).SetActive(true);
+            addsElementCounter++;
           } else if (currMagicResistance.type == "remove") {
-            if (removingResistances == "") {
-              removingResistances += "Removes: ";
-            }
-            removingResistances += currMagicResistance.name + ", ";
+            addsList.ElementAt(removesElementCounter).GetComponent<Image>().sprite = Sprites.magicResistances[currMagicResistance.name.ToLower()];
+            addsList.ElementAt(removesElementCounter).SetActive(true);
+            removesElementCounter++;
           }
         }
 
-        addingResistances.TrimEnd(new Char[]{ ',', ' '});
-        removingResistances.TrimEnd(new Char[]{ ',', ' '});
+        if (addsElementCounter > 0) {
+          itemEffectsAddsPanel.SetActive(true);
+        }
 
-        effectsText += addingResistances + "\n" + removingResistances;
+        if (removesElementCounter > 0) {
+          itemEffectsRemovesPanel.SetActive(true);
+        }
       }
-    }
 
-    itemEffectsObject.GetComponent<Text>().text = effectsText;
+      if (itemEffects.duration != null) {
+        itemEffectsTimeLabel.GetComponent<Text>().text = itemEffects.duration + " " + (itemEffects.duration == 1 ? "sec" : "secs");
+        itemEffectsTimeLabel.SetActive(true);
+      }
+    } else {
+      itemEffectsPanel.SetActive(false);
+    }
   }
 
   public void ShowEquipmentCanvas() {

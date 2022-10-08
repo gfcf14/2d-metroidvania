@@ -9,6 +9,7 @@ public class Sprites {
   public static Sprite[] itemImages = Resources.LoadAll<Sprite>("Pause/Items/images");
 
   public static Sprite[] equipmentButtonIcons = Resources.LoadAll<Sprite>("Pause/equipment-icons");
+  public static Sprite[] statsIcons = Resources.LoadAll<Sprite>("Pause/stats-icons");
 
   public static Dictionary<string, Sprite> equipmentIcons = new Dictionary<string, Sprite> {
     {"body", equipmentButtonIcons[0]},
