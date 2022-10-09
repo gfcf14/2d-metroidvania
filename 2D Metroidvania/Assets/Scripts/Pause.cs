@@ -54,6 +54,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject itemName;
   [SerializeField] GameObject itemDescription;
   [SerializeField] GameObject itemEffectsPanel;
+  [SerializeField] GameObject itemEffectsGroupPanel;
   [SerializeField] GameObject itemEffectsStatusHealLabel;
   [SerializeField] GameObject itemEffectsAddsPanel;
   [SerializeField] GameObject itemEffectsRemovesPanel;
@@ -233,7 +234,7 @@ public class Pause : MonoBehaviour {
     eventSystem = EventSystem.current;
 
     // adds all single effects to the list
-    foreach (Transform currentChild in itemEffectsPanel.transform) {
+    foreach (Transform currentChild in itemEffectsGroupPanel.transform) {
       if (currentChild.name == "SingleEffect") {
         effectsList.Add(currentChild.gameObject);
       }
@@ -757,6 +758,19 @@ public class Pause : MonoBehaviour {
         effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.luck >= 0 ? "+" : "") + (int)(itemEffects.luck * 100);
         effectsList.ElementAt(effectsCounter).SetActive(true);
         effectsCounter++;
+      }
+
+      // if effectsCounter is 0, no single effects have been added, so the container should hide
+      if (effectsCounter == 0) {
+        itemEffectsGroupPanel.SetActive(false);
+      } else {
+        if (effectsCounter < 3) { // if the effectsCounter is less than 3, we only have 3 single effects thus the container should halve its height
+          itemEffectsGroupPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(335.66f, 31);
+        } else { // normal height for when an item has more than 3 single effects
+          itemEffectsGroupPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(335.66f, 62);
+        }
+
+        itemEffectsGroupPanel.SetActive(true);
       }
 
       if (itemEffects.statusHeal != null) {
