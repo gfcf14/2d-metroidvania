@@ -201,6 +201,18 @@ public class Hero : MonoBehaviour {
     items.Add(new Item("moonlight-pendant", 1));
     items.Add(new Item("rainbow-bracer", 1));
     items.Add(new Item("body-1", 1));
+    items.Add(new Item("lance", 3));
+    items.Add(new Item("axe", 2));
+    items.Add(new Item("hatchet", 14));
+    items.Add(new Item("shuriken-6", 23));
+    items.Add(new Item("shuriken-4", 50));
+    items.Add(new Item("knife", 3));
+    items.Add(new Item("kunai", 37));
+    items.Add(new Item("bow", 1));
+    items.Add(new Item("arrow-standard", 21));
+    items.Add(new Item("arrow-poison", 5));
+    items.Add(new Item("arrow-fire", 10));
+    items.Add(new Item("bomb", 99));
 
     UpdateStatsValues();
   }
