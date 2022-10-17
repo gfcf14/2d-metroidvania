@@ -266,7 +266,9 @@ public class Pause : MonoBehaviour {
   }
 
   void FadeOut() {
-    currentEquipmentItems.Clear();
+    if (currentEquipmentItems != null && currentEquipmentItems.Count > 1) {
+      currentEquipmentItems.Clear();
+    }
     canvasStatus = "";
     itemsCanvas.SetActive(false);
     itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
