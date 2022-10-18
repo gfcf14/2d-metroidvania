@@ -12,10 +12,12 @@ public class Constants {
   public static string[] usableItemTypes = {"food", "potion"};
 
   public static string[] bodyEquipmentTypes = {"body"};
-  public static string[] armEquipmentTypes = {"double", "single", "defense"};
+  public static string[] armEquipmentTypes = {"double", "single", "defense", "throwable-double", "throwable", "bow"};
   public static string[] neckEquipmentTypes = {"neck"};
   public static string[] armwearEquipmentTypes = {"armwear"};
   public static string[] ringEquipmentTypes = {"ring"};
+
+  public static string[] doubleHandedWeaponTypes = {"double", "throwable-double", "bow"};
 
   public static string[] itemContainerStates = {"items", "equipment_select"};
 

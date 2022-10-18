@@ -523,7 +523,7 @@ public class Pause : MonoBehaviour {
     PauseItem currentEquipment = heroScript.equipmentArray[currentlyEquippedIndex] != "" ? Objects.pauseItems[heroScript.equipmentArray[currentlyEquippedIndex]] : null;
 
     // check if the selected equipment is a double handed item
-    bool isEquippingDouble = selectedEquipment.type == "double";
+    bool isEquippingDouble = Helpers.IsValueInArray(Constants.doubleHandedWeaponTypes, selectedEquipment.type);
 
     // check if the current equipment is a double handed item
     bool equippedIsDouble = currentEquipment != null ? currentEquipment.type == "double" : false;
