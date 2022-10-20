@@ -30,6 +30,10 @@ public class Objects {
     {"axe", new ThrowableObject() {hasExtra = false, hasAnim = false, initialAngle = 0f, startX = 0.5f, startY = 0.5f, gravityResistance = 0, maxDistance = 4, colliderOffset = new Vector2(0.6f, 0), colliderSize = new Vector2(1.1f, 0.8f)}}
   };
 
+  public static Dictionary<string, string[]> itemProjectiles = new Dictionary<string, string[]> {
+    {"bow", new string[]{"arrow-standard", "arrow-poison", "arrow-fire"}}
+  };
+
   // initialize constructable PauseItem objects by: new PauseItem(thumbnail, image, name, description, type, effects)
   public static Dictionary<string, PauseItem> pauseItems = new Dictionary<string, PauseItem> {
     {"basic-longsword", new PauseItem(Sprites.itemThumbnails[0], Sprites.itemImages[0], "Basic Longsword", "Useful two-handed weapon.", "double", new Effects() {atk=40})},
@@ -61,5 +65,11 @@ public class Objects {
 
     // Example of having everything
     // {"chicken-drumstick", new PauseItem(Sprites.itemThumbnails[3], Sprites.itemImages[3], "Chicken Drumstick", "From range-free raised fowl.", "food", new Effects() {hp = 99, mp=99, statusHeal=new string[]{"Poison", "Curse", "Drain"}, atk=-99, def=99, crit=0.5f, luck=-0.2f, magicResistances=new MagicResistance[]{new MagicResistance(){name="Earth", type="add"}, new MagicResistance(){name="Air", type="add"}, new MagicResistance(){name="Water", type="add"}, new MagicResistance(){name="Fire", type="add"}, new MagicResistance(){name="Lightning", type="remove"}, new MagicResistance(){name="Ice", type="remove"}, new MagicResistance(){name="Light", type="remove"}, new MagicResistance(){name="Dark", type="remove"}}})}
+  };
+
+  public static Dictionary<string, CompositePauseImage> compositePauseImages = new Dictionary<string, CompositePauseImage> {
+    {"bow-with-arrow-standard", new CompositePauseImage(){thumbnail = Sprites.itemCombinedThumbnails[0], name = "Bow with Std. Arrow"}},
+    {"bow-with-arrow-poison", new CompositePauseImage(){thumbnail = Sprites.itemCombinedThumbnails[1], name = "Bow with Poison Arrow"}},
+    {"bow-with-arrow-fire", new CompositePauseImage(){thumbnail = Sprites.itemCombinedThumbnails[2], name = "Bow with Fire Arrow"}}
   };
 }

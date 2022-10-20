@@ -6,6 +6,8 @@ public class Sprites {
   public static Sprite[] elements = Resources.LoadAll<Sprite>("Pause/elements");
   public static Sprite[] keyset = Resources.LoadAll<Sprite>("Spritesheets/keyset");
   public static Sprite[] itemThumbnails = Resources.LoadAll<Sprite>("Pause/Items/thumbnails");
+
+  public static Sprite[] itemCombinedThumbnails = Resources.LoadAll<Sprite>("Pause/Items/combined-thumbnails");
   public static Sprite[] itemImages = Resources.LoadAll<Sprite>("Pause/Items/images");
 
   public static Sprite[] equipmentButtonIcons = Resources.LoadAll<Sprite>("Pause/equipment-icons");

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -104,6 +105,21 @@ public class Helpers {
     }
 
     return specificItems;
+  }
+
+  public static bool HasProjectilesForWeapon(string weapon, List<Item> list) {
+    string[] availableProjectiles = Objects.itemProjectiles[weapon];
+    string[] keyList = list.Select(item => item.key).ToArray();
+
+    return availableProjectiles.Any(projectile => keyList.Contains(projectile));
+  }
+
+  public static Item GetItemFromList(List<Item> itemList, string key) {
+    return itemList.Find(currItem => currItem.key == key);
+  }
+
+  public static string GetPauseItemKeyByName(string name) {
+    return Objects.pauseItems.FirstOrDefault(currEntry => currEntry.Value.name == name).Key;
   }
 
   public static bool IsValueInArray(string[] arr, string val) {

@@ -12,6 +12,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject mainCanvas;
   [SerializeField] GameObject itemsCanvas;
   [SerializeField] GameObject equipmentCanvas;
+  [SerializeField] GameObject projectileCanvas;
   [SerializeField] GameObject optionsCanvas;
   [SerializeField] GameObject controlsCanvas;
   [SerializeField] GameObject preferredInputCanvas;
@@ -83,6 +84,8 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject EquippedCRITLabel;
   [SerializeField] GameObject EquippedLUCKLabel;
   [SerializeField] GameObject EquippedResistancesContainer;
+
+  [SerializeField] GameObject ProjectilesContainer;
 
   [Space(10)]
 
@@ -228,6 +231,10 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] List<GameObject> addsList = new List<GameObject>();
   // tracks each magic resistance in the removes list
   [System.NonSerialized] List<GameObject> removesList = new List<GameObject>();
+  // tracks projectile buttons in projectile canvas
+  [System.NonSerialized] List<GameObject> projectileButtonList = new List<GameObject>();
+  // tracks available projectile keys
+  [System.NonSerialized] List<string> availableProjectileKeys = new List<string>();
 
   void Start() {
     heroScript = hero.GetComponent<Hero>();
@@ -253,6 +260,11 @@ public class Pause : MonoBehaviour {
         addsList.Add(currentChild.gameObject);
       }
     }
+
+    // adds all projectile buttons to the list
+    foreach (Transform currentChild in ProjectilesContainer.transform) {
+      projectileButtonList.Add(currentChild.gameObject);
+    }
   }
 
   void Update() {
@@ -274,6 +286,7 @@ public class Pause : MonoBehaviour {
     itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
     equipmentCanvas.SetActive(false);
     equipmentContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+    projectileCanvas.SetActive(false);
     optionsCanvas.SetActive(false);
     controlsCanvas.SetActive(false);
     preferredInputCanvas.SetActive(false);
@@ -319,7 +332,7 @@ public class Pause : MonoBehaviour {
 
       int itemUsageFrequency = Helpers.ValueFrequencyInArray(heroScript.equipmentArray, currentKey);
 
-      if ((canvasStatus == "equipment" && itemUsageFrequency < currentAmount) || canvasStatus == "items") {
+      if ((canvasStatus == "equipment" && (!Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) || (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) && Helpers.HasProjectilesForWeapon(currentKey, heroScript.items))) && (itemUsageFrequency < currentAmount || Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey))) || canvasStatus == "items") {
         GameObject currentItemButton = Instantiate(Objects.prefabs["item-button"], Vector2.zero, Quaternion.identity);
 
         currentItemButton.transform.SetParent(parentContainer.transform);
@@ -328,7 +341,7 @@ public class Pause : MonoBehaviour {
         currentItemButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = currentPauseItem.thumbnail;
         currentItemButton.transform.Find("Text").gameObject.GetComponent<Text>().text = currentPauseItem.name;
 
-        currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = (canvasStatus == "equipment" ? currentAmount - itemUsageFrequency : currentAmount).ToString();
+        currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = (canvasStatus == "equipment" ? currentAmount - (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) ? 0 : itemUsageFrequency) : currentAmount).ToString();
 
         itemButtons.Add(currentItemButton);
         itemTypes.Add(currentPauseItem.type);
@@ -389,8 +402,85 @@ public class Pause : MonoBehaviour {
 
   public void Equip() {
     string newItemKey = currentEquipmentItems.ElementAt(currentItemButtonIndex).key;
+    string newItemType = Objects.pauseItems[newItemKey].type;
+
+    // if item to equip is among those that require a projectile to use (i.e. bow that requires arrows), then open a canvas that would allow equipment for this projectile
+    if (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, newItemType)) {
+      SelectProjectileOnNewItemKey(newItemKey);
+    } else { // if not, item would be immediately equipped
+      Hero.projectileEquipment = "";
+      heroScript.EquipItem(newItemKey, currentlyEquippedIndex);
+      CancelEquipmentSelection();
+    }
+  }
+
+  public void SelectProjectileOnNewItemKey(string itemKey) {
+    string[] itemProjectiles = Objects.itemProjectiles[itemKey];
+    string[] heroItemsList = heroScript.items.Select(item => item.key).ToArray();
+    int currProjectileButtonIndex = 0;
+    availableProjectileKeys.Clear();
+
+    ClearProjectileButtons();
+
+    foreach(string currentPossibleProjectile in itemProjectiles) {
+      if (Helpers.IsValueInArray(heroItemsList, currentPossibleProjectile)) {
+        PauseItem availableProjectileItem = Objects.pauseItems[currentPossibleProjectile];
+        Transform projectileButton = projectileButtonList[currProjectileButtonIndex].transform;
+
+        projectileButton.Find("ProjectileImage").GetComponent<Image>().sprite = availableProjectileItem.thumbnail;
+        projectileButton.Find("ProjectileName").GetComponent<Text>().text = availableProjectileItem.name;
+        projectileButton.Find("ProjectileAmount").GetComponent<Text>().text = "(" + Helpers.GetItemFromList(heroScript.items, currentPossibleProjectile).amount + ")";
+        projectileButton.Find("Attack").GetComponent<Text>().text = "+" + availableProjectileItem.effects.atk;
+        availableProjectileKeys.Add(currentPossibleProjectile);
+
+        projectileButtonList[currProjectileButtonIndex].SetActive(true);
+        currProjectileButtonIndex++;
+      }
+    }
+
+    if (currProjectileButtonIndex > 1) { // means that there is more than one projectile
+      canvasStatus = "equipment_select_projectile";
+      projectileCanvas.SetActive(true);
+
+      for (int i = 0; i < currProjectileButtonIndex; i++) {
+        Navigation buttonNavigation = new Navigation();
+        buttonNavigation.mode = Navigation.Mode.Explicit;
+
+        if (i == 0) {
+          buttonNavigation.selectOnDown = projectileButtonList[i + 1].GetComponent<Button>();
+          buttonNavigation.selectOnUp = projectileButtonList[currProjectileButtonIndex - 1].GetComponent<Button>();
+        } else if (i == currProjectileButtonIndex - 1) {
+          buttonNavigation.selectOnDown = projectileButtonList[0].GetComponent<Button>();
+          buttonNavigation.selectOnUp = projectileButtonList[i - 1].GetComponent<Button>();
+        } else {
+          buttonNavigation.selectOnDown = projectileButtonList[i + 1].GetComponent<Button>();
+          buttonNavigation.selectOnUp = projectileButtonList[i - 1].GetComponent<Button>();
+        }
+
+        projectileButtonList[i].GetComponent<Button>().navigation = buttonNavigation;
+      }
+
+      Helpers.FocusUIElement(projectileButtonList[0]);
+
+    } else { // if not more than one, there can only be 1 type, so use that type
+      EquipProjectile(0);
+    }
+  }
+
+  public void EquipProjectile(int projectileIndex) {
+    Hero.projectileEquipment = availableProjectileKeys[projectileIndex];
+    string newItemKey = currentEquipmentItems.ElementAt(currentItemButtonIndex).key;
     heroScript.EquipItem(newItemKey, currentlyEquippedIndex);
+    arm1EquipmentKey = "";
+    arm2EquipmentKey = "";
+    CancelProjectileSelection();
     CancelEquipmentSelection();
+  }
+
+  public void ClearProjectileButtons() {
+    foreach(GameObject currButton in projectileButtonList) {
+      currButton.SetActive(false);
+    }
   }
 
   public void UseItem() {
@@ -437,6 +527,13 @@ public class Pause : MonoBehaviour {
     canvasStatus = "equipment";
     Helpers.FocusUIElement(previouslySelectedEquipmentButton);
     previouslySelectedEquipmentButton = null;
+  }
+
+  public void CancelProjectileSelection() {
+    canvasStatus = "equipment_select";
+    projectileCanvas.SetActive(false);
+    ClearProjectileButtons();
+    Helpers.FocusUIElement(itemButtons[currentItemButtonIndex]);
   }
 
   void UpdateItemView() {
@@ -526,14 +623,14 @@ public class Pause : MonoBehaviour {
     bool isEquippingDouble = Helpers.IsValueInArray(Constants.doubleHandedWeaponTypes, selectedEquipment.type);
 
     // check if the current equipment is a double handed item
-    bool equippedIsDouble = currentEquipment != null ? currentEquipment.type == "double" : false;
+    bool equippedIsDouble = currentEquipment != null ? Helpers.IsValueInArray(Constants.doubleHandedWeaponTypes, currentEquipment.type) : false;
 
     // Check ATK1
     if (currentlyEquippedIndex == 1 || (currentlyEquippedIndex == 2 && (isEquippingDouble || equippedIsDouble))) {
       PauseItem otherArmEquipment = heroScript.equipmentArray[1] != "" ? Objects.pauseItems[heroScript.equipmentArray[1]] : null;
       PauseItem equippedSelected = (currentlyEquippedIndex == 2 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
 
-      int newEquippedATK1 = (selectedEquipment.effects.atk ?? 0) + (heroScript.equippedATK1 - (equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0));
+      int newEquippedATK1 = (selectedEquipment.effects.atk ?? 0) + (heroScript.equippedATK1 - ((equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0) + (Hero.projectileEquipment != "" ? Objects.pauseItems[Hero.projectileEquipment].effects.atk ?? 0 : 0)));
       if (newEquippedATK1 != heroScript.equippedATK1) {
         Color equippedLabelColor = newEquippedATK1 > heroScript.equippedATK1 ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
@@ -550,7 +647,7 @@ public class Pause : MonoBehaviour {
       PauseItem otherArmEquipment = heroScript.equipmentArray[2] != "" ? Objects.pauseItems[heroScript.equipmentArray[2]] : null;
       PauseItem equippedSelected = (currentlyEquippedIndex == 1 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
 
-      int newEquippedATK2 = (selectedEquipment.effects.atk ?? 0) + (heroScript.equippedATK2 - (equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0));
+      int newEquippedATK2 = (selectedEquipment.effects.atk ?? 0) + (heroScript.equippedATK2 - ((equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0) + (Hero.projectileEquipment != "" ? Objects.pauseItems[Hero.projectileEquipment].effects.atk ?? 0 : 0)));
       if (newEquippedATK2 != heroScript.equippedATK2) {
         Color equippedLabelColor = newEquippedATK2 > heroScript.equippedATK2 ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
@@ -926,6 +1023,9 @@ public class Pause : MonoBehaviour {
       case "equipment_select":
         CancelEquipmentSelection();
       break;
+      case "equipment_select_projectile":
+        CancelProjectileSelection();
+      break;
       case "options":
         GoBackToMainFromOptions();
       break;
@@ -1123,8 +1223,8 @@ public class Pause : MonoBehaviour {
         arm1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["arm1"];
         arm1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
       } else {
-        arm1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[arm1EquipmentKey].thumbnail;
-        arm1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[arm1EquipmentKey].name;
+        arm1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Hero.projectileEquipment == "" ? Objects.pauseItems[arm1EquipmentKey].thumbnail : Objects.compositePauseImages[arm1EquipmentKey + "-with-" + Hero.projectileEquipment].thumbnail;
+        arm1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Hero.projectileEquipment == "" ? Objects.pauseItems[arm1EquipmentKey].name : Objects.compositePauseImages[arm1EquipmentKey + "-with-" + Hero.projectileEquipment].name;
       }
     }
 
@@ -1135,8 +1235,8 @@ public class Pause : MonoBehaviour {
         arm2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["arm2"];
         arm2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
       } else {
-        arm2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[arm2EquipmentKey].thumbnail;
-        arm2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[arm2EquipmentKey].name;
+        arm2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Hero.projectileEquipment == "" ? Objects.pauseItems[arm2EquipmentKey].thumbnail : Objects.compositePauseImages[arm2EquipmentKey + "-with-" + Hero.projectileEquipment].thumbnail;
+        arm2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Hero.projectileEquipment == "" ? Objects.pauseItems[arm2EquipmentKey].name : Objects.compositePauseImages[arm2EquipmentKey + "-with-" + Hero.projectileEquipment].name;
       }
     }
 

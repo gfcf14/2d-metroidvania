@@ -133,6 +133,8 @@ public class Hero : MonoBehaviour {
     [System.NonSerialized] public static string ring1Equipment = "";
     [System.NonSerialized] public static string ring2Equipment = "";
 
+    [System.NonSerialized] public static string projectileEquipment = "";
+
     [System.NonSerialized] public string[] equipmentArray = { bodyEquipment, arm1Equipment, arm2Equipment, neckEquipment, armwear1Equipment, armwear2Equipment, ring1Equipment, ring2Equipment};
 
   // PLAYER EQUIPPED STATS
@@ -223,13 +225,13 @@ public class Hero : MonoBehaviour {
     equippedLUCK = PrepareEquippedStat("luck");
     equippedCRIT = PrepareEquippedStat("crit");
 
-    equippedATK1 = arm1Equipment != "" ? Objects.pauseItems[arm1Equipment].effects.atk != null ? (int)Objects.pauseItems[arm1Equipment].effects.atk : 0 : 0;
-    equippedATK2 = arm2Equipment != "" ? Objects.pauseItems[arm2Equipment].effects.atk != null ? (int)Objects.pauseItems[arm2Equipment].effects.atk : 0 : 0;
+    equippedATK1 = (arm1Equipment != "" ? Objects.pauseItems[arm1Equipment].effects.atk != null ? (int)Objects.pauseItems[arm1Equipment].effects.atk : 0 : 0) + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk ?? 0 : 0);
+    equippedATK2 = (arm2Equipment != "" ? Objects.pauseItems[arm2Equipment].effects.atk != null ? (int)Objects.pauseItems[arm2Equipment].effects.atk : 0 : 0)  + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk ?? 0 : 0);
     equippedDEF1 = arm1Equipment != "" ? Objects.pauseItems[arm1Equipment].effects.def != null ? (int)Objects.pauseItems[arm1Equipment].effects.def : 0 : 0;
     equippedDEF2 = arm2Equipment != "" ? Objects.pauseItems[arm2Equipment].effects.def != null ? (int)Objects.pauseItems[arm2Equipment].effects.def : 0 : 0;
 
-    equippedSTR = equippedSTR - equippedATK1 - equippedATK2;
-    equippedSTA = equippedSTA - equippedDEF1 - equippedDEF2;
+    equippedSTR = equippedSTR - equippedATK1 - equippedATK2 + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk * 2 ?? 0 : 0);
+    equippedSTA = equippedSTA - equippedDEF1 - equippedDEF2 + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk * 2 ?? 0 : 0);
 
     UpdateMagicResistances();
   }
@@ -272,7 +274,6 @@ public class Hero : MonoBehaviour {
 
   public void EquipItem(string newItem, int itemIndex) {
     string newItemType = Objects.pauseItems[newItem].type;
-
     switch (itemIndex) {
       case 0:
         bodyEquipment = newItem;
@@ -280,13 +281,13 @@ public class Hero : MonoBehaviour {
       case 1:
         arm1Equipment = newItem;
 
-        if (newItemType == "double") {
+        if (Helpers.IsValueInArray(Constants.doubleHandedWeaponTypes, newItemType)) {
           arm2Equipment = newItem;
         } else {
           if (arm2Equipment != "") {
             string arm2Type = Objects.pauseItems[arm2Equipment].type;
 
-            if (arm2Type == "double") {
+            if (Helpers.IsValueInArray(Constants.doubleHandedWeaponTypes, arm2Type)) {
               arm2Equipment = "";
             }
           }
@@ -295,13 +296,13 @@ public class Hero : MonoBehaviour {
       case 2:
         arm2Equipment = newItem;
 
-        if (newItemType == "double") {
+        if (Helpers.IsValueInArray(Constants.doubleHandedWeaponTypes, newItemType)) {
           arm1Equipment = newItem;
         } else {
           if (arm1Equipment != "") {
             string arm1Type = Objects.pauseItems[arm1Equipment].type;
 
-            if (arm1Type == "double") {
+            if (Helpers.IsValueInArray(Constants.doubleHandedWeaponTypes, arm1Type)) {
               arm1Equipment = "";
             }
           }
