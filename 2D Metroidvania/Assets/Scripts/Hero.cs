@@ -199,7 +199,7 @@ public class Hero : MonoBehaviour {
     items.Add(new Item("basic-sword", 1));
     items.Add(new Item("basic-longsword", 1));
     items.Add(new Item("love-necklace", 1));
-    items.Add(new Item("solomon-ring", 1));
+    // items.Add(new Item("solomon-ring", 1));
     items.Add(new Item("ra-ring", 1));
     items.Add(new Item("skull-ring", 1));
     items.Add(new Item("gold-bracelet", 1));
