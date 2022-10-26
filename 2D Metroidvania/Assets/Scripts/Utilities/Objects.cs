@@ -56,7 +56,7 @@ public class Objects {
     {"shuriken-6", new PauseItem(Sprites.itemThumbnails[17], Sprites.itemImages[17], "Six point Shuriken", "Unexpected rolling attack.", "throwable", new Effects() {atk=10})},
     {"shuriken-4", new PauseItem(Sprites.itemThumbnails[18], Sprites.itemImages[18], "Four point Shuriken", "Fast throwing weapon, not too strong.", "throwable", new Effects() {atk=5})},
     {"knife", new PauseItem(Sprites.itemThumbnails[19], Sprites.itemImages[19], "Knife", "Could be used to spread butter on bread.", "throwable", new Effects() {atk=15})},
-    {"kunai", new PauseItem(Sprites.itemThumbnails[10], Sprites.itemImages[20], "Kunai", "Used for masonry as well as for battle.", "throwable", new Effects() {atk=10})},
+    {"kunai", new PauseItem(Sprites.itemThumbnails[20], Sprites.itemImages[20], "Kunai", "Used for masonry as well as for battle.", "throwable", new Effects() {atk=10})},
     {"bow", new PauseItem(Sprites.itemThumbnails[21], Sprites.itemImages[21], "Standard Bow", "Your basic archery bow.", "bow", new Effects() {atk=0})},
     {"arrow-standard", new PauseItem(Sprites.itemThumbnails[22], Sprites.itemImages[22], "Standard Arrow", "Basic arrows to deal projectile damage.", "arrow", new Effects() {atk=20})},
     {"arrow-poison", new PauseItem(Sprites.itemThumbnails[23], Sprites.itemImages[23], "Poisoned Arrow", "Arrows dipped with poison to damage beyond contact.", "arrow", new Effects() {atk=10})},

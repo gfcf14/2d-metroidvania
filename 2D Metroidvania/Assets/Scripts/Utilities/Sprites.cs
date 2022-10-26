@@ -6,12 +6,11 @@ public class Sprites {
   public static Sprite[] elements = Resources.LoadAll<Sprite>("Pause/elements");
   public static Sprite[] keyset = Resources.LoadAll<Sprite>("Spritesheets/keyset");
   public static Sprite[] itemThumbnails = Resources.LoadAll<Sprite>("Pause/Items/thumbnails");
-
   public static Sprite[] itemCombinedThumbnails = Resources.LoadAll<Sprite>("Pause/Items/combined-thumbnails");
   public static Sprite[] itemImages = Resources.LoadAll<Sprite>("Pause/Items/images");
-
   public static Sprite[] equipmentButtonIcons = Resources.LoadAll<Sprite>("Pause/equipment-icons");
   public static Sprite[] statsIcons = Resources.LoadAll<Sprite>("Pause/stats-icons");
+  public static Sprite[] droppableImages = Resources.LoadAll<Sprite>("Spritesheets/droppables");
 
   public static Dictionary<string, Sprite> equipmentIcons = new Dictionary<string, Sprite> {
     {"body", equipmentButtonIcons[0]},
@@ -285,5 +284,34 @@ public class Sprites {
     {"shuriken-6", Resources.Load<Sprite>("Sprites/shuriken-6")},
     {"hatchet", Resources.Load<Sprite>("Sprites/hatchet")},
     {"axe", Resources.Load<Sprite>("Sprites/axe")}
+  };
+
+  public static Dictionary<string, Sprite> droppableSprites = new Dictionary<string, Sprite> {
+    {"basic-longsword", droppableImages[0]},
+    {"basic-sword", droppableImages[1]},
+    {"basic-shield", droppableImages[2]},
+    {"chicken-drumstick", droppableImages[3]},
+    {"love-necklace", droppableImages[4]},
+    {"solomon-ring", droppableImages[5]},
+    {"ra-ring", droppableImages[6]},
+    {"skull-ring", droppableImages[7]},
+    {"gold-bracelet", droppableImages[8]},
+    {"silver-bracelet", droppableImages[9]},
+    {"rabbit-paw", droppableImages[10]},
+    {"moonlight-pendant", droppableImages[11]},
+    {"rainbow-bracer", droppableImages[12]},
+    {"body-1", droppableImages[13]},
+    {"lance", droppableImages[14]},
+    {"axe", droppableImages[15]},
+    {"hatchet", droppableImages[16]},
+    {"shuriken-6", droppableImages[17]},
+    {"shuriken-4", droppableImages[18]},
+    {"knife", droppableImages[19]},
+    {"kunai", droppableImages[20]},
+    {"bow", droppableImages[21]},
+    {"arrow-standard", droppableImages[22]},
+    {"arrow-poison", droppableImages[23]},
+    {"arrow-fire", droppableImages[24]},
+    {"bomb", droppableImages[25]}
   };
 }

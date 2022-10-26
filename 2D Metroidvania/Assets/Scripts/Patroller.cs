@@ -18,6 +18,8 @@ public class Patroller : MonoBehaviour {
   public bool playerFound = false;
 
   public bool isAttacking = false;
+  // provisional variable to only detect the moment the enemy attacks
+  public bool isHitting = false;
 
   public bool needsCoolDown = false;
 
@@ -83,7 +85,7 @@ public class Patroller : MonoBehaviour {
     weaponSpriteRenderer = GameObject.Find("Weapon").GetComponent<SpriteRenderer>();
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
 
-    elementResistances = new string[] {"fire"};
+    elementResistances = new string[] {};
     enemyColor = Helpers.GetColorFromResistances(elementResistances);
     flashEffect.repaintColor = enemyColor;
     enemyRenderer.color = enemyColor;
@@ -248,53 +250,57 @@ public class Patroller : MonoBehaviour {
       if (hero.isKicking || hero.isDropKicking) {
         hp -= 10;
       } else {
-        string currentWeapon = hero.currentWeapon;
+        string currentWeapon = hero.armUsed == 1 ? Hero.arm1Equipment : Hero.arm2Equipment;
 
-        if (currentWeapon == "fists") {
+        if (currentWeapon == "") {
           hp -= 5;
-        } else if (currentWeapon == "single" || currentWeapon == "heavy") {
-          string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
-          hp -= Helpers.GetDamage(weaponWielded);
-        } else if (currentWeapon == "throwables") {
-          GameObject parentObject = col.transform.parent.gameObject;
-          Throwable parentThrowable = parentObject.GetComponent<Throwable>();
-          string weaponWielded = parentThrowable.type;
+        } else {
+          string weaponType = Objects.pauseItems[currentWeapon].type;
 
-          mustTakeDamage = (Helpers.IsNonBouncingThrowable(weaponWielded) && !parentThrowable.hasCollided) || (weaponWielded == "bomb" && parentThrowable.isExploding);
-
-          if (mustTakeDamage) {
+          if (weaponType == "single" || weaponType == "double") {
+            string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
             hp -= Helpers.GetDamage(weaponWielded);
+          } else if (weaponType == "throwable" || weaponType == "throwable-double") {
+            GameObject parentObject = col.transform.parent.gameObject;
+            Throwable parentThrowable = parentObject.GetComponent<Throwable>();
+            string weaponWielded = parentThrowable.type;
 
-            Transform parentTransform = parentObject.GetComponent<Transform>();
+            mustTakeDamage = (Helpers.IsNonBouncingThrowable(weaponWielded) && !parentThrowable.hasCollided) || (weaponWielded == "bomb" && parentThrowable.isExploding);
 
-            if(Helpers.IsNonBouncingThrowable(weaponWielded)) {
-              parentThrowable.bounceX = parentTransform.position.x;
-              parentThrowable.bounceY = parentTransform.position.y;
-              parentThrowable.mustBounce = true;
-              parentThrowable.transitionIncrement = 0;
+            if (mustTakeDamage) {
+              hp -= Helpers.GetDamage(weaponWielded);
+
+              Transform parentTransform = parentObject.GetComponent<Transform>();
+
+              if(Helpers.IsNonBouncingThrowable(weaponWielded)) {
+                parentThrowable.bounceX = parentTransform.position.x;
+                parentThrowable.bounceY = parentTransform.position.y;
+                parentThrowable.mustBounce = true;
+                parentThrowable.transitionIncrement = 0;
+              }
+
+              parentThrowable.collideTime = Time.time * 1000;
+              parentThrowable.hasCollided = true;
+              parentThrowable.maxEllapsedCollideTime = 1000f;
             }
+          } else if (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, weaponType)) {
+            GameObject parentObject = col.transform.parent.gameObject;
+            Arrow parentArrow = parentObject.GetComponent<Arrow>();
+            string arrowUsed = parentArrow.type;
 
-            parentThrowable.collideTime = Time.time * 1000;
-            parentThrowable.hasCollided = true;
-            parentThrowable.maxEllapsedCollideTime = 1000f;
-          }
-        } else if (currentWeapon == "projectile-pull") {
-          GameObject parentObject = col.transform.parent.gameObject;
-          Arrow parentArrow = parentObject.GetComponent<Arrow>();
-          string arrowUsed = parentArrow.type;
+            mustTakeDamage = !parentArrow.hasCollided;
+            willBurn = parentArrow.type == "arrow-fire" && !Helpers.IsFireResistant(elementResistances) && hp <= Constants.arrowExplosionDamage;
 
-          mustTakeDamage = !parentArrow.hasCollided;
-          willBurn = parentArrow.type == "arrow-fire" && !Helpers.IsFireResistant(elementResistances) && hp <= Constants.arrowExplosionDamage;
+            if (mustTakeDamage) {
+              hp -= Helpers.GetDamage(arrowUsed);
 
-          if (mustTakeDamage) {
-            hp -= Helpers.GetDamage(arrowUsed);
+              if (parentArrow.type == "arrow-poison" && !Helpers.IsPoisonResistant(elementResistances)) {
+                isPoisoned = true;
+                poisonTime = Time.time * 1000;
+              }
 
-            if (parentArrow.type == "arrow-poison" && !Helpers.IsPoisonResistant(elementResistances)) {
-              isPoisoned = true;
-              poisonTime = Time.time * 1000;
+              parentArrow.DestroyArrow();
             }
-
-            parentArrow.DestroyArrow();
           }
         }
       }
@@ -378,8 +384,13 @@ public class Patroller : MonoBehaviour {
     }
   }
 
+  public void StartHitting() {
+    isHitting = true;
+  }
+
   void FinishAttack() {
     isAttacking = false;
+    isHitting = false;
   }
 
   void Destroy() {
@@ -387,8 +398,8 @@ public class Patroller : MonoBehaviour {
     Destroy(gameObject);
   }
 
-  // public void OnGUI() {
-  //   string guiLabel = "HP: " + hp + "\n";
-  //   GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
-  // }
+  public void OnGUI() {
+    string guiLabel = "HP: " + hp + "\n";
+    GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
+  }
 }

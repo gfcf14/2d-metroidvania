@@ -52,7 +52,8 @@ public class Hero : MonoBehaviour {
   public bool isAirPunching;
   public bool isAirShooting;
 
-  public bool isThrowing;
+  // isThrowing determines a throw in an int, so it's 0 when not throwing, but 1 or 2 depending on what arm throws
+  public int isThrowing;
   public bool startThrow = false;
 
   public bool isShootingSingle;
@@ -66,6 +67,8 @@ public class Hero : MonoBehaviour {
   public int collisionCounter = 0;
 
   public float horizontalInput = 0;
+  public float verticalInput = 0;
+  public int armUsed = 0;
 
   public string[] weapons = new string[] {"fists", "single", "heavy", "throwables", "projectile-single", "projectile-heavy", "projectile-auto", "projectile-pull"};
 
@@ -85,6 +88,8 @@ public class Hero : MonoBehaviour {
   public string currentWeapon;
 
   public bool hurtFromBehind = false;
+
+  public bool isHoldingDown = false;
 
   // PLAYER STATS
     [System.NonSerialized] public int playerLevel = 1;
@@ -152,7 +157,7 @@ public class Hero : MonoBehaviour {
   public int tiredThreshold = 40;
 
   private int maxShieldHP = 0;
-  private int currentShieldHP = 0;
+  private float currentShieldHP = 0;
   private float currentShieldRecoverTime = 0;
   private float shieldDropTime = 0;
 
@@ -370,6 +375,8 @@ public class Hero : MonoBehaviour {
   // called on every frame of the game
   private void Update() {
     horizontalInput = Input.GetAxis("Horizontal");
+    verticalInput = Input.GetAxis("Vertical");
+
     float verticalSpeed = body.velocity.y;
 
     if (shieldDropTime != 0) {
@@ -383,7 +390,7 @@ public class Hero : MonoBehaviour {
 
     // x axis movement
     if (!horizontalCollision && isHurt < 1) {
-      if (!isDefending && !isParrying && !isClashing && !isThrowing) {
+      if (!isDefending && !isParrying && !isClashing && isThrowing == 0) {
         // movement happens on this line
         body.velocity = new Vector2(!isDropKicking ? horizontalInput * speed : 0, body.velocity.y);
       }
@@ -493,29 +500,55 @@ public class Hero : MonoBehaviour {
       }
     }
 
-    // Debug.Log(KeyCode.Space);
-
-    // jumping
-    // if (Input.GetKey(KeyCode.Space)) {
-    // if (Input.GetKey((KeyCode)Enum.Parse(typeof(KeyCode), Controls.currentJump))) {
-    if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
-      userInput += "$";
-      if (isGrounded) {
-        if (userInput.Contains(jetpackUp)) {
-          JetpackUp();
-          userInput = "";
+    if (!isPaused) {
+      // jumping
+      if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
+        userInput += "$";
+        if (isGrounded) {
+          if (userInput.Contains(jetpackUp)) {
+            JetpackUp();
+            userInput = "";
+          } else {
+            Jump();
+            userInput = "";
+          }
         } else {
-          Jump();
-          userInput = "";
+          if (userInput.Contains(jetpackLeft)) {
+            JetpackHorizontal("left");
+            userInput = "";
+          } else if (userInput.Contains(jetpackRight)) {
+            JetpackHorizontal("right");
+            userInput = "";
+          }
         }
-      } else {
-        if (userInput.Contains(jetpackLeft)) {
-          JetpackHorizontal("left");
-          userInput = "";
-        } else if (userInput.Contains(jetpackRight)) {
-          JetpackHorizontal("right");
-          userInput = "";
-        }
+      }
+
+      if (verticalInput < 0) {
+        isHoldingDown = true;
+      }
+
+      if (verticalInput == 0) {
+        isHoldingDown = false;
+      }
+
+      // arm 1
+      if (Helpers.IsKeyDown(Controls.currentKeyboardAttack1) || Helpers.IsKeyDown(Controls.currentGamepadAttack1)) {
+        DecideAttackType(arm1Equipment, 1);
+      }
+      if (Helpers.IsKeyUp(Controls.currentKeyboardAttack1) || Helpers.IsKeyUp(Controls.currentGamepadAttack1)) {
+        DecideShieldRelease(arm1Equipment);
+        isParrying = false;
+        armUsed = 0;
+      }
+
+      // arm 2
+      if (Helpers.IsKeyDown(Controls.currentKeyboardAttack2) || Helpers.IsKeyDown(Controls.currentGamepadAttack2)) {
+        DecideAttackType(arm2Equipment, 2);
+      }
+      if (Helpers.IsKeyUp(Controls.currentKeyboardAttack2) || Helpers.IsKeyUp(Controls.currentGamepadAttack2)) {
+        DecideShieldRelease(arm2Equipment);
+        isParrying = false;
+        armUsed = 0;
       }
     }
 
@@ -538,88 +571,26 @@ public class Hero : MonoBehaviour {
       Fall();
     }
 
-    if (Input.GetKey(KeyCode.Keypad4) && currentWeapon == "projectile-auto") {
-      isShootingAuto = true;
-    }
+    // if (Input.GetKey(KeyCode.Keypad4) && currentWeapon == "projectile-auto") {
+    //   isShootingAuto = true;
+    // }
 
-    if (Input.GetKeyUp(KeyCode.Keypad4) && isShootingAuto) {
-      isShootingAuto = false;
-    }
+    // if (Input.GetKeyUp(KeyCode.Keypad4) && isShootingAuto) {
+    //   isShootingAuto = false;
+    // }
 
-    if (Input.GetKeyDown(KeyCode.Keypad4)) {
-      if (isGrounded) {
-        if (currentWeapon == "fists" || currentWeapon == "projectile-single") {
-          isPunching = true;
-        } else if (currentWeapon == "single") {
-          isAttackingSingle = true;
-        } else if (currentWeapon == "heavy") {
-          isAttackingHeavy = true;
-        } else if (currentWeapon == "throwables") {
-          isThrowing = true;
-        } else if (currentWeapon == "projectile-heavy") {
-          isShootingSingle = true;
-        } else if (currentWeapon == "projectile-pull") {
-          isShootingPull = true;
-        }
-      } else if (isJumping || isFalling) {
-        if (currentWeapon == "fists") {
-          isAirPunching = true;
-        } else if (currentWeapon == "single") {
-          isAirAttackSingle = true;
-        } else if (currentWeapon == "heavy") {
-          isAirAttackHeavy = true;
-        } else if (currentWeapon == "projectile-single") {
-          isAirShooting = true;
-        }
-      }
-    }
 
-    if (Input.GetKeyDown(KeyCode.Keypad5)) {
-      if (isGrounded && !isRunning) {
-        isKicking = true;
-      } else if (isJumping && !isFalling) {
-        DropKick();
-      }
-    }
+    // if (Input.GetKeyDown(KeyCode.Keypad7)) {
+    //   SimulateHurt(1);
+    // }
 
-    if (Input.GetKeyDown(KeyCode.RightControl)) {
-      weaponIndex++;
-      currentWeapon = weapons[weaponIndex % weapons.Length];
-    }
+    // if (Input.GetKeyDown(KeyCode.Keypad8) && isGrounded) {
+    //   SimulateHurt(2);
+    // }
 
-    if (Input.GetKeyDown(KeyCode.Keypad7)) {
-      SimulateHurt(1);
-    }
-
-    if (Input.GetKeyDown(KeyCode.Keypad8) && isGrounded) {
-      SimulateHurt(2);
-    }
-
-    if (Input.GetKeyDown(KeyCode.Keypad9)) {
-      SimulateHurt(3);
-    }
-
-    if (Input.GetKeyDown(KeyCode.Keypad3)) {
-      if (currentShieldHP > 0) {
-        isDefending = true;
-      }
-    }
-
-    if (Input.GetKeyUp(KeyCode.Keypad3)) {
-      DropDefense();
-    }
-
-    if (Input.GetKeyDown(KeyCode.Keypad2) && weapons[weaponIndex] == "heavy") {
-      isParrying = true;
-    }
-
-    if (Input.GetKeyUp(KeyCode.Keypad2)) {
-      isParrying = false;
-    }
-
-    if (Input.GetKeyDown(KeyCode.Backspace)) {
-      SimulateDeath(isGrounded);
-    }
+    // if (Input.GetKeyDown(KeyCode.Keypad9)) {
+    //   SimulateHurt(3);
+    // }
 
     if (Helpers.IsPauseKeyUp()) {
       isPaused = !isPaused;
@@ -678,7 +649,7 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isDropKicking", isDropKicking);
     anim.SetBool("isPunching", isPunching);
     anim.SetBool("isAirPunching", isAirPunching);
-    anim.SetBool("isThrowing", isThrowing);
+    anim.SetBool("isThrowing", isThrowing > 0);
     anim.SetBool("isShootingSingle", isShootingSingle);
     anim.SetBool("isShootingAuto", isShootingAuto);
     anim.SetBool("isShootingPull", isShootingPull);
@@ -692,6 +663,84 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isDefending", isDefending);
     anim.SetBool("isParrying", isParrying);
     anim.SetBool("isClashing", isClashing);
+  }
+
+  void DecideAttackType(string armEquipment, int armIndex) {
+    armUsed = armIndex;
+
+    if (isGrounded) {
+        if (armEquipment == "") {
+          if (isHoldingDown) {
+            if (!isRunning) {
+              isKicking = true;
+            }
+          } else {
+            isPunching = true;
+          }
+        } else {
+          string weaponType = Objects.pauseItems[armEquipment].type;
+
+          switch (weaponType) {
+            case "single":
+              isAttackingSingle = true;
+            break;
+            case "double":
+              if (isHoldingDown) {
+                isParrying = true;
+              } else {
+                isAttackingHeavy = true;
+              }
+            break;
+            case "throwable":
+              isThrowing = armUsed;
+            break;
+            case "throwable-double":
+              isThrowing = armUsed;
+            break;
+            case "bow":
+              isShootingPull = true;
+            break;
+            case "defense":
+              if (currentShieldHP > 0) {
+                isDefending = true;
+              }
+            break;
+            default:
+              Debug.Log("Case " + weaponType + " is not accounted for");
+            break;
+          }
+        }
+      } else if (isJumping || isFalling) {
+        if (armEquipment == "") {
+          if (isHoldingDown) {
+            if (isJumping && !isFalling) {
+              DropKick();
+            }
+          } else {
+            isAirPunching = true;
+          }
+        } else {
+          string weaponType = Objects.pauseItems[armEquipment].type;
+
+          switch (weaponType) {
+             case "single":
+              isAirAttackSingle = true;
+            break;
+            case "double":
+              isAirAttackHeavy = true;
+            break;
+            default:
+              Debug.Log("Case " + weaponType + " is not accounted for");
+            break;
+          }
+        }
+      }
+  }
+
+  void DecideShieldRelease(string armEquipment) {
+    if (Helpers.IsValueInArray(Constants.shields, armEquipment)) {
+      isDefending = false;
+    }
   }
 
   void FlipPlayer(bool hasBeenHurt = false) {
@@ -721,9 +770,7 @@ public class Hero : MonoBehaviour {
   }
 
   void StartThrow() {
-    // TODO: use equipped weapon instead, once equipment screen and options are prepared
-    // current test throwables: lance, bomb, knife, kunai, shuriken-4, shuriken-6, hatchet, axe
-    string throwableType = "lance";
+    string throwableType = Helpers.GetPauseItemKeyByName(Objects.pauseItems[isThrowing == 1 ? arm1Equipment : arm2Equipment].name);
 
     ThrowableObject currentThrowable = Objects.throwableObjects[throwableType];
     float throwableX = transform.position.x + ((isFacingLeft ? -1 : 1) * heroWidth * currentThrowable.startX);
@@ -772,7 +819,7 @@ public class Hero : MonoBehaviour {
   }
 
   void ClearThrow() {
-    isThrowing = false;
+    isThrowing = 0;
   }
 
   void ClearShootingSingle() {
@@ -784,7 +831,7 @@ public class Hero : MonoBehaviour {
     arrowInstance = currentArrow.GetComponent<Arrow>();
     arrowMask = currentArrow.transform.Find("Mask").gameObject;
 
-    arrowInstance.type = "arrow-poison";
+    arrowInstance.type = projectileEquipment;
   }
 
   void ShowCurrentArrowMask() {
@@ -842,8 +889,9 @@ public class Hero : MonoBehaviour {
                       "Drop_Kick: " + isDropKicking + "\n" +
                       "Punching: " + isPunching + "\n" +
                       "Air_Punch: " + isAirPunching + "\n" +
-                      "Throwing: " + isThrowing + "\n" +
-                      "Shooting: " + (isShootingSingle || isShootingAuto || isShootingPull || isAirShooting) + "\n";
+                      "Throwing: " + (isThrowing > 0) + "\n" +
+                      "Shooting: " + (isShootingSingle || isShootingAuto || isShootingPull || isAirShooting) + "\n" +
+                      "Shield HP: " + currentShieldHP + "\n";
     GUI.Label(new Rect(0, 0, 200, 400), guiLabel);
   }
 
@@ -949,7 +997,10 @@ public class Hero : MonoBehaviour {
             SimulateDeath(isGrounded);
           }
         } else {
-          currentShieldHP--;
+          if (isDefending) {
+            // TODO: this is not an elegant solution to shield HP decrease. Ensure the attack changes to only hit on attack sprite
+            currentShieldHP -= 0.5f;
+          }
 
           if (currentShieldHP == 0) {
             shieldDropTime = Time.time * 1000;

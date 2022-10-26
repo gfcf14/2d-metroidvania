@@ -21,6 +21,8 @@ public class Constants {
 
   public static string[] projectileHoldingWeaponTypes = {"bow"};
 
+  public static string[] shields = {"basic-shield"};
+
   public static string[] itemContainerStates = {"items", "equipment_select"};
 
   public static int arrowExplosionDamage = 50;
