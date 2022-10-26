@@ -29,6 +29,8 @@ public class Droppable : MonoBehaviour {
         currItem.amount++;
       }
 
+      // TODO: activate UI for a few seconds with the name
+
       Destroy(gameObject);
     }
   }
