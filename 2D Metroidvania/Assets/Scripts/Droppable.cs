@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Droppable : MonoBehaviour {
   [SerializeField] public string key;
@@ -29,7 +28,10 @@ public class Droppable : MonoBehaviour {
         currItem.amount++;
       }
 
-      // TODO: activate UI for a few seconds with the name
+      hero.itemCanvas.SetActive(false);
+      hero.itemCanvas.transform.Find("ItemContainer").gameObject.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[key].name;
+      hero.itemCanvas.SetActive(true);
+      hero.itemCanvas.GetComponent<ItemCanvas>().startTime = Time.time * 1000;
 
       Destroy(gameObject);
     }
