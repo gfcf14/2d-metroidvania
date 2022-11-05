@@ -7,6 +7,7 @@ public class Objects {
     {"arrow", Resources.Load("Prefabs/Arrow") as GameObject},
     {"arrow-burn", Resources.Load("Prefabs/ArrowBurn") as GameObject},
     {"arrow-explosion", Resources.Load("Prefabs/ArrowExplosion") as GameObject},
+    {"breakable", Resources.Load("Prefabs/Breakable") as GameObject},
     {"droppable", Resources.Load("Prefabs/Droppable") as GameObject},
     {"enemy-explosion", Resources.Load("Prefabs/EnemyExplosion") as GameObject},
     {"item-button", Resources.Load("Prefabs/ItemButton") as GameObject},
@@ -72,5 +73,16 @@ public class Objects {
     {"bow-with-arrow-standard", new CompositePauseImage(){thumbnail = Sprites.itemCombinedThumbnails[0], name = "Bow with Std. Arrow"}},
     {"bow-with-arrow-poison", new CompositePauseImage(){thumbnail = Sprites.itemCombinedThumbnails[1], name = "Bow with Poison Arrow"}},
     {"bow-with-arrow-fire", new CompositePauseImage(){thumbnail = Sprites.itemCombinedThumbnails[2], name = "Bow with Fire Arrow"}}
+  };
+
+  public static Dictionary<string, RuntimeAnimatorController> animationControllers = new Dictionary<string, RuntimeAnimatorController> {
+    {"breakable", Resources.Load("Animations/Breakables/Breakable") as RuntimeAnimatorController}
+  };
+
+  public static Dictionary<string, BreakableDimension> breakableSizes = new Dictionary<string, BreakableDimension> {
+    {"barrel", new BreakableDimension() {offset = new Vector2(0, 0.57f), size = new Vector2(0.8f, 1.14f)}},
+    {"box", new BreakableDimension() {offset = new Vector2(0, 0.6f), size = new Vector2(1, 1.2f)}},
+    {"jar", new BreakableDimension() {offset = new Vector2(0, 0.35f), size = new Vector2(0.6f, 0.7f)}},
+    {"vase", new BreakableDimension() {offset = new Vector2(0, 0.72f), size = new Vector2(0.95f, 1.45f)}}
   };
 }

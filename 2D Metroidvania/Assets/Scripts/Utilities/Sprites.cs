@@ -12,6 +12,11 @@ public class Sprites {
   public static Sprite[] statsIcons = Resources.LoadAll<Sprite>("Pause/stats-icons");
   public static Sprite[] droppableImages = Resources.LoadAll<Sprite>("Spritesheets/droppables");
 
+  public static Sprite[] breakableBoxes = Resources.LoadAll<Sprite>("Spritesheets/box");
+  public static Sprite[] breakableBarrels = Resources.LoadAll<Sprite>("Spritesheets/barrel");
+  public static Sprite[] breakableJars = Resources.LoadAll<Sprite>("Spritesheets/jar");
+  public static Sprite[] breakableVases = Resources.LoadAll<Sprite>("Spritesheets/vase");
+
   public static Dictionary<string, Sprite> equipmentIcons = new Dictionary<string, Sprite> {
     {"body", equipmentButtonIcons[0]},
     {"arm1", equipmentButtonIcons[1]},
@@ -313,5 +318,12 @@ public class Sprites {
     {"arrow-poison", droppableImages[23]},
     {"arrow-fire", droppableImages[24]},
     {"bomb", droppableImages[25]}
+  };
+
+  public static Dictionary<string, Sprite> breakableSprites = new Dictionary<string, Sprite> {
+    {"barrel", breakableBarrels[0]},
+    {"box", breakableBoxes[0]},
+    {"jar", breakableJars[0]},
+    {"vase", breakableVases[0]}
   };
 }

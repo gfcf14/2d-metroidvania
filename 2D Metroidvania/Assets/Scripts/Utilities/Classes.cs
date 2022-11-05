@@ -103,3 +103,8 @@ public class HeroMagicResistance {
   public string name;
   public int frequency;
 }
+
+public class BreakableDimension {
+  public Vector2 offset;
+  public Vector2 size;
+}

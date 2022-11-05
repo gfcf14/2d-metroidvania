@@ -3,12 +3,33 @@ using UnityEngine.UI;
 
 public class Droppable : MonoBehaviour {
   [SerializeField] public string key;
+  [System.NonSerialized] public bool isDropped = false;
+  [System.NonSerialized] float originTime = 0;
+  [System.NonSerialized] float maxRiseTime = 350;
 
   void Start() {
     GetComponent<SpriteRenderer>().sprite = Sprites.droppableSprites[key];
+
+    if (isDropped) {
+      originTime = Time.time * 1000;
+      GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+    }
   }
 
-  void Update() {}
+  void Update() {
+    if (isDropped) {
+      float currentTime = Time.time * 1000;
+
+      if (currentTime > originTime + maxRiseTime) {
+        if (GetComponent<CapsuleCollider2D>().isTrigger == false) {
+          GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        }
+      } else {
+        // raises the item for a bit and slows down as the currentTime approaches the limit
+        transform.position = new Vector2(transform.position.x, transform.position.y + (((maxRiseTime + originTime) - currentTime) / 15000));
+      }
+    }
+  }
 
   private void OnCollisionEnter2D(Collision2D col) {
     if (col.gameObject.tag == "Ground") {
