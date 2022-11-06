@@ -394,6 +394,13 @@ public class Patroller : MonoBehaviour {
   }
 
   void Destroy() {
+    // instantiates the dropped item
+    Vector2 itemOrigin = new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2));
+    GameObject droppedItem = Instantiate(Objects.prefabs["droppable"], itemOrigin, Quaternion.identity);
+    droppedItem.GetComponent<Droppable>().key = "moonlight-pendant"; // TODO: come up with a random system to add the item instead of hardcoding
+    droppedItem.GetComponent<Droppable>().isDropped = true;
+
+    // instantiates the explosion of the enemy
     Instantiate(Objects.prefabs["enemy-explosion"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
     Destroy(gameObject);
   }
