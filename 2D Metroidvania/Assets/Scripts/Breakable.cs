@@ -3,12 +3,17 @@ using UnityEngine;
 public class Breakable : MonoBehaviour {
   [SerializeField] public string type;
   [SerializeField] public string item;
+  [SerializeField] public string material;
 
   private Animator anim;
   private SpriteRenderer spriteRenderer;
   void Start() {
     spriteRenderer = GetComponent<SpriteRenderer>();
     spriteRenderer.sprite = Sprites.breakableSprites[type];
+
+    if (type == "vase") {
+      spriteRenderer.color = Colors.vaseColors[material];
+    }
 
     GetComponent<BoxCollider2D>().offset = Objects.breakableSizes[type].offset;
     GetComponent<BoxCollider2D>().size = Objects.breakableSizes[type].size;
