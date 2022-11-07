@@ -5,7 +5,7 @@ public class Hero : MonoBehaviour {
   [SerializeField] public float speed;
   [SerializeField] private float jumpHeight;
   [SerializeField] private float jetpackHeight;
-  [SerializeField] public GameObject itemCanvas;
+  [SerializeField] public GameObject infoCanvas;
   private Rigidbody2D body;
   private Animator anim;
   private SpriteRenderer heroRenderer;

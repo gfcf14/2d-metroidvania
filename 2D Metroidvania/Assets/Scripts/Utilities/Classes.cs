@@ -108,3 +108,10 @@ public class BreakableDimension {
   public Vector2 offset;
   public Vector2 size;
 }
+
+public class MoneyItem {
+  public Sprite image;
+  public int increment;
+  public Vector2 size;
+  public string text;
+}

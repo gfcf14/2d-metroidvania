@@ -69,6 +69,16 @@ public class Objects {
     // {"chicken-drumstick", new PauseItem(Sprites.itemThumbnails[3], Sprites.itemImages[3], "Chicken Drumstick", "From range-free raised fowl.", "food", new Effects() {hp = 99, mp=99, statusHeal=new string[]{"Poison", "Curse", "Drain"}, atk=-99, def=99, crit=0.5f, luck=-0.2f, magicResistances=new MagicResistance[]{new MagicResistance(){name="Earth", type="add"}, new MagicResistance(){name="Air", type="add"}, new MagicResistance(){name="Water", type="add"}, new MagicResistance(){name="Fire", type="add"}, new MagicResistance(){name="Lightning", type="remove"}, new MagicResistance(){name="Ice", type="remove"}, new MagicResistance(){name="Light", type="remove"}, new MagicResistance(){name="Dark", type="remove"}}})}
   };
 
+  public static Dictionary<string, MoneyItem> moneyItems = new Dictionary<string, MoneyItem> {
+    {"money-50", new MoneyItem(){ image = Sprites.moneyImages[0], increment = 50, size = new Vector2(0.45f, 0.55f), text = "$50"}},
+    {"money-100", new MoneyItem(){ image = Sprites.moneyImages[1], increment = 100, size = new Vector2(0.45f, 0.55f), text = "$100"}},
+    {"money-200", new MoneyItem(){ image = Sprites.moneyImages[2], increment = 200, size = new Vector2(0.8f, 0.9f), text = "$200"}},
+    {"money-500", new MoneyItem(){ image = Sprites.moneyImages[3], increment = 500, size = new Vector2(0.8f, 0.9f), text = "$500"}},
+    {"money-1000", new MoneyItem(){ image = Sprites.moneyImages[4], increment = 1000, size = new Vector2(1.4f, 1.2f), text = "$1000"}},
+    {"money-2000", new MoneyItem(){ image = Sprites.moneyImages[5], increment = 2000, size = new Vector2(1.4f, 1.2f), text = "$2000"}},
+    {"money-5000", new MoneyItem(){ image = Sprites.moneyImages[6], increment = 5000, size = new Vector2(1.4f, 1.2f), text = "$5000"}}
+  };
+
   public static Dictionary<string, CompositePauseImage> compositePauseImages = new Dictionary<string, CompositePauseImage> {
     {"bow-with-arrow-standard", new CompositePauseImage(){thumbnail = Sprites.itemCombinedThumbnails[0], name = "Bow with Std. Arrow"}},
     {"bow-with-arrow-poison", new CompositePauseImage(){thumbnail = Sprites.itemCombinedThumbnails[1], name = "Bow with Poison Arrow"}},
