@@ -26,13 +26,19 @@ public class Breakable : MonoBehaviour {
   void Update() {}
 
   private void OnCollisionEnter2D(Collision2D col) {
-    if (col.gameObject.tag == "Ground") {
+    if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Breakable") {
       Destroy(GetComponent<Rigidbody2D>());
       GetComponent<BoxCollider2D>().isTrigger = true;
     }
   }
 
   private void OnTriggerEnter2D(Collider2D col) {
+    // since these objects are to go on top of other same objects, change the transform.position z value to render on top
+    if (col.gameObject.tag == "Breakable") {
+      Destroy(GetComponent<Rigidbody2D>());
+      GetComponent<BoxCollider2D>().isTrigger = true;
+    }
+
     if (col.gameObject.tag == "Weapon") {
       Vector2 itemOrigin = new Vector2(transform.position.x, transform.position.y + (spriteRenderer.bounds.size.y / 2));
       GameObject droppedItem = Instantiate(Objects.prefabs["droppable"], itemOrigin, Quaternion.identity);

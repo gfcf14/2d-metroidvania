@@ -90,8 +90,8 @@ public class Objects {
   };
 
   public static Dictionary<string, BreakableDimension> breakableSizes = new Dictionary<string, BreakableDimension> {
-    {"barrel", new BreakableDimension() {offset = new Vector2(0, 0.57f), size = new Vector2(0.8f, 1.14f)}},
-    {"box", new BreakableDimension() {offset = new Vector2(0, 0.6f), size = new Vector2(1, 1.2f)}},
+    {"barrel", new BreakableDimension() {offset = new Vector2(0, 0.52f), size = new Vector2(0.8f, 1.05f)}},
+    {"box", new BreakableDimension() {offset = new Vector2(0, 0.55f), size = new Vector2(1, 1.1f)}},
     {"jar", new BreakableDimension() {offset = new Vector2(0, 0.35f), size = new Vector2(0.6f, 0.7f)}},
     {"vase", new BreakableDimension() {offset = new Vector2(0, 0.72f), size = new Vector2(0.95f, 1.45f)}}
   };
