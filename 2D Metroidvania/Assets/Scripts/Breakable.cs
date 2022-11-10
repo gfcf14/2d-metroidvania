@@ -15,7 +15,7 @@ public class Breakable : MonoBehaviour {
     spriteRenderer.sprite = Sprites.breakableSprites[type];
 
     if (type == "vase") {
-      spriteRenderer.color = Colors.vaseColors[material];
+      spriteRenderer.color = Colors.vaseColors[material == "" ? "brass" : material];
     }
 
     GetComponent<BoxCollider2D>().offset = Objects.breakableSizes[type].offset;
