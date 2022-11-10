@@ -25,6 +25,10 @@ public class Constants {
 
   public static string[] itemContainerStates = {"items", "equipment_select"};
 
+  public static string[] stackableBreakables = {"barrel", "box"};
+
+  public static string[] landingObjects = {"Breakable", "Ground"};
+
   public static int arrowExplosionDamage = 50;
   public static int maxItemNameLength = 20;
   public static int maxItemDescriptionLength = 120;

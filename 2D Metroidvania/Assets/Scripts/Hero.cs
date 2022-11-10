@@ -944,7 +944,7 @@ public class Hero : MonoBehaviour {
     Collider2D otherCollider = collision.otherCollider;
     GameObject objectCollided = collision.gameObject;
 
-    if (objectCollided.tag == "Ground") {
+    if (Helpers.IsValueInArray(Constants.landingObjects, objectCollided.tag)) {
       if (otherCollider.tag == "Hero") {
         if (!isHorizontalCollision(otherCollider, collider)) {
           isGrounded = true;
