@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Hero : MonoBehaviour {
+  [System.NonSerialized] bool showDebug = false;
   [SerializeField] public float speed;
   [SerializeField] private float jumpHeight;
   [SerializeField] private float jetpackHeight;
@@ -868,7 +869,7 @@ public class Hero : MonoBehaviour {
   }
 
   public void OnGUI() {
-    string guiLabel = "HP: " + currentHP + "\n" +
+    string guiLabel = showDebug ? "HP: " + currentHP + "\n" +
                       "Defending: " + isDefending + "\n" +
                       "Parrying: " + isParrying + "\n" +
                       "Clashing: " + isClashing + "\n" +
@@ -892,7 +893,7 @@ public class Hero : MonoBehaviour {
                       "Air_Punch: " + isAirPunching + "\n" +
                       "Throwing: " + (isThrowing > 0) + "\n" +
                       "Shooting: " + (isShootingSingle || isShootingAuto || isShootingPull || isAirShooting) + "\n" +
-                      "Shield HP: " + currentShieldHP + "\n";
+                      "Shield HP: " + currentShieldHP + "\n" : "";
     GUI.Label(new Rect(0, 0, 200, 400), guiLabel);
   }
 
