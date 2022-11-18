@@ -37,6 +37,17 @@ public class Constants {
   // indicates the maximum "whole" items the items container can visualize
   public static int maxItemContainerHeight = 13;
 
+  // Both of these keep track of the widths of HP and MP bars' left and right edges
+  public static int existingHPWidth = 24;
+  public static int existingMPWidth = 16;
+
   public static float startItemY = 375;
   public static float itemIncrementY = 60;
+
+  public static float hpBarLeft = -172.4f;
+  public static float hpBarTop = 372;
+  public static float hpMultiplier = 0.91f;
+  public static float mpBarLeft = -173.5f;
+  public static float mpBarTop = 344.6f;
+  public static float mpMultiplier = 0.65f;
 }
