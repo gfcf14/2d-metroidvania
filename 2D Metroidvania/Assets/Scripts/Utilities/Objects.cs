@@ -96,4 +96,9 @@ public class Objects {
     {"jar", new BreakableDimension() {offset = new Vector2(0, 0.35f), size = new Vector2(0.6f, 0.7f)}},
     {"vase", new BreakableDimension() {offset = new Vector2(0, 0.72f), size = new Vector2(0.95f, 1.45f)}}
   };
+
+  public static Dictionary<string, float> decrementBarMultipliers = new Dictionary<string, float> {
+    {"hp", Constants.hpMultiplier},
+    {"mp", Constants.mpMultiplier}
+  };
 }

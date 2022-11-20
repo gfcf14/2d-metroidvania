@@ -9,6 +9,7 @@ public class Hero : MonoBehaviour {
   [SerializeField] public GameObject infoCanvas;
 
   [SerializeField] public GameObject hpBarContainer;
+  [SerializeField] public GameObject mpBarContainer;
   private Rigidbody2D body;
   private Animator anim;
   private SpriteRenderer heroRenderer;
@@ -97,10 +98,10 @@ public class Hero : MonoBehaviour {
 
   // PLAYER STATS
     [System.NonSerialized] public int playerLevel = 1;
-    [System.NonSerialized] public int currentHP = 80;
-    [System.NonSerialized] public int maxHP = 100;
-    [System.NonSerialized] public int currentMP = 10;
-    [System.NonSerialized] public int maxMP = 20;
+    [System.NonSerialized] public int currentHP = 480;
+    [System.NonSerialized] public int maxHP = 500;
+    [System.NonSerialized] public int currentMP = 410;
+    [System.NonSerialized] public int maxMP = 420;
     [System.NonSerialized] public string status = "good";
     [System.NonSerialized] public int exp = 343;
     [System.NonSerialized] public int next = 350;
@@ -1028,6 +1029,18 @@ public class Hero : MonoBehaviour {
     barDecrement.transform.SetParent(hpBarContainer.transform, false);
     barDecrement.GetComponent<BarDecrement>().width = damage;
     barDecrement.GetComponent<BarDecrement>().type = "hp";
+
+    // TODO: for testing purposes. Remove once magic can be spent by other means
+    SpendMagic(damage);
+  }
+
+  public void SpendMagic(int value) {
+    currentMP -= value;
+
+    GameObject barDecrement = Instantiate(Objects.prefabs["bar-decrement"], Vector2.zero, Quaternion.identity);
+    barDecrement.transform.SetParent(mpBarContainer.transform, false);
+    barDecrement.GetComponent<BarDecrement>().width = value;
+    barDecrement.GetComponent<BarDecrement>().type = "mp";
   }
 
   private bool isBottomCollision(Collider2D collider1, Collider2D collider2) {

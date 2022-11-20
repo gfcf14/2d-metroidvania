@@ -49,5 +49,5 @@ public class Constants {
   public static float hpMultiplier = 0.91f;
   public static float mpBarLeft = -173.5f;
   public static float mpBarTop = 344.6f;
-  public static float mpMultiplier = 0.65f;
+  public static float mpMultiplier = 1; //used to be 0.65f. keep testing
 }
