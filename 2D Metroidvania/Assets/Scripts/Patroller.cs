@@ -36,7 +36,7 @@ public class Patroller : MonoBehaviour {
 
   public bool attackedFromBehind = false;
 
-  public int standardDamage = 20;
+  [System.NonSerialized] public int standardDamage = 60;
 
   public bool heroIsDead = false;
 
@@ -229,8 +229,11 @@ public class Patroller : MonoBehaviour {
 
     if (colliderObject.tag == "Hero") {
       // isAttacking = false;
-      needsCoolDown = true;
       coolDownStart = Time.time * 1000;
+      if (!needsCoolDown) {
+        hero.TakeDamage(standardDamage); // TODO: do something about hero defense and stuff
+        needsCoolDown = true;
+      }
     } else if (colliderObject.tag == "Enemy") {
       Physics2D.IgnoreCollision(colliderObject.GetComponent<BoxCollider2D>(), GetComponent<BoxCollider2D>());
     }

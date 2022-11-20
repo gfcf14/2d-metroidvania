@@ -19,6 +19,7 @@ public class Colors {
   };
 
   public static Color pauseBackground = new Color(20f/255f, 44f/255f, 36f/255f);
+  public static Color hpDecrement = new Color(1, 0, 0);
 
   public static Dictionary<string, Color> vaseColors = new Dictionary<string, Color> {
     {"gold", new Color(1, 1, 0.5f)},

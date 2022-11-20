@@ -7,6 +7,8 @@ public class Hero : MonoBehaviour {
   [SerializeField] private float jumpHeight;
   [SerializeField] private float jetpackHeight;
   [SerializeField] public GameObject infoCanvas;
+
+  [SerializeField] public GameObject hpBarContainer;
   private Rigidbody2D body;
   private Animator anim;
   private SpriteRenderer heroRenderer;
@@ -132,8 +134,8 @@ public class Hero : MonoBehaviour {
 
   // PLAYER EQUIPMENT
     [System.NonSerialized] public static string bodyEquipment = "body-1";
-    [System.NonSerialized] public static string arm1Equipment = "basic-longsword";
-    [System.NonSerialized] public static string arm2Equipment = "basic-longsword";
+    [System.NonSerialized] public static string arm1Equipment = "basic-sword";
+    [System.NonSerialized] public static string arm2Equipment = "basic-shield";
     [System.NonSerialized] public static string neckEquipment = "";
     [System.NonSerialized] public static string armwear1Equipment = "silver-bracelet";
     [System.NonSerialized] public static string armwear2Equipment = "";
@@ -991,7 +993,7 @@ public class Hero : MonoBehaviour {
         }
 
         if (mustTakeDamage) {
-          currentHP -= enemyCollided.standardDamage;
+          // TakeDamage(enemyCollided.standardDamage);
 
           if (currentHP > 0) {
             SimulateHurt(2);
@@ -1017,6 +1019,15 @@ public class Hero : MonoBehaviour {
     }
 
     collisionCounter++;
+  }
+
+  public void TakeDamage(int damage) {
+    currentHP -= damage;
+
+    GameObject barDecrement = Instantiate(Objects.prefabs["bar-decrement"], Vector2.zero, Quaternion.identity);
+    barDecrement.transform.SetParent(hpBarContainer.transform, false);
+    barDecrement.GetComponent<BarDecrement>().width = damage;
+    barDecrement.GetComponent<BarDecrement>().type = "hp";
   }
 
   private bool isBottomCollision(Collider2D collider1, Collider2D collider2) {
