@@ -40,13 +40,13 @@ public class BarsCanvas : MonoBehaviour {
 
   public void UpdateHPBar() {
     if (currentHPWidth != hero.currentHP) {
+      Debug.Log("currentHPWidth: " + currentHPWidth + ", hero.currentHP: " + hero.currentHP);
       currentHPWidth = hero.currentHP;
 
       hpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(currentHPWidth * Constants.hpMultiplier, 27);
+      Debug.Log(currentHPWidth * Constants.hpMultiplier);
 
       float healthPercentage = (float)hero.currentHP / (float)hero.maxHP;
-
-      Debug.Log(healthPercentage);
 
       if (healthPercentage >= 0.4f) {
         hpBar.GetComponent<Image>().color = Colors.hpAbove40;
