@@ -662,7 +662,7 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isAttackingHeavy", isAttackingHeavy);
     anim.SetBool("isJetpackHorizontal", jetpackHorizontal != "");
     anim.SetBool("isGliding", isGliding);
-    anim.SetBool("isTired", currentHP < tiredThreshold);
+    anim.SetBool("isTired", (float)currentHP / (float)maxHP <= 0.2f);
     anim.SetInteger("isHurt", isHurt);
     anim.SetInteger("isDead", isDead);
     anim.SetBool("isDefending", isDefending);

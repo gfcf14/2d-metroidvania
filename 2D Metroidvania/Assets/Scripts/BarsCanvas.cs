@@ -1,3 +1,4 @@
+using UnityEngine.UI;
 using UnityEngine;
 
 public class BarsCanvas : MonoBehaviour {
@@ -42,6 +43,18 @@ public class BarsCanvas : MonoBehaviour {
       currentHPWidth = hero.currentHP;
 
       hpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(currentHPWidth * Constants.hpMultiplier, 27);
+
+      float healthPercentage = (float)hero.currentHP / (float)hero.maxHP;
+
+      Debug.Log(healthPercentage);
+
+      if (healthPercentage >= 0.4f) {
+        hpBar.GetComponent<Image>().color = Colors.hpAbove40;
+      } else if (healthPercentage > 0.2f) {
+        hpBar.GetComponent<Image>().color = Colors.hpAbove20;
+      } else {
+        hpBar.GetComponent<Image>().color = Colors.hpBelow20;
+      }
     }
   }
 
