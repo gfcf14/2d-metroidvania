@@ -49,11 +49,11 @@ public class BarsCanvas : MonoBehaviour {
       float healthPercentage = (float)hero.currentHP / (float)hero.maxHP;
 
       if (healthPercentage >= 0.4f) {
-        hpBar.GetComponent<Image>().color = Colors.hpAbove40;
+        hpBar.GetComponent<Image>().color = Colors.barHPAbove40;
       } else if (healthPercentage > 0.2f) {
-        hpBar.GetComponent<Image>().color = Colors.hpAbove20;
+        hpBar.GetComponent<Image>().color = Colors.barHPAbove20;
       } else {
-        hpBar.GetComponent<Image>().color = Colors.hpBelow20;
+        hpBar.GetComponent<Image>().color = Colors.barHPBelow20;
       }
     }
   }

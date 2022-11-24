@@ -20,9 +20,13 @@ public class Colors {
 
   public static Color pauseBackground = new Color(20f/255f, 44f/255f, 36f/255f);
   public static Color hpDecrement = new Color(1, 0, 0);
-  public static Color hpAbove40 = new Color(25f/255f, 159f/255f, 19f/255f);
-  public static Color hpAbove20 = new Color(197f/255f, 214f/255f, 94f/255f);
-  public static Color hpBelow20 = new Color(173f/255f, 45f/255f, 51f/255f);
+  public static Color barHPAbove40 = new Color(25f/255f, 159f/255f, 19f/255f);
+  public static Color barHPAbove20 = new Color(197f/255f, 214f/255f, 94f/255f);
+  public static Color barHPBelow20 = new Color(173f/255f, 45f/255f, 51f/255f);
+
+  public static Color miniHPFull = new Color(1, 1, 1);
+  public static Color miniHPNotFull = new Color(195f/255f, 200f/255f, 150f/255f);
+  public static Color miniHPBelow20 = new Color(165f/255f, 100f/255f, 115f/255f);
 
   public static Dictionary<string, Color> vaseColors = new Dictionary<string, Color> {
     {"gold", new Color(1, 1, 0.5f)},

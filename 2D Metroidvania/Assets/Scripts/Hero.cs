@@ -1025,6 +1025,10 @@ public class Hero : MonoBehaviour {
   public void TakeDamage(int damage) {
     currentHP -= damage;
 
+    if (currentHP < 0) {
+      currentHP = 0;
+    }
+
     GameObject barDecrement = Instantiate(Objects.prefabs["bar-decrement"], Vector2.zero, Quaternion.identity);
     barDecrement.transform.SetParent(hpBarContainer.transform, false);
     barDecrement.GetComponent<BarDecrement>().width = damage;
@@ -1036,6 +1040,10 @@ public class Hero : MonoBehaviour {
 
   public void SpendMagic(int value) {
     currentMP -= value;
+
+    if (currentMP < 0) {
+      currentMP = 0;
+    }
 
     GameObject barDecrement = Instantiate(Objects.prefabs["bar-decrement"], Vector2.zero, Quaternion.identity);
     barDecrement.transform.SetParent(mpBarContainer.transform, false);
