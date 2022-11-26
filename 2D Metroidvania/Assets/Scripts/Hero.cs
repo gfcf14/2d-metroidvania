@@ -98,10 +98,10 @@ public class Hero : MonoBehaviour {
 
   // PLAYER STATS
     [System.NonSerialized] public int playerLevel = 1;
-    [System.NonSerialized] public int currentHP = 480;
-    [System.NonSerialized] public int maxHP = 500;
-    [System.NonSerialized] public int currentMP = 410;
-    [System.NonSerialized] public int maxMP = 420;
+    [System.NonSerialized] public int currentHP = 4000;
+    [System.NonSerialized] public int maxHP = 5000;
+    [System.NonSerialized] public int currentMP = 1500;
+    [System.NonSerialized] public int maxMP = 2000;
     [System.NonSerialized] public string status = "good";
     [System.NonSerialized] public int exp = 343;
     [System.NonSerialized] public int next = 350;
@@ -1031,7 +1031,7 @@ public class Hero : MonoBehaviour {
 
     GameObject barDecrement = Instantiate(Objects.prefabs["bar-decrement"], Vector2.zero, Quaternion.identity);
     barDecrement.transform.SetParent(hpBarContainer.transform, false);
-    barDecrement.GetComponent<BarDecrement>().width = damage;
+    barDecrement.GetComponent<BarDecrement>().width = maxHP > Constants.maxHPDisplayableLimit ? (int)(Constants.hpContainerMaxWidth * ((float)damage/(float)maxHP)) : damage;
     barDecrement.GetComponent<BarDecrement>().type = "hp";
 
     // TODO: for testing purposes. Remove once magic can be spent by other means
@@ -1047,7 +1047,7 @@ public class Hero : MonoBehaviour {
 
     GameObject barDecrement = Instantiate(Objects.prefabs["bar-decrement"], Vector2.zero, Quaternion.identity);
     barDecrement.transform.SetParent(mpBarContainer.transform, false);
-    barDecrement.GetComponent<BarDecrement>().width = value;
+    barDecrement.GetComponent<BarDecrement>().width = maxMP > Constants.maxMPDisplayableLimit ? (int)(Constants.mpContainerMaxWidth * ((float)value/(float)maxMP)) : value;
     barDecrement.GetComponent<BarDecrement>().type = "mp";
   }
 

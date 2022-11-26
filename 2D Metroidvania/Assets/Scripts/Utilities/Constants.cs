@@ -50,4 +50,9 @@ public class Constants {
   public static float mpBarLeft = -173.5f;
   public static float mpBarTop = 344.6f;
   public static float mpMultiplier = 0.9833f; // used to be 0.65f. keep testing
+  public static float maxHPDisplayableLimit = 1000;
+  public static float hpContainerMaxWidth = maxHPDisplayableLimit - existingHPWidth;
+
+  public static float maxMPDisplayableLimit = 1000;
+  public static float mpContainerMaxWidth = maxMPDisplayableLimit - existingMPWidth;
 }
