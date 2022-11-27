@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BarCanvasMini : MonoBehaviour {
   [SerializeField] GameObject hpObject;
@@ -18,8 +16,8 @@ public class BarCanvasMini : MonoBehaviour {
     hp = hero.currentHP;
     mp = hero.currentMP;
 
-    hpObject.GetComponent<Text>().text = hp.ToString();
-    mpObject.GetComponent<Text>().text = mp.ToString();
+    hpObject.GetComponent<TextMeshProUGUI>().text = hp.ToString();
+    mpObject.GetComponent<TextMeshProUGUI>().text = mp.ToString();
 
     UpdateColor(hpObject, hp, "hp");
     UpdateColor(mpObject, mp, "mp");
@@ -40,7 +38,7 @@ public class BarCanvasMini : MonoBehaviour {
 
       hpDifference += difference;
       hp += difference;
-      hpObject.GetComponent<Text>().text = hp.ToString();
+      hpObject.GetComponent<TextMeshProUGUI>().text = hp.ToString();
 
       UpdateColor(hpObject, hp, "hp");
     }
@@ -56,7 +54,7 @@ public class BarCanvasMini : MonoBehaviour {
 
       mpDifference += difference;
       mp += difference;
-      mpObject.GetComponent<Text>().text = mp.ToString();
+      mpObject.GetComponent<TextMeshProUGUI>().text = mp.ToString();
 
       UpdateColor(mpObject, mp, "mp");
     }
@@ -66,11 +64,11 @@ public class BarCanvasMini : MonoBehaviour {
     float percentage = (float)stat / (type == "hp" ? hero.maxHP : hero.maxMP);
 
     if (percentage == 1) {
-        statObject.GetComponent<Text>().color = Colors.miniHPFull;
+        statObject.GetComponent<TextMeshProUGUI>().color = Colors.miniHPFull;
       } else if (percentage > 0.2f) {
-        statObject.GetComponent<Text>().color = Colors.miniHPNotFull;
+        statObject.GetComponent<TextMeshProUGUI>().color = Colors.miniHPNotFull;
       } else {
-        statObject.GetComponent<Text>().color = Colors.miniHPBelow20;
+        statObject.GetComponent<TextMeshProUGUI>().color = Colors.miniHPBelow20;
       }
   }
 }
