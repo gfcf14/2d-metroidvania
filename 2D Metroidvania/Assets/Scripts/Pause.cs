@@ -15,7 +15,14 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject optionsCanvas;
   [SerializeField] GameObject controlsCanvas;
   [SerializeField] GameObject preferredInputCanvas;
+  [SerializeField] GameObject inGameElementsCanvas;
   [SerializeField] GameObject quitCanvas;
+  [Space(10)]
+
+  // Outer Canvases
+  [Header("Outer Canvases")]
+  [SerializeField] GameObject standardStatsCanvas;
+  [SerializeField] GameObject minifiedStatsCanvas;
   [Space(10)]
 
   // Objects to select first upon reaching a canvas
@@ -30,6 +37,8 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject controlsFirstSelected;
   [SerializeField] GameObject preferredInputButton;
   [SerializeField] GameObject preferredInputFirstSelected;
+  [SerializeField] GameObject inGameElementsButton;
+  [SerializeField] GameObject inGameElementsFirstSelected;
   [SerializeField] GameObject quitButton;
   [SerializeField] GameObject quitFirstSelected;
   [Space(10)]
@@ -160,6 +169,16 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject magicEmptyObject;
   [Space(10)]
 
+  // UI
+  [Header("UI Elements")]
+  [SerializeField] GameObject radioDontShowStatuses;
+  [SerializeField] GameObject radioShowStatuses;
+  [SerializeField] GameObject radioStatusStandard;
+  [SerializeField] GameObject radioStatusMinified;
+  [SerializeField] GameObject checkboxShowDamage;
+  [SerializeField] GameObject checkboxShowItemInfo;
+  [Space(10)]
+
   // miscellaneous
   [Header("Miscellaneous")]
   [SerializeField] GameObject preferredInputObject;
@@ -234,6 +253,14 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] List<GameObject> projectileButtonList = new List<GameObject>();
   // tracks available projectile keys
   [System.NonSerialized] List<string> availableProjectileKeys = new List<string>();
+  // tracks if in-game statuses should show
+  [System.NonSerialized] bool showInGameStatuses = false;
+  // tracks how in-game statuses should show
+  [System.NonSerialized] string statusType = "";
+  // tracks if damage should show
+  [System.NonSerialized] bool showDamage = false;
+  // tracks if item info should show
+  [System.NonSerialized] bool showItemInfo = false;
 
   void Start() {
     heroScript = hero.GetComponent<Hero>();
@@ -274,6 +301,7 @@ public class Pause : MonoBehaviour {
     UpdateMagicResistances();
     UpdateItemView();
     UpdateEquipmentPromptButtons();
+    UpdateInGameElementSettings();
   }
 
   void FadeOut() {
@@ -289,6 +317,7 @@ public class Pause : MonoBehaviour {
     optionsCanvas.SetActive(false);
     controlsCanvas.SetActive(false);
     preferredInputCanvas.SetActive(false);
+    inGameElementsCanvas.SetActive(false);
     quitCanvas.SetActive(false);
     mainCanvas.SetActive(true);
     gameObject.SetActive(false);
@@ -950,6 +979,14 @@ public class Pause : MonoBehaviour {
     Helpers.FocusUIElement(preferredInputFirstSelected);
   }
 
+  public void ShowInGameElementsCanvas() {
+    canvasStatus = "options_show-in-game-elements";
+    optionsCanvas.SetActive(false);
+    inGameElementsCanvas.SetActive(true);
+
+    Helpers.FocusUIElement(inGameElementsFirstSelected);
+  }
+
   public void ShowQuitCanvas() {
     canvasStatus = "quit";
     mainCanvas.SetActive(false);
@@ -1000,6 +1037,14 @@ public class Pause : MonoBehaviour {
     Helpers.FocusUIElement(preferredInputButton);
   }
 
+  public void GoBackToOptionsFromShowInGameElements() {
+    canvasStatus = "options";
+    inGameElementsCanvas.SetActive(false);
+    optionsCanvas.SetActive(true);
+
+    Helpers.FocusUIElement(inGameElementsButton);
+  }
+
   public void GoBackToMainFromQuit() {
     canvasStatus = "main";
     quitCanvas.SetActive(false);
@@ -1036,6 +1081,9 @@ public class Pause : MonoBehaviour {
       break;
       case "options_preferred-input":
         GoBackToOptionsFromPreferredInput();
+      break;
+      case "options_show-in-game-elements":
+        GoBackToOptionsFromShowInGameElements();
       break;
       case "quit":
         GoBackToMainFromQuit();
@@ -1300,6 +1348,61 @@ public class Pause : MonoBehaviour {
     }
   }
 
+  void UpdateInGameElementSettings() {
+    if (showInGameStatuses != Settings.showInGameStatuses) {
+      showInGameStatuses = Settings.showInGameStatuses;
+
+      if (!showInGameStatuses) {
+        standardStatsCanvas.SetActive(false);
+        minifiedStatsCanvas.SetActive(false);
+
+        radioDontShowStatuses.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["radio-checked"];
+        radioShowStatuses.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["radio-unchecked"];
+      } else {
+        radioDontShowStatuses.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["radio-unchecked"];
+        radioShowStatuses.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["radio-checked"];
+      }
+    }
+
+    if (statusType != Settings.statusType) {
+      statusType = Settings.statusType;
+
+      if (statusType == "standard") {
+        standardStatsCanvas.SetActive(true);
+        minifiedStatsCanvas.SetActive(false);
+
+        radioStatusStandard.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["radio-checked"];
+        radioStatusMinified.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["radio-unchecked"];
+      } else if (statusType == "minified") {
+        standardStatsCanvas.SetActive(false);
+        minifiedStatsCanvas.SetActive(true);
+
+        radioStatusMinified.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["radio-checked"];
+        radioStatusStandard.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["radio-unchecked"];
+      }
+    }
+
+    if (showDamage != Settings.showDamage) {
+      showDamage = Settings.showDamage;
+
+      if (showDamage) {
+        checkboxShowDamage.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["checkbox-checked"];
+      } else {
+        checkboxShowDamage.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["checkbox-unchecked"];
+      }
+    }
+
+    if (showItemInfo != Settings.showItemInfo) {
+      showItemInfo = Settings.showItemInfo;
+
+      if (showItemInfo) {
+        checkboxShowItemInfo.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["checkbox-checked"];
+      } else {
+        checkboxShowItemInfo.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["checkbox-unchecked"];
+      }
+    }
+  }
+
   void UpdateMagicResistances() {
     string currentMagicResistances = "";
     foreach(HeroMagicResistance currentMagicResistance in heroScript.magicResistances) {
@@ -1517,5 +1620,32 @@ public class Pause : MonoBehaviour {
       Helpers.FocusUIElement(itemButtons.ElementAt(0));
       SetEquipmentProspect(0);
     }
+  }
+
+  public void HideStatuses() {
+    Settings.showInGameStatuses = false;
+  }
+
+  public void ShowStatuses() {
+    Settings.showInGameStatuses = true;
+    Helpers.FocusUIElement(radioStatusStandard);
+  }
+
+  public void SetStandardStatus() {
+    Settings.statusType = "standard";
+    Helpers.FocusUIElement(radioShowStatuses);
+  }
+
+  public void SetMinifiedStatus() {
+    Settings.statusType = "minified";
+    Helpers.FocusUIElement(radioShowStatuses);
+  }
+
+  public void ToggleDamage() {
+    Settings.showDamage = !showDamage;
+  }
+
+  public void ToggleItemInfo() {
+    Settings.showItemInfo = !showItemInfo;
   }
 }

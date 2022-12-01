@@ -327,4 +327,11 @@ public class Sprites {
     {"jar", breakableJars[0]},
     {"vase", breakableVases[0]}
   };
+
+  public static Dictionary<string, Sprite> uiElements = new Dictionary<string, Sprite> {
+    {"checkbox-checked", Resources.Load<Sprite>("Sprites/UI/checkbox-checked")},
+    {"checkbox-unchecked", Resources.Load<Sprite>("Sprites/UI/checkbox-unchecked")},
+    {"radio-checked", Resources.Load<Sprite>("Sprites/UI/radio-checked")},
+    {"radio-unchecked", Resources.Load<Sprite>("Sprites/UI/radio-unchecked")}
+  };
 }
