@@ -675,44 +675,42 @@ public class Hero : MonoBehaviour {
 
     if (isGrounded) {
         if (armEquipment == "") {
-          if (isHoldingDown) {
-            if (!isRunning) {
-              isKicking = true;
-            }
-          } else {
-            isPunching = true;
-          }
+          isPunching = true;
         } else {
-          string weaponType = Objects.pauseItems[armEquipment].type;
+          if (!isRunning && isHoldingDown) {
+            isKicking = true;
+          } else {
+            string weaponType = Objects.pauseItems[armEquipment].type;
 
-          switch (weaponType) {
-            case "single":
-              isAttackingSingle = true;
-            break;
-            case "double":
-              if (isHoldingDown) {
-                isParrying = true;
-              } else {
-                isAttackingHeavy = true;
-              }
-            break;
-            case "throwable":
-              isThrowing = armUsed;
-            break;
-            case "throwable-double":
-              isThrowing = armUsed;
-            break;
-            case "bow":
-              isShootingPull = true;
-            break;
-            case "defense":
-              if (currentShieldHP > 0) {
-                isDefending = true;
-              }
-            break;
-            default:
-              Debug.Log("Case " + weaponType + " is not accounted for");
-            break;
+            switch (weaponType) {
+              case "single":
+                isAttackingSingle = true;
+              break;
+              case "double":
+                if (isHoldingDown) {
+                  isParrying = true;
+                } else {
+                  isAttackingHeavy = true;
+                }
+              break;
+              case "throwable":
+                isThrowing = armUsed;
+              break;
+              case "throwable-double":
+                isThrowing = armUsed;
+              break;
+              case "bow":
+                isShootingPull = true;
+              break;
+              case "defense":
+                if (currentShieldHP > 0) {
+                  isDefending = true;
+                }
+              break;
+              default:
+                Debug.Log("Case " + weaponType + " is not accounted for");
+              break;
+            }
           }
         }
       } else if (isJumping || isFalling) {
