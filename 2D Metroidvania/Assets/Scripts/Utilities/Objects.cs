@@ -9,6 +9,7 @@ public class Objects {
     {"arrow-explosion", Resources.Load("Prefabs/ArrowExplosion") as GameObject},
     {"bar-decrement", Resources.Load("Prefabs/BarDecrement") as GameObject},
     {"breakable", Resources.Load("Prefabs/Breakable") as GameObject},
+    {"damage-container", Resources.Load("Prefabs/DamageContainer") as GameObject},
     {"droppable", Resources.Load("Prefabs/Droppable") as GameObject},
     {"enemy-explosion", Resources.Load("Prefabs/EnemyExplosion") as GameObject},
     {"item-button", Resources.Load("Prefabs/ItemButton") as GameObject},

@@ -40,7 +40,7 @@ public class Patroller : MonoBehaviour {
 
   public bool heroIsDead = false;
 
-  [SerializeField] public int hp = 40;
+  [System.NonSerialized] public int hp = 40;
 
   public bool stunOnAttack = false;
 
@@ -123,7 +123,7 @@ public class Patroller : MonoBehaviour {
       }
 
       if (currentTime > nextPoisonAttackTime)  {
-        hp -= 10;
+        TakeDamage(10);
         poisonEffectTime = Time.time * 1000;
         enemyRenderer.color = Colors.statusColors["poisoned"];
         poisonAttackCounter++;
@@ -251,18 +251,18 @@ public class Patroller : MonoBehaviour {
       attackedFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
 
       if (hero.isKicking || hero.isDropKicking) {
-        hp -= 10;
+        TakeDamage(10, col.ClosestPoint(transform.position));
       } else {
         string currentWeapon = hero.armUsed == 1 ? Hero.arm1Equipment : Hero.arm2Equipment;
 
         if (currentWeapon == "") {
-          hp -= 5;
+          TakeDamage(5, col.ClosestPoint(transform.position));
         } else {
           string weaponType = Objects.pauseItems[currentWeapon].type;
 
           if (weaponType == "single" || weaponType == "double") {
             string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
-            hp -= Helpers.GetDamage(weaponWielded);
+            TakeDamage(Helpers.GetDamage(weaponWielded), col.ClosestPoint(transform.position));
           } else if (weaponType == "throwable" || weaponType == "throwable-double") {
             GameObject parentObject = col.transform.parent.gameObject;
             Throwable parentThrowable = parentObject.GetComponent<Throwable>();
@@ -271,7 +271,7 @@ public class Patroller : MonoBehaviour {
             mustTakeDamage = (Helpers.IsNonBouncingThrowable(weaponWielded) && !parentThrowable.hasCollided) || (weaponWielded == "bomb" && parentThrowable.isExploding);
 
             if (mustTakeDamage) {
-              hp -= Helpers.GetDamage(weaponWielded);
+              TakeDamage(Helpers.GetDamage(weaponWielded), col.ClosestPoint(transform.position));
 
               Transform parentTransform = parentObject.GetComponent<Transform>();
 
@@ -295,7 +295,7 @@ public class Patroller : MonoBehaviour {
             willBurn = parentArrow.type == "arrow-fire" && !Helpers.IsFireResistant(elementResistances) && hp <= Constants.arrowExplosionDamage;
 
             if (mustTakeDamage) {
-              hp -= Helpers.GetDamage(arrowUsed);
+              TakeDamage(Helpers.GetDamage(arrowUsed), col.ClosestPoint(transform.position));
 
               if (parentArrow.type == "arrow-poison" && !Helpers.IsPoisonResistant(elementResistances)) {
                 isPoisoned = true;
@@ -351,7 +351,7 @@ public class Patroller : MonoBehaviour {
           }
         } else {
           if (!Helpers.IsFireResistant(elementResistances)) {
-            hp -= Constants.arrowExplosionDamage;
+            TakeDamage(Constants.arrowExplosionDamage, col.ClosestPoint(transform.position));
 
             if (flashEffect != null) {
               flashEffect.Flash();
@@ -361,6 +361,14 @@ public class Patroller : MonoBehaviour {
         }
       }
     }
+  }
+
+  public void TakeDamage(int damage, Vector2? damagePosition = null) {
+    hp -= damage;
+
+    GameObject damageObject = Instantiate(Objects.prefabs["damage-container"], damagePosition ?? new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
+    damageObject.transform.SetParent(null);
+    damageObject.GetComponent<DamageContainer>().damage = damage;
   }
 
   public void Flip() {
