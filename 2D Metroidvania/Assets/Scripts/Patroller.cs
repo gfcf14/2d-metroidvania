@@ -366,9 +366,11 @@ public class Patroller : MonoBehaviour {
   public void TakeDamage(int damage, Vector2? damagePosition = null) {
     hp -= damage;
 
-    GameObject damageObject = Instantiate(Objects.prefabs["damage-container"], damagePosition ?? new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
-    damageObject.transform.SetParent(null);
-    damageObject.GetComponent<DamageContainer>().damage = damage;
+    if (Settings.showDamage) {
+      GameObject damageObject = Instantiate(Objects.prefabs["damage-container"], damagePosition ?? new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
+      damageObject.transform.SetParent(null);
+      damageObject.GetComponent<DamageContainer>().damage = damage;
+    }
   }
 
   public void Flip() {
