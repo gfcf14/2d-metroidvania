@@ -1020,7 +1020,7 @@ public class Hero : MonoBehaviour {
     collisionCounter++;
   }
 
-  public void TakeDamage(int damage) {
+  public void TakeDamage(int damage, Vector2? damagePosition = null) {
     currentHP -= damage;
 
     if (currentHP < 0) {
@@ -1031,6 +1031,15 @@ public class Hero : MonoBehaviour {
     barDecrement.transform.SetParent(hpBarContainer.transform, false);
     barDecrement.GetComponent<BarDecrement>().width = maxHP > Constants.maxHPDisplayableLimit ? (int)(Constants.hpContainerMaxWidth * ((float)damage/(float)maxHP)) : damage;
     barDecrement.GetComponent<BarDecrement>().type = "hp";
+
+    if (Settings.showDamage) {
+      // TODO: consider changing the Hero colliders for damage so the connecting point is higher
+      Vector2 position = damagePosition == null ? new Vector2(transform.position.x, transform.position.y + heroHeight / 2) : new Vector2(damagePosition.Value.x, damagePosition.Value.y + heroHeight / 2);
+
+      GameObject damageObject = Instantiate(Objects.prefabs["damage-container"], position, Quaternion.identity);
+      damageObject.transform.SetParent(null);
+      damageObject.GetComponent<DamageContainer>().damage = damage;
+    }
 
     // TODO: for testing purposes. Remove once magic can be spent by other means
     SpendMagic(damage);
