@@ -41,6 +41,9 @@ public class Constants {
   public static int existingHPWidth = 24;
   public static int existingMPWidth = 16;
 
+  // Used to set a width per character for the Info Canvas
+  public static int characterWidth = 23;
+
   public static float startItemY = 375;
   public static float itemIncrementY = 60;
 

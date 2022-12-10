@@ -68,10 +68,7 @@ public class Droppable : MonoBehaviour {
       }
 
       if (Settings.showItemInfo) {
-        hero.infoCanvas.SetActive(false);
-        hero.infoCanvas.transform.Find("ItemContainer").gameObject.transform.Find("Text").gameObject.GetComponent<Text>().text = key.Contains("money") ? moneyItem.text : Objects.pauseItems[key].name;
-        hero.infoCanvas.SetActive(true);
-        hero.infoCanvas.GetComponent<InfoCanvas>().startTime = Time.time * 1000;
+        hero.infoCanvas.GetComponent<InfoCanvas>().Display(key.Contains("money") ? moneyItem.text : Objects.pauseItems[key].name);
       }
 
       Destroy(gameObject);
