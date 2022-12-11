@@ -102,4 +102,8 @@ public class Objects {
     {"hp", Constants.hpMultiplier},
     {"mp", Constants.mpMultiplier}
   };
+
+  public static Dictionary<string, string> enemyNames = new Dictionary<string, string> {
+    {"skeleton-1", "Skeleton Lvl 1"}
+  };
 }

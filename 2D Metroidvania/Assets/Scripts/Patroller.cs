@@ -3,6 +3,9 @@ using UnityEngine;
 // Made by Bartha Szabolcs of GameDevJourney
 
 public class Patroller : MonoBehaviour {
+
+  [SerializeField] public string type;
+  [SerializeField] public string key;
   [SerializeField] private SimpleFlash flashEffect;
   [SerializeField] public float speed;
 
@@ -326,11 +329,15 @@ public class Patroller : MonoBehaviour {
           deadPosition = new Vector2(transform.position.x, transform.position.y);
         }
       }
+
+      hero.infoCanvas.GetComponent<InfoCanvas>().Display(Objects.enemyNames[key]);
     } else if (colliderTag == "Shield") {
       if (isAttacking) {
         // TODO: consider reusing for higher level shields
         // Stun();
       }
+
+      hero.infoCanvas.GetComponent<InfoCanvas>().Display(Objects.enemyNames[key]);
     } else if (colliderTag == "Explosion") {
       string colName = col.gameObject.name.Replace("(Clone)", "");
 
