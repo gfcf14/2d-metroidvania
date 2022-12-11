@@ -113,3 +113,13 @@ public class MoneyItem {
   public Vector2 size;
   public string text;
 }
+
+public class EnemyHealth {
+  public int current;
+  public int maximum;
+
+  public EnemyHealth(int current, int maximum) {
+    this.current = current;
+    this.maximum = maximum;
+  }
+}

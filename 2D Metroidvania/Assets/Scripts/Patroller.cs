@@ -43,7 +43,8 @@ public class Patroller : MonoBehaviour {
 
   public bool heroIsDead = false;
 
-  [System.NonSerialized] public int hp = 40;
+  [System.NonSerialized] public int currentHP = 40;
+  [System.NonSerialized] public int maxHP = 40;
 
   public bool stunOnAttack = false;
 
@@ -131,7 +132,7 @@ public class Patroller : MonoBehaviour {
         enemyRenderer.color = Colors.statusColors["poisoned"];
         poisonAttackCounter++;
 
-        if (hp <= 0) {
+        if (currentHP <= 0) {
           isDeadByPoison = true;
           isWalking = false;
           body.velocity = Vector2.zero;
@@ -295,7 +296,7 @@ public class Patroller : MonoBehaviour {
             string arrowUsed = parentArrow.type;
 
             mustTakeDamage = !parentArrow.hasCollided;
-            willBurn = parentArrow.type == "arrow-fire" && !Helpers.IsFireResistant(elementResistances) && hp <= Constants.arrowExplosionDamage;
+            willBurn = parentArrow.type == "arrow-fire" && !Helpers.IsFireResistant(elementResistances) && currentHP <= Constants.arrowExplosionDamage;
 
             if (mustTakeDamage) {
               TakeDamage(Helpers.GetDamage(arrowUsed), col.ClosestPoint(transform.position));
@@ -312,7 +313,7 @@ public class Patroller : MonoBehaviour {
       }
 
       if (mustTakeDamage) {
-        if (hp > 0) {
+        if (currentHP > 0) {
           if (flashEffect != null) {
             flashEffect.Flash();
           }
@@ -330,19 +331,19 @@ public class Patroller : MonoBehaviour {
         }
       }
 
-      hero.infoCanvas.GetComponent<InfoCanvas>().Display(Objects.enemyNames[key]);
+      hero.infoCanvas.GetComponent<InfoCanvas>().Display(Objects.enemyNames[key], new EnemyHealth(currentHP, maxHP));
     } else if (colliderTag == "Shield") {
       if (isAttacking) {
         // TODO: consider reusing for higher level shields
         // Stun();
       }
 
-      hero.infoCanvas.GetComponent<InfoCanvas>().Display(Objects.enemyNames[key]);
+      hero.infoCanvas.GetComponent<InfoCanvas>().Display(Objects.enemyNames[key], new EnemyHealth(currentHP, maxHP));
     } else if (colliderTag == "Explosion") {
       string colName = col.gameObject.name.Replace("(Clone)", "");
 
       if (colName == "ArrowExplosion" || colName == "ArrowBurn") {
-        bool willBurn = !Helpers.IsFireResistant(elementResistances) && hp <= Constants.arrowExplosionDamage;
+        bool willBurn = !Helpers.IsFireResistant(elementResistances) && currentHP <= Constants.arrowExplosionDamage;
 
         if (willBurn) {
           float currentTime = Time.time * 1000;
@@ -371,7 +372,7 @@ public class Patroller : MonoBehaviour {
   }
 
   public void TakeDamage(int damage, Vector2? damagePosition = null) {
-    hp -= damage;
+    currentHP -= damage;
 
     if (Settings.showDamage) {
       GameObject damageObject = Instantiate(Objects.prefabs["damage-container"], damagePosition ?? new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
@@ -426,7 +427,7 @@ public class Patroller : MonoBehaviour {
   }
 
   public void OnGUI() {
-    string guiLabel = "HP: " + hp + "\n";
+    string guiLabel = "HP: " + currentHP + "\n";
     GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
   }
 }
