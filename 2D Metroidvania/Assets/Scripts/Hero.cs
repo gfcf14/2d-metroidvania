@@ -976,48 +976,47 @@ public class Hero : MonoBehaviour {
       }
     }
 
-    if (objectCollided.tag == "Enemy") {
-      Patroller enemyCollided = objectCollided.GetComponent<Patroller>();
+    collisionCounter++;
+  }
 
-      if (enemyCollided.isAttacking) {
-        float currentX = transform.position.x;
-        float enemyX = enemyCollided.transform.position.x;
+  public void ReceiveAttack(GameObject enemy, Vector2 contactPoint) {
+    Patroller enemyScript = enemy.GetComponent<Patroller>();
 
-        hurtFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
+    if (enemyScript.isAttacking) {
+      float currentX = transform.position.x;
+      float enemyX = enemyScript.transform.position.x;
 
-        bool mustTakeDamage = (!isDefending || (isDefending && hurtFromBehind)) && (!isParrying || (isParrying && hurtFromBehind));
+      hurtFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
 
-        if (hurtFromBehind) {
-          FlipPlayer(true);
+      bool mustTakeDamage = (!isDefending || (isDefending && hurtFromBehind)) && (!isParrying || (isParrying && hurtFromBehind));
+
+      if (hurtFromBehind) {
+        FlipPlayer(true);
+      }
+
+      if (mustTakeDamage) {
+        TakeDamage(enemyScript.standardDamage, contactPoint);
+
+        if (currentHP > 0) {
+          SimulateHurt(2);
+        } else {
+          SimulateDeath(isGrounded);
+        }
+      } else {
+        if (isDefending) {
+          currentShieldHP--;
         }
 
-        if (mustTakeDamage) {
-          // TakeDamage(enemyCollided.standardDamage);
-
-          if (currentHP > 0) {
-            SimulateHurt(2);
-          } else {
-            SimulateDeath(isGrounded);
-          }
-        } else {
-          if (isDefending) {
-            // TODO: this is not an elegant solution to shield HP decrease. Ensure the attack changes to only hit on attack sprite
-            currentShieldHP -= 0.5f;
-          }
-
-          if (currentShieldHP == 0) {
-            shieldDropTime = Time.time * 1000;
-            DropDefense();
-          }
-          if (isParrying) {
-            Clash();
-            enemyCollided.stunOnAttack = true;
-          }
+        if (currentShieldHP == 0) {
+          shieldDropTime = Time.time * 1000;
+          DropDefense();
+        }
+        if (isParrying) {
+          Clash();
+          enemyScript.stunOnAttack = true;
         }
       }
     }
-
-    collisionCounter++;
   }
 
   public void TakeDamage(int damage, Vector2? damagePosition = null) {

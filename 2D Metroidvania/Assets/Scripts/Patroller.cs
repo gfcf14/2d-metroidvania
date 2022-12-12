@@ -235,7 +235,7 @@ public class Patroller : MonoBehaviour {
       // isAttacking = false;
       coolDownStart = Time.time * 1000;
       if (!needsCoolDown) {
-        hero.TakeDamage(standardDamage, col.collider.ClosestPoint(transform.position)); // TODO: do something about hero defense and stuff
+        hero.ReceiveAttack(gameObject, col.collider.ClosestPoint(transform.position));
         needsCoolDown = true;
       }
     } else if (colliderObject.tag == "Enemy") {
