@@ -838,6 +838,7 @@ public class Hero : MonoBehaviour {
     arrowInstance = currentArrow.GetComponent<Arrow>();
     arrowMask = currentArrow.transform.Find("Mask").gameObject;
 
+    arrowInstance.isFacingLeft = isFacingLeft;
     arrowInstance.type = projectileEquipment;
   }
 
