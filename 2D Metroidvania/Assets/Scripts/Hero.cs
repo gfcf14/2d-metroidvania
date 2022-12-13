@@ -137,7 +137,7 @@ public class Hero : MonoBehaviour {
   // PLAYER EQUIPMENT
     [System.NonSerialized] public static string bodyEquipment = "body-1";
     [System.NonSerialized] public static string arm1Equipment = "basic-longsword";
-    [System.NonSerialized] public static string arm2Equipment = "basic-shield";
+    [System.NonSerialized] public static string arm2Equipment = "basic-longsword";
     [System.NonSerialized] public static string neckEquipment = "";
     [System.NonSerialized] public static string armwear1Equipment = "silver-bracelet";
     [System.NonSerialized] public static string armwear2Equipment = "";
@@ -544,7 +544,6 @@ public class Hero : MonoBehaviour {
       if (Helpers.IsKeyUp(Controls.currentKeyboardAttack1) || Helpers.IsKeyUp(Controls.currentGamepadAttack1)) {
         DecideShieldRelease(arm1Equipment);
         isParrying = false;
-        armUsed = 0;
       }
 
       // arm 2
@@ -554,7 +553,6 @@ public class Hero : MonoBehaviour {
       if (Helpers.IsKeyUp(Controls.currentKeyboardAttack2) || Helpers.IsKeyUp(Controls.currentGamepadAttack2)) {
         DecideShieldRelease(arm2Equipment);
         isParrying = false;
-        armUsed = 0;
       }
     }
 
@@ -806,15 +804,18 @@ public class Hero : MonoBehaviour {
 
   void ClearAttackSingle() {
     isAttackingSingle = false;
+    armUsed = 0;
     weaponCollider.SetActive(false);
   }
 
   void ClearAirAttackSingle() {
     isAirAttackSingle = false;
+    armUsed = 0;
   }
 
   void ClearAirAttackHeavy() {
     isAirAttackHeavy = false;
+    armUsed = 0;
   }
 
   void ClearAirShooting() {
@@ -857,6 +858,7 @@ public class Hero : MonoBehaviour {
 
   void ClearAttackHeavy() {
     isAttackingHeavy = false;
+    armUsed = 0;
     weaponCollider.SetActive(false);
   }
 
