@@ -87,6 +87,7 @@ public class Throwable : MonoBehaviour {
       rotationAngle = initialAngle == 0 ? 0 : (maxDistance / initialAngle);
 
       if (isFacingLeft) {
+        // transform.localScale = new Vector3(-1, Helpers.IsValueInArray(Constants.woodCuttingThrowables, type) ? -1 : 1, 1);
         transform.localScale = new Vector3(-1, 1, 1);
       }
     }
@@ -105,7 +106,7 @@ public class Throwable : MonoBehaviour {
             if (type == "lance") {
               newAngle = initialAngle - (rotationAngle * transitionIncrement);
             } else if (type == "axe") {
-              newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier * 0.75f);
+              newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier * 0.75f) * (isFacingLeft ? -1 : 1);
             }
 
             transform.position = new Vector2(startX + newX, startY + parabolaValue(newX));
@@ -124,7 +125,7 @@ public class Throwable : MonoBehaviour {
             newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier);
 
             transform.position = new Vector2(startX + newX, startY + shurikenParabolaValue(newX * (type == "shuriken-4" ? 2 : 1)));
-            transform.rotation = Quaternion.Euler(0, 0, newAngle * (type == "hatchet" ? 0.5f : 1));
+            transform.rotation = Quaternion.Euler(0, 0, newAngle * (type == "hatchet" ? 0.5f * (isFacingLeft ? -1 : 1) : 1));
 
             // ensures transition increment doubles so rotating throwables travel faster
             transitionIncrement++;
