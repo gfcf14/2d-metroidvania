@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ArrowCollider : MonoBehaviour {
@@ -21,7 +19,7 @@ public class ArrowCollider : MonoBehaviour {
         parentArrow.hasCollided = true;
         parentArrow.collideTime = Time.time * 1000;
       }
-    } else if (colliderTag == "Enemy") {
+    } else if (colliderTag == "Enemy" || colliderTag == "Breakable") {
       Vector2 collisionPoint = col.ClosestPoint(transform.position);
 
       if (parentArrow.type != "arrow-fire") {
@@ -32,6 +30,10 @@ public class ArrowCollider : MonoBehaviour {
         }
       } else {
         GameObject arrowExplosion = Instantiate(Objects.prefabs["arrow-explosion"], collisionPoint, Quaternion.identity);
+      }
+
+      if (colliderTag == "Breakable") {
+        parentArrow.DestroyArrow();
       }
     }
   }

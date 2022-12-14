@@ -56,6 +56,24 @@ public class Breakable : MonoBehaviour {
       droppedItem.GetComponent<Droppable>().key = "moonlight-pendant"; // TODO: come up with a random system to add the item instead of hardcoding
       droppedItem.GetComponent<Droppable>().isDropped = true;
 
+      GameObject parentObject = col.transform.parent.gameObject;
+      if (parentObject.name.Contains("Throwable")) {
+        Throwable parentThrowable = parentObject.GetComponent<Throwable>();
+        string weaponWielded = parentThrowable.type;
+        Transform parentTransform = parentObject.GetComponent<Transform>();
+
+        if(Helpers.IsNonBouncingThrowable(weaponWielded)) {
+          parentThrowable.bounceX = parentTransform.position.x;
+          parentThrowable.bounceY = parentTransform.position.y;
+          parentThrowable.mustBounce = true;
+          parentThrowable.transitionIncrement = 0;
+        }
+
+        parentThrowable.collideTime = Time.time * 1000;
+        parentThrowable.hasCollided = true;
+        parentThrowable.maxEllapsedCollideTime = 1000f;
+      }
+
       anim.Play("breakable-" + type);
     }
   }
