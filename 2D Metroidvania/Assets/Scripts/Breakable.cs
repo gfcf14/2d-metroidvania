@@ -30,12 +30,16 @@ public class Breakable : MonoBehaviour {
 
   private void OnCollisionEnter2D(Collision2D col) {
     if (col.gameObject.tag == "Ground" && !Helpers.IsValueInArray(Constants.stackableBreakables, type)) {
-      Destroy(GetComponent<Rigidbody2D>());
+      GetComponent<Rigidbody2D>().gravityScale = 0;
       GetComponent<BoxCollider2D>().isTrigger = true;
     }
 
     if (col.gameObject.tag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type) && !Helpers.IsValueInArray(Constants.stackableBreakables, type)) {
       throw new Exception("Breakable objects that are not Barrels or Boxes should not stack with anything");
+    }
+
+    if (col.gameObject.tag == "Item") {
+      Physics2D.IgnoreCollision(col.gameObject.GetComponent<CapsuleCollider2D>(), GetComponent<BoxCollider2D>());
     }
   }
 
