@@ -517,6 +517,8 @@ public class Pause : MonoBehaviour {
     Item heroItem = heroScript.items.ElementAt(currentItemButtonIndex);
     PauseItem currentPauseItem = Objects.pauseItems[heroItem.key];
 
+    canvasStatus = "items";
+
     if (currentPauseItem.effects != null) {
       Effects itemEffects = currentPauseItem.effects;
 
@@ -538,14 +540,11 @@ public class Pause : MonoBehaviour {
       } else {
         heroScript.RemoveItem(currentItemButtonIndex);
         ClearItems(itemsContainer);
-        canvasStatus = "items";
         PopulateItemsContainer(heroScript.items, itemsContainer);
         Helpers.FocusUIElement(itemButtons.ElementAt(0));
         SetItemInfo(0);
       }
     }
-
-    canvasStatus = "items";
   }
 
   public void CancelItemUse() {
