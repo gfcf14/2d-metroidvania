@@ -48,30 +48,34 @@ public class Droppable : MonoBehaviour {
     if (col.gameObject.tag == "Ground") {
       Destroy(GetComponent<Rigidbody2D>());
       GetComponent<CapsuleCollider2D>().isTrigger = true;
+    } else if (col.gameObject.tag == "Hero") {
+      DestroyDroppable(col.gameObject.GetComponent<Hero>());
     }
   }
 
   private void OnTriggerEnter2D(Collider2D col) {
     if (col.gameObject.tag == "Hero") {
-      Hero hero = col.gameObject.GetComponent<Hero>();
-
-      if (key.Contains("money")) {
-        hero.gold += moneyItem.increment;
-      } else {
-        Item currItem = Helpers.GetItemFromList(hero.items, key);
-
-        if (currItem == null) { // if not found, the item must be added
-          hero.items.Add(new Item(key, 1));
-        } else { // if found, the item is incremented
-          currItem.amount++;
-        }
-      }
-
-      if (Settings.showItemInfo) {
-        hero.infoCanvas.GetComponent<InfoCanvas>().Display(key.Contains("money") ? moneyItem.text : Objects.pauseItems[key].name);
-      }
-
-      Destroy(gameObject);
+      DestroyDroppable(col.gameObject.GetComponent<Hero>());
     }
+  }
+
+  public void DestroyDroppable(Hero hero) {
+    if (key.Contains("money")) {
+      hero.gold += moneyItem.increment;
+    } else {
+      Item currItem = Helpers.GetItemFromList(hero.items, key);
+
+      if (currItem == null) { // if not found, the item must be added
+        hero.items.Add(new Item(key, 1));
+      } else { // if found, the item is incremented
+        currItem.amount++;
+      }
+    }
+
+    if (Settings.showItemInfo) {
+      hero.infoCanvas.GetComponent<InfoCanvas>().Display(key.Contains("money") ? moneyItem.text : Objects.pauseItems[key].name);
+    }
+
+    Destroy(gameObject);
   }
 }

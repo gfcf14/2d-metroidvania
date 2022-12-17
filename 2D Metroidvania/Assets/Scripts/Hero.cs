@@ -984,7 +984,9 @@ public class Hero : MonoBehaviour {
       }
     }
 
-    collisionCounter++;
+    if (objectCollided.tag != "Item") {
+      collisionCounter++;
+    }
   }
 
   public void ReceiveAttack(GameObject enemy, Vector2 contactPoint) {
@@ -1083,7 +1085,9 @@ public class Hero : MonoBehaviour {
   }
 
   private void OnCollisionExit2D(Collision2D collision) {
-    collisionCounter--;
+    if (collision.gameObject.tag != "Item") {
+      collisionCounter--;
+    }
 
     if (collisionCounter == 0) {
       isGrounded = false;
