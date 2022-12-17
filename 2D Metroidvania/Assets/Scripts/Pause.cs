@@ -360,7 +360,7 @@ public class Pause : MonoBehaviour {
 
       int itemUsageFrequency = Helpers.ValueFrequencyInArray(heroScript.equipmentArray, currentKey);
 
-      if ((canvasStatus == "equipment" && (!Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) || (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) && Helpers.HasProjectilesForWeapon(currentKey, heroScript.items))) && (itemUsageFrequency < currentAmount || Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey))) || canvasStatus == "items") {
+      if (canvasStatus == "items" || (canvasStatus == "equipment" && (!Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) || (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) && Helpers.HasProjectilesForWeapon(currentKey, heroScript.items))) && (itemUsageFrequency < currentAmount || Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey)))) {
         GameObject currentItemButton = Instantiate(Objects.prefabs["item-button"], Vector2.zero, Quaternion.identity);
 
         currentItemButton.transform.SetParent(parentContainer.transform);
@@ -380,8 +380,10 @@ public class Pause : MonoBehaviour {
       }
     }
 
-    for (int j = 0; j < itemsToRemove.Count; j++) {
-      currentEquipmentItems.RemoveAll(currItem => currItem.key == itemsToRemove[j]);
+    if (canvasStatus == "equipment") {
+      for (int j = 0; j < itemsToRemove.Count; j++) {
+        currentEquipmentItems.RemoveAll(currItem => currItem.key == itemsToRemove[j]);
+      }
     }
 
     int k = 0;
@@ -536,6 +538,7 @@ public class Pause : MonoBehaviour {
       } else {
         heroScript.RemoveItem(currentItemButtonIndex);
         ClearItems(itemsContainer);
+        canvasStatus = "items";
         PopulateItemsContainer(heroScript.items, itemsContainer);
         Helpers.FocusUIElement(itemButtons.ElementAt(0));
         SetItemInfo(0);
