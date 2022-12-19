@@ -509,24 +509,33 @@ public class Hero : MonoBehaviour {
     if (!isPaused) {
       // jumping
       if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
-        userInput += "$";
         if (isGrounded) {
-          if (userInput.Contains(jetpackUp)) {
-            JetpackUp();
-            userInput = "";
+          if (isHoldingDown) {
+            if (!isRunning) {
+              isKicking = true;
+            }
           } else {
             Jump();
-            userInput = "";
-          }
-        } else {
-          if (userInput.Contains(jetpackLeft)) {
-            JetpackHorizontal("left");
-            userInput = "";
-          } else if (userInput.Contains(jetpackRight)) {
-            JetpackHorizontal("right");
-            userInput = "";
           }
         }
+        // userInput += "$";
+        // if (isGrounded) {
+        //   if (userInput.Contains(jetpackUp)) {
+        //     JetpackUp();
+        //     userInput = "";
+        //   } else {
+        //     Jump();
+        //     userInput = "";
+        //   }
+        // } else {
+        //   if (userInput.Contains(jetpackLeft)) {
+        //     JetpackHorizontal("left");
+        //     userInput = "";
+        //   } else if (userInput.Contains(jetpackRight)) {
+        //     JetpackHorizontal("right");
+        //     userInput = "";
+        //   }
+        // }
       }
 
       if (verticalInput < 0) {
@@ -676,42 +685,38 @@ public class Hero : MonoBehaviour {
         if (armEquipment == "") {
           isPunching = true;
         } else {
-          if (!isRunning && isHoldingDown) {
-            isKicking = true;
-          } else {
-            string weaponType = Objects.pauseItems[armEquipment].type;
+          string weaponType = Objects.pauseItems[armEquipment].type;
 
-            switch (weaponType) {
-              case "single":
-                isAttackingSingle = true;
+          switch (weaponType) {
+            case "single":
+              isAttackingSingle = true;
+              weaponCollider.SetActive(true);
+            break;
+            case "double":
+              if (isHoldingDown) {
+                isParrying = true;
+              } else {
+                isAttackingHeavy = true;
                 weaponCollider.SetActive(true);
-              break;
-              case "double":
-                if (isHoldingDown) {
-                  isParrying = true;
-                } else {
-                  isAttackingHeavy = true;
-                  weaponCollider.SetActive(true);
-                }
-              break;
-              case "throwable":
-                isThrowing = armUsed;
-              break;
-              case "throwable-double":
-                isThrowing = armUsed;
-              break;
-              case "bow":
-                isShootingPull = true;
-              break;
-              case "defense":
-                if (currentShieldHP > 0) {
-                  isDefending = true;
-                }
-              break;
-              default:
-                Debug.Log("Case " + weaponType + " is not accounted for");
-              break;
-            }
+              }
+            break;
+            case "throwable":
+              isThrowing = armUsed;
+            break;
+            case "throwable-double":
+              isThrowing = armUsed;
+            break;
+            case "bow":
+              isShootingPull = true;
+            break;
+            case "defense":
+              if (currentShieldHP > 0) {
+                isDefending = true;
+              }
+            break;
+            default:
+              Debug.Log("Case " + weaponType + " is not accounted for");
+            break;
           }
         }
       } else if (isJumping || isFalling) {
