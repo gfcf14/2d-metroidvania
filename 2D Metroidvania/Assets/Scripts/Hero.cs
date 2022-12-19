@@ -517,6 +517,10 @@ public class Hero : MonoBehaviour {
           } else {
             Jump();
           }
+        } else {
+          if (isHoldingDown && isJumping && !isFalling) {
+            DropKick();
+          }
         }
         // userInput += "$";
         // if (isGrounded) {
@@ -721,13 +725,15 @@ public class Hero : MonoBehaviour {
         }
       } else if (isJumping || isFalling) {
         if (armEquipment == "") {
-          if (isHoldingDown) {
-            if (isJumping && !isFalling) {
-              DropKick();
-            }
-          } else {
-            isAirPunching = true;
-          }
+          isAirPunching = true;
+
+          // if (isHoldingDown) {
+          //   if (isJumping && !isFalling) {
+          //     DropKick();
+          //   }
+          // } else {
+          //   isAirPunching = true;
+          // }
         } else {
           string weaponType = Objects.pauseItems[armEquipment].type;
 
