@@ -728,6 +728,7 @@ public class Hero : MonoBehaviour {
       } else if (isJumping || isFalling) {
         if (armEquipment == "") {
           isAirPunching = true;
+          weaponCollider.SetActive(true);
 
           // if (isHoldingDown) {
           //   if (isJumping && !isFalling) {
@@ -814,6 +815,7 @@ public class Hero : MonoBehaviour {
 
   void ClearAirPunch() {
     isAirPunching = false;
+    weaponCollider.SetActive(false);
   }
 
   void ClearAttackSingle() {
@@ -980,7 +982,6 @@ public class Hero : MonoBehaviour {
           isJetpackUp = false;
           horizontalCollision = false;
           isDropKicking = false;
-          weaponCollider.SetActive(false);
 
           if (isHurt == 3) {
             Recover();
@@ -991,6 +992,8 @@ public class Hero : MonoBehaviour {
           isAirShooting = false;
           isAirAttackSingle = false;
           isAirAttackHeavy = false;
+
+          weaponCollider.SetActive(false);
         } else {
           horizontalCollision = true;
 
