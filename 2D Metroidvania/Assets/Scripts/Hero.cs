@@ -136,8 +136,8 @@ public class Hero : MonoBehaviour {
 
   // PLAYER EQUIPMENT
     [System.NonSerialized] public static string bodyEquipment = "body-1";
-    [System.NonSerialized] public static string arm1Equipment = "basic-longsword";
-    [System.NonSerialized] public static string arm2Equipment = "basic-longsword";
+    [System.NonSerialized] public static string arm1Equipment = "";
+    [System.NonSerialized] public static string arm2Equipment = "basic-shield";
     [System.NonSerialized] public static string neckEquipment = "";
     [System.NonSerialized] public static string armwear1Equipment = "silver-bracelet";
     [System.NonSerialized] public static string armwear2Equipment = "";
@@ -513,6 +513,7 @@ public class Hero : MonoBehaviour {
           if (isHoldingDown) {
             if (!isRunning) {
               isKicking = true;
+              weaponCollider.SetActive(true);
             }
           } else {
             Jump();
@@ -688,6 +689,7 @@ public class Hero : MonoBehaviour {
     if (isGrounded) {
         if (armEquipment == "") {
           isPunching = true;
+          weaponCollider.SetActive(true);
         } else {
           string weaponType = Objects.pauseItems[armEquipment].type;
 
@@ -807,6 +809,7 @@ public class Hero : MonoBehaviour {
 
   void ClearPunch() {
     isPunching = false;
+    weaponCollider.SetActive(false);
   }
 
   void ClearAirPunch() {
@@ -835,6 +838,7 @@ public class Hero : MonoBehaviour {
 
   void ClearKick() {
     isKicking = false;
+    weaponCollider.SetActive(false);
   }
 
   void ClearThrow() {
@@ -928,6 +932,7 @@ public class Hero : MonoBehaviour {
       isDropKicking = false;
       isFalling = false;
       canFlipOnAir = true;
+      weaponCollider.SetActive(false);
     }
 
     body.velocity = new Vector2(body.velocity.x, jumpHeight);
@@ -958,6 +963,7 @@ public class Hero : MonoBehaviour {
   private void DropKick() {
     canFlipOnAir = false;
     isDropKicking = true;
+    weaponCollider.SetActive(true);
   }
 
   private void OnCollisionEnter2D(Collision2D collision) {
@@ -974,6 +980,7 @@ public class Hero : MonoBehaviour {
           isJetpackUp = false;
           horizontalCollision = false;
           isDropKicking = false;
+          weaponCollider.SetActive(false);
 
           if (isHurt == 3) {
             Recover();
