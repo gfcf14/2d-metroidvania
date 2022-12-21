@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Hero : MonoBehaviour {
-  [System.NonSerialized] bool showDebug = false;
+  [System.NonSerialized] bool showDebug = true;
   [SerializeField] public float speed;
   [SerializeField] private float jumpHeight;
   [SerializeField] private float jetpackHeight;
@@ -24,11 +24,10 @@ public class Hero : MonoBehaviour {
   public bool isFalling;
   public bool isJumping;
 
-  public bool isJetpackUp;
-
-  public string jetpackHorizontal = "";
-  public float maxJetpackTime = 1500;
-  public float jetpackTime = 0;
+  // public bool isJetpackUp;
+  // public string jetpackHorizontal = "";
+  // public float maxJetpackTime = 1500;
+  // public float jetpackTime = 0;
 
   public float currentYPosition = 0;
   public float currentXPosition = 0;
@@ -42,7 +41,7 @@ public class Hero : MonoBehaviour {
   public bool isParrying = false;
   public bool isClashing = false;
 
-  public bool isGliding;
+  // public bool isGliding;
   public bool isFacingLeft;
 
   public bool isAttackingSingle;
@@ -56,15 +55,15 @@ public class Hero : MonoBehaviour {
 
   public bool isPunching;
   public bool isAirPunching;
-  public bool isAirShooting;
+
+  // public bool isAirShooting;
 
   // isThrowing determines a throw in an int, so it's 0 when not throwing, but 1 or 2 depending on what arm throws
   public int isThrowing;
   public bool startThrow = false;
 
-  public bool isShootingSingle;
-
-  public bool isShootingAuto;
+  // public bool isShootingSingle;
+  // public bool isShootingAuto;
 
   public bool isShootingPull;
 
@@ -76,7 +75,7 @@ public class Hero : MonoBehaviour {
   public float verticalInput = 0;
   public int armUsed = 0;
 
-  public string[] weapons = new string[] {"fists", "single", "heavy", "throwables", "projectile-single", "projectile-heavy", "projectile-auto", "projectile-pull"};
+  // public string[] weapons = new string[] {"fists", "single", "heavy", "throwables", "projectile-single", "projectile-heavy", "projectile-auto", "projectile-pull"};
 
   // public string jetpackUp = "🡣🡡⌴";
   public string jetpackUp = "du$";
@@ -187,7 +186,7 @@ public class Hero : MonoBehaviour {
     anim = GetComponent<Animator>();
     heroRenderer = GetComponent<SpriteRenderer>();
 
-    currentWeapon = weapons[weaponIndex % weapons.Length];
+    // currentWeapon = weapons[weaponIndex % weapons.Length];
 
     heroHeight = heroRenderer.bounds.size.y;
     heroWidth = heroRenderer.bounds.size.x;
@@ -571,21 +570,22 @@ public class Hero : MonoBehaviour {
     }
 
     // gliding
-    if (Input.GetKey(KeyCode.UpArrow)) {
-      if (!isGrounded) {
-        if (Input.GetKey(KeyCode.Space)) {
-          Glide();
-        } else {
-          isGliding = false;
-        }
-      }
-    } else {
-      isGliding = false;
-    }
+    // if (Input.GetKey(KeyCode.UpArrow)) {
+    //   if (!isGrounded) {
+    //     if (Input.GetKey(KeyCode.Space)) {
+    //       Glide();
+    //     } else {
+    //       isGliding = false;
+    //     }
+    //   }
+    // } else {
+    //   isGliding = false;
+    // }
 
-    isRunning = horizontalInput != 0 && !isJumping && !isFalling && !isAttackingSingle && !isJetpackUp;
+    isRunning = horizontalInput != 0 && !isJumping && !isFalling && !isAttackingSingle; // && !isJetpackUp;
 
-    if (!isGrounded && verticalSpeed < -1 && jetpackHorizontal == "") {
+    // if (!isGrounded && verticalSpeed < -1 && jetpackHorizontal == "") {
+    if (!isGrounded && verticalSpeed < -1) {
       Fall();
     }
 
@@ -631,19 +631,19 @@ public class Hero : MonoBehaviour {
       body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.75));
     }
 
-    if (isGliding) {
-      body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.25));
-    }
+    // if (isGliding) {
+    //   body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.25));
+    // }
 
-    if (jetpackHorizontal != "") {
-      body.velocity = new Vector2(body.velocity.x + (jetpackHeight * (jetpackHorizontal == "left" ? -1 : 1)), body.velocity.y);
-      transform.position = new Vector2(transform.position.x, currentYPosition);
-      if ((Time.time * 1000) > jetpackTime + maxJetpackTime) {
-        jetpackHorizontal = "";
-        jetpackTime = 0;
-        body.velocity = new Vector2(0, 0);
-      }
-    }
+    // if (jetpackHorizontal != "") {
+    //   body.velocity = new Vector2(body.velocity.x + (jetpackHeight * (jetpackHorizontal == "left" ? -1 : 1)), body.velocity.y);
+    //   transform.position = new Vector2(transform.position.x, currentYPosition);
+    //   if ((Time.time * 1000) > jetpackTime + maxJetpackTime) {
+    //     jetpackHorizontal = "";
+    //     jetpackTime = 0;
+    //     body.velocity = new Vector2(0, 0);
+    //   }
+    // }
 
     if (isDead == 2) {
       if (!isGrounded) {
@@ -658,7 +658,7 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isGrounded", isGrounded);
     anim.SetBool("isFalling", isFalling);
     anim.SetBool("isJumping", isJumping);
-    anim.SetBool("isJetpackUp", isJetpackUp);
+    // anim.SetBool("isJetpackUp", isJetpackUp);
     anim.SetBool("horizontalCollision", horizontalCollision);
     anim.SetBool("isAttackingSingle", isAttackingSingle);
     anim.SetBool("isAirAttackSingle", isAirAttackSingle);
@@ -668,13 +668,13 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isPunching", isPunching);
     anim.SetBool("isAirPunching", isAirPunching);
     anim.SetBool("isThrowing", isThrowing > 0);
-    anim.SetBool("isShootingSingle", isShootingSingle);
-    anim.SetBool("isShootingAuto", isShootingAuto);
+    // anim.SetBool("isShootingSingle", isShootingSingle);
+    // anim.SetBool("isShootingAuto", isShootingAuto);
     anim.SetBool("isShootingPull", isShootingPull);
-    anim.SetBool("isAirShooting", isAirShooting);
+    // anim.SetBool("isAirShooting", isAirShooting);
     anim.SetBool("isAttackingHeavy", isAttackingHeavy);
-    anim.SetBool("isJetpackHorizontal", jetpackHorizontal != "");
-    anim.SetBool("isGliding", isGliding);
+    // anim.SetBool("isJetpackHorizontal", jetpackHorizontal != "");
+    // anim.SetBool("isGliding", isGliding);
     anim.SetBool("isTired", (float)currentHP / (float)maxHP <= 0.2f);
     anim.SetInteger("isHurt", isHurt);
     anim.SetInteger("isDead", isDead);
@@ -834,9 +834,9 @@ public class Hero : MonoBehaviour {
     armUsed = 0;
   }
 
-  void ClearAirShooting() {
-    isAirShooting = false;
-  }
+  // void ClearAirShooting() {
+  //   isAirShooting = false;
+  // }
 
   void ClearKick() {
     isKicking = false;
@@ -847,9 +847,9 @@ public class Hero : MonoBehaviour {
     isThrowing = 0;
   }
 
-  void ClearShootingSingle() {
-    isShootingSingle = false;
-  }
+  // void ClearShootingSingle() {
+  //   isShootingSingle = false;
+  // }
 
   void CreateArrow() {
     currentArrow = Instantiate(Objects.prefabs["arrow"], arrowAnchor.transform.position, Quaternion.identity);
@@ -903,22 +903,23 @@ public class Hero : MonoBehaviour {
                       "Grounded: " + isGrounded + "\n" +
                       "Falling: " + isFalling + "\n" +
                       "Jumping: " + isJumping + "\n" +
-                      "Gliding: " + isGliding + "\n" +
-                      "JetpackUp: " + isJetpackUp + "\n" +
-                      "JetpackHorizontal: " + (jetpackHorizontal != "" ? jetpackHorizontal : "none") + "\n" +
+                      // "Gliding: " + isGliding + "\n" +
+                      // "JetpackUp: " + isJetpackUp + "\n" +
+                      // "JetpackHorizontal: " + (jetpackHorizontal != "" ? jetpackHorizontal : "none") + "\n" +
                       "horizontalCollision: " + horizontalCollision + "\n" +
-                      "Equipment: " + currentWeapon + "\n" +
+                      // "Equipment: " + currentWeapon + "\n" +
                       "Attack_Single: " + isAttackingSingle + "\n" +
                       "Attack_Heavy: " + isAttackingHeavy + "\n" +
                       "Air_Attack_Single: " + isAirAttackSingle + "\n" +
                       "Air_Attack_Heavy: " + isAirAttackHeavy + "\n" +
-                      "Air_Shooting: " + isAirShooting + "\n" +
+                      // "Air_Shooting: " + isAirShooting + "\n" +
                       "Kick: " + isKicking + "\n" +
                       "Drop_Kick: " + isDropKicking + "\n" +
                       "Punching: " + isPunching + "\n" +
                       "Air_Punch: " + isAirPunching + "\n" +
                       "Throwing: " + (isThrowing > 0) + "\n" +
-                      "Shooting: " + (isShootingSingle || isShootingAuto || isShootingPull || isAirShooting) + "\n" +
+                      // "Shooting: " + (isShootingSingle || isShootingAuto || isShootingPull || isAirShooting) + "\n" +
+                      "Shooting: " + isShootingPull + "\n" +
                       "Shield HP: " + currentShieldHP + "\n" : "";
     GUI.Label(new Rect(0, 0, 200, 400), guiLabel);
   }
@@ -943,24 +944,24 @@ public class Hero : MonoBehaviour {
     isGrounded = false;
   }
 
-  private void Glide() {
-    isGliding = true;
-  }
+  // private void Glide() {
+  //   isGliding = true;
+  // }
 
-  private void JetpackUp() {
-    body.velocity = new Vector2(body.velocity.x, jetpackHeight);
-    isJetpackUp = true;
-    isJumping = false;
-    isGrounded = false;
-  }
+  // private void JetpackUp() {
+  //   body.velocity = new Vector2(body.velocity.x, jetpackHeight);
+  //   isJetpackUp = true;
+  //   isJumping = false;
+  //   isGrounded = false;
+  // }
 
-  private void JetpackHorizontal(string direction) {
-    jetpackHorizontal = direction;
-    jetpackTime = Time.time * 1000;
-    currentYPosition = transform.position.y;
-    isJumping = false;
-    isGrounded = false;
-  }
+  // private void JetpackHorizontal(string direction) {
+  //   jetpackHorizontal = direction;
+  //   jetpackTime = Time.time * 1000;
+  //   currentYPosition = transform.position.y;
+  //   isJumping = false;
+  //   isGrounded = false;
+  // }
 
   private void DropKick() {
     canFlipOnAir = false;
@@ -979,7 +980,7 @@ public class Hero : MonoBehaviour {
           isGrounded = true;
           isFalling = false;
           isJumping = false;
-          isJetpackUp = false;
+          // isJetpackUp = false;
           horizontalCollision = false;
           isDropKicking = false;
 
@@ -989,7 +990,7 @@ public class Hero : MonoBehaviour {
 
           // disable air attack animations if these haven't finished when player hits ground
           isAirPunching = false;
-          isAirShooting = false;
+          // isAirShooting = false;
           isAirAttackSingle = false;
           isAirAttackHeavy = false;
 
