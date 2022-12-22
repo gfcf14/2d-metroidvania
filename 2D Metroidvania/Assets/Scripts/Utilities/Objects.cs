@@ -103,7 +103,7 @@ public class Objects {
     {"mp", Constants.mpMultiplier}
   };
 
-  public static Dictionary<string, string> enemyNames = new Dictionary<string, string> {
-    {"skeleton-1", "Skeleton Lvl 1"}
+  public static Dictionary<string, EnemyStats> enemyStats = new Dictionary<string, EnemyStats> {
+    {"skeleton-1", new EnemyStats() {name = "Skeleton Lvl 1", type = "patroller", hp = 100, atk = 20, def = 10, crit = 0.01f}}
   };
 }

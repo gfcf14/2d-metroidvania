@@ -1027,7 +1027,7 @@ public class Hero : MonoBehaviour {
       }
 
       if (mustTakeDamage) {
-        TakeDamage(enemyScript.standardDamage, contactPoint);
+        TakeDamage(enemyScript.atk, contactPoint);
 
         if (currentHP > 0) {
           SimulateHurt(2);

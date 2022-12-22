@@ -3,8 +3,6 @@ using UnityEngine;
 // Made by Bartha Szabolcs of GameDevJourney
 
 public class Patroller : MonoBehaviour {
-
-  [SerializeField] public string type;
   [SerializeField] public string key;
   [SerializeField] private SimpleFlash flashEffect;
   [SerializeField] public float speed;
@@ -39,12 +37,14 @@ public class Patroller : MonoBehaviour {
 
   public bool attackedFromBehind = false;
 
-  [System.NonSerialized] public int standardDamage = 60;
-
   public bool heroIsDead = false;
 
-  [System.NonSerialized] public int currentHP = 40;
-  [System.NonSerialized] public int maxHP = 40;
+  [System.NonSerialized] public string EnemyName;
+  [System.NonSerialized] public string type;
+  [System.NonSerialized] public int atk;
+  [System.NonSerialized] public int currentHP;
+  [System.NonSerialized] public int maxHP;
+  [System.NonSerialized] public float criticalRate;
 
   public bool stunOnAttack = false;
 
@@ -93,6 +93,14 @@ public class Patroller : MonoBehaviour {
     enemyColor = Helpers.GetColorFromResistances(elementResistances);
     flashEffect.repaintColor = enemyColor;
     enemyRenderer.color = enemyColor;
+
+    EnemyStats enemyStats = Objects.enemyStats[key];
+    EnemyName = enemyStats.name;
+    type = enemyStats.type;
+    atk = enemyStats.atk;
+    currentHP = enemyStats.hp;
+    maxHP = enemyStats.hp;
+    criticalRate = enemyStats.crit;
   }
 
   void Update() {
@@ -336,14 +344,14 @@ public class Patroller : MonoBehaviour {
         }
       }
 
-      hero.infoCanvas.GetComponent<InfoCanvas>().Display(Objects.enemyNames[key], new EnemyHealth(currentHP, maxHP));
+      hero.infoCanvas.GetComponent<InfoCanvas>().Display(EnemyName, new EnemyHealth(currentHP, maxHP));
     } else if (colliderTag == "Shield") {
       if (isAttacking) {
         // TODO: consider reusing for higher level shields
         // Stun();
       }
 
-      hero.infoCanvas.GetComponent<InfoCanvas>().Display(Objects.enemyNames[key], new EnemyHealth(currentHP, maxHP));
+      hero.infoCanvas.GetComponent<InfoCanvas>().Display(EnemyName, new EnemyHealth(currentHP, maxHP));
     } else if (colliderTag == "Explosion") {
       string colName = col.gameObject.name.Replace("(Clone)", "");
 

@@ -123,3 +123,12 @@ public class EnemyHealth {
     this.maximum = maximum;
   }
 }
+
+public class EnemyStats {
+  public string name;
+  public string type;
+  public int hp;
+  public int atk;
+  public int def;
+  public float crit;
+}
