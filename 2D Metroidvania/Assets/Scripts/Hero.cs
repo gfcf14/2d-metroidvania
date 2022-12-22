@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -1027,7 +1028,8 @@ public class Hero : MonoBehaviour {
       }
 
       if (mustTakeDamage) {
-        TakeDamage(enemyScript.atk, contactPoint);
+        int damage = (stamina + (int)equippedSTA) - enemyScript.atk;
+        TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, contactPoint);
 
         if (currentHP > 0) {
           SimulateHurt(2);
@@ -1036,7 +1038,14 @@ public class Hero : MonoBehaviour {
         }
       } else {
         if (isDefending) {
-          currentShieldHP--;
+          int shieldDefense = armUsed == 1 ? equippedDEF1 : equippedDEF2;
+
+          if (enemyScript.atk <= shieldDefense) {
+            currentShieldHP--;
+          } else {
+            int damage = (stamina + (int)equippedSTA + shieldDefense) - enemyScript.atk;
+            TakeDamage(damage < 0 ? Math.Abs(damage) :  Constants.minimumDamageDealt, contactPoint);
+          }
         }
 
         if (currentShieldHP == 0) {

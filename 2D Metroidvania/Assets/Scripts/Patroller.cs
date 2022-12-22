@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // Made by Bartha Szabolcs of GameDevJourney
@@ -42,6 +43,8 @@ public class Patroller : MonoBehaviour {
   [System.NonSerialized] public string EnemyName;
   [System.NonSerialized] public string type;
   [System.NonSerialized] public int atk;
+
+  [System.NonSerialized] public int def;
   [System.NonSerialized] public int currentHP;
   [System.NonSerialized] public int maxHP;
   [System.NonSerialized] public float criticalRate;
@@ -98,6 +101,7 @@ public class Patroller : MonoBehaviour {
     EnemyName = enemyStats.name;
     type = enemyStats.type;
     atk = enemyStats.atk;
+    def = enemyStats.def;
     currentHP = enemyStats.hp;
     maxHP = enemyStats.hp;
     criticalRate = enemyStats.crit;
@@ -263,21 +267,21 @@ public class Patroller : MonoBehaviour {
       attackedFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
 
       if (hero.isKicking || hero.isDropKicking) {
-        int damage = Constants.kickDamage + hero.strength + (int)hero.equippedSTR;
-        TakeDamage(damage, col.ClosestPoint(transform.position));
+        int damage = def - (Constants.kickDamage + hero.strength + (int)hero.equippedSTR);
+        TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position));
       } else {
         string currentWeapon = hero.armUsed == 1 ? Hero.arm1Equipment : Hero.arm2Equipment;
 
         if (currentWeapon == "") {
-          int damage = Constants.punchDamage + hero.strength + (int)hero.equippedSTR;
-          TakeDamage(damage, col.ClosestPoint(transform.position));
+          int damage = def - (Constants.punchDamage + hero.strength + (int)hero.equippedSTR);
+          TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position));
         } else {
           string weaponType = Objects.pauseItems[currentWeapon].type;
 
           if (weaponType == "single" || weaponType == "double") {
             string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
-            int damage = Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR;
-            TakeDamage(damage, col.ClosestPoint(transform.position));
+            int damage = def - (Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR);
+            TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position));
           } else if (weaponType == "throwable" || weaponType == "throwable-double") {
             GameObject parentObject = col.transform.parent.gameObject;
             Throwable parentThrowable = parentObject.GetComponent<Throwable>();
@@ -286,8 +290,8 @@ public class Patroller : MonoBehaviour {
             mustTakeDamage = (Helpers.IsNonBouncingThrowable(weaponWielded) && !parentThrowable.hasCollided) || (weaponWielded == "bomb" && parentThrowable.isExploding);
 
             if (mustTakeDamage) {
-              int damage = Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR;
-              TakeDamage(damage, col.ClosestPoint(transform.position));
+              int damage = def - (Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR);
+              TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position));
 
               Transform parentTransform = parentObject.GetComponent<Transform>();
 
@@ -311,8 +315,8 @@ public class Patroller : MonoBehaviour {
             willBurn = parentArrow.type == "arrow-fire" && !Helpers.IsFireResistant(elementResistances) && currentHP <= Constants.arrowExplosionDamage;
 
             if (mustTakeDamage) {
-              int damage = Helpers.GetDamage(arrowUsed) + hero.strength + (int)hero.equippedSTR;
-              TakeDamage(damage, col.ClosestPoint(transform.position));
+              int damage = def - (Helpers.GetDamage(arrowUsed) + hero.strength + (int)hero.equippedSTR);
+              TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position));
 
               if (parentArrow.type == "arrow-poison" && !Helpers.IsPoisonResistant(elementResistances)) {
                 isPoisoned = true;
@@ -372,7 +376,8 @@ public class Patroller : MonoBehaviour {
           }
         } else {
           if (!Helpers.IsFireResistant(elementResistances)) {
-            TakeDamage(Constants.arrowExplosionDamage, col.ClosestPoint(transform.position));
+            int damage = def - Constants.arrowExplosionDamage;
+            TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position));
 
             if (flashEffect != null) {
               flashEffect.Flash();
