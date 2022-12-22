@@ -127,7 +127,7 @@ public class Patroller : MonoBehaviour {
       }
 
       if (currentTime > nextPoisonAttackTime)  {
-        TakeDamage(10);
+        TakeDamage(Constants.arrowPoisonDamage);
         poisonEffectTime = Time.time * 1000;
         enemyRenderer.color = Colors.statusColors["poisoned"];
         poisonAttackCounter++;
@@ -255,18 +255,21 @@ public class Patroller : MonoBehaviour {
       attackedFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
 
       if (hero.isKicking || hero.isDropKicking) {
-        TakeDamage(10, col.ClosestPoint(transform.position));
+        int damage = Constants.kickDamage + hero.strength + (int)hero.equippedSTR;
+        TakeDamage(damage, col.ClosestPoint(transform.position));
       } else {
         string currentWeapon = hero.armUsed == 1 ? Hero.arm1Equipment : Hero.arm2Equipment;
 
         if (currentWeapon == "") {
-          TakeDamage(5, col.ClosestPoint(transform.position));
+          int damage = Constants.punchDamage + hero.strength + (int)hero.equippedSTR;
+          TakeDamage(damage, col.ClosestPoint(transform.position));
         } else {
           string weaponType = Objects.pauseItems[currentWeapon].type;
 
           if (weaponType == "single" || weaponType == "double") {
             string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
-            TakeDamage(Helpers.GetDamage(weaponWielded), col.ClosestPoint(transform.position));
+            int damage = Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR;
+            TakeDamage(damage, col.ClosestPoint(transform.position));
           } else if (weaponType == "throwable" || weaponType == "throwable-double") {
             GameObject parentObject = col.transform.parent.gameObject;
             Throwable parentThrowable = parentObject.GetComponent<Throwable>();
@@ -275,7 +278,8 @@ public class Patroller : MonoBehaviour {
             mustTakeDamage = (Helpers.IsNonBouncingThrowable(weaponWielded) && !parentThrowable.hasCollided) || (weaponWielded == "bomb" && parentThrowable.isExploding);
 
             if (mustTakeDamage) {
-              TakeDamage(Helpers.GetDamage(weaponWielded), col.ClosestPoint(transform.position));
+              int damage = Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR;
+              TakeDamage(damage, col.ClosestPoint(transform.position));
 
               Transform parentTransform = parentObject.GetComponent<Transform>();
 
@@ -299,7 +303,8 @@ public class Patroller : MonoBehaviour {
             willBurn = parentArrow.type == "arrow-fire" && !Helpers.IsFireResistant(elementResistances) && currentHP <= Constants.arrowExplosionDamage;
 
             if (mustTakeDamage) {
-              TakeDamage(Helpers.GetDamage(arrowUsed), col.ClosestPoint(transform.position));
+              int damage = Helpers.GetDamage(arrowUsed) + hero.strength + (int)hero.equippedSTR;
+              TakeDamage(damage, col.ClosestPoint(transform.position));
 
               if (parentArrow.type == "arrow-poison" && !Helpers.IsPoisonResistant(elementResistances)) {
                 isPoisoned = true;
