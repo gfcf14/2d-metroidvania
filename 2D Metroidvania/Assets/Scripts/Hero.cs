@@ -1028,8 +1028,9 @@ public class Hero : MonoBehaviour {
       }
 
       if (mustTakeDamage) {
-        int damage = (stamina + (int)equippedSTA) - enemyScript.atk;
-        TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, contactPoint);
+        bool isCritical = Helpers.IsCritical(enemyScript.criticalRate);
+        int damage = (stamina + (int)equippedSTA) - (enemyScript.atk * (isCritical ? 2 : 1));
+        TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, contactPoint, isCritical);
 
         if (currentHP > 0) {
           SimulateHurt(2);
@@ -1043,8 +1044,9 @@ public class Hero : MonoBehaviour {
           if (enemyScript.atk <= shieldDefense) {
             currentShieldHP--;
           } else {
-            int damage = (stamina + (int)equippedSTA + shieldDefense) - enemyScript.atk;
-            TakeDamage(damage < 0 ? Math.Abs(damage) :  Constants.minimumDamageDealt, contactPoint);
+            bool isCritical = Helpers.IsCritical(enemyScript.criticalRate);
+            int damage = (stamina + (int)equippedSTA + shieldDefense) - (enemyScript.atk * (isCritical ? 2 : 1));
+            TakeDamage(damage < 0 ? Math.Abs(damage) :  Constants.minimumDamageDealt, contactPoint, isCritical);
           }
         }
 
@@ -1060,7 +1062,7 @@ public class Hero : MonoBehaviour {
     }
   }
 
-  public void TakeDamage(int damage, Vector2? damagePosition = null) {
+  public void TakeDamage(int damage, Vector2? damagePosition = null, bool? isCritical = false) {
     currentHP -= damage;
 
     if (currentHP < 0) {
@@ -1079,6 +1081,7 @@ public class Hero : MonoBehaviour {
       GameObject damageObject = Instantiate(Objects.prefabs["damage-container"], position, Quaternion.identity);
       damageObject.transform.SetParent(null);
       damageObject.GetComponent<DamageContainer>().damage = damage;
+      damageObject.GetComponent<DamageContainer>().isCritical = isCritical ?? false;
     }
 
     // TODO: for testing purposes. Remove once magic can be spent by other means
