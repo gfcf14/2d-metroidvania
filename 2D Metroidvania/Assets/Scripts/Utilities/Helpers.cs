@@ -148,4 +148,9 @@ public class Helpers {
   public static bool IsOnItemContainerState(string[] containerStates, string currentState) {
     return IsValueInArray(containerStates, currentState);
   }
+
+  public static bool IsCritical(float rate) {
+    float randomOutcome = UnityEngine.Random.Range(0.0f, 1.0f);
+    return randomOutcome <= rate;
+  }
 }

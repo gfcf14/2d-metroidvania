@@ -3,9 +3,16 @@ using UnityEngine;
 
 public class DamageContainer : MonoBehaviour {
   [System.NonSerialized] public int damage;
+  [System.NonSerialized] public bool isCritical;
   void Start() {
     GetComponent<Animator>().enabled = true;
-    transform.Find("DamageText").gameObject.GetComponent<TextMeshPro>().text = damage.ToString();
+
+    TextMeshPro textElement = transform.Find("DamageText").gameObject.GetComponent<TextMeshPro>();
+    textElement.text = damage.ToString() + (isCritical ? "!" : "");
+
+    if (isCritical) {
+      textElement.colorGradient = new VertexGradient(Colors.criticalColorTop, Colors.criticalColorTop, Colors.criticalColorBottom, Colors.criticalColorBottom);
+    }
   }
 
   void Update() {}

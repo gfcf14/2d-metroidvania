@@ -267,21 +267,24 @@ public class Patroller : MonoBehaviour {
       attackedFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
 
       if (hero.isKicking || hero.isDropKicking) {
-        int damage = def - (Constants.kickDamage + hero.strength + (int)hero.equippedSTR);
-        TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position));
+        bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
+        int damage = def - ((Constants.kickDamage + hero.strength + (int)hero.equippedSTR) * (isCritical ? 2 : 1));
+        TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
       } else {
         string currentWeapon = hero.armUsed == 1 ? Hero.arm1Equipment : Hero.arm2Equipment;
 
         if (currentWeapon == "") {
-          int damage = def - (Constants.punchDamage + hero.strength + (int)hero.equippedSTR);
-          TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position));
+          bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
+          int damage = def - ((Constants.punchDamage + hero.strength + (int)hero.equippedSTR) * (isCritical ? 2 : 1));
+          TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
         } else {
           string weaponType = Objects.pauseItems[currentWeapon].type;
 
           if (weaponType == "single" || weaponType == "double") {
             string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
-            int damage = def - (Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR);
-            TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position));
+            bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
+            int damage = def - ((Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR) * (isCritical ? 2 : 1));
+            TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
           } else if (weaponType == "throwable" || weaponType == "throwable-double") {
             GameObject parentObject = col.transform.parent.gameObject;
             Throwable parentThrowable = parentObject.GetComponent<Throwable>();
@@ -290,8 +293,9 @@ public class Patroller : MonoBehaviour {
             mustTakeDamage = (Helpers.IsNonBouncingThrowable(weaponWielded) && !parentThrowable.hasCollided) || (weaponWielded == "bomb" && parentThrowable.isExploding);
 
             if (mustTakeDamage) {
-              int damage = def - (Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR);
-              TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position));
+              bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
+              int damage = def - ((Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR) * (isCritical ? 2 : 1));
+              TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
 
               Transform parentTransform = parentObject.GetComponent<Transform>();
 
@@ -315,8 +319,9 @@ public class Patroller : MonoBehaviour {
             willBurn = parentArrow.type == "arrow-fire" && !Helpers.IsFireResistant(elementResistances) && currentHP <= Constants.arrowExplosionDamage;
 
             if (mustTakeDamage) {
-              int damage = def - (Helpers.GetDamage(arrowUsed) + hero.strength + (int)hero.equippedSTR);
-              TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position));
+              bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
+              int damage = def - ((Helpers.GetDamage(arrowUsed) + hero.strength + (int)hero.equippedSTR) * (isCritical ? 2 : 1));
+              TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
 
               if (parentArrow.type == "arrow-poison" && !Helpers.IsPoisonResistant(elementResistances)) {
                 isPoisoned = true;
@@ -389,13 +394,14 @@ public class Patroller : MonoBehaviour {
     }
   }
 
-  public void TakeDamage(int damage, Vector2? damagePosition = null) {
+  public void TakeDamage(int damage, Vector2? damagePosition = null, bool? isCritical = false) {
     currentHP -= damage;
 
     if (Settings.showDamage) {
       GameObject damageObject = Instantiate(Objects.prefabs["damage-container"], damagePosition ?? new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
       damageObject.transform.SetParent(null);
       damageObject.GetComponent<DamageContainer>().damage = damage;
+      damageObject.GetComponent<DamageContainer>().isCritical = isCritical ?? false;
     }
   }
 
