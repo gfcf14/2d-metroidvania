@@ -49,6 +49,8 @@ public class Patroller : MonoBehaviour {
   [System.NonSerialized] public int maxHP;
   [System.NonSerialized] public float criticalRate;
 
+  [System.NonSerialized] public int exp;
+
   public bool stunOnAttack = false;
 
   public Vector2 deadPosition;
@@ -105,6 +107,7 @@ public class Patroller : MonoBehaviour {
     currentHP = enemyStats.hp;
     maxHP = enemyStats.hp;
     criticalRate = enemyStats.crit;
+    exp = enemyStats.exp;
   }
 
   void Update() {
@@ -135,6 +138,7 @@ public class Patroller : MonoBehaviour {
 
         if (poisonAttackCounter == maxPoisonAttacks + 1) {
           isPoisoned = false;
+          poisonAttackCounter = 0;
         }
       }
 
@@ -148,6 +152,10 @@ public class Patroller : MonoBehaviour {
           isDeadByPoison = true;
           isWalking = false;
           body.velocity = Vector2.zero;
+
+          if (!isDead) { // avoids getting double exp if dying from poison after being attacked
+            hero.exp += exp;
+          }
         }
       }
     }
@@ -350,6 +358,10 @@ public class Patroller : MonoBehaviour {
           isWalking = false;
           body.velocity = Vector2.zero;
           deadPosition = new Vector2(transform.position.x, transform.position.y);
+
+          if (!isDeadByPoison) { // avoids getting double exp if attacking while dying from poison
+            hero.exp += exp;
+          }
         }
       }
 
@@ -451,7 +463,9 @@ public class Patroller : MonoBehaviour {
   }
 
   public void OnGUI() {
-    string guiLabel = "HP: " + currentHP + "\n";
-    GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
+    if (hero.showDebug) {
+      string guiLabel = "HP: " + currentHP + "\n";
+      GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
+    }
   }
 }

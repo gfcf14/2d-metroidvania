@@ -131,4 +131,5 @@ public class EnemyStats {
   public int atk;
   public int def;
   public float crit;
+  public int exp;
 }

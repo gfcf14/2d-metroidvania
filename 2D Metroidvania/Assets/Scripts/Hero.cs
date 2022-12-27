@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Hero : MonoBehaviour {
-  [System.NonSerialized] bool showDebug = true;
+  [System.NonSerialized] public bool showDebug = true;
   [SerializeField] public float speed;
   [SerializeField] private float jumpHeight;
   [SerializeField] private float jetpackHeight;
