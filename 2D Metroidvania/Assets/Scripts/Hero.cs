@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Hero : MonoBehaviour {
-  [System.NonSerialized] public bool showDebug = true;
+  [System.NonSerialized] public bool showDebug = false;
+
+  [System.NonSerialized] public string pauseCase = "";
   [SerializeField] public float speed;
   [SerializeField] private float jumpHeight;
   [SerializeField] private float jetpackHeight;
@@ -506,7 +508,7 @@ public class Hero : MonoBehaviour {
       }
     }
 
-    if (!isPaused) {
+    if (!isPaused && pauseCase == "") {
       // jumping
       if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
         if (isGrounded) {
@@ -1127,5 +1129,10 @@ public class Hero : MonoBehaviour {
       isGrounded = false;
       DropDefense();
     }
+  }
+
+  public void LevelUp() {
+    pauseCase = "level-up";
+    Time.timeScale = 0;
   }
 }

@@ -27900,10 +27900,6 @@ MonoBehaviour:
   canFlipOnAir: 0
   isFalling: 0
   isJumping: 0
-  isJetpackUp: 0
-  jetpackHorizontal: 
-  maxJetpackTime: 1500
-  jetpackTime: 0
   currentYPosition: 0
   currentXPosition: 0
   throwbackHeight: 0
@@ -27912,7 +27908,6 @@ MonoBehaviour:
   isDefending: 0
   isParrying: 0
   isClashing: 0
-  isGliding: 0
   isFacingLeft: 0
   isAttackingSingle: 0
   isAttackingHeavy: 0
@@ -27922,26 +27917,14 @@ MonoBehaviour:
   isDropKicking: 0
   isPunching: 0
   isAirPunching: 0
-  isAirShooting: 0
   isThrowing: 0
   startThrow: 0
-  isShootingSingle: 0
-  isShootingAuto: 0
   isShootingPull: 0
   horizontalCollision: 0
   collisionCounter: 0
   horizontalInput: 0
   verticalInput: 0
   armUsed: 0
-  weapons:
-  - fists
-  - single
-  - heavy
-  - throwables
-  - projectile-single
-  - projectile-heavy
-  - projectile-auto
-  - projectile-pull
   jetpackUp: du$
   jetpackLeft: dl$
   jetpackRight: dr$
@@ -30842,7 +30825,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1287121271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30855,8 +30838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daf80e33fdb67b7428c84e1633876cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
-  key: 
+  key: skeleton-1
   flashEffect: {fileID: 0}
   speed: 3
   isFacingLeft: 0
@@ -51777,7 +51759,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daf80e33fdb67b7428c84e1633876cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: patroller
   key: skeleton-1
   flashEffect: {fileID: 0}
   speed: 3

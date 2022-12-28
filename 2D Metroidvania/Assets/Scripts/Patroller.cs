@@ -111,141 +111,145 @@ public class Patroller : MonoBehaviour {
   }
 
   void Update() {
-    if (!isPoisoned && !isStunned) {
-      enemyRenderer.color = enemyColor;
-    }
-
-    heroIsDead = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().isDead != 0;
-
-    if (isBurning) {
-      enemyColor = Colors.statusColors["burned"];
-      float currentTime = Time.time * 1000;
-
-      if (currentTime > burnTime + burningDuration) {
-        isBurning = false;
-        isDeadByBurning = true;
+    if (hero.pauseCase == "") {
+      if (!isPoisoned && !isStunned) {
+        enemyRenderer.color = enemyColor;
       }
-    }
 
-    if (isPoisoned) {
-      float currentTime = Time.time * 1000;
-      float nextPoisonAttackTime = poisonTime + (poisonAttackInterval * poisonAttackCounter);
+      heroIsDead = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().isDead != 0;
 
-      if (currentTime > poisonEffectTime + poisonEffectDuration) {
-        if (!isStunned) {
-          enemyRenderer.color = enemyColor;
-        }
+      if (isBurning) {
+        enemyColor = Colors.statusColors["burned"];
+        float currentTime = Time.time * 1000;
 
-        if (poisonAttackCounter == maxPoisonAttacks + 1) {
-          isPoisoned = false;
-          poisonAttackCounter = 0;
+        if (currentTime > burnTime + burningDuration) {
+          isBurning = false;
+          isDeadByBurning = true;
         }
       }
 
-      if (currentTime > nextPoisonAttackTime)  {
-        TakeDamage(Constants.arrowPoisonDamage);
-        poisonEffectTime = Time.time * 1000;
-        enemyRenderer.color = Colors.statusColors["poisoned"];
-        poisonAttackCounter++;
+      if (isPoisoned) {
+        float currentTime = Time.time * 1000;
+        float nextPoisonAttackTime = poisonTime + (poisonAttackInterval * poisonAttackCounter);
 
-        if (currentHP <= 0) {
-          isDeadByPoison = true;
-          isWalking = false;
-          body.velocity = Vector2.zero;
+        if (currentTime > poisonEffectTime + poisonEffectDuration) {
+          if (!isStunned) {
+            enemyRenderer.color = enemyColor;
+          }
 
-          if (!isDead) { // avoids getting double exp if dying from poison after being attacked
-            hero.exp += exp;
+          if (poisonAttackCounter == maxPoisonAttacks + 1) {
+            isPoisoned = false;
+            poisonAttackCounter = 0;
+          }
+        }
+
+        if (currentTime > nextPoisonAttackTime)  {
+          TakeDamage(Constants.arrowPoisonDamage);
+          poisonEffectTime = Time.time * 1000;
+          enemyRenderer.color = Colors.statusColors["poisoned"];
+          poisonAttackCounter++;
+
+          if (currentHP <= 0) {
+            isDeadByPoison = true;
+            isWalking = false;
+            body.velocity = Vector2.zero;
+
+            if (!isDead) { // avoids getting double exp if dying from poison after being attacked
+              hero.exp += exp;
+              // TODO: make the appropriate check for level up
+              hero.LevelUp();
+            }
           }
         }
       }
-    }
 
-    if (isDead) {
-      if (attackedFromBehind) {
-        // transform.position = new Vector2(transform.position.x + (isFacingLeft ? -1 : 1) * 0.05f, transform.position.y + 0.02f);
-        transform.position = new Vector3(deadPosition.x + deadAnimationIncrement * 0.025f * (isFacingLeft ? -1 : 1), deadPosition.y + 0.01f * deadAnimationIncrement);
-      } else {
-        // transform.position = new Vector2(transform.position.x + (isFacingLeft ? 1 : -1) * 0.05f, transform.position.y + 0.02f);
-        transform.position = new Vector3(deadPosition.x + deadAnimationIncrement * 0.025f * (isFacingLeft ? 1 : -1), deadPosition.y + 0.01f * deadAnimationIncrement);
-      }
-
-      deadAnimationIncrement++;
-    }
-
-    if (!needsCoolDown) {
-      if (isWalking && !isAttacking) {
-        int direction = isFacingLeft ? -1 : 1;
-
-        if (!isDead && !isDeadByBurning && !isDeadByPoison && !isBurning && !isStunned) {
-          body.velocity = new Vector2(direction * speed, body.velocity.y);
+      if (isDead) {
+        if (attackedFromBehind) {
+          // transform.position = new Vector2(transform.position.x + (isFacingLeft ? -1 : 1) * 0.05f, transform.position.y + 0.02f);
+          transform.position = new Vector3(deadPosition.x + deadAnimationIncrement * 0.025f * (isFacingLeft ? -1 : 1), deadPosition.y + 0.01f * deadAnimationIncrement);
         } else {
-          body.velocity = Vector2.zero;
+          // transform.position = new Vector2(transform.position.x + (isFacingLeft ? 1 : -1) * 0.05f, transform.position.y + 0.02f);
+          transform.position = new Vector3(deadPosition.x + deadAnimationIncrement * 0.025f * (isFacingLeft ? 1 : -1), deadPosition.y + 0.01f * deadAnimationIncrement);
         }
 
-        Vector2 beginDiagonalForwardCast = new Vector2(transform.position.x + ((enemyWidth / 2) * direction), transform.position.y + enemyHeight / 4);
-        Vector2 diagonalForwardCastDirection = transform.TransformDirection(new Vector2(1 * (direction), -1));
+        deadAnimationIncrement++;
+      }
 
-        RaycastHit2D diagonalForwardCast = Physics2D.Raycast(beginDiagonalForwardCast, diagonalForwardCastDirection, diagonalForwardCastLength);
-        Debug.DrawRay(beginDiagonalForwardCast, diagonalForwardCastDirection.normalized * diagonalForwardCastLength, Color.green);
+      if (!needsCoolDown) {
+        if (isWalking && !isAttacking) {
+          int direction = isFacingLeft ? -1 : 1;
 
-        // There's floor forward
-        // if (!diagonalForwardCast && diagonalForwardCast.collider.tag == "Ground") {
-        if (!diagonalForwardCast) {
-          isFacingLeft = !isFacingLeft;
-        }
-
-        if (!heroIsDead) {
-          Vector2 beginForwardCast = new Vector2(transform.position.x + ((enemyWidth / 2) * direction), transform.position.y + enemyHeight / 2);
-          Vector2 forwardCastDirection = transform.TransformDirection(new Vector2(1 * (direction), 0));
-
-          if (!playerFound) {
-            RaycastHit2D forwardCast = Physics2D.Raycast(beginForwardCast, forwardCastDirection, forwardCastLength);
-            Debug.DrawRay(beginForwardCast, forwardCastDirection.normalized * forwardCastLength, Color.red);
-
-            // Player is nearby
-            if (forwardCast && forwardCast.collider.tag == "Hero") {
-              playerFound = true;
-            }
+          if (!isDead && !isDeadByBurning && !isDeadByPoison && !isBurning && !isStunned) {
+            body.velocity = new Vector2(direction * speed, body.velocity.y);
           } else {
-            Vector2 beginProximityCast = new Vector2(transform.position.x + ((enemyWidth / 5) * direction), transform.position.y + enemyHeight / 2);
+            body.velocity = Vector2.zero;
+          }
 
-            RaycastHit2D proximityCast = Physics2D.Raycast(beginProximityCast, forwardCastDirection, proximityCastLength);
-            Debug.DrawRay(beginProximityCast, forwardCastDirection.normalized * proximityCastLength, Color.magenta);
+          Vector2 beginDiagonalForwardCast = new Vector2(transform.position.x + ((enemyWidth / 2) * direction), transform.position.y + enemyHeight / 4);
+          Vector2 diagonalForwardCastDirection = transform.TransformDirection(new Vector2(1 * (direction), -1));
 
-            if (proximityCast && proximityCast.collider.tag == "Hero") {
-              isAttacking = true;
-              body.velocity = Vector2.zero;
+          RaycastHit2D diagonalForwardCast = Physics2D.Raycast(beginDiagonalForwardCast, diagonalForwardCastDirection, diagonalForwardCastLength);
+          Debug.DrawRay(beginDiagonalForwardCast, diagonalForwardCastDirection.normalized * diagonalForwardCastLength, Color.green);
+
+          // There's floor forward
+          // if (!diagonalForwardCast && diagonalForwardCast.collider.tag == "Ground") {
+          if (!diagonalForwardCast) {
+            isFacingLeft = !isFacingLeft;
+          }
+
+          if (!heroIsDead) {
+            Vector2 beginForwardCast = new Vector2(transform.position.x + ((enemyWidth / 2) * direction), transform.position.y + enemyHeight / 2);
+            Vector2 forwardCastDirection = transform.TransformDirection(new Vector2(1 * (direction), 0));
+
+            if (!playerFound) {
+              RaycastHit2D forwardCast = Physics2D.Raycast(beginForwardCast, forwardCastDirection, forwardCastLength);
+              Debug.DrawRay(beginForwardCast, forwardCastDirection.normalized * forwardCastLength, Color.red);
+
+              // Player is nearby
+              if (forwardCast && forwardCast.collider.tag == "Hero") {
+                playerFound = true;
+              }
+            } else {
+              Vector2 beginProximityCast = new Vector2(transform.position.x + ((enemyWidth / 5) * direction), transform.position.y + enemyHeight / 2);
+
+              RaycastHit2D proximityCast = Physics2D.Raycast(beginProximityCast, forwardCastDirection, proximityCastLength);
+              Debug.DrawRay(beginProximityCast, forwardCastDirection.normalized * proximityCastLength, Color.magenta);
+
+              if (proximityCast && proximityCast.collider.tag == "Hero") {
+                isAttacking = true;
+                body.velocity = Vector2.zero;
+              }
             }
           }
         }
-      }
-    } else {
-      float currentTime = Time.time * 1000;
-
-      if (currentTime > (coolDownStart + coolDownTime)) {
-          coolDownStart = 0;
-          needsCoolDown = false;
-          playerFound = false;
-        }
-    }
-
-    if (!isBurning) {
-      if (isFacingLeft) {
-        transform.localScale = new Vector3(-1, 1, 1);
       } else {
-        transform.localScale = Vector3.one;
-      }
-    }
+        float currentTime = Time.time * 1000;
 
-    anim.SetBool("isWalking", isWalking);
-    anim.SetBool("isAttacking", isAttacking);
-    anim.SetBool("needsCooldown", needsCoolDown);
-    anim.SetBool("isDead", isDead);
-    anim.SetBool("isDeadByPoison", isDeadByPoison);
-    anim.SetBool("isStunned", isStunned);
-    anim.SetBool("isStunnedOnAttack", stunOnAttack);
-    anim.SetBool("isBurning", isBurning);
-    anim.SetBool("isDeadByBurning", isDeadByBurning);
+        if (currentTime > (coolDownStart + coolDownTime)) {
+            coolDownStart = 0;
+            needsCoolDown = false;
+            playerFound = false;
+          }
+      }
+
+      if (!isBurning) {
+        if (isFacingLeft) {
+          transform.localScale = new Vector3(-1, 1, 1);
+        } else {
+          transform.localScale = Vector3.one;
+        }
+      }
+
+      anim.SetBool("isWalking", isWalking);
+      anim.SetBool("isAttacking", isAttacking);
+      anim.SetBool("needsCooldown", needsCoolDown);
+      anim.SetBool("isDead", isDead);
+      anim.SetBool("isDeadByPoison", isDeadByPoison);
+      anim.SetBool("isStunned", isStunned);
+      anim.SetBool("isStunnedOnAttack", stunOnAttack);
+      anim.SetBool("isBurning", isBurning);
+      anim.SetBool("isDeadByBurning", isDeadByBurning);
+    }
   }
 
   private void OnCollisionEnter2D(Collision2D col) {
@@ -361,6 +365,8 @@ public class Patroller : MonoBehaviour {
 
           if (!isDeadByPoison) { // avoids getting double exp if attacking while dying from poison
             hero.exp += exp;
+            // TODO: make the appropriate check for level up
+            hero.LevelUp();
           }
         }
       }
