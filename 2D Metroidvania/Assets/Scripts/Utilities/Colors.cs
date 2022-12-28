@@ -28,8 +28,9 @@ public class Colors {
   public static Color miniHPNotFull = new Color(195f/255f, 200f/255f, 150f/255f);
   public static Color miniHPBelow20 = new Color(165f/255f, 100f/255f, 115f/255f);
 
-  public static Color criticalColorTop = new Color(1, 0 , 0);
-  public static Color criticalColorBottom = new Color(0, 0 , 0);
+  public static Color criticalColorBottom = new Color(1, 0 , 0);
+  public static Color criticalColorOutline = new Color(1, 1, 1);
+  public static Color criticalColorTop = new Color(0, 0 , 0);
 
   public static Dictionary<string, Color> vaseColors = new Dictionary<string, Color> {
     {"gold", new Color(1, 1, 0.5f)},
