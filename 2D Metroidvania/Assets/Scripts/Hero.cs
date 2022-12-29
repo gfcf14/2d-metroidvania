@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class Hero : MonoBehaviour {
   [SerializeField] public GameObject hpBarContainer;
   [SerializeField] public GameObject mpBarContainer;
   [SerializeField] public GameObject weaponCollider;
+  [SerializeField] public GameObject levelUpCanvas;
   private Rigidbody2D body;
   private Animator anim;
   private SpriteRenderer heroRenderer;
@@ -1132,7 +1134,19 @@ public class Hero : MonoBehaviour {
   }
 
   public void LevelUp() {
-    pauseCase = "level-up";
+    // TODO: update stats here
+
+    levelUpCanvas.SetActive(true);
+    SetPauseCase("level-up");
+  }
+
+  public void SetPauseCase(string newPauseCase) {
+    pauseCase = newPauseCase;
     Time.timeScale = 0;
+  }
+
+  public void ClearPauseCase() {
+    pauseCase = "";
+    Time.timeScale = 1;
   }
 }
