@@ -12,6 +12,7 @@ public class DamageContainer : MonoBehaviour {
 
     if (isCritical) {
       textElement.colorGradient = new VertexGradient(Colors.criticalColorTop, Colors.criticalColorTop, Colors.criticalColorBottom, Colors.criticalColorBottom);
+      textElement.fontSize = 8;
       textElement.outlineWidth = 0.2f;
       textElement.outlineColor = Colors.criticalColorOutline;
     }
