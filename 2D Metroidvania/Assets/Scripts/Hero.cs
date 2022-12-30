@@ -108,8 +108,8 @@ public class Hero : MonoBehaviour {
     [System.NonSerialized] public int currentMP = 1500;
     [System.NonSerialized] public int maxMP = 2000;
     [System.NonSerialized] public string status = "good";
-    [System.NonSerialized] public int exp = 343;
-    [System.NonSerialized] public int next = 350;
+    [System.NonSerialized] public int exp = 80;
+    [System.NonSerialized] public int next = 0;
     [System.NonSerialized] public int gold = 650;
     [System.NonSerialized] public int strength = 5;
     [System.NonSerialized] public int stamina = 5;
@@ -186,7 +186,7 @@ public class Hero : MonoBehaviour {
   [System.NonSerialized] bool canMap = false;
 
   // called when script is loaded
-  private void Awake() {
+  private void Start() {
     body = GetComponent<Rigidbody2D>();
     anim = GetComponent<Animator>();
     heroRenderer = GetComponent<SpriteRenderer>();
@@ -232,6 +232,8 @@ public class Hero : MonoBehaviour {
     items.Add(new Item("bomb", 99));
 
     UpdateStatsValues();
+
+    next = Helpers.NextLevelEXP(playerLevel + 1);
   }
 
   public void UpdateStatsValues() {
@@ -1133,9 +1135,17 @@ public class Hero : MonoBehaviour {
     }
   }
 
+  public void CheckLevel() {
+    if (exp >= next) {
+      LevelUp();
+    }
+  }
+
   public void LevelUp() {
     // TODO: update stats here
 
+    playerLevel++;
+    next = Helpers.NextLevelEXP(playerLevel + 1);
     levelUpCanvas.SetActive(true);
     SetPauseCase("level-up");
   }

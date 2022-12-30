@@ -153,4 +153,8 @@ public class Helpers {
     float randomOutcome = UnityEngine.Random.Range(0.0f, 1.0f);
     return randomOutcome <= rate;
   }
+
+  public static int NextLevelEXP(int newLevel) {
+    return (50 * (int)Mathf.Pow(newLevel, 2)) - (50 * newLevel);
+  }
 }

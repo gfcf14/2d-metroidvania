@@ -156,8 +156,7 @@ public class Patroller : MonoBehaviour {
 
             if (!isDead) { // avoids getting double exp if dying from poison after being attacked
               hero.exp += exp;
-              // TODO: make the appropriate check for level up
-              hero.LevelUp();
+              hero.CheckLevel();
             }
           }
         }
@@ -365,8 +364,7 @@ public class Patroller : MonoBehaviour {
 
           if (!isDeadByPoison) { // avoids getting double exp if attacking while dying from poison
             hero.exp += exp;
-            // TODO: make the appropriate check for level up
-            hero.LevelUp();
+            hero.CheckLevel();
           }
         }
       }
