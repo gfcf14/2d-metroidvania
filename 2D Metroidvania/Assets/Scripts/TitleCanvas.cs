@@ -16,10 +16,23 @@ public class TitleCanvas : MonoBehaviour {
   }
 
   void Update() {
-    if (Input.anyKey && !buttonsPanel.active) {
+    if (Input.anyKey && !buttonsPanel.activeSelf) {
       pressPrompt.SetActive(false);
       buttonsPanel.SetActive(true);
       eventSystem.SetSelectedGameObject(buttonsFirstSelected, new BaseEventData(eventSystem));
     }
+  }
+
+  public void GameStart() {
+    gameObject.SetActive(false);
+    hero.ClearPauseCase();
+  }
+
+  public void Quit() {
+    Application.Quit();
+    #if UNITY_EDITOR
+      UnityEditor.EditorApplication.isPlaying = false;
+    #endif
+      Application.Quit();
   }
 }

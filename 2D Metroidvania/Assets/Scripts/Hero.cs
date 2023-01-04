@@ -617,7 +617,7 @@ public class Hero : MonoBehaviour {
     //   SimulateHurt(3);
     // }
 
-    if (Helpers.IsPauseKeyUp()) {
+    if (Helpers.IsPauseKeyUp() && pauseCase == "") {
       isPaused = !isPaused;
       Helpers.TogglePause(isPaused, pauseCanvas);
     }
