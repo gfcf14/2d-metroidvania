@@ -17,6 +17,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject preferredInputCanvas;
   [SerializeField] GameObject inGameElementsCanvas;
   [SerializeField] GameObject quitCanvas;
+  [SerializeField] GameObject titleCanvas;
   [Space(10)]
 
   // Outer Canvases
@@ -304,11 +305,7 @@ public class Pause : MonoBehaviour {
     UpdateInGameElementSettings();
   }
 
-  void FadeOut() {
-    if (currentEquipmentItems != null && currentEquipmentItems.Count > 1) {
-      currentEquipmentItems.Clear();
-    }
-    canvasStatus = "";
+  public void HideCanvases() {
     itemsCanvas.SetActive(false);
     itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
     equipmentCanvas.SetActive(false);
@@ -321,8 +318,23 @@ public class Pause : MonoBehaviour {
     quitCanvas.SetActive(false);
     mainCanvas.SetActive(true);
     gameObject.SetActive(false);
+  }
+
+  public void FadeOut() {
+    if (currentEquipmentItems != null && currentEquipmentItems.Count > 1) {
+      currentEquipmentItems.Clear();
+    }
+    canvasStatus = "";
+    HideCanvases();
     Helpers.FocusUIElement(null);
     Time.timeScale = 1;
+  }
+
+  public void ReturnToTitle() {
+    HideCanvases();
+    titleCanvas.transform.Find("Prompt").gameObject.SetActive(true);
+    titleCanvas.transform.Find("ButtonPanel").gameObject.SetActive(false);
+    titleCanvas.SetActive(true);
   }
 
   void SelectItemsButton() {
@@ -1097,7 +1109,7 @@ public class Pause : MonoBehaviour {
   }
 
   public void QuitGame() {
-    Debug.Log("should return to title screen");
+    GetComponent<Animator>().Play("pause-return-title");
   }
 
   void CheckIfGamepad() {
