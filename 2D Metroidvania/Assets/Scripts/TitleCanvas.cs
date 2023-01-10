@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class TitleCanvas : MonoBehaviour {
   [SerializeField] GameObject buttonsPanel;
@@ -11,8 +10,9 @@ public class TitleCanvas : MonoBehaviour {
   Hero hero;
 
   void Start() {
-    hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
-    hero.SetPauseCase("title");
+    // TODO: ensure this is truly not needed when starting the game
+    // hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
+    // hero.SetPauseCase("title");
   }
 
   void Update() {
@@ -24,8 +24,8 @@ public class TitleCanvas : MonoBehaviour {
   }
 
   public void GameStart() {
-    gameObject.SetActive(false);
-    hero.ClearPauseCase();
+    // hero.ClearPauseCase();
+    SceneManager.LoadScene("GameWorld");
   }
 
   public void Quit() {

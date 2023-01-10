@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameOverOverlay : MonoBehaviour {
   [SerializeField] GameObject titleCanvas;
@@ -8,8 +7,9 @@ public class GameOverOverlay : MonoBehaviour {
   void Update() {}
 
   public void TransitionToTitle() {
-    titleCanvas.transform.Find("Prompt").gameObject.SetActive(true);
-    titleCanvas.transform.Find("ButtonPanel").gameObject.SetActive(false);
-    titleCanvas.SetActive(true);
+    // titleCanvas.transform.Find("Prompt").gameObject.SetActive(true);
+    // titleCanvas.transform.Find("ButtonPanel").gameObject.SetActive(false);
+    // titleCanvas.SetActive(true);
+    SceneManager.LoadScene("Title");
   }
 }
