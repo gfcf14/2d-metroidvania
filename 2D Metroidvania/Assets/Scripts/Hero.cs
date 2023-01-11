@@ -16,6 +16,7 @@ public class Hero : MonoBehaviour {
   [SerializeField] public GameObject mpBarContainer;
   [SerializeField] public GameObject weaponCollider;
   [SerializeField] public GameObject levelUpCanvas;
+  [SerializeField] public GameObject fadeOutCanvas;
   private Rigidbody2D body;
   private Animator anim;
   private SpriteRenderer heroRenderer;
@@ -103,7 +104,7 @@ public class Hero : MonoBehaviour {
 
   // PLAYER STATS
     [System.NonSerialized] public int playerLevel = 1;
-    [System.NonSerialized] public int currentHP = 4000;
+    [System.NonSerialized] public int currentHP = 5;
     [System.NonSerialized] public int maxHP = 5000;
     [System.NonSerialized] public int currentMP = 1500;
     [System.NonSerialized] public int maxMP = 2000;
@@ -1148,6 +1149,11 @@ public class Hero : MonoBehaviour {
     next = Helpers.NextLevelEXP(playerLevel + 1);
     levelUpCanvas.SetActive(true);
     SetPauseCase("level-up");
+  }
+
+  public void PlayerDeath() {
+    SetPauseCase("death");
+    fadeOutCanvas.SetActive(true);
   }
 
   public void SetPauseCase(string newPauseCase) {

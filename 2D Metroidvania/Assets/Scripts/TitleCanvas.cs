@@ -9,11 +9,7 @@ public class TitleCanvas : MonoBehaviour {
   [SerializeField] EventSystem eventSystem;
   Hero hero;
 
-  void Start() {
-    // TODO: ensure this is truly not needed when starting the game
-    // hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
-    // hero.SetPauseCase("title");
-  }
+  void Start() {}
 
   void Update() {
     if (Input.anyKey && !buttonsPanel.activeSelf) {
@@ -24,7 +20,6 @@ public class TitleCanvas : MonoBehaviour {
   }
 
   public void GameStart() {
-    // hero.ClearPauseCase();
     SceneManager.LoadScene("GameWorld");
   }
 

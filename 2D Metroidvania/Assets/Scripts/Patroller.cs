@@ -38,7 +38,7 @@ public class Patroller : MonoBehaviour {
 
   public bool attackedFromBehind = false;
 
-  public bool heroIsDead = false;
+  // public bool heroIsDead = false;
 
   [System.NonSerialized] public string EnemyName;
   [System.NonSerialized] public string type;
@@ -116,7 +116,7 @@ public class Patroller : MonoBehaviour {
         enemyRenderer.color = enemyColor;
       }
 
-      heroIsDead = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().isDead != 0;
+      // heroIsDead = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().isDead != 0;
 
       if (isBurning) {
         enemyColor = Colors.statusColors["burned"];
@@ -196,7 +196,7 @@ public class Patroller : MonoBehaviour {
             isFacingLeft = !isFacingLeft;
           }
 
-          if (!heroIsDead) {
+          // if (!heroIsDead) {
             Vector2 beginForwardCast = new Vector2(transform.position.x + ((enemyWidth / 2) * direction), transform.position.y + enemyHeight / 2);
             Vector2 forwardCastDirection = transform.TransformDirection(new Vector2(1 * (direction), 0));
 
@@ -219,7 +219,7 @@ public class Patroller : MonoBehaviour {
                 body.velocity = Vector2.zero;
               }
             }
-          }
+          // }
         }
       } else {
         float currentTime = Time.time * 1000;
