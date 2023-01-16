@@ -14,9 +14,7 @@ public class ArrowBurn : MonoBehaviour {
   void Update() {
     anim = GetComponent<Animator>();
 
-    float currentTime = Time.time * 1000;
-
-    if (currentTime > startTime + maxBurnDuration) {
+    if (Helpers.ExceedsTime(startTime, maxBurnDuration)) {
       isFinished = true;
     }
 

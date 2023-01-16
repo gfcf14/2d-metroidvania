@@ -120,9 +120,8 @@ public class Patroller : MonoBehaviour {
 
       if (isBurning) {
         enemyColor = Colors.statusColors["burned"];
-        float currentTime = Time.time * 1000;
 
-        if (currentTime > burnTime + burningDuration) {
+        if (Helpers.ExceedsTime(burnTime, burningDuration)) {
           isBurning = false;
           isDeadByBurning = true;
         }
@@ -222,9 +221,7 @@ public class Patroller : MonoBehaviour {
           // }
         }
       } else {
-        float currentTime = Time.time * 1000;
-
-        if (currentTime > (coolDownStart + coolDownTime)) {
+        if (Helpers.ExceedsTime(coolDownStart, coolDownTime)) {
             coolDownStart = 0;
             needsCoolDown = false;
             playerFound = false;

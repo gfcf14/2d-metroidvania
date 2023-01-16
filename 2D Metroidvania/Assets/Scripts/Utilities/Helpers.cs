@@ -157,4 +157,8 @@ public class Helpers {
   public static int NextLevelEXP(int newLevel) {
     return (50 * (int)Mathf.Pow(newLevel, 2)) - (50 * newLevel);
   }
+
+  public static bool ExceedsTime(float start, float limit) {
+    return Time.time * 1000 > start + limit;
+  }
 }

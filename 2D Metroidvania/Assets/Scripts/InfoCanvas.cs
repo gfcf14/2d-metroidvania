@@ -15,9 +15,7 @@ public class InfoCanvas : MonoBehaviour {
   void Start() {}
 
   void Update() {
-    float currentTime = Time.time * 1000;
-
-    if (currentTime > startTime + maxDisplayTime) {
+    if (Helpers.ExceedsTime(startTime, maxDisplayTime)) {
       gameObject.SetActive(false);
       enemyHPContainer.SetActive(false);
     }

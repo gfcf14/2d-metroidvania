@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Hero : MonoBehaviour {
-  [System.NonSerialized] public bool showDebug = false;
+  [System.NonSerialized] public bool showDebug = true;
 
   [System.NonSerialized] public string pauseCase = "";
   [SerializeField] public float speed;
@@ -393,9 +393,7 @@ public class Hero : MonoBehaviour {
     float verticalSpeed = body.velocity.y;
 
     if (shieldDropTime != 0) {
-      float currentTime = Time.time * 1000;
-
-      if (currentTime > (shieldDropTime + currentShieldRecoverTime)) {
+      if (Helpers.ExceedsTime(shieldDropTime, currentShieldRecoverTime)) {
         currentShieldHP = maxShieldHP;
         shieldDropTime = 0;
       }
@@ -1047,6 +1045,8 @@ public class Hero : MonoBehaviour {
       } else {
         if (isDefending) {
           int shieldDefense = armUsed == 1 ? equippedDEF1 : equippedDEF2;
+
+          Debug.Log(enemyScript.atk + " VS " + shieldDefense);
 
           if (enemyScript.atk <= shieldDefense) {
             currentShieldHP--;
