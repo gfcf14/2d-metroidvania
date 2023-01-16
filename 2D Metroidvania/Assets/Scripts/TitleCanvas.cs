@@ -7,7 +7,6 @@ public class TitleCanvas : MonoBehaviour {
   [SerializeField] GameObject pressPrompt;
   [SerializeField] GameObject buttonsFirstSelected;
   [SerializeField] EventSystem eventSystem;
-  Hero hero;
 
   void Start() {}
 

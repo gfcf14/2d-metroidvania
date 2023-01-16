@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Hero : MonoBehaviour {
-  [System.NonSerialized] public bool showDebug = true;
+  [System.NonSerialized] public bool showDebug = false;
 
   [System.NonSerialized] public string pauseCase = "";
   [SerializeField] public float speed;
