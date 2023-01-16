@@ -1046,14 +1046,20 @@ public class Hero : MonoBehaviour {
         if (isDefending) {
           int shieldDefense = armUsed == 1 ? equippedDEF1 : equippedDEF2;
 
-          Debug.Log(enemyScript.atk + " VS " + shieldDefense);
-
           if (enemyScript.atk <= shieldDefense) {
             currentShieldHP--;
           } else {
+            DropDefense();
+            currentShieldHP--;
             bool isCritical = Helpers.IsCritical(enemyScript.criticalRate);
             int damage = (stamina + (int)equippedSTA + shieldDefense) - (enemyScript.atk * (isCritical ? 2 : 1));
             TakeDamage(damage < 0 ? Math.Abs(damage) :  Constants.minimumDamageDealt, contactPoint, isCritical);
+
+            if (currentHP > 0) {
+              SimulateHurt(2);
+            } else {
+              SimulateDeath(isGrounded);
+            }
           }
         }
 
