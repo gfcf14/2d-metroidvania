@@ -91,7 +91,7 @@ public class Patroller : MonoBehaviour {
           }
 
           Vector2 beginDiagonalForwardCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y + enemy.enemyHeight / 4);
-          Vector2 diagonalForwardCastDirection = transform.TransformDirection(new Vector2(1 * (direction), -1));
+          Vector2 diagonalForwardCastDirection = transform.TransformDirection(new Vector2(0, -1));
 
           RaycastHit2D diagonalForwardCast = Physics2D.Raycast(beginDiagonalForwardCast, diagonalForwardCastDirection, diagonalForwardCastLength);
           Debug.DrawRay(beginDiagonalForwardCast, diagonalForwardCastDirection.normalized * diagonalForwardCastLength, Color.green);
@@ -115,7 +115,7 @@ public class Patroller : MonoBehaviour {
                 enemy.playerFound = true;
               }
             } else {
-              Vector2 beginProximityCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 5) * direction), transform.position.y + enemy.enemyHeight / 2);
+              Vector2 beginProximityCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y + enemy.enemyHeight / 2);
 
               RaycastHit2D proximityCast = Physics2D.Raycast(beginProximityCast, forwardCastDirection, proximityCastLength);
               Debug.DrawRay(beginProximityCast, forwardCastDirection.normalized * proximityCastLength, Color.magenta);
