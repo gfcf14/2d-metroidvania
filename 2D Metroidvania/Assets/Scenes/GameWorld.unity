@@ -31168,13 +31168,14 @@ GameObject:
   - component: {fileID: 1287121271}
   - component: {fileID: 1287121277}
   - component: {fileID: 1287121276}
+  - component: {fileID: 1287121278}
   m_Layer: 2
   m_Name: Patroller
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1287121271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31187,34 +31188,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daf80e33fdb67b7428c84e1633876cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: skeleton-1
-  flashEffect: {fileID: 0}
-  speed: 3
-  isFacingLeft: 0
-  isWalking: 0
-  playerFound: 0
-  isAttacking: 0
-  isHitting: 0
-  needsCoolDown: 0
   diagonalForwardCastLength: 1
   forwardCastLength: 2
   proximityCastLength: 0.5
-  coolDownTime: 750
-  coolDownStart: 0
-  isDead: 0
-  isStunned: 0
-  isDeadByPoison: 0
-  attackedFromBehind: 0
-  stunOnAttack: 0
-  deadPosition: {x: 0, y: 0}
-  deadAnimationIncrement: 0
-  isPoisoned: 0
-  poisonTime: 0
-  poisonEffectTime: 0
-  poisonAttackCounter: 1
-  isBurning: 0
-  isDeadByBurning: 0
-  burnTime: 0
 --- !u!61 &1287121272
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -31361,6 +31337,49 @@ MonoBehaviour:
   repaintColor: {r: 0, g: 0, b: 0, a: 0}
   flashMaterial: {fileID: 2100000, guid: 63d90cac7f8ab5949a6ee1227798459c, type: 2}
   duration: 0.2
+--- !u!114 &1287121278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287121270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401f32ed81267c34eb460786529bee55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: skeleton-1
+  flashEffect: {fileID: 0}
+  anim: {fileID: 0}
+  body: {fileID: 0}
+  enemyRenderer: {fileID: 0}
+  isFacingLeft: 0
+  needsCoolDown: 0
+  burnTime: 0
+  coolDownStart: 0
+  coolDownTime: 750
+  enemyHeight: 0
+  enemyWidth: 0
+  poisonEffectTime: 0
+  poisonTime: 0
+  deadAnimationIncrement: 0
+  poisonAttackCounter: 1
+  enemyColor: {r: 0, g: 0, b: 0, a: 0}
+  deadPosition: {x: 0, y: 0}
+  attackedFromBehind: 0
+  isAttacking: 0
+  isBurning: 0
+  isDead: 0
+  isDeadByBurning: 0
+  isDeadByPoison: 0
+  isHitting: 0
+  isPoisoned: 0
+  isStunned: 0
+  isWalking: 0
+  stunOnAttack: 0
+  playerFound: 0
+  hero: {fileID: 0}
 --- !u!1 &1296907978
 GameObject:
   m_ObjectHideFlags: 0
@@ -52216,34 +52235,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daf80e33fdb67b7428c84e1633876cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: skeleton-1
-  flashEffect: {fileID: 0}
-  speed: 3
-  isFacingLeft: 0
-  isWalking: 0
-  playerFound: 0
-  isAttacking: 0
-  isHitting: 0
-  needsCoolDown: 0
   diagonalForwardCastLength: 1
   forwardCastLength: 2
   proximityCastLength: 0.5
-  coolDownTime: 750
-  coolDownStart: 0
-  isDead: 0
-  isStunned: 0
-  isDeadByPoison: 0
-  attackedFromBehind: 0
-  stunOnAttack: 0
-  deadPosition: {x: 0, y: 0}
-  deadAnimationIncrement: 0
-  isPoisoned: 0
-  poisonTime: 0
-  poisonEffectTime: 0
-  poisonAttackCounter: 1
-  isBurning: 0
-  isDeadByBurning: 0
-  burnTime: 0
 --- !u!50 &2128256538
 Rigidbody2D:
   serializedVersion: 4

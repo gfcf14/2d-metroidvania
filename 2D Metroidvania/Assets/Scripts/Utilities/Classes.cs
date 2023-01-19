@@ -132,4 +132,5 @@ public class EnemyStats {
   public int def;
   public float crit;
   public int exp;
+  public int speed;
 }

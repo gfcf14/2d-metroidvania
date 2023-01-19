@@ -1018,7 +1018,7 @@ public class Hero : MonoBehaviour {
   }
 
   public void ReceiveAttack(GameObject enemy, Vector2 contactPoint) {
-    Patroller enemyScript = enemy.GetComponent<Patroller>();
+    Enemy enemyScript = enemy.GetComponent<Enemy>();
 
     if (enemyScript.isAttacking) {
       float currentX = transform.position.x;

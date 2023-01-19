@@ -104,6 +104,6 @@ public class Objects {
   };
 
   public static Dictionary<string, EnemyStats> enemyStats = new Dictionary<string, EnemyStats> {
-    {"skeleton-1", new EnemyStats() {name = "Skeleton Lvl 1", type = "patroller", hp = 100, atk = 20, def = 10, crit = 0.01f, exp = 30}}
+    {"skeleton-1", new EnemyStats() {name = "Skeleton Lvl 1", type = "patroller", hp = 100, atk = 20, def = 10, crit = 0.01f, exp = 30, speed= 3}}
   };
 }
