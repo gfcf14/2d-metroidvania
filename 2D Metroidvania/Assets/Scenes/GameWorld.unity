@@ -767,7 +767,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: 0
+    UniformRadius: -775.1492
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -3655,7 +3655,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: 0
+    UniformRadius: -792.1697
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -4539,7 +4539,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: 0
+    UniformRadius: -792.1697
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -11984,7 +11984,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: 0
+    UniformRadius: -775.1492
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -13555,7 +13555,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: 0
+    UniformRadius: -518.4797
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -26063,7 +26063,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: 0
+    UniformRadius: -732.30804
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -31351,9 +31351,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: skeleton-1
   flashEffect: {fileID: 0}
-  anim: {fileID: 0}
-  body: {fileID: 0}
-  enemyRenderer: {fileID: 0}
   isFacingLeft: 0
   needsCoolDown: 0
   burnTime: 0
@@ -52182,6 +52179,7 @@ GameObject:
   - component: {fileID: 2128256537}
   - component: {fileID: 2128256536}
   - component: {fileID: 2128256535}
+  - component: {fileID: 2128256542}
   m_Layer: 2
   m_Name: Patroller (1)
   m_TagString: Enemy
@@ -52350,6 +52348,46 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2128256542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128256534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 401f32ed81267c34eb460786529bee55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: skeleton-1
+  flashEffect: {fileID: 0}
+  isFacingLeft: 0
+  needsCoolDown: 0
+  burnTime: 0
+  coolDownStart: 0
+  coolDownTime: 750
+  enemyHeight: 0
+  enemyWidth: 0
+  poisonEffectTime: 0
+  poisonTime: 0
+  deadAnimationIncrement: 0
+  poisonAttackCounter: 1
+  enemyColor: {r: 0, g: 0, b: 0, a: 0}
+  deadPosition: {x: 0, y: 0}
+  attackedFromBehind: 0
+  isAttacking: 0
+  isBurning: 0
+  isDead: 0
+  isDeadByBurning: 0
+  isDeadByPoison: 0
+  isHitting: 0
+  isPoisoned: 0
+  isStunned: 0
+  isWalking: 0
+  stunOnAttack: 0
+  playerFound: 0
+  hero: {fileID: 0}
 --- !u!1 &2128639534
 GameObject:
   m_ObjectHideFlags: 0

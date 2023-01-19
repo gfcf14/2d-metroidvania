@@ -104,6 +104,10 @@ public class Enemy : MonoBehaviour {
     criticalRate = enemyStats.crit;
     exp = enemyStats.exp;
     speed = enemyStats.speed;
+
+    if (type == "patroller") {
+      gameObject.AddComponent<Patroller>();
+    }
   }
 
   void Update() {}
