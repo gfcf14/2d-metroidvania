@@ -115,7 +115,7 @@ public class Patroller : MonoBehaviour {
                 enemy.playerFound = true;
               }
             } else {
-              Vector2 beginProximityCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y + enemy.enemyHeight / 2);
+              Vector2 beginProximityCast = new Vector2(transform.position.x + (enemy.enemyWidth * direction), transform.position.y + enemy.enemyHeight / 2);
 
               RaycastHit2D proximityCast = Physics2D.Raycast(beginProximityCast, forwardCastDirection, proximityCastLength);
               Debug.DrawRay(beginProximityCast, forwardCastDirection.normalized * proximityCastLength, Color.magenta);
@@ -142,16 +142,6 @@ public class Patroller : MonoBehaviour {
           transform.localScale = Vector3.one;
         }
       }
-
-      enemy.anim.SetBool("isWalking", enemy.isWalking);
-      enemy.anim.SetBool("isAttacking", enemy.isAttacking);
-      enemy.anim.SetBool("needsCooldown", enemy.needsCoolDown);
-      enemy.anim.SetBool("isDead", enemy.isDead);
-      enemy.anim.SetBool("isDeadByPoison", enemy.isDeadByPoison);
-      enemy.anim.SetBool("isStunned", enemy.isStunned);
-      enemy.anim.SetBool("isStunnedOnAttack", enemy.stunOnAttack);
-      enemy.anim.SetBool("isBurning", enemy.isBurning);
-      enemy.anim.SetBool("isDeadByBurning", enemy.isDeadByBurning);
     }
   }
 }

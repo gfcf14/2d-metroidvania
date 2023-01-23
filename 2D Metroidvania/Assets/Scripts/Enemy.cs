@@ -110,24 +110,30 @@ public class Enemy : MonoBehaviour {
     }
   }
 
-  void Update() {}
+  void Update() {
+    anim.SetBool("isWalking", isWalking);
+    anim.SetBool("isAttacking", isAttacking);
+    anim.SetBool("needsCoolDown", needsCoolDown);
+    anim.SetBool("isDead", isDead);
+    anim.SetBool("isDeadByPoison", isDeadByPoison);
+    anim.SetBool("isStunned", isStunned);
+    anim.SetBool("isStunnedOnAttack", stunOnAttack);
+    anim.SetBool("isBurning", isBurning);
+    anim.SetBool("isDeadByBurning", isDeadByBurning);
+  }
 
-  private void OnCollisionEnter2D(Collision2D col) {
-    GameObject colliderObject = col.gameObject;
-
-    if (colliderObject.tag == "Hero") {
+  public void Collision(Collision2D col) {
+    if (col.gameObject.tag == "Hero") {
       // isAttacking = false;
       coolDownStart = Time.time * 1000;
       if (!needsCoolDown) {
         hero.ReceiveAttack(gameObject, col.collider.ClosestPoint(transform.position));
         needsCoolDown = true;
       }
-    } else if (colliderObject.tag == "Enemy") {
-      Physics2D.IgnoreCollision(colliderObject.GetComponent<BoxCollider2D>(), GetComponent<BoxCollider2D>());
     }
   }
 
-  private void OnTriggerEnter2D(Collider2D col) {
+  public void Trigger(Collider2D col) {
     string colliderTag = col.gameObject.tag;
 
     if (colliderTag == "Weapon" && !hero.isParrying) {
