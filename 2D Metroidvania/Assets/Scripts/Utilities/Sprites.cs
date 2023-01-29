@@ -17,6 +17,7 @@ public class Sprites {
   public static Sprite[] breakableBarrels = Resources.LoadAll<Sprite>("Spritesheets/barrel");
   public static Sprite[] breakableJars = Resources.LoadAll<Sprite>("Spritesheets/jar");
   public static Sprite[] breakableVases = Resources.LoadAll<Sprite>("Spritesheets/vase");
+  public static Sprite[] skeletonKingSprites = Resources.LoadAll<Sprite>("Spritesheets/skeleton-king");
 
   public static Dictionary<string, Sprite> equipmentIcons = new Dictionary<string, Sprite> {
     {"body", equipmentButtonIcons[0]},
@@ -289,7 +290,8 @@ public class Sprites {
     {"shuriken-4", Resources.Load<Sprite>("Sprites/shuriken-4")},
     {"shuriken-6", Resources.Load<Sprite>("Sprites/shuriken-6")},
     {"hatchet", Resources.Load<Sprite>("Sprites/hatchet")},
-    {"axe", Resources.Load<Sprite>("Sprites/axe")}
+    {"axe", Resources.Load<Sprite>("Sprites/axe")},
+    {"king-bone", skeletonKingSprites[20]}
   };
 
   public static Dictionary<string, Sprite> droppableSprites = new Dictionary<string, Sprite> {

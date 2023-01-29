@@ -133,4 +133,5 @@ public class EnemyStats {
   public float crit;
   public int exp;
   public int speed;
+  public float reach;
 }

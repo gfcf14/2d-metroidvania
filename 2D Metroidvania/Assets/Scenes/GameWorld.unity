@@ -767,7 +767,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -775.1492
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -3655,7 +3655,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -792.1697
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -4539,7 +4539,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -792.1697
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -10503,11 +10503,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401f32ed81267c34eb460786529bee55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: skeleton-1
+  key: skeleton-king
   flashEffect: {fileID: 0}
   isFacingLeft: 0
   needsCoolDown: 0
+  attackedStart: 0
   burnTime: 0
+  consecutiveAttackTime: 5000
   coolDownStart: 0
   coolDownTime: 750
   enemyHeight: 0
@@ -10520,13 +10522,17 @@ MonoBehaviour:
   deadPosition: {x: 0, y: 0}
   attackedFromBehind: 0
   isAttacking: 0
+  isAttackingMelee: 0
   isBurning: 0
   isDead: 0
   isDeadByBurning: 0
   isDeadByPoison: 0
+  isDefending: 0
   isHitting: 0
   isPoisoned: 0
   isStunned: 0
+  isSummoning: 0
+  isThrowingWeapon: 0
   isWalking: 0
   stunOnAttack: 0
   playerFound: 0
@@ -10631,7 +10637,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.77, y: 2.05}
+  m_Size: {x: 1.82, y: 3.21}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -12494,7 +12500,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -775.1492
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -14065,7 +14071,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -518.4797
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -19408,7 +19414,9 @@ MonoBehaviour:
   flashEffect: {fileID: 0}
   isFacingLeft: 0
   needsCoolDown: 0
+  attackedStart: 0
   burnTime: 0
+  consecutiveAttackTime: 5000
   coolDownStart: 0
   coolDownTime: 750
   enemyHeight: 0
@@ -19421,13 +19429,17 @@ MonoBehaviour:
   deadPosition: {x: 0, y: 0}
   attackedFromBehind: 0
   isAttacking: 0
+  isAttackingMelee: 0
   isBurning: 0
   isDead: 0
   isDeadByBurning: 0
   isDeadByPoison: 0
+  isDefending: 0
   isHitting: 0
   isPoisoned: 0
   isStunned: 0
+  isSummoning: 0
+  isThrowingWeapon: 0
   isWalking: 0
   stunOnAttack: 0
   playerFound: 0
@@ -28270,7 +28282,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -732.30804
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -55210,7 +55222,9 @@ MonoBehaviour:
   flashEffect: {fileID: 0}
   isFacingLeft: 0
   needsCoolDown: 0
+  attackedStart: 0
   burnTime: 0
+  consecutiveAttackTime: 5000
   coolDownStart: 0
   coolDownTime: 750
   enemyHeight: 0
@@ -55223,13 +55237,17 @@ MonoBehaviour:
   deadPosition: {x: 0, y: 0}
   attackedFromBehind: 0
   isAttacking: 0
+  isAttackingMelee: 0
   isBurning: 0
   isDead: 0
   isDeadByBurning: 0
   isDeadByPoison: 0
+  isDefending: 0
   isHitting: 0
   isPoisoned: 0
   isStunned: 0
+  isSummoning: 0
+  isThrowingWeapon: 0
   isWalking: 0
   stunOnAttack: 0
   playerFound: 0

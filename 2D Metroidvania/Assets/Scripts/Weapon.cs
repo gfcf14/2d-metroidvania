@@ -12,7 +12,7 @@ public class Weapon : MonoBehaviour {
   void Update() { }
 
   private void OnTriggerEnter2D(Collider2D col) {
-    if (col.gameObject.tag == "Enemy") {
+    if (col.gameObject.tag == "Enemy" && col.gameObject.name != "EnemyCollider") {
       Patroller enemyCollided = col.gameObject.GetComponent<Patroller>();
 
       float enemyTopBounds = col.transform.position.y + col.gameObject.GetComponent<SpriteRenderer>().bounds.size.y;

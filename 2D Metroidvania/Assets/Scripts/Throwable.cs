@@ -40,6 +40,11 @@ public class Throwable : MonoBehaviour {
       return (-0.5f * Mathf.Pow(x, 2)) + (direction * maxDistance * x);
     }
 
+    // follows the formula f(x) = -1/4(x^2) + mx/4
+    float flatParabolaValue(float x) {
+      return (-0.25f * Mathf.Pow(x, 2)) + (direction * maxDistance * x * 0.25f);
+    }
+
     // follows the formula f(x) = -1/32(x^2) + 1/8(x)
     float shurikenParabolaValue(float x) {
       return (-0.03125f * Mathf.Pow(x, 2)) + (direction * x * 0.125f);
@@ -102,14 +107,14 @@ public class Throwable : MonoBehaviour {
         if (!mustFall) {
           float newX = direction * distanceMultiplier * transitionIncrement;
 
-          if (type == "lance" || type == "bomb" || type == "axe") {
+          if (type == "lance" || type == "bomb" || type == "axe" || type == "king-bone") {
             if (type == "lance") {
               newAngle = initialAngle - (rotationAngle * transitionIncrement);
-            } else if (type == "axe") {
+            } else if (type == "axe" || type == "king-bone") {
               newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier * 0.75f) * (isFacingLeft ? -1 : 1);
             }
 
-            transform.position = new Vector2(startX + newX, startY + parabolaValue(newX));
+            transform.position = new Vector2(startX + newX, startY + (type == "king-bone" ? flatParabolaValue(newX) : parabolaValue(newX)));
 
             if (type != "bomb") {
               transform.rotation = Quaternion.Euler(0, 0, newAngle);
@@ -132,6 +137,10 @@ public class Throwable : MonoBehaviour {
           }
 
           transitionIncrement++;
+
+          if (type == "king-bone") {
+            transitionIncrement++;
+          }
         } else {
           transform.position = new Vector2(transform.position.x, transform.position.y - 0.025f);
         }

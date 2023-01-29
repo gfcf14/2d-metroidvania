@@ -18,7 +18,9 @@ public class Enemy : MonoBehaviour {
     public bool needsCoolDown = false;
 
 
+    public float attackedStart = 0;
     public float burnTime = 0;
+    public float consecutiveAttackTime = 5000;
     public float coolDownStart = 0;
     public float coolDownTime = 750;
     public float enemyHeight = 0f;
@@ -42,17 +44,24 @@ public class Enemy : MonoBehaviour {
 
     [System.NonSerialized] public float burningDuration = 3000;
     [System.NonSerialized] public float criticalRate;
+    [System.NonSerialized] public float distanceToPlayer;
     [System.NonSerialized] public float poisonAttackInterval = 600;
     [System.NonSerialized] public float poisonEffectDuration = 50;
+    [System.NonSerialized] public float reach;
     [System.NonSerialized] public float speed;
 
 
     [System.NonSerialized] public int atk;
+    [System.NonSerialized] public int attacksReceived = 0;
+    [System.NonSerialized] public int attackRetaliationCounter = 3;
     [System.NonSerialized] public int currentHP;
     [System.NonSerialized] public int def;
     [System.NonSerialized] public int exp;
+    [System.NonSerialized] public int level = 50;
     [System.NonSerialized] public int maxHP;
     [System.NonSerialized] public int maxPoisonAttacks = 3;
+    [System.NonSerialized] public int maxThrows = 3;
+    [System.NonSerialized] public int maxThrowCounter = 0;
 
 
     [System.NonSerialized] public string EnemyName;
@@ -61,13 +70,17 @@ public class Enemy : MonoBehaviour {
   // Game Properties
     public bool attackedFromBehind = false;
     public bool isAttacking = false;
+    public bool isAttackingMelee = false;
     public bool isBurning = false;
     public bool isDead = false;
     public bool isDeadByBurning = false;
     public bool isDeadByPoison = false;
+    public bool isDefending = false;
     public bool isHitting = false; // provisional variable to only detect the moment the enemy attacks
     public bool isPoisoned = false;
     public bool isStunned = false;
+    public bool isSummoning = false;
+    public bool isThrowingWeapon = false;
     public bool isWalking;
     public bool stunOnAttack = false;
 
@@ -104,22 +117,107 @@ public class Enemy : MonoBehaviour {
     criticalRate = enemyStats.crit;
     exp = enemyStats.exp;
     speed = enemyStats.speed;
+    reach = enemyStats.reach;
 
     if (type == "patroller") {
       gameObject.AddComponent<Patroller>();
+    } else if (type == "champion") {
+      gameObject.AddComponent<Champion>();
     }
   }
 
   void Update() {
-    anim.SetBool("isWalking", isWalking);
-    anim.SetBool("isAttacking", isAttacking);
-    anim.SetBool("needsCoolDown", needsCoolDown);
-    anim.SetBool("isDead", isDead);
-    anim.SetBool("isDeadByPoison", isDeadByPoison);
-    anim.SetBool("isStunned", isStunned);
-    anim.SetBool("isStunnedOnAttack", stunOnAttack);
-    anim.SetBool("isBurning", isBurning);
-    anim.SetBool("isDeadByBurning", isDeadByBurning);
+    // DEFENSE CAST
+    int direction = isFacingLeft ? -1 : 1;
+    Vector2 defenseCast = new Vector2(transform.position.x + ((enemyWidth / 2) * reach * direction), transform.position.y + enemyHeight / 2 + 0.005f);
+    Vector2 defenseCastDirection = transform.TransformDirection(new Vector2(1 * (direction), 0));
+
+    RaycastHit2D defenseRayCast = Physics2D.Raycast(defenseCast, defenseCastDirection, reach * 2);
+    Debug.DrawRay(defenseCast, defenseCastDirection.normalized * (reach * 2), Color.blue);
+
+    if (defenseRayCast && defenseRayCast.collider.tag == "Weapon") {
+      if (level - hero.playerLevel >= 10) {
+        isDefending = true;
+      }
+    }
+
+
+    if (hero != null && hero.pauseCase == "") {
+      // ENEMY NORMAL COLOR
+        if (!isPoisoned && !isStunned) {
+          enemyRenderer.color = enemyColor;
+        }
+
+      // heroIsDead = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().isDead != 0;
+
+      // ENEMY BURNING
+        if (isBurning) {
+          enemyColor = Colors.statusColors["burned"];
+
+          if (Helpers.ExceedsTime(burnTime, burningDuration)) {
+            isBurning = false;
+            isDeadByBurning = true;
+          }
+        }
+
+      // ENEMY POISONED
+        if (isPoisoned) {
+          float currentTime = Time.time * 1000;
+          float nextPoisonAttackTime = poisonTime + (poisonAttackInterval * poisonAttackCounter);
+
+          if (currentTime > poisonEffectTime + poisonEffectDuration) {
+            if (!isStunned) {
+              enemyRenderer.color = enemyColor;
+            }
+
+            if (poisonAttackCounter == maxPoisonAttacks + 1) {
+              isPoisoned = false;
+              poisonAttackCounter = 0;
+            }
+          }
+
+          if (currentTime > nextPoisonAttackTime)  {
+            TakeDamage(Constants.arrowPoisonDamage);
+            poisonEffectTime = Time.time * 1000;
+            enemyRenderer.color = Colors.statusColors["poisoned"];
+            poisonAttackCounter++;
+
+            if (currentHP <= 0) {
+              isDeadByPoison = true;
+              isWalking = false;
+              body.velocity = Vector2.zero;
+
+              if (!isDead) { // avoids getting double exp if dying from poison after being attacked
+                hero.exp += exp;
+                hero.CheckLevel();
+              }
+            }
+          }
+        }
+
+      // ENEMY BURNING
+        if (!isBurning) {
+          if (isFacingLeft) {
+            transform.localScale = new Vector3(-1, 1, 1);
+          } else {
+            transform.localScale = Vector3.one;
+          }
+        }
+
+      anim.SetBool("isThrowingWeapon", isThrowingWeapon);
+      anim.SetBool("isAttacking", isAttacking);
+      anim.SetBool("isAttackingMelee", isAttackingMelee);
+      anim.SetBool("isBurning", isBurning);
+      anim.SetBool("isDead", isDead);
+      anim.SetBool("isDeadByBurning", isDeadByBurning);
+      anim.SetBool("isDeadByPoison", isDeadByPoison);
+      anim.SetBool("isDefending", isDefending);
+      anim.SetBool("isStunned", isStunned);
+      anim.SetBool("isStunnedOnAttack", stunOnAttack);
+      anim.SetBool("isSummoning", isSummoning);
+      anim.SetBool("isWalking", isWalking);
+      anim.SetBool("needsCoolDown", needsCoolDown);
+    }
   }
 
   public void Collision(Collision2D col) {
@@ -144,25 +242,43 @@ public class Enemy : MonoBehaviour {
 
       attackedFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
 
-      if (hero.isKicking || hero.isDropKicking) {
+      if (hero.isKicking || hero.isDropKicking && !isDefending) {
         bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
         int damage = def - ((Constants.kickDamage + hero.strength + (int)hero.equippedSTR) * (isCritical ? 2 : 1));
-        TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
+
+        if (!(isDefending && !attackedFromBehind)) {
+          TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
+          TurnWhenAttackedFromBehind();
+        } else {
+          mustTakeDamage = false;
+        }
       } else {
         string currentWeapon = hero.armUsed == 1 ? Hero.arm1Equipment : Hero.arm2Equipment;
 
-        if (currentWeapon == "") {
+        if (currentWeapon == "" && !isDefending) {
           bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
           int damage = def - ((Constants.punchDamage + hero.strength + (int)hero.equippedSTR) * (isCritical ? 2 : 1));
-          TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
+
+          if (!(isDefending && !attackedFromBehind)) {
+            TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
+            TurnWhenAttackedFromBehind();
+          } else {
+            mustTakeDamage = false;
+          }
         } else {
           string weaponType = Objects.pauseItems[currentWeapon].type;
 
-          if (weaponType == "single" || weaponType == "double") {
+          if (weaponType == "single" || weaponType == "double" && !isDefending) {
             string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
             bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
             int damage = def - ((Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR) * (isCritical ? 2 : 1));
-            TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
+
+            if (!(isDefending && !attackedFromBehind)) {
+              TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
+              TurnWhenAttackedFromBehind();
+            } else {
+              mustTakeDamage = false;
+            }
           } else if (weaponType == "throwable" || weaponType == "throwable-double") {
             GameObject parentObject = col.transform.parent.gameObject;
             Throwable parentThrowable = parentObject.GetComponent<Throwable>();
@@ -218,8 +334,26 @@ public class Enemy : MonoBehaviour {
             flashEffect.Flash();
           }
 
-          if (!willBurn) {
-            Stun();
+          if (!willBurn && attacksReceived < attackRetaliationCounter) {
+            if (!isDefending) {
+              Stun();
+            }
+
+            if (attackedStart != 0 && Helpers.ExceedsTime(attackedStart, consecutiveAttackTime)) {
+              attacksReceived = 0;
+              attackedStart = 0;
+            } else {
+              attacksReceived++;
+              attackedStart = Time.time * 1000;
+            }
+          } else if (attacksReceived >= (attackRetaliationCounter - 1)) {
+            if (level >= 30) {
+              isAttackingMelee = true;
+            } else {
+              if (!attackedFromBehind) {
+                isDefending = true;
+              }
+            }
           }
         } else {
           isDead = true;
@@ -277,6 +411,12 @@ public class Enemy : MonoBehaviour {
     }
   }
 
+  public void TurnWhenAttackedFromBehind() {
+    if (level >= 20 && attackedFromBehind) { // after level 20 enemy should be aware it's being hit from behind
+      Flip();
+    }
+  }
+
   public void TakeDamage(int damage, Vector2? damagePosition = null, bool? isCritical = false) {
     currentHP -= damage;
 
@@ -301,9 +441,31 @@ public class Enemy : MonoBehaviour {
   }
 
   void Recover() {
+    isSummoning = false;
     isStunned = false;
     stunOnAttack = false;
     isWalking = true;
+    isThrowingWeapon = false;
+    isAttackingMelee = false;
+    isDefending = false;
+  }
+
+  public void PrepareWeaponThrow() {
+    ThrowWeapon(distanceToPlayer);
+
+    if (level >= 20 && maxThrowCounter < (maxThrows - 1)) {
+      anim.Play("throw", -1, 0f);
+
+      if (maxThrowCounter == 0) {
+        distanceToPlayer -= 2;
+      } else {
+        distanceToPlayer += 4;
+      }
+
+      maxThrowCounter++;
+    } else {
+      Stun();
+    }
   }
 
   public void StunOnAttack() {
@@ -317,8 +479,10 @@ public class Enemy : MonoBehaviour {
   }
 
   void FinishAttack() {
+    playerFound = false;
     isAttacking = false;
     isHitting = false;
+    maxThrowCounter = 0;
   }
 
   void Destroy() {
@@ -331,6 +495,28 @@ public class Enemy : MonoBehaviour {
     // instantiates the explosion of the enemy
     Instantiate(Objects.prefabs["enemy-explosion"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
     Destroy(gameObject);
+  }
+
+  public void ThrowWeapon(float distance) {
+    ThrowableObject currentThrowable = Objects.throwableObjects["king-bone"];
+    float throwableX = transform.position.x + ((isFacingLeft ? -1 : 1) * enemyWidth + currentThrowable.startX);
+    float throwableY = transform.position.y + (enemyWidth + currentThrowable.startY);
+
+    GameObject throwableWeapon = Instantiate(Objects.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
+    Transform throwableCollider = throwableWeapon.transform.Find("ThrowableCollider");
+    throwableCollider.eulerAngles = Vector3.zero;
+    throwableCollider.gameObject.tag = "EnemyWeapon";
+    Throwable throwableInstance = throwableWeapon.GetComponent<Throwable>();
+
+    throwableInstance.isFacingLeft = isFacingLeft;
+    throwableInstance.maxDistance = distance;
+    throwableInstance.startX = throwableX;
+    throwableInstance.startY = throwableY;
+    throwableInstance.type = "king-bone";
+  }
+
+  public void Summon() {
+    Debug.Log("TODO: perform summon here!");
   }
 
   public void OnGUI() {
