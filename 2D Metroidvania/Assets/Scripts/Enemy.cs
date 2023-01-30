@@ -6,6 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
   // Serialized
     [SerializeField] public string key;
+    [SerializeField] public int level;
     [SerializeField] private SimpleFlash flashEffect;
 
   // Components
@@ -57,7 +58,6 @@ public class Enemy : MonoBehaviour {
     [System.NonSerialized] public int currentHP;
     [System.NonSerialized] public int def;
     [System.NonSerialized] public int exp;
-    [System.NonSerialized] public int level = 50;
     [System.NonSerialized] public int maxHP;
     [System.NonSerialized] public int maxPoisonAttacks = 3;
     [System.NonSerialized] public int maxThrows = 3;
