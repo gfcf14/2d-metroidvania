@@ -220,18 +220,23 @@ public class Enemy : MonoBehaviour {
     }
   }
 
-  public void Collision(Collision2D col) {
-    if (col.gameObject.tag == "Hero") {
+  public void CheckAttackToPlayer(Collider2D col) {
+    if (col.gameObject.tag == "Hero" && isAttacking) {
       // isAttacking = false;
       coolDownStart = Time.time * 1000;
       if (!needsCoolDown) {
-        hero.ReceiveAttack(gameObject, col.collider.ClosestPoint(transform.position));
+        hero.ReceiveAttack(gameObject, col.ClosestPoint(transform.position));
         needsCoolDown = true;
       }
     }
   }
 
+  public void Collision(Collision2D col) {
+    CheckAttackToPlayer(col.collider);
+  }
+
   public void Trigger(Collider2D col) {
+    CheckAttackToPlayer(col);
     string colliderTag = col.gameObject.tag;
 
     if (colliderTag == "Weapon" && !hero.isParrying) {
