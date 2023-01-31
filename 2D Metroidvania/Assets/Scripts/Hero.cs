@@ -749,9 +749,11 @@ public class Hero : MonoBehaviour {
           switch (weaponType) {
              case "single":
               isAirAttackSingle = true;
+              weaponCollider.SetActive(true);
             break;
             case "double":
               isAirAttackHeavy = true;
+              weaponCollider.SetActive(true);
             break;
             default:
               Debug.Log("Case " + weaponType + " is not accounted for");
@@ -833,11 +835,13 @@ public class Hero : MonoBehaviour {
   void ClearAirAttackSingle() {
     isAirAttackSingle = false;
     armUsed = 0;
+    weaponCollider.SetActive(false);
   }
 
   void ClearAirAttackHeavy() {
     isAirAttackHeavy = false;
     armUsed = 0;
+    weaponCollider.SetActive(false);
   }
 
   // void ClearAirShooting() {
