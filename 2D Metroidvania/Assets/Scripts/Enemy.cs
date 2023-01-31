@@ -335,7 +335,7 @@ public class Enemy : MonoBehaviour {
 
       if (mustTakeDamage) {
         if (currentHP > 0) {
-          if (flashEffect != null) {
+          if (flashEffect != null && !isDefending) {
             flashEffect.Flash();
           }
 
