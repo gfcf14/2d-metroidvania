@@ -442,12 +442,30 @@ public class Hero : MonoBehaviour {
     }
 
     if (isHurt == 3) {
-      if (throwbackHeight != 0 && transform.position.y > (currentYPosition - throwbackHeight)) {
-        transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.05f), transform.position.y + 0.05f);
+      if (throwbackHeight != 0 && transform.position.y < (currentYPosition + throwbackHeight)) {
+        body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) / 2, jumpHeight * 0.75f);
       } else {
         throwbackHeight = 0;
-        transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.05f), transform.position.y - 0.05f);
+        body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) * 1.25f, - jumpHeight * 0.5f);
       }
+      // body.velocity = Vector2.zero;
+
+      // if (throwbackHeight != 0) {
+      //   bool exceedsThrowbackHeight = transform.position.y < (currentYPosition + throwbackHeight);
+      //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.05f), transform.position.y + (0.25f * (exceedsThrowbackHeight ? 1 : -1)));
+        // if (transform.position.y > (currentYPosition - throwbackHeight)) {
+        //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
+        // } else {
+        //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
+        // }
+      // }
+
+      // if (throwbackHeight != 0 && transform.position.y > (currentYPosition - throwbackHeight)) {
+      //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
+      // } else {
+      //   throwbackHeight = 0;
+      //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
+      // }
     }
 
     // TODO: remove key combinations as they will not be used to favor two keys pressed
@@ -605,15 +623,15 @@ public class Hero : MonoBehaviour {
 
 
     // if (Input.GetKeyDown(KeyCode.Keypad7)) {
-    //   SimulateHurt(1);
+    //   PlayerHurt(1);
     // }
 
     // if (Input.GetKeyDown(KeyCode.Keypad8) && isGrounded) {
-    //   SimulateHurt(2);
+    //   PlayerHurt(2);
     // }
 
     // if (Input.GetKeyDown(KeyCode.Keypad9)) {
-    //   SimulateHurt(3);
+    //   PlayerHurt(3);
     // }
 
     if (Helpers.IsPauseKeyUp() && pauseCase == "") {
@@ -777,11 +795,11 @@ public class Hero : MonoBehaviour {
     }
   }
 
-  void SimulateDeath(bool isGrounded) {
+  void PlayerDying(bool isGrounded) {
     isDead = isGrounded ? 1 : 2;
   }
 
-  void SimulateHurt(int hurtLevel) {
+  void PlayerHurt(int hurtLevel) {
     body.velocity = new Vector2(0, 0);
     isHurt = hurtLevel;
 
@@ -791,7 +809,7 @@ public class Hero : MonoBehaviour {
     }
 
     if (hurtLevel == 3) {
-      throwbackHeight = 15f;
+      throwbackHeight = 2f;
     }
   }
 
@@ -1042,9 +1060,9 @@ public class Hero : MonoBehaviour {
         TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, contactPoint, isCritical);
 
         if (currentHP > 0) {
-          SimulateHurt(2);
+          PlayerHurt(isGrounded ? 2 : 3);
         } else {
-          SimulateDeath(isGrounded);
+          PlayerDying(isGrounded);
         }
       } else {
         if (isDefending) {
@@ -1060,9 +1078,9 @@ public class Hero : MonoBehaviour {
             TakeDamage(damage < 0 ? Math.Abs(damage) :  Constants.minimumDamageDealt, contactPoint, isCritical);
 
             if (currentHP > 0) {
-              SimulateHurt(2);
+              PlayerHurt(isGrounded ? 2 : 3);
             } else {
-              SimulateDeath(isGrounded);
+              PlayerDying(isGrounded);
             }
           }
         }
