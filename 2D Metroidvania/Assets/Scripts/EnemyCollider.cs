@@ -12,9 +12,12 @@ public class EnemyCollider : MonoBehaviour {
   void Update() {}
 
   private void OnCollisionEnter2D(Collision2D col) {
-    if (col.gameObject.tag == "Enemy") {
+    if (col.gameObject.name == "EnemyCollider") {
       Physics2D.IgnoreCollision(col.gameObject.GetComponent<CapsuleCollider2D>(), GetComponent<CapsuleCollider2D>());
     } else {
+      if (col.gameObject.tag != "Ground") {
+        Debug.Log(col.gameObject.tag);
+      }
       enemy.Collision(col);
     }
   }

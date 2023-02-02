@@ -30,6 +30,8 @@ public class Constants {
 
   public static string[] landingObjects = {"Breakable", "Ground"};
 
+  public static string[] enemyNonColliderNames = {"Enemy", "EnemyCollider", "Grounder"};
+
   public static int arrowExplosionDamage = 50;
   public static int arrowPoisonDamage = 10;
   public static int kickDamage = 10;
