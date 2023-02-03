@@ -15,9 +15,6 @@ public class EnemyCollider : MonoBehaviour {
     if (col.gameObject.name == "EnemyCollider") {
       Physics2D.IgnoreCollision(col.gameObject.GetComponent<CapsuleCollider2D>(), GetComponent<CapsuleCollider2D>());
     } else {
-      if (col.gameObject.tag != "Ground") {
-        Debug.Log(col.gameObject.tag);
-      }
       enemy.Collision(col);
     }
   }

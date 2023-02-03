@@ -1039,6 +1039,58 @@ public class Hero : MonoBehaviour {
     }
   }
 
+  public void ReceiveThrowable(GameObject throwable, Vector2 contactPoint) {
+    float currentX = transform.position.x;
+    float throwableX = throwable.transform.position.x;
+
+    hurtFromBehind = (currentX < throwableX && isFacingLeft) || (currentX > throwableX && !isFacingLeft);
+    bool mustTakeDamage = (!isDefending || (isDefending && hurtFromBehind)) && (!isParrying || (isParrying && hurtFromBehind));
+
+    if (hurtFromBehind) {
+      FlipPlayer(true);
+    }
+
+    int throwableDamage = Damages.weaponDamages[throwable.GetComponent<Throwable>().type].damage;
+
+    if (mustTakeDamage) {
+      int damage = (stamina + (int)equippedSTA) - throwableDamage;
+      TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, contactPoint);
+
+      if (currentHP > 0) {
+        PlayerHurt(isGrounded ? 2 : 3);
+      } else {
+        PlayerDying(isGrounded);
+      }
+    } else {
+      if (isDefending) {
+        int shieldDefense = armUsed == 1 ? equippedDEF1 : equippedDEF2;
+
+        if (throwableDamage <= shieldDefense) {
+          currentShieldHP--;
+        } else {
+          DropDefense();
+          currentShieldHP--;
+          int damage = (stamina + (int)equippedSTA + shieldDefense) - throwableDamage;
+          TakeDamage(damage < 0 ? Math.Abs(damage) :  Constants.minimumDamageDealt, contactPoint);
+
+          if (currentHP > 0) {
+            PlayerHurt(isGrounded ? 2 : 3);
+          } else {
+            PlayerDying(isGrounded);
+          }
+        }
+      }
+
+      if (currentShieldHP == 0) {
+        shieldDropTime = Time.time * 1000;
+        DropDefense();
+      }
+      if (isParrying) {
+        Clash();
+      }
+    }
+  }
+
   public void ReceiveAttack(GameObject enemy, Vector2 contactPoint) {
     Enemy enemyScript = enemy.GetComponent<Enemy>();
 

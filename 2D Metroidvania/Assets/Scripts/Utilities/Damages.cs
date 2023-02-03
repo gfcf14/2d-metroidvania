@@ -8,6 +8,7 @@ public class Damages {
     {"longsword-1", new WeaponDamage() {damage = 40}},
     {"lance", new WeaponDamage() {damage = 60}},
     {"bomb", new WeaponDamage() {damage = 100}},
+    {"king-bone", new WeaponDamage() {damage = 60}},
     {"knife", new WeaponDamage() {damage = 15}},
     {"kunai", new WeaponDamage() {damage = 10}},
     {"shuriken-4", new WeaponDamage() {damage = 5}},

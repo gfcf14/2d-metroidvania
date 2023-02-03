@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: AnimatorControllerTool
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -276,14 +276,14 @@ MonoBehaviour:
     height: 550
   m_MinSize: {x: 101, y: 121}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 22}
+  m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 19}
   - {fileID: 20}
   - {fileID: 21}
   - {fileID: 22}
-  m_Selected: 3
-  m_LastSelected: 2
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -340,7 +340,7 @@ MonoBehaviour:
   m_Zoom: 0.46425012
   m_ScrollPosition: {x: -116.42651, y: 57.177124}
   m_SelectedObject: {fileID: 0}
-  m_SelectedSpriteRectGUID: 00000000000000000000000000000000
+  m_SelectedSpriteRectGUID: 8f71336929423c3c0800000000000000
   m_LastUsedModuleTypeName: UnityEditor.U2D.Sprites.SpriteFrameModule
 --- !u!114 &14
 MonoBehaviour:
@@ -372,7 +372,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: a6480000
       m_LastClickedID: 18598
-      m_ExpandedIDs: 34fbffff
+      m_ExpandedIDs: a25bffff825cffff365dffff505dffff7063ffff08f9ffff34fbffff224a00004a4a00004a4b0000884c0000464d00007e4f0000905100000e540000e0550000f2560000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -432,9 +432,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 54.84391, y: 18.292929, z: -381.44196}
+    m_Target: {x: 55.59487, y: 4.6382217, z: -432.6096}
     speed: 2
-    m_Value: {x: 54.84391, y: 18.292929, z: -381.44196}
+    m_Value: {x: 55.59487, y: 4.6382217, z: -432.6096}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -485,9 +485,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 70.0064
+    m_Target: 14.442174
     speed: 2
-    m_Value: 70.0064
+    m_Value: 14.442174
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -992,21 +992,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Resources/Prefabs
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 96
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Resources/Prefabs
   m_LastFoldersGridSize: 96
   m_LastProjectPath: C:\Users\Carlos\Documents\GitHub\2d-metroidvania\2D Metroidvania
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 70.66669}
-    m_SelectedIDs: 98610000
-    m_LastClickedID: 24984
+    scrollPos: {x: 0, y: 71}
+    m_SelectedIDs: 6a610000
+    m_LastClickedID: 24938
     m_ExpandedIDs: 000000002461000026610000286100002a6100002c6100002e6100003061000032610000346100003661000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1060,8 +1060,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 840e0000
-    m_LastClickedInstanceID: 3716
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000e66b0000964f0000c84d0000e24d00000c570000945500003061000058510000000000007c5900002aca000054570000c25a0000ec5a0000
     m_RenameOverlay:
@@ -1143,7 +1143,7 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 20350
+  m_LastSelectedObjectID: -40090
 --- !u!114 &22
 MonoBehaviour:
   m_ObjectHideFlags: 52
