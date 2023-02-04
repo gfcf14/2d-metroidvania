@@ -204,6 +204,11 @@ public class Enemy : MonoBehaviour {
           }
         }
 
+      // RESET ATTACKS RECEIVED
+        if (Helpers.ExceedsTime(attackedStart, consecutiveAttackTime)) {
+          attacksReceived = 0;
+        }
+
       anim.SetBool("isThrowingWeapon", isThrowingWeapon);
       anim.SetBool("isAttacking", isAttacking);
       anim.SetBool("isAttackingMelee", isAttackingMelee);
@@ -344,16 +349,12 @@ public class Enemy : MonoBehaviour {
               Stun();
             }
 
-            if (attackedStart != 0 && Helpers.ExceedsTime(attackedStart, consecutiveAttackTime)) {
-              attacksReceived = 0;
-              attackedStart = 0;
-            } else {
-              attacksReceived++;
-              attackedStart = Time.time * 1000;
-            }
+            attacksReceived++;
+            attackedStart = Time.time * 1000;
           } else if (attacksReceived >= (attackRetaliationCounter - 1)) {
             if (level >= 30) {
               isAttackingMelee = true;
+              attackedStart = 0;
             } else {
               if (!attackedFromBehind) {
                 isDefending = true;
@@ -528,6 +529,11 @@ public class Enemy : MonoBehaviour {
   public void OnGUI() {
     if (hero.showDebug) {
       string guiLabel = "HP: " + currentHP + "\n";
+      GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
+    }
+
+    if (key == "skeleton-king") {
+      string guiLabel = "Attacks received: " + attacksReceived + "\n";
       GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
     }
   }
