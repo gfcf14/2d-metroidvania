@@ -418,6 +418,7 @@ public class Enemy : MonoBehaviour {
 
   public void TurnWhenAttackedFromBehind() {
     if (level >= 20 && attackedFromBehind) { // after level 20 enemy should be aware it's being hit from behind
+      isFacingLeft = !isFacingLeft;
       Flip();
     }
   }
