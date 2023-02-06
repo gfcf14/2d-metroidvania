@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,9 +10,11 @@ public class Objects {
     {"breakable", Resources.Load("Prefabs/Breakable") as GameObject},
     {"damage-container", Resources.Load("Prefabs/DamageContainer") as GameObject},
     {"droppable", Resources.Load("Prefabs/Droppable") as GameObject},
+    {"enemy", Resources.Load("Prefabs/Enemy") as GameObject},
     {"enemy-explosion", Resources.Load("Prefabs/EnemyExplosion") as GameObject},
     {"item-button", Resources.Load("Prefabs/ItemButton") as GameObject},
     {"pierce", Resources.Load("Prefabs/Pierce") as GameObject},
+    {"summon-energy", Resources.Load("Prefabs/SummonEnergy") as GameObject},
     {"throwable", Resources.Load("Prefabs/Throwable") as GameObject}
   };
 
@@ -107,5 +108,10 @@ public class Objects {
   public static Dictionary<string, EnemyStats> enemyStats = new Dictionary<string, EnemyStats> {
     {"skeleton-1", new EnemyStats() {name = "Skeleton Lvl 1", type = "patroller", hp = 100, atk = 20, def = 10, crit = 0.01f, exp = 30, speed= 3, reach = 0.5f}},
     {"skeleton-king", new EnemyStats() {name = "Skeleton King", type = "champion", hp = 300, atk = 60, def = 30, crit = 0.15f, exp = 100, speed= 2, reach = 1}}
+  };
+
+  public static Dictionary<string, Vector2> enemyDimensions = new Dictionary<string, Vector2> {
+    {"skeleton-1", new Vector2(1.77f, 2.05f)},
+    {"skeleton-king", new Vector2(1.82f, 3.21f)}
   };
 }
