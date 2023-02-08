@@ -14,6 +14,7 @@ public class Objects {
     {"enemy-explosion", Resources.Load("Prefabs/EnemyExplosion") as GameObject},
     {"item-button", Resources.Load("Prefabs/ItemButton") as GameObject},
     {"pierce", Resources.Load("Prefabs/Pierce") as GameObject},
+    {"smash-wave", Resources.Load("Prefabs/SmashWave") as GameObject},
     {"summon-energy", Resources.Load("Prefabs/SummonEnergy") as GameObject},
     {"throwable", Resources.Load("Prefabs/Throwable") as GameObject}
   };

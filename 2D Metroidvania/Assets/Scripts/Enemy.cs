@@ -527,6 +527,13 @@ public class Enemy : MonoBehaviour {
     summonEnergy.GetComponent<SummonEnergy>().summonKey = "skeleton-1";
   }
 
+  public void Smash() {
+    GameObject smashWave = Instantiate(Objects.prefabs["smash-wave"], new Vector3(transform.position.x + (isFacingLeft ? -2 : 2), transform.position.y, 0), Quaternion.identity);
+    SmashWave smashWaveScript = smashWave.GetComponent<SmashWave>();
+    smashWaveScript.width = enemyWidth * 2;
+    smashWaveScript.damage = atk * 2;
+  }
+
   public void OnGUI() {
     if (hero.showDebug) {
       string guiLabel = "HP: " + currentHP + "\n";

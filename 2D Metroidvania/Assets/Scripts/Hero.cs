@@ -1149,6 +1149,17 @@ public class Hero : MonoBehaviour {
     }
   }
 
+  public void ReceiveSmashWave(int damage, Vector2? damagePosition = null) {
+    int damageReceived = (stamina + (int)equippedSTA) - damage;
+    int actualDamage = damageReceived < 0 ? Math.Abs(damageReceived) : Constants.minimumDamageDealt;
+    if (currentHP > actualDamage) {
+      TakeDamage(actualDamage, damagePosition);
+      PlayerHurt(3);
+    } else {
+      PlayerDying(false);
+    }
+  }
+
   public void TakeDamage(int damage, Vector2? damagePosition = null, bool? isCritical = false) {
     currentHP -= damage;
 
