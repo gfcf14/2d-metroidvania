@@ -27,6 +27,8 @@ public class ArrowCollider : MonoBehaviour {
 
         if (parentArrow.type == "arrow-poison") {
           pierceEffect.GetComponent<Pierce>().color = Colors.statusColors["poisoned"];
+        } else {
+          pierceEffect.GetComponent<Pierce>().color = Color.white;
         }
       } else {
         GameObject arrowExplosion = Instantiate(Objects.prefabs["arrow-explosion"], collisionPoint, Quaternion.identity);
