@@ -324,7 +324,7 @@ public class Enemy : MonoBehaviour {
 
             if (mustTakeDamage) {
               bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
-              int damage = def - ((Helpers.GetDamage(arrowUsed) + hero.strength + (int)hero.equippedSTR) * (isCritical ? 2 : 1));
+              int damage = (def * (isDefending ? 2 : 1)) - ((Helpers.GetDamage(arrowUsed) + hero.strength + (int)hero.equippedSTR) * (isCritical ? 2 : 1));
               TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
 
               if (parentArrow.type == "arrow-poison" && !Helpers.IsPoisonResistant(elementResistances)) {

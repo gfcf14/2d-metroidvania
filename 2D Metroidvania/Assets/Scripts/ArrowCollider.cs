@@ -30,6 +30,8 @@ public class ArrowCollider : MonoBehaviour {
         } else {
           pierceEffect.GetComponent<Pierce>().color = Color.white;
         }
+
+        pierceEffect.GetComponent<Pierce>().isFacingLeft = parentArrow.isFacingLeft;
       } else {
         GameObject arrowExplosion = Instantiate(Objects.prefabs["arrow-explosion"], collisionPoint, Quaternion.identity);
       }
