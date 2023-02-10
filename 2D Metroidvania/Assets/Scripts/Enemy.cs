@@ -334,6 +334,9 @@ public class Enemy : MonoBehaviour {
 
               parentArrow.DestroyArrow();
             }
+          } else if (isDefending && !Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, weaponType)) {
+            GameObject defenseEffect = Instantiate(Objects.prefabs["defense"], col.ClosestPoint(transform.position), Quaternion.identity);
+            defenseEffect.GetComponent<Defense>().isFacingLeft = attackedFromBehind && isFacingLeft || !attackedFromBehind && !isFacingLeft;
           }
         }
       }
