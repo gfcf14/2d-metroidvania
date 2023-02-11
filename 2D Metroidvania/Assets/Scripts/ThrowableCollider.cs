@@ -36,8 +36,11 @@ public class ThrowableCollider : MonoBehaviour {
           parentThrowable.collideTime = Time.time * 1000;
         }
       }
-    } else if (colliderTag == "Hero" && gameObject.tag == "EnemyWeapon") {
-      GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().ReceiveThrowable(parentObject, col.ClosestPoint(transform.position));
+    } else if ((gameObject.tag == "EnemyWeapon" && Helpers.IsValueInArray(Constants.enemyThrowableBouncers, colliderTag)) || (gameObject.tag == "Weapon" && colliderTag == "EnemyWeapon")) {
+      if (colliderTag == "Hero") {
+        GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().ReceiveThrowable(parentObject, col.ClosestPoint(transform.position));
+      }
+
       parentThrowable.hasCollided = true;
       parentThrowable.collideTime = Time.time * 1000;
       parentThrowable.mustBounce = true;

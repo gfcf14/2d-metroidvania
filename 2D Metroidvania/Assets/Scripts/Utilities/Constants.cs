@@ -32,6 +32,8 @@ public class Constants {
 
   public static string[] enemyNonColliderNames = {"Enemy", "EnemyCollider", "Grounder"};
 
+  public static string[] enemyThrowableBouncers = {"Hero", "Weapon"};
+
   public static int arrowExplosionDamage = 50;
   public static int arrowPoisonDamage = 10;
   public static int kickDamage = 10;
