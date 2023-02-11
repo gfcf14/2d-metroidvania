@@ -12,15 +12,15 @@ public class Weapon : MonoBehaviour {
   void Update() { }
 
   private void OnTriggerEnter2D(Collider2D col) {
-    if (col.gameObject.tag == "Enemy" && col.gameObject.name != "EnemyCollider") {
-      Patroller enemyCollided = col.gameObject.GetComponent<Patroller>();
-
-      float enemyTopBounds = col.transform.position.y + col.gameObject.GetComponent<SpriteRenderer>().bounds.size.y;
+    if (col.gameObject.tag == "Enemy") {
+      GameObject parentObject = col.gameObject.transform.parent.gameObject;
+      float enemyTopBounds = col.transform.position.y + parentObject.GetComponent<SpriteRenderer>().bounds.size.y;
 
       if (hero.isDropKicking) {
         float heroBottomBounds = GameObject.FindGameObjectWithTag("Hero").transform.position.y;
 
-        if (Mathf.Abs(heroBottomBounds - enemyTopBounds) <= 0.1) {
+        if (Mathf.Abs(heroBottomBounds - enemyTopBounds) <= 1) {
+          parentObject.GetComponent<Enemy>().Trigger(GetComponent<CapsuleCollider2D>());
           hero.Jump(true);
         }
       }
