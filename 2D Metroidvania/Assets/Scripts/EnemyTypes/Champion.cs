@@ -25,7 +25,7 @@ public class Champion : MonoBehaviour {
             int direction = enemy.isFacingLeft ? -1 : 1;
 
             // MOVEMENT
-              if (!enemy.isDead && !enemy.isDeadByBurning && !enemy.isDeadByPoison && !enemy.isBurning && !enemy.isStunned && !enemy.isThrowingWeapon && !enemy.isAttackingMelee && !enemy.isDefending) {
+              if (!enemy.isDead && !enemy.isDeadByBurning && !enemy.isDeadByPoison && !enemy.isBurning && !enemy.isStunned && !enemy.isThrowingWeapon && !enemy.isAttackingMelee && !enemy.isDefending && !enemy.isSummoning) {
                 enemy.body.velocity = new Vector2(direction * enemy.speed, enemy.body.velocity.y);
               } else {
                 enemy.body.velocity = Vector2.zero;
@@ -63,6 +63,7 @@ public class Champion : MonoBehaviour {
                   }
                 } else {
                   if (wanderStart == 0) {
+                    enemy.isSummoning = true;
                     wanderStart = Time.time * 1000;
                     enemy.isFacingLeft = UnityEngine.Random.Range(0, 2) != 0;
                   } else {
@@ -89,10 +90,6 @@ public class Champion : MonoBehaviour {
           enemy.coolDownStart = 0;
           enemy.needsCoolDown = false;
           enemy.playerFound = false;
-
-          if (enemy.level >= 50) {
-            enemy.isSummoning = true;
-          }
         }
       }
     }

@@ -251,8 +251,6 @@ public class Enemy : MonoBehaviour {
       bool willBurn = false;
 
       attackedFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
-      
-      Debug.Log(hero.isDropKicking);
 
       if (hero.isKicking || hero.isDropKicking && !isDefending) {
         bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
