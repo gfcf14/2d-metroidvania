@@ -34,6 +34,8 @@ public class ThrowableCollider : MonoBehaviour {
         if (Helpers.IsNonBouncingThrowable(parentThrowable.type) || (parentThrowable.type == "bomb" && isBottomCollision)) {
           parentThrowable.hasCollided = true;
           parentThrowable.collideTime = Time.time * 1000;
+          // ensures the rigidbody, which enables throwable-to-throwable collision, is removed so the object sticks to the ground
+          Destroy(parentObject.GetComponent<Rigidbody2D>());
         }
       }
     } else if ((gameObject.tag == "EnemyWeapon" && Helpers.IsValueInArray(Constants.enemyThrowableBouncers, colliderTag)) || (gameObject.tag == "Weapon" && colliderTag == "EnemyWeapon")) {

@@ -35,9 +35,9 @@ public class Throwable : MonoBehaviour {
     float rotationAngle;
     int direction;
 
-    // follows the formula f(x) = -1/2(x^2) + mx
+    // follows the formula f(x) = -1/2(x^2) + mx/2
     float parabolaValue(float x) {
-      return (-0.5f * Mathf.Pow(x, 2)) + (direction * maxDistance * x);
+      return (-0.5f * Mathf.Pow(x, 2)) + (direction * maxDistance * x * 0.5f);
     }
 
     // follows the formula f(x) = -1/4(x^2) + mx/4
@@ -107,7 +107,7 @@ public class Throwable : MonoBehaviour {
         if (!mustFall) {
           float newX = direction * distanceMultiplier * transitionIncrement;
 
-          if (type == "lance" || type == "bomb" || type == "axe" || type == "king-bone") {
+          if (Helpers.IsValueInArray(Constants.parabolaThrowables, type)) {
             if (type == "lance") {
               newAngle = initialAngle - (rotationAngle * transitionIncrement);
             } else if (type == "axe" || type == "king-bone") {
@@ -138,7 +138,7 @@ public class Throwable : MonoBehaviour {
 
           transitionIncrement++;
 
-          if (type == "king-bone") {
+          if (Helpers.IsValueInArray(Constants.parabolaThrowables, type)) {
             transitionIncrement++;
           }
         } else {
