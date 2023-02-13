@@ -7,40 +7,40 @@ public class Enemy : MonoBehaviour {
   // Serialized
     [SerializeField] public string key;
     [SerializeField] public int level;
-    [SerializeField] private SimpleFlash flashEffect;
 
   // Components
     [System.NonSerialized] public Animator anim;
+    [System.NonSerialized] private SimpleFlash flashEffect;
     [System.NonSerialized] public Rigidbody2D body;
     [System.NonSerialized] public SpriteRenderer enemyRenderer;
 
   // Properties
-    public bool isFacingLeft = false;
-    public bool needsCoolDown = false;
+    [System.NonSerialized] public bool isFacingLeft = false;
+    [System.NonSerialized] public bool needsCoolDown = false;
 
 
-    public float attackedStart = 0;
-    public float burnTime = 0;
-    public float consecutiveAttackTime = 5000;
-    public float coolDownStart = 0;
-    public float coolDownTime = 750;
-    public float enemyHeight = 0f;
-    public float enemyWidth = 0f;
-    public float poisonEffectTime = 0;
-    public float poisonTime = 0;
+    [System.NonSerialized] public float attackedStart = 0;
+    [System.NonSerialized] public float burnTime = 0;
+    [System.NonSerialized] public float consecutiveAttackTime = 5000;
+    [System.NonSerialized] public float coolDownStart = 0;
+    [System.NonSerialized] public float coolDownTime = 750;
+    [System.NonSerialized] public float enemyHeight = 0f;
+    [System.NonSerialized] public float enemyWidth = 0f;
+    [System.NonSerialized] public float poisonEffectTime = 0;
+    [System.NonSerialized] public float poisonTime = 0;
 
 
-    public int deadAnimationIncrement = 0;
-    public int poisonAttackCounter = 1;
+    [System.NonSerialized] public int deadAnimationIncrement = 0;
+    [System.NonSerialized] public int poisonAttackCounter = 1;
 
 
-    string[] elementResistances;
+    [System.NonSerialized] string[] elementResistances;
 
 
-    public Color enemyColor;
+    [System.NonSerialized] public Color enemyColor;
 
 
-    public Vector2 deadPosition;
+    [System.NonSerialized] public Vector2 deadPosition;
 
 
     [System.NonSerialized] public float burningDuration = 3000;
@@ -68,26 +68,26 @@ public class Enemy : MonoBehaviour {
     [System.NonSerialized] public string type;
 
   // Game Properties
-    public bool attackedFromBehind = false;
-    public bool isAttacking = false;
-    public bool isAttackingMelee = false;
-    public bool isBurning = false;
-    public bool isDead = false;
-    public bool isDeadByBurning = false;
-    public bool isDeadByPoison = false;
-    public bool isDefending = false;
-    public bool isHitting = false; // provisional variable to only detect the moment the enemy attacks
-    public bool isPoisoned = false;
-    public bool isStunned = false;
-    public bool isSummoning = false;
-    public bool isThrowingWeapon = false;
-    public bool isWalking;
-    public bool stunOnAttack = false;
+    [System.NonSerialized] public bool attackedFromBehind = false;
+    [System.NonSerialized] public bool isAttacking = false;
+    [System.NonSerialized] public bool isAttackingMelee = false;
+    [System.NonSerialized] public bool isBurning = false;
+    [System.NonSerialized] public bool isDead = false;
+    [System.NonSerialized] public bool isDeadByBurning = false;
+    [System.NonSerialized] public bool isDeadByPoison = false;
+    [System.NonSerialized] public bool isDefending = false;
+    [System.NonSerialized] public bool isHitting = false; // provisional variable to only detect the moment the enemy attacks
+    [System.NonSerialized] public bool isPoisoned = false;
+    [System.NonSerialized] public bool isStunned = false;
+    [System.NonSerialized] public bool isSummoning = false;
+    [System.NonSerialized] public bool isThrowingWeapon = false;
+    [System.NonSerialized] public bool isWalking;
+    [System.NonSerialized] public bool stunOnAttack = false;
 
   // Player Related Properties
-    public bool playerFound = false;
-    public Hero hero;
-    SpriteRenderer weaponSpriteRenderer;
+    [System.NonSerialized] public bool playerFound = false;
+    [System.NonSerialized] public Hero hero;
+    [System.NonSerialized] SpriteRenderer weaponSpriteRenderer;
 
   void Start() {
     body = GetComponent<Rigidbody2D>();
@@ -124,6 +124,8 @@ public class Enemy : MonoBehaviour {
     } else if (type == "champion") {
       gameObject.AddComponent<Champion>();
     }
+
+    anim.runtimeAnimatorController = Objects.animationControllers[key];
   }
 
   void Update() {
@@ -543,9 +545,9 @@ public class Enemy : MonoBehaviour {
       GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
     }
 
-    if (key == "skeleton-king") {
-      string guiLabel = "Attacks received: " + attacksReceived + "\n";
-      GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
-    }
+    // if (key == "skeleton-king") {
+    //   string guiLabel = "Attacks received: " + attacksReceived + "\n";
+    //   GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
+    // }
   }
 }

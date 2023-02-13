@@ -92,7 +92,9 @@ public class Objects {
   };
 
   public static Dictionary<string, RuntimeAnimatorController> animationControllers = new Dictionary<string, RuntimeAnimatorController> {
-    {"breakable", Resources.Load("Animations/Breakables/Breakable") as RuntimeAnimatorController}
+    {"breakable", Resources.Load("Animations/Breakables/Breakable") as RuntimeAnimatorController},
+    {"skeleton-1", Resources.Load("Animations/Enemy/skeleton-1/skeleton-1") as RuntimeAnimatorController},
+    {"skeleton-king", Resources.Load("Animations/Enemy/skeleton-king/skeleton-king") as RuntimeAnimatorController}
   };
 
   public static Dictionary<string, BreakableDimension> breakableSizes = new Dictionary<string, BreakableDimension> {
