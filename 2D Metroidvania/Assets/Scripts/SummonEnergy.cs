@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SummonEnergy : MonoBehaviour {
   [System.NonSerialized] Animator anim;
+  [System.NonSerialized] public GameObject currentRoom;
   [SerializeField] public string summonKey;
   void Start() {
     anim = GetComponent<Animator>();
@@ -17,7 +18,8 @@ public class SummonEnergy : MonoBehaviour {
   }
 
   public void SummonEnemy() {
-    GameObject summonEnemy = Instantiate(Objects.prefabs["enemy"], new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+    GameObject summonedEnemy = Instantiate(Objects.prefabs["enemy"], new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+    summonedEnemy.transform.SetParent(currentRoom.transform);
   }
 
   public void DestroySummon() {

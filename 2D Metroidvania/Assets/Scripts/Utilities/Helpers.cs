@@ -161,4 +161,13 @@ public class Helpers {
   public static bool ExceedsTime(float start, float limit) {
     return Time.time * 1000 > start + limit;
   }
+
+  public static int ChildCountWithTag(Transform tr, string tag, bool checkInactive = false) {
+    int count = 0;
+    Transform [] trs = tr.GetComponentsInChildren<Transform>(checkInactive);
+    foreach(Transform t in trs) {
+      if(t.gameObject.CompareTag(tag) == true) { count++; }
+    }
+    return count;
+  }
 }

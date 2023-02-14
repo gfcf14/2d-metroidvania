@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour {
     [SerializeField] public string key;
     [SerializeField] public int level;
     [SerializeField] public bool isBoss = false;
+    [SerializeField] public bool isOnCamera = false;
 
   // Components
     [System.NonSerialized] public Animator anim;
@@ -130,101 +131,103 @@ public class Enemy : MonoBehaviour {
   }
 
   void Update() {
-    // DEFENSE CAST
-    int direction = isFacingLeft ? -1 : 1;
-    Vector2 defenseCast = new Vector2(transform.position.x + ((enemyWidth / 2) * reach * direction), transform.position.y + enemyHeight / 2 + 0.005f);
-    Vector2 defenseCastDirection = transform.TransformDirection(new Vector2(1 * (direction), 0));
+    if ((isBoss && isOnCamera) || !isBoss) {
+      // DEFENSE CAST
+      int direction = isFacingLeft ? -1 : 1;
+      Vector2 defenseCast = new Vector2(transform.position.x + ((enemyWidth / 2) * reach * direction), transform.position.y + enemyHeight / 2 + 0.005f);
+      Vector2 defenseCastDirection = transform.TransformDirection(new Vector2(1 * (direction), 0));
 
-    RaycastHit2D defenseRayCast = Physics2D.Raycast(defenseCast, defenseCastDirection, reach * 2);
-    Debug.DrawRay(defenseCast, defenseCastDirection.normalized * (reach * 2), Color.blue);
+      RaycastHit2D defenseRayCast = Physics2D.Raycast(defenseCast, defenseCastDirection, reach * 2);
+      Debug.DrawRay(defenseCast, defenseCastDirection.normalized * (reach * 2), Color.blue);
 
-    if (defenseRayCast && defenseRayCast.collider.tag == "Weapon") {
-      if (level - hero.playerLevel >= 10) {
-        isDefending = true;
+      if (defenseRayCast && defenseRayCast.collider.tag == "Weapon") {
+        if (level - hero.playerLevel >= 10) {
+          isDefending = true;
+        }
       }
-    }
 
 
-    if (hero != null && hero.pauseCase == "") {
-      // ENEMY NORMAL COLOR
-        if (!isPoisoned && !isStunned) {
-          enemyRenderer.color = enemyColor;
-        }
-
-      // heroIsDead = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().isDead != 0;
-
-      // ENEMY BURNING
-        if (isBurning) {
-          enemyColor = Colors.statusColors["burned"];
-
-          if (Helpers.ExceedsTime(burnTime, burningDuration)) {
-            isBurning = false;
-            isDeadByBurning = true;
+      if (hero != null && hero.pauseCase == "") {
+        // ENEMY NORMAL COLOR
+          if (!isPoisoned && !isStunned) {
+            enemyRenderer.color = enemyColor;
           }
-        }
 
-      // ENEMY POISONED
-        if (isPoisoned) {
-          float currentTime = Time.time * 1000;
-          float nextPoisonAttackTime = poisonTime + (poisonAttackInterval * poisonAttackCounter);
+        // heroIsDead = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().isDead != 0;
 
-          if (currentTime > poisonEffectTime + poisonEffectDuration) {
-            if (!isStunned) {
-              enemyRenderer.color = enemyColor;
-            }
+        // ENEMY BURNING
+          if (isBurning) {
+            enemyColor = Colors.statusColors["burned"];
 
-            if (poisonAttackCounter == maxPoisonAttacks + 1) {
-              isPoisoned = false;
-              poisonAttackCounter = 0;
+            if (Helpers.ExceedsTime(burnTime, burningDuration)) {
+              isBurning = false;
+              isDeadByBurning = true;
             }
           }
 
-          if (currentTime > nextPoisonAttackTime)  {
-            TakeDamage(Constants.arrowPoisonDamage);
-            poisonEffectTime = Time.time * 1000;
-            enemyRenderer.color = Colors.statusColors["poisoned"];
-            poisonAttackCounter++;
+        // ENEMY POISONED
+          if (isPoisoned) {
+            float currentTime = Time.time * 1000;
+            float nextPoisonAttackTime = poisonTime + (poisonAttackInterval * poisonAttackCounter);
 
-            if (currentHP <= 0) {
-              isDeadByPoison = true;
-              isWalking = false;
-              body.velocity = Vector2.zero;
+            if (currentTime > poisonEffectTime + poisonEffectDuration) {
+              if (!isStunned) {
+                enemyRenderer.color = enemyColor;
+              }
 
-              if (!isDead) { // avoids getting double exp if dying from poison after being attacked
-                hero.exp += exp;
-                hero.CheckLevel();
+              if (poisonAttackCounter == maxPoisonAttacks + 1) {
+                isPoisoned = false;
+                poisonAttackCounter = 0;
+              }
+            }
+
+            if (currentTime > nextPoisonAttackTime)  {
+              TakeDamage(Constants.arrowPoisonDamage);
+              poisonEffectTime = Time.time * 1000;
+              enemyRenderer.color = Colors.statusColors["poisoned"];
+              poisonAttackCounter++;
+
+              if (currentHP <= 0) {
+                isDeadByPoison = true;
+                isWalking = false;
+                body.velocity = Vector2.zero;
+
+                if (!isDead) { // avoids getting double exp if dying from poison after being attacked
+                  hero.exp += exp;
+                  hero.CheckLevel();
+                }
               }
             }
           }
-        }
 
-      // ENEMY BURNING
-        if (!isBurning) {
-          if (isFacingLeft) {
-            transform.localScale = new Vector3(-1, 1, 1);
-          } else {
-            transform.localScale = Vector3.one;
+        // ENEMY BURNING
+          if (!isBurning) {
+            if (isFacingLeft) {
+              transform.localScale = new Vector3(-1, 1, 1);
+            } else {
+              transform.localScale = Vector3.one;
+            }
           }
-        }
 
-      // RESET ATTACKS RECEIVED
-        if (Helpers.ExceedsTime(attackedStart, consecutiveAttackTime)) {
-          attacksReceived = 0;
-        }
+        // RESET ATTACKS RECEIVED
+          if (Helpers.ExceedsTime(attackedStart, consecutiveAttackTime)) {
+            attacksReceived = 0;
+          }
 
-      anim.SetBool("isThrowingWeapon", isThrowingWeapon);
-      anim.SetBool("isAttacking", isAttacking);
-      anim.SetBool("isAttackingMelee", isAttackingMelee);
-      anim.SetBool("isBurning", isBurning);
-      anim.SetBool("isDead", isDead);
-      anim.SetBool("isDeadByBurning", isDeadByBurning);
-      anim.SetBool("isDeadByPoison", isDeadByPoison);
-      anim.SetBool("isDefending", isDefending);
-      anim.SetBool("isStunned", isStunned);
-      anim.SetBool("isStunnedOnAttack", stunOnAttack);
-      anim.SetBool("isSummoning", isSummoning);
-      anim.SetBool("isWalking", isWalking);
-      anim.SetBool("needsCoolDown", needsCoolDown);
+        anim.SetBool("isThrowingWeapon", isThrowingWeapon);
+        anim.SetBool("isAttacking", isAttacking);
+        anim.SetBool("isAttackingMelee", isAttackingMelee);
+        anim.SetBool("isBurning", isBurning);
+        anim.SetBool("isDead", isDead);
+        anim.SetBool("isDeadByBurning", isDeadByBurning);
+        anim.SetBool("isDeadByPoison", isDeadByPoison);
+        anim.SetBool("isDefending", isDefending);
+        anim.SetBool("isStunned", isStunned);
+        anim.SetBool("isStunnedOnAttack", stunOnAttack);
+        anim.SetBool("isSummoning", isSummoning);
+        anim.SetBool("isWalking", isWalking);
+        anim.SetBool("needsCoolDown", needsCoolDown);
+      }
     }
   }
 
@@ -531,6 +534,7 @@ public class Enemy : MonoBehaviour {
   public void Summon() {
     GameObject summonEnergy = Instantiate(Objects.prefabs["summon-energy"], new Vector3(transform.position.x + (isFacingLeft ? -1 : 1), transform.position.y, 0), Quaternion.identity);
     summonEnergy.GetComponent<SummonEnergy>().summonKey = "skeleton-1";
+    summonEnergy.GetComponent<SummonEnergy>().currentRoom = transform.parent.gameObject;
   }
 
   public void Smash() {
