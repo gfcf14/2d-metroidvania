@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour {
   // Serialized
     [SerializeField] public string key;
     [SerializeField] public int level;
+    [SerializeField] public bool isBoss = false;
 
   // Components
     [System.NonSerialized] public Animator anim;
@@ -537,6 +538,10 @@ public class Enemy : MonoBehaviour {
     SmashWave smashWaveScript = smashWave.GetComponent<SmashWave>();
     smashWaveScript.width = enemyWidth * 2;
     smashWaveScript.damage = atk * 2;
+  }
+
+  public bool ShouldMove() {
+    return !isDead && !isDeadByBurning && !isDeadByPoison && !isBurning && !isStunned && !isThrowingWeapon && !isAttackingMelee && !isDefending && !isSummoning;
   }
 
   public void OnGUI() {

@@ -7,6 +7,7 @@ public class Objects {
     {"arrow-burn", Resources.Load("Prefabs/ArrowBurn") as GameObject},
     {"arrow-explosion", Resources.Load("Prefabs/ArrowExplosion") as GameObject},
     {"bar-decrement", Resources.Load("Prefabs/BarDecrement") as GameObject},
+    {"boss", Resources.Load("Prefabs/Boss") as GameObject},
     {"breakable", Resources.Load("Prefabs/Breakable") as GameObject},
     {"damage-container", Resources.Load("Prefabs/DamageContainer") as GameObject},
     {"defense", Resources.Load("Prefabs/Defense") as GameObject},
