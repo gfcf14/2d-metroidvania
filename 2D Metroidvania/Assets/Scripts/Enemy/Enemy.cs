@@ -353,21 +353,30 @@ public class Enemy : MonoBehaviour {
             flashEffect.Flash();
           }
 
-          if (!willBurn && attacksReceived < attackRetaliationCounter) {
-            if (!isDefending) {
-              Stun();
-            }
-
-            attacksReceived++;
-            attackedStart = Time.time * 1000;
-          } else if (attacksReceived >= (attackRetaliationCounter - 1)) {
-            if (level >= 30) {
-              isAttackingMelee = true;
-              attackedStart = 0;
-            } else {
-              if (!attackedFromBehind) {
-                isDefending = true;
+          if (!willBurn) {
+            if (attacksReceived >= attackRetaliationCounter) {
+              if (level >= 30) {
+                if (type == "champion") {
+                  isAttackingMelee = true;
+                  attackedStart = 0;
+                } else {
+                  isDefending = true;
+                  // TODO: ensure all enemy types have a means to return to isDefending = false
+                }
+              } else {
+                if (!attackedFromBehind && type == "champion") {
+                  isDefending = true;
+                } else {
+                  Stun();
+                }
               }
+            } else {
+              if (!isDefending) {
+                Stun();
+              }
+
+              attacksReceived++;
+              attackedStart = Time.time * 1000;
             }
           }
         } else {
@@ -554,9 +563,9 @@ public class Enemy : MonoBehaviour {
       GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
     }
 
-    // if (key == "skeleton-king") {
-    //   string guiLabel = "Attacks received: " + attacksReceived + "\n";
-    //   GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
-    // }
+    if (key == "skeleton-king") {
+      string guiLabel = "Attacks received: " + attacksReceived + "\n";
+      GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
+    }
   }
 }
