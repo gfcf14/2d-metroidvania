@@ -45,6 +45,9 @@ public class RoomTrigger : MonoBehaviour {
 
   IEnumerator PauseRoomWhileOnBossEntry() {
     yield return new WaitForSecondsRealtime(3);
-    GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().ClearPauseCase();
+    GameObject hero = GameObject.FindGameObjectWithTag("Hero");
+    hero.GetComponent<Hero>().ClearPauseCase();
+    hero.GetComponent<Hero>().isAutonomous = true;
+    hero.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
   }
 }

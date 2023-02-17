@@ -24,6 +24,9 @@ public class Hero : MonoBehaviour {
   private float heroHeight;
   private float heroWidth;
 
+  // for when player must move on their own
+  public bool isAutonomous = false;
+
   public bool isRunning;
   public bool isGrounded;
   public bool canFlipOnAir;
@@ -387,294 +390,299 @@ public class Hero : MonoBehaviour {
 
   // called on every frame of the game
   private void Update() {
-    horizontalInput = Input.GetAxis("Horizontal");
-    verticalInput = Input.GetAxis("Vertical");
+    if (!isAutonomous) {
+      horizontalInput = Input.GetAxis("Horizontal");
+      verticalInput = Input.GetAxis("Vertical");
 
-    float verticalSpeed = body.velocity.y;
+      float verticalSpeed = body.velocity.y;
 
-    if (shieldDropTime != 0) {
-      if (Helpers.ExceedsTime(shieldDropTime, currentShieldRecoverTime)) {
-        currentShieldHP = maxShieldHP;
-        shieldDropTime = 0;
-      }
-    }
-
-    // x axis movement
-    if (!horizontalCollision && isHurt < 1) {
-      if (!isDefending && !isParrying && !isClashing && isThrowing == 0) {
-        // movement happens on this line
-        body.velocity = new Vector2(!isDropKicking ? horizontalInput * speed : 0, body.velocity.y);
-      }
-
-      // flip player back when moving right
-      if (horizontalInput > 0.01f && (isGrounded || canFlipOnAir) && !isAttackingSingle) {
-        transform.localScale = Vector3.one;
-
-        if (!isDropKicking) {
-          isFacingLeft = false;
+      if (shieldDropTime != 0) {
+        if (Helpers.ExceedsTime(shieldDropTime, currentShieldRecoverTime)) {
+          currentShieldHP = maxShieldHP;
+          shieldDropTime = 0;
         }
       }
-      // flip player when moving left
-      else if (horizontalInput < -0.01f && (isGrounded || canFlipOnAir) && !isAttackingSingle) {
-        FlipPlayer();
 
-        if (!isDropKicking) {
-          isFacingLeft = true;
+      // x axis movement
+      if (!horizontalCollision && isHurt < 1) {
+        if (!isDefending && !isParrying && !isClashing && isThrowing == 0) {
+          // movement happens on this line
+          body.velocity = new Vector2(!isDropKicking ? horizontalInput * speed : 0, body.velocity.y);
+        }
+
+        // flip player back when moving right
+        if (horizontalInput > 0.01f && (isGrounded || canFlipOnAir) && !isAttackingSingle) {
+          transform.localScale = Vector3.one;
+
+          if (!isDropKicking) {
+            isFacingLeft = false;
+          }
+        }
+        // flip player when moving left
+        else if (horizontalInput < -0.01f && (isGrounded || canFlipOnAir) && !isAttackingSingle) {
+          FlipPlayer();
+
+          if (!isDropKicking) {
+            isFacingLeft = true;
+          }
         }
       }
-    }
 
-    if (isClashing) {
-      // TODO: modify the 2 to make it a multiplie based on enemy strength (?)
-      body.velocity = new Vector2( (isFacingLeft ? 1 : -1) * speed * 2, body.velocity.y);
-    }
-
-    if (isHurt == 1) {
-      body.velocity = new Vector2(0, body.velocity.y);
-    }
-
-    if (isHurt == 2 && isGrounded) {
-      if (hurtFromBehind) {
-        transform.position = new Vector2(transform.position.x + (isFacingLeft ? -1 : 1) * 0.01f, currentYPosition);
-      } else {
-        transform.position = new Vector2(transform.position.x + (isFacingLeft ? 1 : -1) * 0.01f, currentYPosition);
+      if (isClashing) {
+        // TODO: modify the 2 to make it a multiplie based on enemy strength (?)
+        body.velocity = new Vector2( (isFacingLeft ? 1 : -1) * speed * 2, body.velocity.y);
       }
-    }
 
-    if (isHurt == 3) {
-      if (throwbackHeight != 0 && transform.position.y < (currentYPosition + throwbackHeight)) {
-        body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) / 2, jumpHeight * 0.75f);
-      } else {
-        throwbackHeight = 0;
-        body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) * 1.25f, - jumpHeight * 0.5f);
+      if (isHurt == 1) {
+        body.velocity = new Vector2(0, body.velocity.y);
       }
-      // body.velocity = Vector2.zero;
 
-      // if (throwbackHeight != 0) {
-      //   bool exceedsThrowbackHeight = transform.position.y < (currentYPosition + throwbackHeight);
-      //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.05f), transform.position.y + (0.25f * (exceedsThrowbackHeight ? 1 : -1)));
-        // if (transform.position.y > (currentYPosition - throwbackHeight)) {
+      if (isHurt == 2 && isGrounded) {
+        if (hurtFromBehind) {
+          transform.position = new Vector2(transform.position.x + (isFacingLeft ? -1 : 1) * 0.01f, currentYPosition);
+        } else {
+          transform.position = new Vector2(transform.position.x + (isFacingLeft ? 1 : -1) * 0.01f, currentYPosition);
+        }
+      }
+
+      if (isHurt == 3) {
+        if (throwbackHeight != 0 && transform.position.y < (currentYPosition + throwbackHeight)) {
+          body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) / 2, jumpHeight * 0.75f);
+        } else {
+          throwbackHeight = 0;
+          body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) * 1.25f, - jumpHeight * 0.5f);
+        }
+        // body.velocity = Vector2.zero;
+
+        // if (throwbackHeight != 0) {
+        //   bool exceedsThrowbackHeight = transform.position.y < (currentYPosition + throwbackHeight);
+        //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.05f), transform.position.y + (0.25f * (exceedsThrowbackHeight ? 1 : -1)));
+          // if (transform.position.y > (currentYPosition - throwbackHeight)) {
+          //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
+          // } else {
+          //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
+          // }
+        // }
+
+        // if (throwbackHeight != 0 && transform.position.y > (currentYPosition - throwbackHeight)) {
         //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
         // } else {
+        //   throwbackHeight = 0;
         //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
         // }
-      // }
+      }
 
-      // if (throwbackHeight != 0 && transform.position.y > (currentYPosition - throwbackHeight)) {
-      //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
-      // } else {
-      //   throwbackHeight = 0;
-      //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
-      // }
-    }
-
-    // TODO: remove key combinations as they will not be used to favor two keys pressed
-    foreach (KeyCode currentKey in System.Enum.GetValues(typeof(KeyCode))) {
-      if(Input.GetKeyUp(currentKey)) {
-        if (userInput.Length == 0) {
-          timeoutTime = Time.time + timeoutDuration;
-        }
-
-        // if (currentKey.ToString() == "Space") {
-        //   // userInput += "⌴";
-        //   userInput += "$";
-        // } else
-        if (currentKey.ToString() == "UpArrow") {
-          // userInput += "🡡";
-          userInput += "u";
-        } else if (currentKey.ToString() == "DownArrow") {
-          // userInput += "🡣";
-          userInput += "d";
-        } else if (currentKey.ToString() == "LeftArrow") {
-          // userInput += "🡠";
-          userInput += "l";
-        } else if (currentKey.ToString() == "RightArrow") {
-          // userInput += "🡢";
-          userInput += "r";
-        } else {
-          if (currentKey.ToString() != "Space") {
-            userInput += currentKey.ToString();
+      // TODO: remove key combinations as they will not be used to favor two keys pressed
+      foreach (KeyCode currentKey in System.Enum.GetValues(typeof(KeyCode))) {
+        if(Input.GetKeyUp(currentKey)) {
+          if (userInput.Length == 0) {
+            timeoutTime = Time.time + timeoutDuration;
           }
+
+          // if (currentKey.ToString() == "Space") {
+          //   // userInput += "⌴";
+          //   userInput += "$";
+          // } else
+          if (currentKey.ToString() == "UpArrow") {
+            // userInput += "🡡";
+            userInput += "u";
+          } else if (currentKey.ToString() == "DownArrow") {
+            // userInput += "🡣";
+            userInput += "d";
+          } else if (currentKey.ToString() == "LeftArrow") {
+            // userInput += "🡠";
+            userInput += "l";
+          } else if (currentKey.ToString() == "RightArrow") {
+            // userInput += "🡢";
+            userInput += "r";
+          } else {
+            if (currentKey.ToString() != "Space") {
+              userInput += currentKey.ToString();
+            }
+          }
+
+          // if (userInput.Contains(jetpackUp)) {
+          //   JetpackUp();
+          //   userInput = "";
+          // } else if (userInput.Contains(jetpackLeft)) {
+          //   Debug.Log("jetpack left");
+          //   userInput = "";
+          // } else if (userInput.Contains(jetpackRight)) {
+          //   Debug.Log("jetpack right");
+          //   userInput = "";
+          // } else if (userInput == "s") { // jumping?
+          //   Jump();
+          // }
+
+          // Debug.Log(currentKey.ToString());
+
+          if (isPaused && Pause.currentlyMapping != "") {
+            if (((currentKey.ToString()).Contains("JoystickButton") && Input.GetJoystickNames()[0] != "") || !(currentKey.ToString()).Contains("Joystick")) {
+              if (canMap) {
+                if (!Helpers.IsForbiddenToRemap(currentKey.ToString())) {
+                  pauseCanvas.GetComponent<Pause>().FinishMapping(currentKey.ToString());
+                  canMap = false;
+                }
+              } else {
+                canMap = true;
+              }
+            }
+          }
+        } else if (Time.time > timeoutTime && userInput.Length > 0) { // input is cleared
+          userInput = "";
         }
+      }
 
-        // if (userInput.Contains(jetpackUp)) {
-        //   JetpackUp();
-        //   userInput = "";
-        // } else if (userInput.Contains(jetpackLeft)) {
-        //   Debug.Log("jetpack left");
-        //   userInput = "";
-        // } else if (userInput.Contains(jetpackRight)) {
-        //   Debug.Log("jetpack right");
-        //   userInput = "";
-        // } else if (userInput == "s") { // jumping?
-        //   Jump();
-        // }
-
-        // Debug.Log(currentKey.ToString());
-
-        if (isPaused && Pause.currentlyMapping != "") {
-          if (((currentKey.ToString()).Contains("JoystickButton") && Input.GetJoystickNames()[0] != "") || !(currentKey.ToString()).Contains("Joystick")) {
-            if (canMap) {
-              if (!Helpers.IsForbiddenToRemap(currentKey.ToString())) {
-                pauseCanvas.GetComponent<Pause>().FinishMapping(currentKey.ToString());
-                canMap = false;
+      if (!isPaused && pauseCase == "") {
+        // jumping
+        if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
+          if (isGrounded) {
+            if (isHoldingDown) {
+              if (!isRunning) {
+                isKicking = true;
+                weaponCollider.SetActive(true);
               }
             } else {
-              canMap = true;
-            }
-          }
-        }
-      } else if (Time.time > timeoutTime && userInput.Length > 0) { // input is cleared
-        userInput = "";
-      }
-    }
-
-    if (!isPaused && pauseCase == "") {
-      // jumping
-      if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
-        if (isGrounded) {
-          if (isHoldingDown) {
-            if (!isRunning) {
-              isKicking = true;
-              weaponCollider.SetActive(true);
+              Jump();
             }
           } else {
-            Jump();
+            if (isHoldingDown && isJumping && !isFalling) {
+              DropKick();
+            }
           }
-        } else {
-          if (isHoldingDown && isJumping && !isFalling) {
-            DropKick();
-          }
+          // userInput += "$";
+          // if (isGrounded) {
+          //   if (userInput.Contains(jetpackUp)) {
+          //     JetpackUp();
+          //     userInput = "";
+          //   } else {
+          //     Jump();
+          //     userInput = "";
+          //   }
+          // } else {
+          //   if (userInput.Contains(jetpackLeft)) {
+          //     JetpackHorizontal("left");
+          //     userInput = "";
+          //   } else if (userInput.Contains(jetpackRight)) {
+          //     JetpackHorizontal("right");
+          //     userInput = "";
+          //   }
+          // }
         }
-        // userInput += "$";
-        // if (isGrounded) {
-        //   if (userInput.Contains(jetpackUp)) {
-        //     JetpackUp();
-        //     userInput = "";
-        //   } else {
-        //     Jump();
-        //     userInput = "";
-        //   }
-        // } else {
-        //   if (userInput.Contains(jetpackLeft)) {
-        //     JetpackHorizontal("left");
-        //     userInput = "";
-        //   } else if (userInput.Contains(jetpackRight)) {
-        //     JetpackHorizontal("right");
-        //     userInput = "";
-        //   }
-        // }
-      }
 
-      if (verticalInput < 0) {
-        isHoldingDown = true;
-      }
+        if (verticalInput < 0) {
+          isHoldingDown = true;
+        }
 
-      if (verticalInput == 0) {
-        isHoldingDown = false;
-      }
+        if (verticalInput == 0) {
+          isHoldingDown = false;
+        }
 
-      // arm 1
-      if (Helpers.IsKeyDown(Controls.currentKeyboardAttack1) || Helpers.IsKeyDown(Controls.currentGamepadAttack1)) {
-        DecideAttackType(arm1Equipment, 1);
-      }
-      if (Helpers.IsKeyUp(Controls.currentKeyboardAttack1) || Helpers.IsKeyUp(Controls.currentGamepadAttack1)) {
-        DecideShieldRelease(arm1Equipment);
-        isParrying = false;
-      }
+        // arm 1
+        if (Helpers.IsKeyDown(Controls.currentKeyboardAttack1) || Helpers.IsKeyDown(Controls.currentGamepadAttack1)) {
+          DecideAttackType(arm1Equipment, 1);
+        }
+        if (Helpers.IsKeyUp(Controls.currentKeyboardAttack1) || Helpers.IsKeyUp(Controls.currentGamepadAttack1)) {
+          DecideShieldRelease(arm1Equipment);
+          isParrying = false;
+        }
 
-      // arm 2
-      if (Helpers.IsKeyDown(Controls.currentKeyboardAttack2) || Helpers.IsKeyDown(Controls.currentGamepadAttack2)) {
-        DecideAttackType(arm2Equipment, 2);
-      }
-      if (Helpers.IsKeyUp(Controls.currentKeyboardAttack2) || Helpers.IsKeyUp(Controls.currentGamepadAttack2)) {
-        DecideShieldRelease(arm2Equipment);
-        isParrying = false;
-      }
-    }
-
-    // gliding
-    // if (Input.GetKey(KeyCode.UpArrow)) {
-    //   if (!isGrounded) {
-    //     if (Input.GetKey(KeyCode.Space)) {
-    //       Glide();
-    //     } else {
-    //       isGliding = false;
-    //     }
-    //   }
-    // } else {
-    //   isGliding = false;
-    // }
-
-    isRunning = horizontalInput != 0 && !isJumping && !isFalling && !isAttackingSingle; // && !isJetpackUp;
-
-    // if (!isGrounded && verticalSpeed < -1 && jetpackHorizontal == "") {
-    if (!isGrounded && verticalSpeed < -1) {
-      Fall();
-    }
-
-    // if (Input.GetKey(KeyCode.Keypad4) && currentWeapon == "projectile-auto") {
-    //   isShootingAuto = true;
-    // }
-
-    // if (Input.GetKeyUp(KeyCode.Keypad4) && isShootingAuto) {
-    //   isShootingAuto = false;
-    // }
-
-
-    // if (Input.GetKeyDown(KeyCode.Keypad7)) {
-    //   PlayerHurt(1);
-    // }
-
-    // if (Input.GetKeyDown(KeyCode.Keypad8) && isGrounded) {
-    //   PlayerHurt(2);
-    // }
-
-    // if (Input.GetKeyDown(KeyCode.Keypad9)) {
-    //   PlayerHurt(3);
-    // }
-
-    if (Helpers.IsPauseKeyUp() && pauseCase == "") {
-      isPaused = !isPaused;
-      Helpers.TogglePause(isPaused, pauseCanvas);
-    }
-
-    if (Helpers.IsBackKeyDown() && isPaused) {
-      // do not perform "BACK" if a key is being mapped
-      if (Pause.canvasStatus != "mapping") {
-        if (Pause.canvasStatus == "main") {
-          isPaused = !isPaused;
-          Helpers.TogglePause(isPaused, pauseCanvas);
-        } else {
-          pauseCanvas.GetComponent<Pause>().PerformBack();
+        // arm 2
+        if (Helpers.IsKeyDown(Controls.currentKeyboardAttack2) || Helpers.IsKeyDown(Controls.currentGamepadAttack2)) {
+          DecideAttackType(arm2Equipment, 2);
+        }
+        if (Helpers.IsKeyUp(Controls.currentKeyboardAttack2) || Helpers.IsKeyUp(Controls.currentGamepadAttack2)) {
+          DecideShieldRelease(arm2Equipment);
+          isParrying = false;
         }
       }
-    }
 
-    if (isDropKicking) {
-      body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.75));
-    }
+      // gliding
+      // if (Input.GetKey(KeyCode.UpArrow)) {
+      //   if (!isGrounded) {
+      //     if (Input.GetKey(KeyCode.Space)) {
+      //       Glide();
+      //     } else {
+      //       isGliding = false;
+      //     }
+      //   }
+      // } else {
+      //   isGliding = false;
+      // }
 
-    // if (isGliding) {
-    //   body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.25));
-    // }
+      isRunning = horizontalInput != 0 && !isJumping && !isFalling && !isAttackingSingle; // && !isJetpackUp;
 
-    // if (jetpackHorizontal != "") {
-    //   body.velocity = new Vector2(body.velocity.x + (jetpackHeight * (jetpackHorizontal == "left" ? -1 : 1)), body.velocity.y);
-    //   transform.position = new Vector2(transform.position.x, currentYPosition);
-    //   if ((Time.time * 1000) > jetpackTime + maxJetpackTime) {
-    //     jetpackHorizontal = "";
-    //     jetpackTime = 0;
-    //     body.velocity = new Vector2(0, 0);
-    //   }
-    // }
-
-    if (isDead == 2) {
-      if (!isGrounded) {
-        body.velocity = new Vector2(-body.velocity.x + (jumpHeight * (isFacingLeft ? 2 : -2)), -(float)jumpHeight);
-      } else {
-        body.velocity = new Vector2(0, 0);
+      // if (!isGrounded && verticalSpeed < -1 && jetpackHorizontal == "") {
+      if (!isGrounded && verticalSpeed < -1) {
+        Fall();
       }
+
+      // if (Input.GetKey(KeyCode.Keypad4) && currentWeapon == "projectile-auto") {
+      //   isShootingAuto = true;
+      // }
+
+      // if (Input.GetKeyUp(KeyCode.Keypad4) && isShootingAuto) {
+      //   isShootingAuto = false;
+      // }
+
+
+      // if (Input.GetKeyDown(KeyCode.Keypad7)) {
+      //   PlayerHurt(1);
+      // }
+
+      // if (Input.GetKeyDown(KeyCode.Keypad8) && isGrounded) {
+      //   PlayerHurt(2);
+      // }
+
+      // if (Input.GetKeyDown(KeyCode.Keypad9)) {
+      //   PlayerHurt(3);
+      // }
+
+      if (Helpers.IsPauseKeyUp() && pauseCase == "") {
+        isPaused = !isPaused;
+        Helpers.TogglePause(isPaused, pauseCanvas);
+      }
+
+      if (Helpers.IsBackKeyDown() && isPaused) {
+        // do not perform "BACK" if a key is being mapped
+        if (Pause.canvasStatus != "mapping") {
+          if (Pause.canvasStatus == "main") {
+            isPaused = !isPaused;
+            Helpers.TogglePause(isPaused, pauseCanvas);
+          } else {
+            pauseCanvas.GetComponent<Pause>().PerformBack();
+          }
+        }
+      }
+
+      if (isDropKicking) {
+        body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.75));
+      }
+
+      // if (isGliding) {
+      //   body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.25));
+      // }
+
+      // if (jetpackHorizontal != "") {
+      //   body.velocity = new Vector2(body.velocity.x + (jetpackHeight * (jetpackHorizontal == "left" ? -1 : 1)), body.velocity.y);
+      //   transform.position = new Vector2(transform.position.x, currentYPosition);
+      //   if ((Time.time * 1000) > jetpackTime + maxJetpackTime) {
+      //     jetpackHorizontal = "";
+      //     jetpackTime = 0;
+      //     body.velocity = new Vector2(0, 0);
+      //   }
+      // }
+
+      if (isDead == 2) {
+        if (!isGrounded) {
+          body.velocity = new Vector2(-body.velocity.x + (jumpHeight * (isFacingLeft ? 2 : -2)), -(float)jumpHeight);
+        } else {
+          body.velocity = new Vector2(0, 0);
+        }
+      }
+    } else {
+      isRunning = true;
+      body.velocity = new Vector2(5 * (isFacingLeft ? -1 : 1), 0);
     }
 
     // set animator parameters
