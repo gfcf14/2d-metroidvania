@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class RoomTrigger : MonoBehaviour {
@@ -16,6 +17,15 @@ public class RoomTrigger : MonoBehaviour {
       }
 
     }
+
+    if (col.gameObject.name == "BossEntryCheck") {
+      foreach(Transform child in gameObject.transform) {
+        if (child.tag == "Enemy" && child.name == "Boss") {
+          GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().SetPauseCase("boss-room-entry");
+          StartCoroutine(PauseRoomWhileOnBossEntry());
+        }
+      }
+    }
   }
 
   private void OnTriggerExit2D(Collider2D col) {
@@ -31,5 +41,10 @@ public class RoomTrigger : MonoBehaviour {
         }
       }
     }
+  }
+
+  IEnumerator PauseRoomWhileOnBossEntry() {
+    yield return new WaitForSecondsRealtime(3);
+    GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().ClearPauseCase();
   }
 }

@@ -7,7 +7,6 @@ public class Enemy : MonoBehaviour {
   // Serialized
     [SerializeField] public string key;
     [SerializeField] public int level;
-    [SerializeField] public bool isBoss = false;
     [SerializeField] public bool isOnCamera = false;
 
   // Components
@@ -131,7 +130,7 @@ public class Enemy : MonoBehaviour {
   }
 
   void Update() {
-    if ((isBoss && isOnCamera) || !isBoss) {
+    if ((gameObject.name == "Boss" && isOnCamera) || gameObject.name != "Boss") {
       // DEFENSE CAST
       int direction = isFacingLeft ? -1 : 1;
       Vector2 defenseCast = new Vector2(transform.position.x + ((enemyWidth / 2) * reach * direction), transform.position.y + enemyHeight / 2 + 0.005f);
