@@ -17,6 +17,10 @@ public class PlayerStopper : MonoBehaviour {
         hero.isAutonomous = false;
         hero.isRunning = false;
         col.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        GameObject bounds = hero.currentRoom.transform.Find("Bounds").gameObject;
+        if (bounds) {
+          bounds.SetActive(true);
+        }
       }
     }
   }

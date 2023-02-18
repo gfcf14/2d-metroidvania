@@ -187,6 +187,8 @@ public class Hero : MonoBehaviour {
   public bool isPaused;
   [SerializeField] GameObject pauseCanvas;
 
+  [System.NonSerialized] public GameObject currentRoom;
+
   [System.NonSerialized] bool canMap = false;
 
   // called when script is loaded

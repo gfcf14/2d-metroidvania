@@ -514,6 +514,10 @@ public class Enemy : MonoBehaviour {
   }
 
   void Destroy() {
+    if (gameObject.name == "Boss") {
+      transform.parent.Find("Bounds").gameObject.SetActive(false);
+    }
+
     // instantiates the dropped item
     Vector2 itemOrigin = new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2));
     GameObject droppedItem = Instantiate(Objects.prefabs["droppable"], itemOrigin, Quaternion.identity);

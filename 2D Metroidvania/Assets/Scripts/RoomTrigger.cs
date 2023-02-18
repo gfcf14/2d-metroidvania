@@ -7,6 +7,7 @@ public class RoomTrigger : MonoBehaviour {
   private void OnTriggerEnter2D(Collider2D col) {
     if (col.CompareTag("RoomTraverser")) {
       virtualCam.SetActive(true);
+      GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().currentRoom = gameObject;
       foreach(Transform child in gameObject.transform) {
         if (child.tag == "EnemySpawner") {
           GameObject enemySpawned = Instantiate(Objects.prefabs["enemy"], new Vector3(child.transform.position.x, child.transform.position.y, 0), Quaternion.identity);
