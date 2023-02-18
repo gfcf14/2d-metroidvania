@@ -26,6 +26,7 @@ public class Hero : MonoBehaviour {
 
   // for when player must move on their own
   public bool isAutonomous = false;
+  public bool mustTransitionOnAir = false;
 
   public bool isRunning;
   public bool isGrounded;
@@ -688,6 +689,9 @@ public class Hero : MonoBehaviour {
         body.velocity = new Vector2(5 * (isFacingLeft ? -1 : 1), 0);
       } else {
         isFalling = true;
+        if (mustTransitionOnAir) {
+          body.velocity = new Vector2(5 * (isFacingLeft ? -1 : 1), 0);
+        }
       }
     }
 

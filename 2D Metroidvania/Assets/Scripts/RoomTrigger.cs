@@ -41,14 +41,24 @@ public class RoomTrigger : MonoBehaviour {
           }
         }
       }
+
+      Hero hero = GameObject.FindGameObjectWithTag("Hero").gameObject.GetComponent<Hero>();
+      if (hero.isAutonomous && hero.mustTransitionOnAir) {
+        hero.mustTransitionOnAir = false;
+        hero.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+      }
     }
   }
 
   IEnumerator PauseRoomWhileOnBossEntry() {
     yield return new WaitForSecondsRealtime(3);
     GameObject hero = GameObject.FindGameObjectWithTag("Hero");
-    hero.GetComponent<Hero>().ClearPauseCase();
-    hero.GetComponent<Hero>().isAutonomous = true;
+    Hero heroScript = hero.GetComponent<Hero>();
+    heroScript.ClearPauseCase();
+    heroScript.isAutonomous = true;
     hero.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+    if (!heroScript.isGrounded) {
+      heroScript.mustTransitionOnAir = true;
+    }
   }
 }
