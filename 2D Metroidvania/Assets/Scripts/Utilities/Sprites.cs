@@ -336,4 +336,8 @@ public class Sprites {
     {"radio-checked", Resources.Load<Sprite>("Sprites/UI/radio-checked")},
     {"radio-unchecked", Resources.Load<Sprite>("Sprites/UI/radio-unchecked")}
   };
+
+  public static Dictionary<string, Sprite> firstBossSprites = new Dictionary<string, Sprite> {
+    {"skeleton-king", skeletonKingSprites[0]}
+  };
 }
