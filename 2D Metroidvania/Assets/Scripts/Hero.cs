@@ -681,8 +681,12 @@ public class Hero : MonoBehaviour {
         }
       }
     } else {
-      isRunning = true;
-      body.velocity = new Vector2(5 * (isFacingLeft ? -1 : 1), 0);
+      if (isGrounded) {
+        isRunning = true;
+        body.velocity = new Vector2(5 * (isFacingLeft ? -1 : 1), 0);
+      } else {
+        isFalling = true;
+      }
     }
 
     // set animator parameters
