@@ -130,6 +130,10 @@ public class Enemy : MonoBehaviour {
   }
 
   void Update() {
+    if (gameObject.name == "Boss" && isOnCamera && hero.isAutonomous) {
+      anim.Play("idle", -1, 0f);
+    }
+
     if ((gameObject.name == "Boss" && isOnCamera) || gameObject.name != "Boss") {
       // DEFENSE CAST
       int direction = isFacingLeft ? -1 : 1;
