@@ -680,7 +680,7 @@ public class Hero : MonoBehaviour {
         if (!isGrounded) {
           body.velocity = new Vector2(-body.velocity.x + (jumpHeight * (isFacingLeft ? 2 : -2)), -(float)jumpHeight);
         } else {
-          body.velocity = new Vector2(0, 0);
+          body.velocity = Vector2.zero;
         }
       }
     } else {
@@ -818,7 +818,7 @@ public class Hero : MonoBehaviour {
   }
 
   void PlayerHurt(int hurtLevel) {
-    body.velocity = new Vector2(0, 0);
+    body.velocity = Vector2.zero;
     isHurt = hurtLevel;
 
     if (hurtLevel > 1) {
