@@ -102,6 +102,10 @@ public class Enemy : MonoBehaviour {
     flashEffect = GetComponent<SimpleFlash>();
     weaponSpriteRenderer = GameObject.Find("Weapon").GetComponent<SpriteRenderer>();
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
+    isFacingLeft = !hero.isFacingLeft;
+    if (isFacingLeft) {
+      Flip();
+    }
 
     elementResistances = new string[] {};
     enemyColor = Helpers.GetColorFromResistances(elementResistances);
@@ -130,8 +134,14 @@ public class Enemy : MonoBehaviour {
   }
 
   void Update() {
-    if (hero.isAutonomous) {
-      enemyRenderer.sprite = Sprites.firstBossSprites[key];
+    if (hero.isAutonomous && gameObject.name == "Boss") {
+      if (enemyRenderer.sprite.name == "boss-placeholder") {
+        enemyRenderer.sprite = Sprites.firstBossSprites[key];
+        isFacingLeft = !hero.isFacingLeft;
+        if (isFacingLeft) {
+          Flip();
+        }
+      }
     } else {
       if ((gameObject.name == "Boss" && isOnCamera) || gameObject.name != "Boss") {
         // DEFENSE CAST

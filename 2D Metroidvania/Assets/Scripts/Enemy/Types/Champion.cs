@@ -18,7 +18,7 @@ public class Champion : MonoBehaviour {
   }
 
   void Update() {
-    if ((gameObject.name == "Boss" && enemy.isOnCamera) || gameObject.name != "Boss") {
+    if (!enemy.hero.isAutonomous && ((gameObject.name == "Boss" && enemy.isOnCamera) || gameObject.name != "Boss")) {
       if (enemy.hero != null && enemy.hero.pauseCase == "") {
         // CHAMPION MOVEMENT
           if (!enemy.needsCoolDown) {
