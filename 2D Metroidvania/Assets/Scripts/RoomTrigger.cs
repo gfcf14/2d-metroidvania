@@ -41,7 +41,9 @@ public class RoomTrigger : MonoBehaviour {
           }
         }
       }
+    }
 
+    if (col.gameObject.name == "BossEntryCheck") {
       Hero hero = GameObject.FindGameObjectWithTag("Hero").gameObject.GetComponent<Hero>();
       if (hero.isAutonomous && hero.mustTransitionOnAir) {
         hero.mustTransitionOnAir = false;
