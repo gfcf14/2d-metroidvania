@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Objects {
@@ -118,5 +119,9 @@ public class Objects {
   public static Dictionary<string, Vector2> enemyDimensions = new Dictionary<string, Vector2> {
     {"skeleton-1", new Vector2(1.77f, 2.05f)},
     {"skeleton-king", new Vector2(1.82f, 3.21f)}
+  };
+
+  public static Dictionary<string, TMP_FontAsset> fonts = new Dictionary<string, TMP_FontAsset> {
+    {"levi-rebrushed", Resources.Load("Fonts/LeviRebrushed SDF") as TMP_FontAsset}
   };
 }
