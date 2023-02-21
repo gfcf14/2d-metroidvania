@@ -407,14 +407,14 @@ public class Enemy : MonoBehaviour {
         }
       }
 
-      hero.infoCanvas.GetComponent<InfoCanvas>().Display(EnemyName, new EnemyHealth(currentHP, maxHP));
+      DisplayEnemyInInfoCanvas();
     } else if (colliderTag == "Shield") {
       if (isAttacking) {
         // TODO: consider reusing for higher level shields
         // Stun();
       }
 
-      hero.infoCanvas.GetComponent<InfoCanvas>().Display(EnemyName, new EnemyHealth(currentHP, maxHP));
+      DisplayEnemyInInfoCanvas();
     } else if (colliderTag == "Explosion") {
       string colName = col.gameObject.name.Replace("(Clone)", "");
 
@@ -445,6 +445,12 @@ public class Enemy : MonoBehaviour {
           }
         }
       }
+    }
+  }
+
+  public void DisplayEnemyInInfoCanvas() {
+    if (gameObject.name != "Boss") {
+      hero.infoCanvas.GetComponent<InfoCanvas>().Display(EnemyName, new EnemyHealth(currentHP, maxHP));
     }
   }
 
@@ -524,6 +530,10 @@ public class Enemy : MonoBehaviour {
   }
 
   void Destroy() {
+    if (gameObject.name == "Boss") {
+      GameObject.Find("BossStatusCanvas").SetActive(false);
+    }
+
     if (gameObject.name == "Boss") {
       transform.parent.Find("Bounds").gameObject.SetActive(false);
     }

@@ -7,7 +7,7 @@ public class BossEntryCheck : MonoBehaviour {
   void Update() {}
 
   private void OnCollisionEnter2D(Collision2D other) {
-    if (other.collider.tag == "Ground") {
+    if (Helpers.IsValueInArray(Constants.bossEntryCheckNonColliderTags, other.collider.tag) || other.collider.name == "Grounder") {
       Physics2D.IgnoreCollision(other.collider, GetComponent<BoxCollider2D>());
     }
   }

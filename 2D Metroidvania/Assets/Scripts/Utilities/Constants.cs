@@ -21,20 +21,14 @@ public class Constants {
   public static string[] ringEquipmentTypes = {"ring"};
 
   public static string[] doubleHandedWeaponTypes = {"double", "throwable-double", "bow"};
-
   public static string[] projectileHoldingWeaponTypes = {"bow"};
-
   public static string[] shields = {"basic-shield"};
-
   public static string[] itemContainerStates = {"items", "equipment_select"};
-
   public static string[] stackableBreakables = {"barrel", "box"};
-
   public static string[] landingObjects = {"Breakable", "Ground"};
-
   public static string[] enemyNonColliderNames = {"Enemy", "EnemyCollider", "Grounder"};
-
   public static string[] enemyThrowableBouncers = {"Hero", "Weapon"};
+  public static string[] bossEntryCheckNonColliderTags = {"Enemy", "Ground"};
 
   public static int arrowExplosionDamage = 50;
   public static int arrowPoisonDamage = 10;
