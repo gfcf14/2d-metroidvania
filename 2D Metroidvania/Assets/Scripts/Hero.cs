@@ -1258,6 +1258,7 @@ public class Hero : MonoBehaviour {
     next = Helpers.NextLevelEXP(playerLevel + 1);
     levelUpCanvas.SetActive(true);
     SetPauseCase("level-up");
+    levelUpCanvas.GetComponent<LevelUpCanvas>().ShowLevelUp();
   }
 
   public void PlayerDeath() {
