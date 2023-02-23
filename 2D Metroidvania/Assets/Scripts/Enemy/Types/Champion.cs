@@ -65,7 +65,7 @@ public class Champion : MonoBehaviour {
                   } else {
                     if (wanderStart == 0) {
                       if (enemy.level >= 50) {
-                        enemy.isSummoning = true;
+                        // enemy.isSummoning = true;
                       }
                       wanderStart = Time.time * 1000;
                       enemy.isFacingLeft = UnityEngine.Random.Range(0, 2) != 0;

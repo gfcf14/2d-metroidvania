@@ -27,7 +27,7 @@ public class Constants {
   public static string[] stackableBreakables = {"barrel", "box"};
   public static string[] landingObjects = {"Breakable", "Ground"};
   public static string[] enemyNonColliderNames = {"Enemy", "EnemyCollider", "Grounder"};
-  public static string[] enemyThrowableBouncers = {"Hero", "Weapon"};
+  public static string[] enemyThrowableBouncers = {"Hero", "Shield", "Weapon"};
   public static string[] bossEntryCheckNonColliderTags = {"Enemy", "Ground"};
 
   public static int arrowExplosionDamage = 50;

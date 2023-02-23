@@ -492,6 +492,7 @@ public class Enemy : MonoBehaviour {
     isThrowingWeapon = false;
     isAttackingMelee = false;
     isDefending = false;
+    playerFound = false;
   }
 
   public void PrepareWeaponThrow() {
