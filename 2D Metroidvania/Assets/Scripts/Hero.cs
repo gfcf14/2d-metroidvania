@@ -145,8 +145,8 @@ public class Hero : MonoBehaviour {
 
   // PLAYER EQUIPMENT
     [System.NonSerialized] public static string bodyEquipment = "body-1";
-    [System.NonSerialized] public static string arm1Equipment = "knife";
-    [System.NonSerialized] public static string arm2Equipment = "basic-shield";
+    [System.NonSerialized] public static string arm1Equipment = "basic-longsword";
+    [System.NonSerialized] public static string arm2Equipment = "basic-longsword";
     [System.NonSerialized] public static string neckEquipment = "";
     [System.NonSerialized] public static string armwear1Equipment = "silver-bracelet";
     [System.NonSerialized] public static string armwear2Equipment = "";
@@ -615,6 +615,11 @@ public class Hero : MonoBehaviour {
 
       isRunning = horizontalInput != 0 && !isJumping && !isFalling && !isAttackingSingle; // && !isJetpackUp;
 
+      // TESTING FOR PROGRAMMATIC PLAY
+      // if (isRunning) {
+      //   anim.Play("running-1", -1, 0f);
+      // }
+
       // if (!isGrounded && verticalSpeed < -1 && jetpackHorizontal == "") {
       if (!isGrounded && verticalSpeed < -1) {
         Fall();
@@ -689,12 +694,14 @@ public class Hero : MonoBehaviour {
         body.velocity = new Vector2(5 * (isFacingLeft ? -1 : 1), 0);
       } else {
         isFalling = true;
+        anim.Play("falling-1", -1, 0f);
         if (mustTransitionOnAir) {
           body.velocity = new Vector2(5 * (isFacingLeft ? -1 : 1), 0);
         }
       }
     }
 
+    // UNCOMMENT ALL THESE TO START TESTING FOR PROGRAMMATIC PLAY - use the Hero - Copy animator
     // set animator parameters
     anim.SetBool("isRunning", isRunning);
     anim.SetBool("isGrounded", isGrounded);
@@ -745,6 +752,8 @@ public class Hero : MonoBehaviour {
                 isParrying = true;
               } else {
                 isAttackingHeavy = true;
+                // TESTING FOR PROGRAMMATIC PLAY
+                // anim.Play("attack-longsword-1", -1, 0f);
                 weaponCollider.SetActive(true);
               }
             break;
@@ -923,6 +932,8 @@ public class Hero : MonoBehaviour {
     isAttackingHeavy = false;
     armUsed = 0;
     weaponCollider.SetActive(false);
+    // TESTING FOR PROGRAMMATIC PLAY
+    // anim.Play("idle-1", -1, 0f);
   }
 
   void DropDefense() {
@@ -973,6 +984,8 @@ public class Hero : MonoBehaviour {
   private void Fall() {
     isGrounded = false;
     isFalling = true;
+    // TESTING FOR PROGRAMMATIC PLAY
+    // anim.Play("falling-1", -1, 0f);
     DropDefense();
   }
 
@@ -987,6 +1000,8 @@ public class Hero : MonoBehaviour {
     body.velocity = new Vector2(body.velocity.x, jumpHeight);
 
     isJumping = true;
+    // TESTING FOR PROGRAMMATIC PLAY
+    // anim.Play("jumping-1", -1, 0f);
     isGrounded = false;
   }
 
