@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -22,7 +23,12 @@ public class RoomTrigger : MonoBehaviour {
     if (col.gameObject.name == "BossEntryCheck") {
       foreach(Transform child in gameObject.transform) {
         if (child.tag == "Enemy" && child.name == "Boss") {
-          GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().SetPauseCase("boss-room-entry");
+          GameObject hero = GameObject.FindGameObjectWithTag("Hero");
+          Rigidbody2D heroBody = hero.GetComponent<Rigidbody2D>();
+          Hero heroScript = hero.GetComponent<Hero>();
+
+          heroScript.SetPauseCase("boss-room-entry");
+          heroScript.bossTransitionDirection = (int)(heroBody.velocity.x / Math.Abs(heroBody.velocity.x));
           StartCoroutine(PauseRoomWhileOnBossEntry());
         }
       }
@@ -56,9 +62,19 @@ public class RoomTrigger : MonoBehaviour {
     yield return new WaitForSecondsRealtime(3);
     GameObject hero = GameObject.FindGameObjectWithTag("Hero");
     Hero heroScript = hero.GetComponent<Hero>();
+
     heroScript.ClearPauseCase();
     heroScript.isAutonomous = true;
     hero.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
+    if (heroScript.isFacingLeft && heroScript.bossTransitionDirection == 1) {
+      hero.transform.localScale = Vector3.one;
+      heroScript.isFacingLeft = false;
+    } else if (!heroScript.isFacingLeft && heroScript.bossTransitionDirection == -1) {
+      hero.transform.localScale = new Vector3(-1, 1, 1);
+      heroScript.isFacingLeft = true;
+    }
+
     if (!heroScript.isGrounded) {
       heroScript.mustTransitionOnAir = true;
     }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -191,6 +190,8 @@ public class Hero : MonoBehaviour {
   [System.NonSerialized] public GameObject currentRoom;
 
   [System.NonSerialized] bool canMap = false;
+
+  [System.NonSerialized] public int bossTransitionDirection = 0;
 
   // called when script is loaded
   private void Start() {
@@ -394,87 +395,6 @@ public class Hero : MonoBehaviour {
   // called on every frame of the game
   private void Update() {
     if (!isAutonomous) {
-      horizontalInput = Input.GetAxis("Horizontal");
-      verticalInput = Input.GetAxis("Vertical");
-
-      float verticalSpeed = body.velocity.y;
-
-      if (shieldDropTime != 0) {
-        if (Helpers.ExceedsTime(shieldDropTime, currentShieldRecoverTime)) {
-          currentShieldHP = maxShieldHP;
-          shieldDropTime = 0;
-        }
-      }
-
-      // x axis movement
-      if (!horizontalCollision && isHurt < 1) {
-        if (!isDefending && !isParrying && !isClashing && isThrowing == 0) {
-          // movement happens on this line
-          body.velocity = new Vector2(!isDropKicking ? horizontalInput * speed : 0, body.velocity.y);
-        }
-
-        // flip player back when moving right
-        if (horizontalInput > 0.01f && (isGrounded || canFlipOnAir) && !isAttackingSingle) {
-          transform.localScale = Vector3.one;
-
-          if (!isDropKicking) {
-            isFacingLeft = false;
-          }
-        }
-        // flip player when moving left
-        else if (horizontalInput < -0.01f && (isGrounded || canFlipOnAir) && !isAttackingSingle) {
-          FlipPlayer();
-
-          if (!isDropKicking) {
-            isFacingLeft = true;
-          }
-        }
-      }
-
-      if (isClashing) {
-        // TODO: modify the 2 to make it a multiplie based on enemy strength (?)
-        body.velocity = new Vector2( (isFacingLeft ? 1 : -1) * speed * 2, body.velocity.y);
-      }
-
-      if (isHurt == 1) {
-        body.velocity = new Vector2(0, body.velocity.y);
-      }
-
-      if (isHurt == 2 && isGrounded) {
-        if (hurtFromBehind) {
-          transform.position = new Vector2(transform.position.x + (isFacingLeft ? -1 : 1) * 0.01f, currentYPosition);
-        } else {
-          transform.position = new Vector2(transform.position.x + (isFacingLeft ? 1 : -1) * 0.01f, currentYPosition);
-        }
-      }
-
-      if (isHurt == 3) {
-        if (throwbackHeight != 0 && transform.position.y < (currentYPosition + throwbackHeight)) {
-          body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) / 2, jumpHeight * 0.75f);
-        } else {
-          throwbackHeight = 0;
-          body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) * 1.25f, - jumpHeight * 0.5f);
-        }
-        // body.velocity = Vector2.zero;
-
-        // if (throwbackHeight != 0) {
-        //   bool exceedsThrowbackHeight = transform.position.y < (currentYPosition + throwbackHeight);
-        //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.05f), transform.position.y + (0.25f * (exceedsThrowbackHeight ? 1 : -1)));
-          // if (transform.position.y > (currentYPosition - throwbackHeight)) {
-          //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
-          // } else {
-          //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
-          // }
-        // }
-
-        // if (throwbackHeight != 0 && transform.position.y > (currentYPosition - throwbackHeight)) {
-        //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
-        // } else {
-        //   throwbackHeight = 0;
-        //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
-        // }
-      }
-
       // TODO: remove key combinations as they will not be used to favor two keys pressed
       foreach (KeyCode currentKey in System.Enum.GetValues(typeof(KeyCode))) {
         if(Input.GetKeyUp(currentKey)) {
@@ -537,6 +457,87 @@ public class Hero : MonoBehaviour {
       }
 
       if (!isPaused && pauseCase == "") {
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+
+        float verticalSpeed = body.velocity.y;
+
+        if (shieldDropTime != 0) {
+          if (Helpers.ExceedsTime(shieldDropTime, currentShieldRecoverTime)) {
+            currentShieldHP = maxShieldHP;
+            shieldDropTime = 0;
+          }
+        }
+
+        // x axis movement
+        if (!horizontalCollision && isHurt < 1) {
+          if (!isDefending && !isParrying && !isClashing && isThrowing == 0) {
+            // movement happens on this line
+            body.velocity = new Vector2(!isDropKicking ? horizontalInput * speed : 0, body.velocity.y);
+          }
+
+          // flip player back when moving right
+          if (horizontalInput > 0.01f && (isGrounded || canFlipOnAir) && !isAttackingSingle) {
+            transform.localScale = Vector3.one;
+
+            if (!isDropKicking) {
+              isFacingLeft = false;
+            }
+          }
+          // flip player when moving left
+          else if (horizontalInput < -0.01f && (isGrounded || canFlipOnAir) && !isAttackingSingle) {
+            FlipPlayer();
+
+            if (!isDropKicking) {
+              isFacingLeft = true;
+            }
+          }
+        }
+
+        if (isClashing) {
+          // TODO: modify the 2 to make it a multiplie based on enemy strength (?)
+          body.velocity = new Vector2( (isFacingLeft ? 1 : -1) * speed * 2, body.velocity.y);
+        }
+
+        if (isHurt == 1) {
+          body.velocity = new Vector2(0, body.velocity.y);
+        }
+
+        if (isHurt == 2 && isGrounded) {
+          if (hurtFromBehind) {
+            transform.position = new Vector2(transform.position.x + (isFacingLeft ? -1 : 1) * 0.01f, currentYPosition);
+          } else {
+            transform.position = new Vector2(transform.position.x + (isFacingLeft ? 1 : -1) * 0.01f, currentYPosition);
+          }
+        }
+
+        if (isHurt == 3) {
+          if (throwbackHeight != 0 && transform.position.y < (currentYPosition + throwbackHeight)) {
+            body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) / 2, jumpHeight * 0.75f);
+          } else {
+            throwbackHeight = 0;
+            body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) * 1.25f, - jumpHeight * 0.5f);
+          }
+          // body.velocity = Vector2.zero;
+
+          // if (throwbackHeight != 0) {
+          //   bool exceedsThrowbackHeight = transform.position.y < (currentYPosition + throwbackHeight);
+          //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.05f), transform.position.y + (0.25f * (exceedsThrowbackHeight ? 1 : -1)));
+            // if (transform.position.y > (currentYPosition - throwbackHeight)) {
+            //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
+            // } else {
+            //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
+            // }
+          // }
+
+          // if (throwbackHeight != 0 && transform.position.y > (currentYPosition - throwbackHeight)) {
+          //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
+          // } else {
+          //   throwbackHeight = 0;
+          //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
+          // }
+        }
+
         // jumping
         if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
           if (isGrounded) {
@@ -598,6 +599,58 @@ public class Hero : MonoBehaviour {
           DecideShieldRelease(arm2Equipment);
           isParrying = false;
         }
+
+        // if (!isGrounded && verticalSpeed < -1 && jetpackHorizontal == "") {
+        if (!isGrounded && verticalSpeed < -1) {
+          Fall();
+        }
+
+        // if (Input.GetKey(KeyCode.Keypad4) && currentWeapon == "projectile-auto") {
+        //   isShootingAuto = true;
+        // }
+
+        // if (Input.GetKeyUp(KeyCode.Keypad4) && isShootingAuto) {
+        //   isShootingAuto = false;
+        // }
+
+
+        // if (Input.GetKeyDown(KeyCode.Keypad7)) {
+        //   PlayerHurt(1);
+        // }
+
+        // if (Input.GetKeyDown(KeyCode.Keypad8) && isGrounded) {
+        //   PlayerHurt(2);
+        // }
+
+        // if (Input.GetKeyDown(KeyCode.Keypad9)) {
+        //   PlayerHurt(3);
+        // }
+
+        if (isDropKicking) {
+          body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.75));
+        }
+
+        // if (isGliding) {
+        //   body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.25));
+        // }
+
+        // if (jetpackHorizontal != "") {
+        //   body.velocity = new Vector2(body.velocity.x + (jetpackHeight * (jetpackHorizontal == "left" ? -1 : 1)), body.velocity.y);
+        //   transform.position = new Vector2(transform.position.x, currentYPosition);
+        //   if ((Time.time * 1000) > jetpackTime + maxJetpackTime) {
+        //     jetpackHorizontal = "";
+        //     jetpackTime = 0;
+        //     body.velocity = new Vector2(0, 0);
+        //   }
+        // }
+
+        if (isDead == 2) {
+          if (!isGrounded) {
+            body.velocity = new Vector2(-body.velocity.x + (jumpHeight * (isFacingLeft ? 2 : -2)), -(float)jumpHeight);
+          } else {
+            body.velocity = Vector2.zero;
+          }
+        }
       }
 
       // gliding
@@ -613,37 +666,13 @@ public class Hero : MonoBehaviour {
       //   isGliding = false;
       // }
 
-      isRunning = horizontalInput != 0 && !isJumping && !isFalling && !isAttackingSingle; // && !isJetpackUp;
+      if (pauseCase == "") { // only update isRunning if it's not paused in any way
+        isRunning = horizontalInput != 0 && !isJumping && !isFalling && !isAttackingSingle; // && !isJetpackUp;
+      }
 
       // TESTING FOR PROGRAMMATIC PLAY
       // if (isRunning) {
       //   anim.Play("running-1", -1, 0f);
-      // }
-
-      // if (!isGrounded && verticalSpeed < -1 && jetpackHorizontal == "") {
-      if (!isGrounded && verticalSpeed < -1) {
-        Fall();
-      }
-
-      // if (Input.GetKey(KeyCode.Keypad4) && currentWeapon == "projectile-auto") {
-      //   isShootingAuto = true;
-      // }
-
-      // if (Input.GetKeyUp(KeyCode.Keypad4) && isShootingAuto) {
-      //   isShootingAuto = false;
-      // }
-
-
-      // if (Input.GetKeyDown(KeyCode.Keypad7)) {
-      //   PlayerHurt(1);
-      // }
-
-      // if (Input.GetKeyDown(KeyCode.Keypad8) && isGrounded) {
-      //   PlayerHurt(2);
-      // }
-
-      // if (Input.GetKeyDown(KeyCode.Keypad9)) {
-      //   PlayerHurt(3);
       // }
 
       if (Helpers.IsPauseKeyUp() && pauseCase == "") {
@@ -662,41 +691,15 @@ public class Hero : MonoBehaviour {
           }
         }
       }
-
-      if (isDropKicking) {
-        body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.75));
-      }
-
-      // if (isGliding) {
-      //   body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.25));
-      // }
-
-      // if (jetpackHorizontal != "") {
-      //   body.velocity = new Vector2(body.velocity.x + (jetpackHeight * (jetpackHorizontal == "left" ? -1 : 1)), body.velocity.y);
-      //   transform.position = new Vector2(transform.position.x, currentYPosition);
-      //   if ((Time.time * 1000) > jetpackTime + maxJetpackTime) {
-      //     jetpackHorizontal = "";
-      //     jetpackTime = 0;
-      //     body.velocity = new Vector2(0, 0);
-      //   }
-      // }
-
-      if (isDead == 2) {
-        if (!isGrounded) {
-          body.velocity = new Vector2(-body.velocity.x + (jumpHeight * (isFacingLeft ? 2 : -2)), -(float)jumpHeight);
-        } else {
-          body.velocity = Vector2.zero;
-        }
-      }
     } else {
       if (isGrounded) {
         isRunning = true;
-        body.velocity = new Vector2(5 * (isFacingLeft ? -1 : 1), 0);
+        body.velocity = new Vector2(5 * bossTransitionDirection, 0);
       } else {
         isFalling = true;
         anim.Play("falling-1", -1, 0f);
         if (mustTransitionOnAir) {
-          body.velocity = new Vector2(5 * (isFacingLeft ? -1 : 1), 0);
+          body.velocity = new Vector2(5 * bossTransitionDirection, 0);
         }
       }
     }
@@ -814,7 +817,7 @@ public class Hero : MonoBehaviour {
     }
   }
 
-  void FlipPlayer(bool hasBeenHurt = false) {
+  public void FlipPlayer(bool hasBeenHurt = false) {
     if (hasBeenHurt && isFacingLeft) {
       transform.localScale = Vector3.one;
     } else {
