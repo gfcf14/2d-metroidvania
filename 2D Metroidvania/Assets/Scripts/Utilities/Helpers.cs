@@ -154,6 +154,7 @@ public class Helpers {
     return randomOutcome <= rate;
   }
 
+  // determines the next level exp amount following the formula: f(x) = 50x^2 - 50x
   public static int NextLevelEXP(int newLevel) {
     return (50 * (int)Mathf.Pow(newLevel, 2)) - (50 * newLevel);
   }
