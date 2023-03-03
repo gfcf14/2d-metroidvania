@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using System;
 
 public class Pause : MonoBehaviour {
@@ -332,9 +333,7 @@ public class Pause : MonoBehaviour {
 
   public void ReturnToTitle() {
     HideCanvases();
-    titleCanvas.transform.Find("Prompt").gameObject.SetActive(true);
-    titleCanvas.transform.Find("ButtonPanel").gameObject.SetActive(false);
-    titleCanvas.SetActive(true);
+    SceneManager.LoadScene("Title");
   }
 
   void SelectItemsButton() {
