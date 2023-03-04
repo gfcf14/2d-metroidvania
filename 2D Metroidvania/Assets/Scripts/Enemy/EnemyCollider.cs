@@ -20,6 +20,12 @@ public class EnemyCollider : MonoBehaviour {
   }
 
   private void OnTriggerEnter2D(Collider2D col) {
-    enemy.Trigger(col);
+    if (col.gameObject.tag == "Weapon") {
+      if (!col.gameObject.GetComponent<Weapon>().triggeredObjects.Contains(gameObject)) {
+        enemy.Trigger(col);
+      }
+    } else {
+      enemy.Trigger(col);
+    }
   }
 }

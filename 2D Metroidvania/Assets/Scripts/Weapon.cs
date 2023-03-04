@@ -1,18 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour {
   Hero hero;
+  [System.NonSerialized] public List<GameObject> triggeredObjects = new List<GameObject>();
 
   void Start() {
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
   }
 
-  void Update() { }
+  void Update() {}
 
   private void OnTriggerEnter2D(Collider2D col) {
     if (col.gameObject.tag == "Enemy") {
+      triggeredObjects.Add(col.gameObject);
       GameObject parentObject = col.gameObject.transform.parent.gameObject;
       float enemyTopBounds = col.transform.position.y + parentObject.GetComponent<SpriteRenderer>().bounds.size.y;
 
@@ -24,6 +25,12 @@ public class Weapon : MonoBehaviour {
           hero.Jump(true);
         }
       }
+    }
+  }
+
+  private void OnTriggerExit2D(Collider2D col) {
+    if (col.gameObject.tag == "Enemy") {
+      triggeredObjects.Remove(col.gameObject);
     }
   }
 }
