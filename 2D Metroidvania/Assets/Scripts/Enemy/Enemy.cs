@@ -155,6 +155,7 @@ public class Enemy : MonoBehaviour {
         if (defenseRayCast && defenseRayCast.collider.tag == "Weapon") {
           if (level - hero.playerLevel >= 10) {
             isDefending = true;
+            anim.SetBool("isDefending", isDefending);
           }
         }
 
@@ -233,7 +234,7 @@ public class Enemy : MonoBehaviour {
           anim.SetBool("isDead", isDead);
           anim.SetBool("isDeadByBurning", isDeadByBurning);
           anim.SetBool("isDeadByPoison", isDeadByPoison);
-          anim.SetBool("isDefending", isDefending);
+          // anim.SetBool("isDefending", isDefending);
           anim.SetBool("isStunned", isStunned);
           anim.SetBool("isStunnedOnAttack", stunOnAttack);
           anim.SetBool("isSummoning", isSummoning);
@@ -374,11 +375,13 @@ public class Enemy : MonoBehaviour {
                   attackedStart = 0;
                 } else {
                   isDefending = true;
+                  anim.SetBool("isDefending", isDefending);
                   // TODO: ensure all enemy types have a means to return to isDefending = false
                 }
               } else {
                 if (!attackedFromBehind && type == "champion") {
                   isDefending = true;
+                  anim.SetBool("isDefending", isDefending);
                 } else {
                   Stun();
                 }
@@ -493,6 +496,8 @@ public class Enemy : MonoBehaviour {
     isAttackingMelee = false;
     isDefending = false;
     playerFound = false;
+
+    anim.SetBool("isDefending", isDefending);
   }
 
   public void PrepareWeaponThrow() {
