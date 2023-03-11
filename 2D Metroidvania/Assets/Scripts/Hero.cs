@@ -719,7 +719,6 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isDropKicking", isDropKicking);
     anim.SetBool("isPunching", isPunching);
     anim.SetBool("isAirPunching", isAirPunching);
-    anim.SetBool("isThrowing", isThrowing > 0);
     // anim.SetBool("isShootingSingle", isShootingSingle);
     // anim.SetBool("isShootingAuto", isShootingAuto);
     anim.SetBool("isShootingPull", isShootingPull);
@@ -762,9 +761,7 @@ public class Hero : MonoBehaviour {
             break;
             case "throwable":
               isThrowing = armUsed;
-            break;
-            case "throwable-double":
-              isThrowing = armUsed;
+              anim.SetTrigger("isThrowing");
             break;
             case "bow":
               isShootingPull = true;
