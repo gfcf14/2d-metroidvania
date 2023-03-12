@@ -717,7 +717,6 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isAirAttackHeavy", isAirAttackHeavy);
     anim.SetBool("isKicking", isKicking);
     anim.SetBool("isDropKicking", isDropKicking);
-    anim.SetBool("isPunching", isPunching);
     anim.SetBool("isAirPunching", isAirPunching);
     // anim.SetBool("isShootingSingle", isShootingSingle);
     // anim.SetBool("isShootingAuto", isShootingAuto);
@@ -740,6 +739,7 @@ public class Hero : MonoBehaviour {
     if (isGrounded) {
         if (armEquipment == "") {
           isPunching = true;
+          anim.SetTrigger("isPunching");
           weaponCollider.SetActive(true);
         } else {
           string weaponType = Objects.pauseItems[armEquipment].type;
