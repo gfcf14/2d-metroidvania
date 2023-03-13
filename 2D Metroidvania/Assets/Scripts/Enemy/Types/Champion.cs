@@ -58,7 +58,7 @@ public class Champion : MonoBehaviour {
                   if (forwardCast && forwardCast.collider.tag == "Hero") {
                     enemy.playerFound = true;
 
-                    if (enemy.level >= 10) {
+                    if (enemy.level >= 10 && !enemy.isDefending) {
                       enemy.isThrowingWeapon = true;
                       enemy.distanceToPlayer = forwardCast.distance;
                     }

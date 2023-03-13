@@ -487,7 +487,6 @@ public class Enemy : MonoBehaviour {
   }
 
   void Recover() {
-    Debug.Log("recovering");
     isSummoning = false;
     isStunned = false;
     stunOnAttack = false;
