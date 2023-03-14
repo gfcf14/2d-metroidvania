@@ -5,6 +5,7 @@ using UnityEngine;
 public class SmashWave : MonoBehaviour {
   [System.NonSerialized] public float width;
   [System.NonSerialized] public int damage;
+  [System.NonSerialized] public bool hitPlayer = false;
   void Start() {
     GetComponent<SpriteRenderer>().size = new Vector2(width, width * 0.8f);
   }
@@ -16,7 +17,8 @@ public class SmashWave : MonoBehaviour {
   }
 
   private void OnTriggerEnter2D(Collider2D col) {
-    if (col.gameObject.tag == "Hero") {
+    if (col.gameObject.tag == "Hero" && !hitPlayer) {
+      hitPlayer = true;
       col.gameObject.GetComponent<Hero>().ReceiveSmashWave(damage, col.ClosestPoint(transform.position));
     }
   }
