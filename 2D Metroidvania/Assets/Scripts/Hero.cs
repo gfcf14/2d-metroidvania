@@ -1045,7 +1045,7 @@ public class Hero : MonoBehaviour {
           horizontalCollision = false;
           isDropKicking = false;
 
-          if (isHurt == 3) {
+          if (isHurt == 3 && throwbackHeight == 0) {
             Recover();
           }
 
