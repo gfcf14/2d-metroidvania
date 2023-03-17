@@ -19,10 +19,6 @@ public class Sprites {
   public static Sprite[] breakableVases = Resources.LoadAll<Sprite>("Spritesheets/vase");
   public static Sprite[] skeletonKingSprites = Resources.LoadAll<Sprite>("Spritesheets/skeleton-king");
 
-  public static Sprite[] bronzeFrameSprites = Resources.LoadAll<Sprite>("Spritesheets/small-chest/small-chest-frame-bronze");
-  public static Sprite[] silverFrameSprites = Resources.LoadAll<Sprite>("Spritesheets/small-chest/small-chest-frame-silver");
-  public static Sprite[] goldFrameSprites = Resources.LoadAll<Sprite>("Spritesheets/small-chest/small-chest-frame-gold");
-
   public static Dictionary<string, Sprite> equipmentIcons = new Dictionary<string, Sprite> {
     {"body", equipmentButtonIcons[0]},
     {"arm1", equipmentButtonIcons[1]},
@@ -343,11 +339,5 @@ public class Sprites {
 
   public static Dictionary<string, Sprite> firstBossSprites = new Dictionary<string, Sprite> {
     {"skeleton-king", skeletonKingSprites[0]}
-  };
-
-  public static Dictionary<string, Sprite> frameSprites = new Dictionary<string, Sprite> {
-    {"bronze", bronzeFrameSprites[0]},
-    {"silver", silverFrameSprites[0]},
-    {"gold", goldFrameSprites[0]}
   };
 }

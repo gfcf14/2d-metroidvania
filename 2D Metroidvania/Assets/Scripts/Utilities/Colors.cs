@@ -54,4 +54,9 @@ public class Colors {
     {"emerald", new Color(28f/255f, 208f/255f, 2f/255f)}
     // {"", new Color()}
   };
+
+  public static Dictionary<string, Color> chestFrameColors = new Dictionary<string, Color> {
+    {"bronze", new Color(1, 158f/255f, 62f/255f)},
+    {"gold", new Color(1, 215f/255f, 0)}
+  };
 }
