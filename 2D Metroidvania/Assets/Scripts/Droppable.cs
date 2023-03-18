@@ -1,5 +1,5 @@
+using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Droppable : MonoBehaviour {
   [SerializeField] public string key;
@@ -48,8 +48,10 @@ public class Droppable : MonoBehaviour {
     if (col.gameObject.tag == "Ground") {
       Destroy(GetComponent<Rigidbody2D>());
       GetComponent<CapsuleCollider2D>().isTrigger = true;
-    } else if (col.gameObject.tag == "Hero") {
-      DestroyDroppable(col.gameObject.GetComponent<Hero>());
+    // } else if (col.gameObject.tag == "Hero") {
+    //   DestroyDroppable(col.gameObject.GetComponent<Hero>());
+    } else if (Helpers.IsValueInArray(Constants.droppableNonColliderTags, col.collider.tag) || Helpers.IsValueInArray(Constants.droppableNonColliderNames, col.collider.name)) {
+      Physics2D.IgnoreCollision(col.collider, GetComponent<BoxCollider2D>());
     }
   }
 

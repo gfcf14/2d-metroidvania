@@ -6,9 +6,11 @@ public class BossEntryCheck : MonoBehaviour {
   void Start() {}
   void Update() {}
 
-  private void OnCollisionEnter2D(Collision2D other) {
-    if (Helpers.IsValueInArray(Constants.bossEntryCheckNonColliderTags, other.collider.tag) || other.collider.name == "Grounder") {
-      Physics2D.IgnoreCollision(other.collider, GetComponent<BoxCollider2D>());
+  private void OnCollisionEnter2D(Collision2D col) {
+    if (Helpers.IsValueInArray(Constants.bossEntryCheckNonColliderTags, col.collider.tag) || col.collider.name == "Grounder") {
+      Physics2D.IgnoreCollision(col.collider, GetComponent<BoxCollider2D>());
+    } else {
+      Debug.Log("colliding with " + col.collider.name);
     }
   }
 }
