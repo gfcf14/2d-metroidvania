@@ -50,7 +50,7 @@ public class Droppable : MonoBehaviour {
       GetComponent<CapsuleCollider2D>().isTrigger = true;
     // } else if (col.gameObject.tag == "Hero") {
     //   DestroyDroppable(col.gameObject.GetComponent<Hero>());
-    } else if (Helpers.IsValueInArray(Constants.droppableNonColliderTags, col.collider.tag) || Helpers.IsValueInArray(Constants.droppableNonColliderNames, col.collider.name)) {
+    } else { // if (Helpers.IsValueInArray(Constants.droppableNonColliderTags, col.collider.tag) || Helpers.IsValueInArray(Constants.droppableNonColliderNames, col.collider.name)) {
       Physics2D.IgnoreCollision(col.collider, GetComponent<BoxCollider2D>());
     }
   }

@@ -17,7 +17,7 @@ public class Interactable : MonoBehaviour {
   }
 
   private void OnCollisionEnter2D(Collision2D col) {
-    if (col.collider.name == "ChestOpener" && !isOpen) {
+    if (col.collider.name == "Hero" && !isOpen) {
       isOpen = true;
     }
   }
