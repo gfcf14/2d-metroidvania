@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour {
+  [SerializeField] public bool isFacingLeft = true;
   [System.NonSerialized] public bool isOpen = false;
   private Animator anim;
   private SpriteRenderer spriteRenderer;
@@ -10,6 +9,10 @@ public class Interactable : MonoBehaviour {
   void Start() {
     anim = GetComponent<Animator>();
     spriteRenderer = GetComponent<SpriteRenderer>();
+
+    if (!isFacingLeft) {
+      transform.localScale = new Vector2(-1, 1);
+    }
   }
 
   void Update() {
