@@ -1067,6 +1067,14 @@ public class Hero : MonoBehaviour {
       }
     }
 
+    if (col.collider.tag == "Breakable") {
+      // if (isGrounded) {
+        Physics2D.IgnoreCollision(col.collider, GetComponent<BoxCollider2D>());
+      // } else {
+      //   isGrounded = true;
+      // }
+    }
+
     if (objectCollided.tag != "Item") {
       collisionCounter++;
     }
