@@ -1067,6 +1067,7 @@ public class Hero : MonoBehaviour {
       }
     }
 
+    // TODO: test further to understand better
     if (col.collider.tag == "Breakable") {
       // if (isGrounded) {
         Physics2D.IgnoreCollision(col.collider, GetComponent<BoxCollider2D>());
