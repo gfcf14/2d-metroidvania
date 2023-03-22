@@ -1030,10 +1030,10 @@ public class Hero : MonoBehaviour {
     weaponCollider.SetActive(true);
   }
 
-  private void OnCollisionEnter2D(Collision2D collision) {
-    Collider2D collider = collision.collider;
-    Collider2D otherCollider = collision.otherCollider;
-    GameObject objectCollided = collision.gameObject;
+  private void OnCollisionEnter2D(Collision2D col) {
+    Collider2D collider = col.collider;
+    Collider2D otherCollider = col.otherCollider;
+    GameObject objectCollided = col.gameObject;
 
     if (Helpers.IsValueInArray(Constants.landingObjects, objectCollided.tag)) {
       if (otherCollider.tag == "Hero") {

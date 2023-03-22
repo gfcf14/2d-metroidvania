@@ -34,7 +34,6 @@ public class Droppable : MonoBehaviour {
       float currentTime = Time.time * 1000;
 
       if (currentTime > originTime + maxRiseTime) {
-        Debug.Log("here?");
         if (GetComponent<CapsuleCollider2D>().isTrigger == false) {
           GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         }
