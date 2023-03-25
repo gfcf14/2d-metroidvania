@@ -29,10 +29,6 @@ public class Interactable : MonoBehaviour {
     Destroy(GetComponent<Rigidbody2D>());
     GetComponent<BoxCollider2D>().enabled = false;
 
-    Vector2 itemOrigin = new Vector2(transform.position.x, transform.position.y + (spriteRenderer.bounds.size.y / 2));
-    GameObject droppedItem = Instantiate(Objects.prefabs["droppable"], itemOrigin, Quaternion.identity);
-    Droppable droppedObject = droppedItem.transform.Find("GameObject").GetComponent<Droppable>();
-    droppedObject.key = "moonlight-pendant"; // TODO: come up with a random system to add the item instead of hardcoding
-    droppedObject.isDropped = true;
+    GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().InstantiatePrefab("droppable", transform, spriteRenderer);
   }
 }

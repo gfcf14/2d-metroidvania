@@ -4,8 +4,6 @@ using UnityEngine;
 public class Droppable : MonoBehaviour {
   [SerializeField] public string key;
   [System.NonSerialized] public bool isDropped = false;
-  [System.NonSerialized] float originTime = 0;
-  [System.NonSerialized] float maxRiseTime = 350;
   [System.NonSerialized] MoneyItem moneyItem;
 
   private Animator anim;
