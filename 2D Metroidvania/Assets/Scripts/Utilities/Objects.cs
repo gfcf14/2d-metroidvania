@@ -10,6 +10,7 @@ public class Objects {
     {"bar-decrement", Resources.Load("Prefabs/BarDecrement") as GameObject},
     {"boss", Resources.Load("Prefabs/Boss") as GameObject},
     {"breakable", Resources.Load("Prefabs/Breakable") as GameObject},
+    {"chest-large", Resources.Load("Prefabs/ChestLarge") as GameObject},
     {"chest-small", Resources.Load("Prefabs/ChestSmall") as GameObject},
     {"damage-container", Resources.Load("Prefabs/DamageContainer") as GameObject},
     {"defense", Resources.Load("Prefabs/Defense") as GameObject},

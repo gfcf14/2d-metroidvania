@@ -48,7 +48,7 @@ public class Colors {
     {"cyan", new Color(1f/255f, 139f/255f, 252f/255f)},
     {"ash", new Color(104f/255f, 100f/255f, 126f/255f)},
     {"ruby", new Color(237f/255f, 73f/255f, 78f/255f)},
-    {"zaphire", new Color(28f/255f, 187f/255f, 1)},
+    {"sapphire", new Color(28f/255f, 187f/255f, 1)},
     {"opal", new Color(250f/255f, 172f/255f, 15f/255f)},
     {"rock", new Color(50f/255f, 50f/255f, 50f/255f)},
     {"emerald", new Color(28f/255f, 208f/255f, 2f/255f)}

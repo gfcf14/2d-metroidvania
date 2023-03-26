@@ -1,7 +1,10 @@
 using UnityEngine;
 
 public class Chest : MonoBehaviour {
+
+  [Header("Frame Color (bronze, silver, or gold)")]
   [SerializeField] string frame;
+  [Header("Main Color (refer to Colors.cs)")]
   [SerializeField] string color;
   void Start() {
     if (frame != "silver") {
