@@ -29,6 +29,7 @@ public class Droppable : MonoBehaviour {
       anim.Play("droppable-rise");
     } else {
       FinishAnim();
+      GetComponent<SpriteRenderer>().sprite = null;
     }
   }
 
