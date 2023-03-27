@@ -555,16 +555,19 @@ public class Enemy : MonoBehaviour {
     float throwableY = transform.position.y + (enemyWidth + currentThrowable.startY);
 
     GameObject throwableWeapon = Instantiate(Objects.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
-    Transform throwableCollider = throwableWeapon.transform.Find("ThrowableCollider");
-    throwableCollider.eulerAngles = Vector3.zero;
-    throwableCollider.gameObject.tag = "EnemyWeapon";
-    Throwable throwableInstance = throwableWeapon.GetComponent<Throwable>();
+    GameObject throwableObject = throwableWeapon.transform.Find("Throwable").gameObject;
+    Throwable throwableInstance = throwableObject.GetComponent<Throwable>();
 
     throwableInstance.isFacingLeft = isFacingLeft;
-    throwableInstance.maxDistance = distance;
-    throwableInstance.startX = throwableX;
-    throwableInstance.startY = throwableY;
+    // throwableInstance.maxDistance = distance;
+    // throwableInstance.startX = throwableX;
+    // throwableInstance.startY = throwableY;
     throwableInstance.type = "king-bone";
+    throwableInstance.distance = (int)distance;
+
+    Transform throwableCollider = throwableObject.transform.Find("ThrowableCollider");
+    throwableCollider.eulerAngles = Vector3.zero;
+    throwableCollider.gameObject.tag = "EnemyWeapon";
   }
 
   public void Summon() {

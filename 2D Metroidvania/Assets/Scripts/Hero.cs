@@ -848,7 +848,7 @@ public class Hero : MonoBehaviour {
     float throwableY = transform.position.y + (heroHeight * currentThrowable.startY);
 
     GameObject throwableWeapon = Instantiate(Objects.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
-    Throwable throwableInstance = throwableWeapon.GetComponent<Throwable>();
+    Throwable throwableInstance = throwableWeapon.transform.Find("Throwable").gameObject.GetComponent<Throwable>();
 
     throwableInstance.isFacingLeft = isFacingLeft;
     throwableInstance.maxDistance = currentThrowable.maxDistance;
