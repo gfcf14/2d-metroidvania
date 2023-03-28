@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour {
 
 
     [System.NonSerialized] public int deadAnimationIncrement = 0;
+    [System.NonSerialized] private int minimumThrowDistance = 3;
     [System.NonSerialized] public int poisonAttackCounter = 1;
 
 
@@ -503,10 +504,10 @@ public class Enemy : MonoBehaviour {
     if (level >= 20 && maxThrowCounter < (maxThrows - 1)) {
       anim.Play("throw", -1, 0f);
 
-      if (maxThrowCounter == 0) {
-        distanceToPlayer -= 2;
+      if (maxThrowCounter % 2 != 0) {
+        distanceToPlayer++;
       } else {
-        distanceToPlayer += 4;
+        distanceToPlayer -= 2;
       }
 
       maxThrowCounter++;
@@ -563,7 +564,7 @@ public class Enemy : MonoBehaviour {
     // throwableInstance.startX = throwableX;
     // throwableInstance.startY = throwableY;
     throwableInstance.type = "king-bone";
-    throwableInstance.distance = (int)distance;
+    throwableInstance.distance = (int)distance < minimumThrowDistance ? 3 : (int)distance;
 
     Transform throwableCollider = throwableObject.transform.Find("ThrowableCollider");
     throwableCollider.eulerAngles = Vector3.zero;

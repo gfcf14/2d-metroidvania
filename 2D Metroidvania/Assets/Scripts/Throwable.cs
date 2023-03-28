@@ -194,11 +194,8 @@ public class Throwable : MonoBehaviour {
 
   void LateUpdate() {
     if (type == "king-bone" && throwableCollider.tag == "EnemyWeapon") {
-      // TODO: investigate how to reduce rotation speed
-      if (transitionIncrement % 5 == 0) {
-        newAngle = initialAngle - (transitionIncrement * (isFacingLeft ? -1 : 1) * (mustBounce ? 0.5f : 0.125f));
-        transform.Rotate(new Vector3(0, 0, newAngle));
-      }
+      newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier) * (isFacingLeft ? -1 : 1) * (mustBounce ? -4 : 1);
+      transform.rotation = Quaternion.Euler(0, 0, newAngle);
       transitionIncrement++;
     }
   }
