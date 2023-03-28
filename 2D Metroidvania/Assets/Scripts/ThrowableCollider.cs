@@ -49,6 +49,12 @@ public class ThrowableCollider : MonoBehaviour {
       parentThrowable.bounceX = parentThrowable.transform.position.x;
       parentThrowable.bounceY = parentThrowable.transform.position.y;
       parentThrowable.transitionIncrement = 0;
+
+      // ensures the animation starts at the impact point
+      if (gameObject.tag == "EnemyWeapon") {
+        parentObject.transform.parent.position = new Vector2(parentThrowable.bounceX, parentThrowable.bounceY);
+        parentObject.transform.position = Vector2.zero;
+      }
     }
   }
 }

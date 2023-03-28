@@ -767,7 +767,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: 0
+    UniformRadius: -775.1492
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -4051,7 +4051,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: 0
+    UniformRadius: -792.1697
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -4874,7 +4874,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: 0
+    UniformRadius: -792.1697
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -12915,7 +12915,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: 0
+    UniformRadius: -775.1492
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -14493,7 +14493,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: 0
+    UniformRadius: -518.4797
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -30395,7 +30395,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: 0
+    UniformRadius: -732.30804
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -64618,13 +64618,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6943982021713122939, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6943982021713122939, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6943982021713122939, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6943982021713122939, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6943982021967957026, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
       propertyPath: m_Name
       value: Throwable
       objectReference: {fileID: 0}
     - target: {fileID: 6943982021967957026, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6943982021967957027, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
       propertyPath: m_RootOrder
@@ -64668,6 +64684,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6943982021967957027, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8841299972872989455, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

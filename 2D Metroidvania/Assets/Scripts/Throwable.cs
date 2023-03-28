@@ -102,6 +102,7 @@ public class Throwable : MonoBehaviour {
     }
 
     if (type == "king-bone" && throwableCollider.tag == "EnemyWeapon") {
+      initialAngle = 45 * (isFacingLeft ? 1 : -1);
       anim.Play("king-bone-" + distance + (isFacingLeft ? "-left" : ""));
     }
   }
@@ -183,12 +184,22 @@ public class Throwable : MonoBehaviour {
         }
       }
     } else {
-      Debug.Log(objectRenderer.isVisible);
       if (mustBounce) {
         anim.speed = 0;
-        anim.Play("bounce-back");
+        anim.Play("bounce-back" + (isFacingLeft ? "-right" : ""));
         anim.speed = 1;
       }
+    }
+  }
+
+  void LateUpdate() {
+    if (type == "king-bone" && throwableCollider.tag == "EnemyWeapon") {
+      // TODO: investigate how to reduce rotation speed
+      if (transitionIncrement % 5 == 0) {
+        newAngle = initialAngle - (transitionIncrement * (isFacingLeft ? -1 : 1) * (mustBounce ? 0.5f : 0.125f));
+        transform.Rotate(new Vector3(0, 0, newAngle));
+      }
+      transitionIncrement++;
     }
   }
 
@@ -203,6 +214,6 @@ public class Throwable : MonoBehaviour {
   }
 
   public void DestroyThrowable() {
-    Destroy(gameObject);
+    Destroy(transform.parent.gameObject);
   }
 }
