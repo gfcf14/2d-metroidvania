@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyCollider : MonoBehaviour {
@@ -23,6 +21,7 @@ public class EnemyCollider : MonoBehaviour {
     if (col.gameObject.tag == "Weapon" && col.gameObject.name != "ThrowableCollider" && col.gameObject.name != "ArrowCollider") {
       if (!col.gameObject.GetComponent<Weapon>().triggeredObjects.Contains(gameObject)) {
         enemy.Trigger(col);
+        col.gameObject.GetComponent<Weapon>().triggeredObjects.Add(gameObject);
       }
     } else {
       enemy.Trigger(col);
