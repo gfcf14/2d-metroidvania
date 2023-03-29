@@ -333,6 +333,10 @@ public class Enemy : MonoBehaviour {
               parentThrowable.collideTime = Time.time * 1000;
               parentThrowable.hasCollided = true;
               parentThrowable.maxEllapsedCollideTime = 1000f;
+
+              parentThrowable.transitionIncrement = 0;
+              parentObject.transform.parent.position = new Vector2(parentThrowable.transform.position.x, parentThrowable.transform.position.y);
+              parentThrowable.bounceSprite = parentObject.GetComponent<SpriteRenderer>().sprite;
             }
           } else if (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, weaponType)) {
             GameObject parentObject = col.transform.parent.gameObject;

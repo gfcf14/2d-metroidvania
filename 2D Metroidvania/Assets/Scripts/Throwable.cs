@@ -10,6 +10,8 @@ public class Throwable : MonoBehaviour {
   [System.NonSerialized] public GameObject throwableCollider;
   [System.NonSerialized] public Animator anim;
 
+  [System.NonSerialized] public Sprite bounceSprite;
+
   [System.NonSerialized] public bool isFacingLeft;
   [System.NonSerialized] public bool hasCollided = false;
   [System.NonSerialized] public bool mustBounce = false;
@@ -67,7 +69,7 @@ public class Throwable : MonoBehaviour {
 
     ThrowableObject currentThrowable = Objects.throwableObjects[type];
 
-    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon")) {
+    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance") {
       hitBounds.offset = currentThrowable.colliderOffset;
       hitBounds.size = currentThrowable.colliderSize;
 
@@ -105,6 +107,10 @@ public class Throwable : MonoBehaviour {
       initialAngle = 45 * (isFacingLeft ? 1 : -1);
       anim.Play("king-bone-" + distance + (isFacingLeft ? "-left" : ""));
     }
+
+    if (type == "lance") {
+      anim.Play("lance" + (isFacingLeft ? "-left" : ""));
+    }
   }
 
   void Update() {
@@ -113,7 +119,7 @@ public class Throwable : MonoBehaviour {
       DestroyThrowable();
     }
 
-    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon")) {
+    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance") {
       if (!hasCollided) {
         if (!mustFall) {
           float newX = direction * distanceMultiplier * transitionIncrement;
@@ -196,8 +202,34 @@ public class Throwable : MonoBehaviour {
     if (type == "king-bone" && throwableCollider.tag == "EnemyWeapon") {
       newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier) * (isFacingLeft ? -1 : 1) * (mustBounce ? -4 : 1);
       transform.rotation = Quaternion.Euler(0, 0, newAngle);
-      transitionIncrement++;
+    } else if (type == "lance") {
+      if (!mustBounce) {
+        if (hasCollided) {
+          float ellapsedCollideTime = (Time.time * 1000) - collideTime;
+
+          if (ellapsedCollideTime < maxEllapsedCollideTime) {
+            if (Helpers.IsNonBouncingThrowable(type)) {
+              objectRenderer.color = new Color(1, 1, 1, 1 - (ellapsedCollideTime / maxEllapsedCollideTime));
+            }
+          } else {
+            if (Helpers.IsNonBouncingThrowable(type)) {
+              Destroy(gameObject);
+            } else if (type == "bomb") {
+              isExploding = true;
+              DestroyExtra();
+              anim.speed = 1;
+              anim.SetBool("isExploding", isExploding);
+            }
+          }
+        }
+      } else {
+        newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier) * (isFacingLeft ? -1 : 1) * (mustBounce ? -4 : 1);
+        transform.rotation = Quaternion.Euler(0, 0, newAngle);
+        objectRenderer.sprite = bounceSprite;
+      }
     }
+
+    transitionIncrement++;
   }
 
   void DestroyExtra() {
@@ -212,5 +244,15 @@ public class Throwable : MonoBehaviour {
 
   public void DestroyThrowable() {
     Destroy(transform.parent.gameObject);
+  }
+
+  public void RemovePhysics() {
+    Destroy(GetComponent<Rigidbody2D>());
+    Destroy(throwableCollider.GetComponent<CapsuleCollider2D>());
+  }
+
+  public void StopAndFade() {
+    RemovePhysics();
+    anim.speed = 0;
   }
 }

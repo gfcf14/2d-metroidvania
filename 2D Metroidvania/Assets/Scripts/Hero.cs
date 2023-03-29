@@ -760,6 +760,7 @@ public class Hero : MonoBehaviour {
               }
             break;
             case "throwable":
+            case "throwable-double":
               isThrowing = armUsed;
               anim.SetTrigger("isThrowing");
             break;

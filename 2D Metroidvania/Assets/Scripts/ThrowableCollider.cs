@@ -20,22 +20,28 @@ public class ThrowableCollider : MonoBehaviour {
     Throwable parentThrowable = parentObject.GetComponent<Throwable>();
 
     if (colliderTag == "Ground") {
-      bool isBottomCollision = IsBottomCollision(col);
+      if (parentThrowable.type == "lance") {
+        parentThrowable.hasCollided = true;
+        parentThrowable.collideTime = Time.time * 1000;
+        parentThrowable.StopAndFade();
+      } else {
+        bool isBottomCollision = IsBottomCollision(col);
 
-      if (Helpers.IsGroundThrowable(parentThrowable.type) && !parentThrowable.hasCollided) {
-        if (parentThrowable.type == "bomb") {
-          parentThrowable.anim.speed = 0;
+        if (Helpers.IsGroundThrowable(parentThrowable.type) && !parentThrowable.hasCollided) {
+          if (parentThrowable.type == "bomb") {
+            parentThrowable.anim.speed = 0;
 
-          if (!isBottomCollision) {
-            parentThrowable.mustFall = true;
+            if (!isBottomCollision) {
+              parentThrowable.mustFall = true;
+            }
           }
-        }
 
-        if (Helpers.IsNonBouncingThrowable(parentThrowable.type) || (parentThrowable.type == "bomb" && isBottomCollision)) {
-          parentThrowable.hasCollided = true;
-          parentThrowable.collideTime = Time.time * 1000;
-          // ensures the rigidbody, which enables throwable-to-throwable collision, is removed so the object sticks to the ground
-          Destroy(parentObject.GetComponent<Rigidbody2D>());
+          if (Helpers.IsNonBouncingThrowable(parentThrowable.type) || (parentThrowable.type == "bomb" && isBottomCollision)) {
+            parentThrowable.hasCollided = true;
+            parentThrowable.collideTime = Time.time * 1000;
+            // ensures the rigidbody, which enables throwable-to-throwable collision, is removed so the object sticks to the ground
+            Destroy(parentObject.GetComponent<Rigidbody2D>());
+          }
         }
       }
     } else if ((gameObject.tag == "EnemyWeapon" && Helpers.IsValueInArray(Constants.enemyThrowableBouncers, colliderTag)) || (gameObject.tag == "Weapon" && colliderTag == "EnemyWeapon")) {
@@ -52,7 +58,7 @@ public class ThrowableCollider : MonoBehaviour {
 
       // ensures the animation starts at the impact point
       if (gameObject.tag == "EnemyWeapon") {
-        parentObject.transform.parent.position = new Vector2(parentThrowable.bounceX, parentThrowable.bounceY);
+        parentObject.transform.parent.position = new Vector2(parentThrowable.transform.position.x, parentThrowable.transform.position.y);
         parentObject.transform.position = Vector2.zero;
       }
     }
