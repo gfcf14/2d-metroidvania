@@ -223,7 +223,7 @@ public class Throwable : MonoBehaviour {
           }
         }
       } else {
-        newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier) * (isFacingLeft ? -1 : 1) * (mustBounce ? -4 : 1);
+        newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier) * (isFacingLeft ? -1 : 1) * (mustBounce ? -2 : 1);
         transform.rotation = Quaternion.Euler(0, 0, newAngle);
         objectRenderer.sprite = bounceSprite;
       }
