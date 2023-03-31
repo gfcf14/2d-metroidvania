@@ -767,7 +767,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -775.1492
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -4051,7 +4051,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -792.1697
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -4874,7 +4874,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -792.1697
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -12915,7 +12915,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -775.1492
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -14493,7 +14493,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -518.4797
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -30395,7 +30395,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -732.30804
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -32644,7 +32644,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177825369}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 39.98, y: -1.986, z: 0}
+  m_LocalPosition: {x: 22.79, y: -1.986, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1980988090}
@@ -40043,7 +40043,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1480077088}
-  - component: {fileID: 1480077087}
   - component: {fileID: 1480077086}
   m_Layer: 0
   m_Name: UnityHelpers
@@ -40062,18 +40061,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 662a256733955e54ca73976b6a44df7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1480077087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1480077085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e1c7436440aae544884f733ac7ff815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1480077088
@@ -63993,7 +63980,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4504950779480783903, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4504950779480784096, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
       propertyPath: m_RootOrder
@@ -64037,6 +64024,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4504950779480784096, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4504950779624442087, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 4504950779624442087, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 4504950779624442091, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4504950780291146048, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4504950780291146048, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4504950780291146048, guid: 1f4fb4ef3e91d1d44a7388fcb97a50e9, type: 3}
+      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

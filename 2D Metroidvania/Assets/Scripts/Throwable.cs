@@ -69,7 +69,7 @@ public class Throwable : MonoBehaviour {
 
     ThrowableObject currentThrowable = Objects.throwableObjects[type];
 
-    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance") {
+    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance" && type != "bomb") {
       hitBounds.offset = currentThrowable.colliderOffset;
       hitBounds.size = currentThrowable.colliderSize;
 
@@ -104,12 +104,18 @@ public class Throwable : MonoBehaviour {
     }
 
     if (type == "king-bone" && throwableCollider.tag == "EnemyWeapon") {
+      DestroyExtra();
       initialAngle = 45 * (isFacingLeft ? 1 : -1);
       anim.Play("king-bone-" + distance + (isFacingLeft ? "-left" : ""));
     }
 
     if (type == "lance") {
+      DestroyExtra();
       anim.Play("lance" + (isFacingLeft ? "-left" : ""));
+    }
+
+    if (type == "bomb") {
+      anim.Play("bomb" + (isFacingLeft ? "-left" : ""));
     }
   }
 
@@ -119,7 +125,7 @@ public class Throwable : MonoBehaviour {
       DestroyThrowable();
     }
 
-    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance") {
+    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance" && type != "bomb") {
       if (!hasCollided) {
         if (!mustFall) {
           float newX = direction * distanceMultiplier * transitionIncrement;
@@ -213,12 +219,7 @@ public class Throwable : MonoBehaviour {
             }
           } else {
             if (Helpers.IsNonBouncingThrowable(type)) {
-              Destroy(gameObject);
-            } else if (type == "bomb") {
-              isExploding = true;
-              DestroyExtra();
-              anim.speed = 1;
-              anim.SetBool("isExploding", isExploding);
+              DestroyThrowable();
             }
           }
         }
@@ -232,7 +233,7 @@ public class Throwable : MonoBehaviour {
     transitionIncrement++;
   }
 
-  void DestroyExtra() {
+  public void DestroyExtra() {
     if (extraSprite != null) {
       Destroy(extraSprite);
     }
@@ -254,5 +255,18 @@ public class Throwable : MonoBehaviour {
   public void StopAndFade() {
     RemovePhysics();
     anim.speed = 0;
+  }
+
+  public void Explode() {
+    anim.speed = 0;
+    anim.Play("exploding");
+    isExploding = true;
+    anim.speed = 1;
+    transform.parent.position = new Vector2(bounceX - (objectRenderer.bounds.size.x * 2), bounceY - objectRenderer.bounds.size.y);
+    transform.position = Vector2.zero;
+  }
+
+  public void testRunning() {
+    Debug.Log("test");
   }
 }

@@ -171,4 +171,9 @@ public class Helpers {
     }
     return count;
   }
+
+  public static bool IsBottomCollision(float topObject, float bottomObject) {
+    Debug.Log(topObject + " VS " + bottomObject);
+    return topObject > bottomObject;
+  }
 }

@@ -24,6 +24,12 @@ public class ThrowableCollider : MonoBehaviour {
         parentThrowable.hasCollided = true;
         parentThrowable.collideTime = Time.time * 1000;
         parentThrowable.StopAndFade();
+      } else if (parentThrowable.type == "bomb") {
+        if (!parentThrowable.isExploding) {
+          parentThrowable.bounceX = col.ClosestPoint(transform.position).x;
+          parentThrowable.bounceY = col.ClosestPoint(transform.position).y;
+          parentThrowable.Explode();
+        }
       } else {
         bool isBottomCollision = IsBottomCollision(col);
 
