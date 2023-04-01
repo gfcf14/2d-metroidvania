@@ -265,8 +265,4 @@ public class Throwable : MonoBehaviour {
     transform.parent.position = new Vector2(bounceX - (objectRenderer.bounds.size.x * 2), bounceY - objectRenderer.bounds.size.y);
     transform.position = Vector2.zero;
   }
-
-  public void testRunning() {
-    Debug.Log("test");
-  }
 }
