@@ -69,7 +69,7 @@ public class Throwable : MonoBehaviour {
 
     ThrowableObject currentThrowable = Objects.throwableObjects[type];
 
-    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance" && type != "bomb") {
+    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance" && type != "bomb" && type != "knife") {
       hitBounds.offset = currentThrowable.colliderOffset;
       hitBounds.size = currentThrowable.colliderSize;
 
@@ -117,6 +117,11 @@ public class Throwable : MonoBehaviour {
     if (type == "bomb") {
       anim.Play("bomb" + (isFacingLeft ? "-left" : ""));
     }
+
+    if (type == "knife") {
+      DestroyExtra();
+      anim.Play("knife" + (isFacingLeft ? "-left" : ""));
+    }
   }
 
   void Update() {
@@ -125,7 +130,7 @@ public class Throwable : MonoBehaviour {
       DestroyThrowable();
     }
 
-    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance" && type != "bomb") {
+    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance" && type != "bomb" && type != "knife") {
       if (!hasCollided) {
         if (!mustFall) {
           float newX = direction * distanceMultiplier * transitionIncrement;
@@ -198,7 +203,7 @@ public class Throwable : MonoBehaviour {
     } else {
       if (mustBounce) {
         anim.speed = 0;
-        anim.Play("bounce-back" + (isFacingLeft ? "-right" : ""));
+        anim.Play("bounce-back" + (type == "knife" ? "-small": "")  + (isFacingLeft ? "-right" : ""));
         anim.speed = 1;
       }
     }
@@ -208,7 +213,7 @@ public class Throwable : MonoBehaviour {
     if (type == "king-bone" && throwableCollider.tag == "EnemyWeapon") {
       newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier) * (isFacingLeft ? -1 : 1) * (mustBounce ? -4 : 1);
       transform.rotation = Quaternion.Euler(0, 0, newAngle);
-    } else if (type == "lance") {
+    } else if (type == "lance" || type == "knife") {
       if (!mustBounce) {
         if (hasCollided) {
           float ellapsedCollideTime = (Time.time * 1000) - collideTime;
@@ -224,13 +229,15 @@ public class Throwable : MonoBehaviour {
           }
         }
       } else {
-        newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier) * (isFacingLeft ? -1 : 1) * (mustBounce ? -2 : 1);
+        newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier) * (isFacingLeft ? -1 : 1) * (mustBounce ? -2 : 1) * (type == "knife" ? 2 : 1);
         transform.rotation = Quaternion.Euler(0, 0, newAngle);
         objectRenderer.sprite = bounceSprite;
       }
     }
 
-    transitionIncrement++;
+    if (type == "king-bone" || mustBounce) {
+      transitionIncrement++;
+    }
   }
 
   public void DestroyExtra() {

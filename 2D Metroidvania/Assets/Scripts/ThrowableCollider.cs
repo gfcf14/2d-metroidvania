@@ -20,7 +20,7 @@ public class ThrowableCollider : MonoBehaviour {
     Throwable parentThrowable = parentObject.GetComponent<Throwable>();
 
     if (colliderTag == "Ground") {
-      if (parentThrowable.type == "lance") {
+      if (parentThrowable.type == "lance" || parentThrowable.type == "knife") {
         parentThrowable.hasCollided = true;
         parentThrowable.collideTime = Time.time * 1000;
         parentThrowable.StopAndFade();
