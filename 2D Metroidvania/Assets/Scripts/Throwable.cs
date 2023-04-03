@@ -69,7 +69,7 @@ public class Throwable : MonoBehaviour {
 
     ThrowableObject currentThrowable = Objects.throwableObjects[type];
 
-    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance" && type != "bomb" && type != "knife" && type != "kunai" && type != "shuriken-4" && type != "shuriken-6") {
+    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance" && type != "bomb" && type != "knife" && type != "kunai" && type != "shuriken-4" && type != "shuriken-6" && type != "hatchet") {
       hitBounds.offset = currentThrowable.colliderOffset;
       hitBounds.size = currentThrowable.colliderSize;
 
@@ -137,6 +137,11 @@ public class Throwable : MonoBehaviour {
       DestroyExtra();
       anim.Play("shuriken-6" + (isFacingLeft ? "-left" : ""));
     }
+
+    if (type == "hatchet") {
+      DestroyExtra();
+      anim.Play("hatchet" + (isFacingLeft ? "-left" : ""));
+    }
   }
 
   void Update() {
@@ -145,7 +150,7 @@ public class Throwable : MonoBehaviour {
       DestroyThrowable();
     }
 
-    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance" && type != "bomb" && type != "knife" && type != "kunai" && type != "shuriken-4" && type != "shuriken-6") {
+    if (!(type == "king-bone" && throwableCollider.tag == "EnemyWeapon") && type != "lance" && type != "bomb" && type != "knife" && type != "kunai" && type != "shuriken-4" && type != "shuriken-6" && type != "hatchet") {
       if (!hasCollided) {
         if (!mustFall) {
           float newX = direction * distanceMultiplier * transitionIncrement;
@@ -225,12 +230,12 @@ public class Throwable : MonoBehaviour {
   }
 
   void LateUpdate() {
-    if ((type == "king-bone" && throwableCollider.tag == "EnemyWeapon") || (type == "shuriken-4" || type == "shuriken-6" && (!hasCollided || hasCollided && mustBounce))) {
+    if ((type == "king-bone" && throwableCollider.tag == "EnemyWeapon") || (type == "shuriken-4" || type == "shuriken-6" || type == "hatchet" && (!hasCollided || hasCollided && mustBounce))) {
       newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier) * (isFacingLeft ? -1 : 1) * (mustBounce ? -4 : 1);
       transform.rotation = Quaternion.Euler(0, 0, newAngle);
     }
 
-    if (type == "lance" || type == "knife"  || type == "kunai" || type == "shuriken-4" || type == "shuriken-6") {
+    if (type == "lance" || type == "knife"  || type == "kunai" || type == "shuriken-4" || type == "shuriken-6" || type == "hatchet") {
       if (!mustBounce) {
         if (hasCollided) {
           float ellapsedCollideTime = (Time.time * 1000) - collideTime;
@@ -252,7 +257,7 @@ public class Throwable : MonoBehaviour {
       }
     }
 
-    if ((type == "king-bone" || type == "shuriken-4" || type == "shuriken-6") || mustBounce) {
+    if ((type == "king-bone" || type == "shuriken-4" || type == "shuriken-6" || type == "hatchet") || mustBounce) {
       transitionIncrement++;
     }
   }
