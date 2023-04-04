@@ -9,10 +9,6 @@ public class Helpers {
 	  return Damages.weaponDamages[weaponWielded].damage;
   }
 
-  public static bool IsGroundThrowable(string type) {
-    return IsValueInArray(Constants.groundThrowables, type);
-  }
-
   public static bool IsNonBouncingThrowable(string type) {
     return IsValueInArray(Constants.nonBouncingThrowables, type);
   }

@@ -30,25 +30,6 @@ public class ThrowableCollider : MonoBehaviour {
           parentThrowable.bounceY = col.ClosestPoint(transform.position).y;
           parentThrowable.Explode();
         }
-      } else {
-        bool isBottomCollision = IsBottomCollision(col);
-
-        if (Helpers.IsGroundThrowable(parentThrowable.type) && !parentThrowable.hasCollided) {
-          if (parentThrowable.type == "bomb") {
-            parentThrowable.anim.speed = 0;
-
-            if (!isBottomCollision) {
-              parentThrowable.mustFall = true;
-            }
-          }
-
-          if (Helpers.IsNonBouncingThrowable(parentThrowable.type) || (parentThrowable.type == "bomb" && isBottomCollision)) {
-            parentThrowable.hasCollided = true;
-            parentThrowable.collideTime = Time.time * 1000;
-            // ensures the rigidbody, which enables throwable-to-throwable collision, is removed so the object sticks to the ground
-            Destroy(parentObject.GetComponent<Rigidbody2D>());
-          }
-        }
       }
     } else if ((gameObject.tag == "EnemyWeapon" && Helpers.IsValueInArray(Constants.enemyThrowableBouncers, colliderTag)) || (gameObject.tag == "Weapon" && colliderTag == "EnemyWeapon")) {
       if (colliderTag == "Hero") {
