@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Throwable : MonoBehaviour {
@@ -18,17 +16,13 @@ public class Throwable : MonoBehaviour {
   [System.NonSerialized] public bool isExploding = false;
 
   [System.NonSerialized] public int transitionIncrement = 0;
-  [System.NonSerialized] public int gravityResistance = 0;
   [System.NonSerialized] public int distance = 0;
 
   [System.NonSerialized] public float bounceRotationMultiplier = 3;
   [System.NonSerialized] public float bounceX;
   [System.NonSerialized] public float bounceY;
   [System.NonSerialized] public float newAngle;
-  [System.NonSerialized] public float startX;
-  [System.NonSerialized] public float startY;
   [System.NonSerialized] public float maxDistance;
-  [System.NonSerialized] public float distanceMultiplier = 0.0125f;
   [System.NonSerialized] public float collideTime;
   [System.NonSerialized] public float maxEllapsedCollideTime = 1500f;
 
@@ -36,20 +30,15 @@ public class Throwable : MonoBehaviour {
 
   float initialAngle;
   float rotationAngle;
-  int direction;
 
   void Start() {
     anim = GetComponent<Animator>();
     objectRenderer = GetComponent<SpriteRenderer>();
     throwableCollider = transform.Find("ThrowableCollider").gameObject;
-    hitBounds = throwableCollider.GetComponent<CapsuleCollider2D>();
-    extraSprite = transform.Find("Extra").gameObject;
-    direction = isFacingLeft ? -1 : 1;
-
-    ThrowableObject currentThrowable = Objects.throwableObjects[type];
 
     // TODO: remove extra component once bomb sprites are modified to include spark in them
-    DestroyExtra();
+      extraSprite = transform.Find("Extra").gameObject;
+      DestroyExtra();
 
     if (Helpers.IsValueInArray(Constants.angledThrowables, type)) {
       initialAngle = 45 * (isFacingLeft ? 1 : -1);

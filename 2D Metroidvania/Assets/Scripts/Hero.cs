@@ -844,17 +844,13 @@ public class Hero : MonoBehaviour {
   void StartThrow() {
     string throwableType = Helpers.GetPauseItemKeyByName(Objects.pauseItems[isThrowing == 1 ? arm1Equipment : arm2Equipment].name);
 
-    ThrowableObject currentThrowable = Objects.throwableObjects[throwableType];
-    float throwableX = transform.position.x + ((isFacingLeft ? -1 : 1) * heroWidth * currentThrowable.startX);
-    float throwableY = transform.position.y + (heroHeight * currentThrowable.startY);
+    float throwableX = transform.position.x + ((isFacingLeft ? -1 : 1) * heroWidth * (throwableType == "axe" ? 0 : 1));
+    float throwableY = transform.position.y + (heroHeight * (throwableType == "axe" ? 0.5f : 1));
 
     GameObject throwableWeapon = Instantiate(Objects.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
     Throwable throwableInstance = throwableWeapon.transform.Find("Throwable").gameObject.GetComponent<Throwable>();
 
     throwableInstance.isFacingLeft = isFacingLeft;
-    throwableInstance.maxDistance = currentThrowable.maxDistance;
-    throwableInstance.startX = throwableX;
-    throwableInstance.startY = throwableY;
     throwableInstance.type = throwableType;
   }
 

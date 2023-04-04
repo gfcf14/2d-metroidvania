@@ -555,18 +555,14 @@ public class Enemy : MonoBehaviour {
   }
 
   public void ThrowWeapon(float distance) {
-    ThrowableObject currentThrowable = Objects.throwableObjects["king-bone"];
-    float throwableX = transform.position.x + ((isFacingLeft ? -1 : 1) * enemyWidth + currentThrowable.startX);
-    float throwableY = transform.position.y + (enemyWidth + currentThrowable.startY);
+    float throwableX = transform.position.x + ((isFacingLeft ? -1 : 1) * enemyWidth);
+    float throwableY = transform.position.y + (enemyWidth);
 
     GameObject throwableWeapon = Instantiate(Objects.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
     GameObject throwableObject = throwableWeapon.transform.Find("Throwable").gameObject;
     Throwable throwableInstance = throwableObject.GetComponent<Throwable>();
 
     throwableInstance.isFacingLeft = isFacingLeft;
-    // throwableInstance.maxDistance = distance;
-    // throwableInstance.startX = throwableX;
-    // throwableInstance.startY = throwableY;
     throwableInstance.type = "king-bone";
     throwableInstance.distance = (int)distance < minimumThrowDistance ? 3 : (int)distance;
 
