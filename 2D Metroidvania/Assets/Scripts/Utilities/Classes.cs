@@ -8,14 +8,6 @@ public class WeaponDamage {
   // TODO: include property for when a weapon is allowed to damage so long as collision happens, not just on enter
 }
 
-public class ArrowObject {
-  public Sprite sprite;
-
-  public bool hasExtra;
-
-  public int gravityResistance;
-}
-
 public class Item {
   public string key { get; set; }
   public int amount { get; set; }

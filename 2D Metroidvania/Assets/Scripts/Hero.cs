@@ -179,9 +179,8 @@ public class Hero : MonoBehaviour {
   public int dummyShieldHP = 5;
   public float dummyShieldRecoverTime = 2000;
 
-  private GameObject currentArrow;
   private GameObject arrowAnchor;
-  private Arrow arrowInstance;
+  private Arrow arrowScript;
   private GameObject arrowMask;
 
   public bool isPaused;
@@ -904,12 +903,13 @@ public class Hero : MonoBehaviour {
   // }
 
   void CreateArrow() {
-    currentArrow = Instantiate(Objects.prefabs["arrow"], arrowAnchor.transform.position, Quaternion.identity);
-    arrowInstance = currentArrow.GetComponent<Arrow>();
-    arrowMask = currentArrow.transform.Find("Mask").gameObject;
+    GameObject currentArrow = Instantiate(Objects.prefabs["arrow"], new Vector3(arrowAnchor.transform.position.x, arrowAnchor.transform.position.y + 0.2f, arrowAnchor.transform.position.z), Quaternion.identity);
+    GameObject arrowInstance = currentArrow.transform.Find("Arrow").gameObject;
+    arrowScript = arrowInstance.GetComponent<Arrow>();
+    arrowMask = arrowInstance.transform.Find("Mask").gameObject;
 
-    arrowInstance.isFacingLeft = isFacingLeft;
-    arrowInstance.type = projectileEquipment;
+    arrowScript.isFacingLeft = isFacingLeft;
+    arrowScript.type = projectileEquipment;
   }
 
   void ShowCurrentArrowMask() {
@@ -918,7 +918,7 @@ public class Hero : MonoBehaviour {
 
   void FireArrow() {
     Destroy(arrowMask);
-    arrowInstance.hasFired = true;
+    arrowScript.hasFired = true;
   }
 
   void ClearShootingPull() {

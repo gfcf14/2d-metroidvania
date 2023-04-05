@@ -24,10 +24,10 @@ public class Objects {
     {"throwable", Resources.Load("Prefabs/Throwable") as GameObject}
   };
 
-  public static Dictionary<string, ArrowObject> arrows = new Dictionary<string, ArrowObject> {
-    {"arrow-fire", new ArrowObject() {sprite = Resources.Load<Sprite>("Sprites/arrow-fire"), hasExtra = true, gravityResistance = 6}},
-    {"arrow-poison", new ArrowObject() {sprite = Resources.Load<Sprite>("Sprites/arrow-poison"), hasExtra = false, gravityResistance = 8}},
-    {"arrow-standard", new ArrowObject() {sprite = Resources.Load<Sprite>("Sprites/arrow-standard"), hasExtra = false, gravityResistance = 10}}
+  public static Dictionary<string, Sprite> arrows = new Dictionary<string, Sprite> {
+    {"arrow-fire", Resources.Load<Sprite>("Sprites/arrow-fire")},
+    {"arrow-poison", Resources.Load<Sprite>("Sprites/arrow-poison")},
+    {"arrow-standard", Resources.Load<Sprite>("Sprites/arrow-standard")}
   };
 
   public static Dictionary<string, string[]> itemProjectiles = new Dictionary<string, string[]> {

@@ -18,6 +18,7 @@ public class ArrowCollider : MonoBehaviour {
       if (!parentArrow.hasCollided) {
         parentArrow.hasCollided = true;
         parentArrow.collideTime = Time.time * 1000;
+        parentArrow.StopAndFade();
       }
     } else if (colliderTag == "Enemy" || colliderTag == "Breakable") {
       Vector2 collisionPoint = col.ClosestPoint(transform.position);
