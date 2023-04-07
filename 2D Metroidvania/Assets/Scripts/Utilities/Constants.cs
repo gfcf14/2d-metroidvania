@@ -54,6 +54,11 @@ public class Constants {
   // Used to set a width per character for the Info Canvas
   public static int characterWidth = 23;
 
+  public static float[] HurtBTransitions = {0.009155554f, 0.01235556f, 0.01528889f, 0.01795555f, 0.02035556f, 0.02248894f, 0.0243555f,
+                                            0.0259556f, 0.0272888f, 0.0283556f, 0.0291556f, 0.0296888f, 0.0299556f, 0.0299556f, 0.0296889f,
+                                            0.0291556f, 0.0283554f, 0.027289f, 0.0259555f, 0.0243556f, 0.0224889f, 0.0203555f, 0.0179556f,
+                                            0.0152889f, 0.0123555f, 0.0091556f, 0.0056889f, 0.0019555f};
+
   public static float startItemY = 375;
   public static float itemIncrementY = 60;
 

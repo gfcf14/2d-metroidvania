@@ -44,6 +44,7 @@ public class Hero : MonoBehaviour {
   public float throwbackHeight = 0;
 
   public int isHurt = 0;
+  public int hurtCounter = 0; // to increment/decrement position by mapping
   public int isDead = 0;
 
   public bool isDefending = false;
@@ -508,34 +509,38 @@ public class Hero : MonoBehaviour {
           } else {
             transform.position = new Vector2(transform.position.x + (isFacingLeft ? 1 : -1) * 0.01f, currentYPosition);
           }
+
+          float xIncrement = hurtCounter >= Constants.HurtBTransitions.Length ? 0 : Constants.HurtBTransitions[hurtCounter];
+          transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * xIncrement * (hurtFromBehind ? -1 : 1)), currentYPosition);
+          hurtCounter++;
         }
 
-        if (isHurt == 3) {
-          if (throwbackHeight != 0 && transform.position.y < (currentYPosition + throwbackHeight)) {
-            body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) / 2, jumpHeight * 0.75f);
-          } else {
-            throwbackHeight = 0;
-            body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) * 1.25f, - jumpHeight * 0.5f);
-          }
-          // body.velocity = Vector2.zero;
+        // if (isHurt == 3) {
+        //   if (throwbackHeight != 0 && transform.position.y < (currentYPosition + throwbackHeight)) {
+        //     body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) / 2, jumpHeight * 0.75f);
+        //   } else {
+        //     throwbackHeight = 0;
+        //     body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) * 1.25f, - jumpHeight * 0.5f);
+        //   }
+        //   // body.velocity = Vector2.zero;
 
-          // if (throwbackHeight != 0) {
-          //   bool exceedsThrowbackHeight = transform.position.y < (currentYPosition + throwbackHeight);
-          //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.05f), transform.position.y + (0.25f * (exceedsThrowbackHeight ? 1 : -1)));
-            // if (transform.position.y > (currentYPosition - throwbackHeight)) {
-            //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
-            // } else {
-            //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
-            // }
-          // }
+        //   // if (throwbackHeight != 0) {
+        //   //   bool exceedsThrowbackHeight = transform.position.y < (currentYPosition + throwbackHeight);
+        //   //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.05f), transform.position.y + (0.25f * (exceedsThrowbackHeight ? 1 : -1)));
+        //     // if (transform.position.y > (currentYPosition - throwbackHeight)) {
+        //     //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
+        //     // } else {
+        //     //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
+        //     // }
+        //   // }
 
-          // if (throwbackHeight != 0 && transform.position.y > (currentYPosition - throwbackHeight)) {
-          //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
-          // } else {
-          //   throwbackHeight = 0;
-          //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
-          // }
-        }
+        //   // if (throwbackHeight != 0 && transform.position.y > (currentYPosition - throwbackHeight)) {
+        //   //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
+        //   // } else {
+        //   //   throwbackHeight = 0;
+        //   //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
+        //   // }
+        // }
 
         // jumping
         if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
@@ -829,6 +834,7 @@ public class Hero : MonoBehaviour {
   void PlayerHurt(int hurtLevel) {
     body.velocity = Vector2.zero;
     isHurt = hurtLevel;
+    hurtCounter = 0;
 
     if (hurtLevel > 1) {
       currentXPosition = transform.position.x;
