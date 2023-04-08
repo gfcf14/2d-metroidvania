@@ -504,43 +504,24 @@ public class Hero : MonoBehaviour {
         }
 
         if (isHurt == 2 && isGrounded) {
-          if (hurtFromBehind) {
-            transform.position = new Vector2(transform.position.x + (isFacingLeft ? -1 : 1) * 0.01f, currentYPosition);
-          } else {
-            transform.position = new Vector2(transform.position.x + (isFacingLeft ? 1 : -1) * 0.01f, currentYPosition);
-          }
-
           float xIncrement = hurtCounter >= Constants.HurtBTransitions.Length ? 0 : Constants.HurtBTransitions[hurtCounter];
           transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * xIncrement * (hurtFromBehind ? -1 : 1)), currentYPosition);
           hurtCounter++;
         }
 
-        // if (isHurt == 3) {
-        //   if (throwbackHeight != 0 && transform.position.y < (currentYPosition + throwbackHeight)) {
-        //     body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) / 2, jumpHeight * 0.75f);
-        //   } else {
-        //     throwbackHeight = 0;
-        //     body.velocity = new Vector2(jumpHeight * (isFacingLeft ? 1 : -1) * 1.25f, - jumpHeight * 0.5f);
-        //   }
-        //   // body.velocity = Vector2.zero;
+        if (isHurt == 3) {
+          body.gravityScale = 0;
+          // TODO: modulus operation is done to avoid ultra-fast transition. Fix this when transitions are moved to the FixedUpdate function
+          if (hurtCounter % 8 == 0) {
+            int index = hurtCounter / 8;
+            float xIncrement =  Constants.hurtCXTransitions[index >= Constants.hurtCXTransitions.Length ? Constants.hurtCXTransitions.Length - 1 : index];
+            float yIncrement =  Constants.hurtCYTransitions[index >= Constants.hurtCYTransitions.Length ? Constants.hurtCYTransitions.Length - 1 : index];
 
-        //   // if (throwbackHeight != 0) {
-        //   //   bool exceedsThrowbackHeight = transform.position.y < (currentYPosition + throwbackHeight);
-        //   //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.05f), transform.position.y + (0.25f * (exceedsThrowbackHeight ? 1 : -1)));
-        //     // if (transform.position.y > (currentYPosition - throwbackHeight)) {
-        //     //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
-        //     // } else {
-        //     //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
-        //     // }
-        //   // }
+            transform.position = new Vector2(currentXPosition + (xIncrement * (isFacingLeft ? -1 : 1) * (hurtFromBehind ? -1 : 1)), currentYPosition + yIncrement);
+          }
 
-        //   // if (throwbackHeight != 0 && transform.position.y > (currentYPosition - throwbackHeight)) {
-        //   //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y + 0.5f);
-        //   // } else {
-        //   //   throwbackHeight = 0;
-        //   //   transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * 0.5f), transform.position.y - 0.5f);
-        //   // }
-        // }
+          hurtCounter++;
+        }
 
         // jumping
         if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
@@ -861,6 +842,7 @@ public class Hero : MonoBehaviour {
 
   void Recover() {
     isHurt = 0;
+    body.gravityScale = 1;
   }
 
   void ClearPunch() {
@@ -1048,7 +1030,7 @@ public class Hero : MonoBehaviour {
           horizontalCollision = false;
           isDropKicking = false;
 
-          if (isHurt == 3 && throwbackHeight == 0) {
+          if (isHurt == 3) {
             Recover();
           }
 
