@@ -512,8 +512,8 @@ public class Hero : MonoBehaviour {
         if (isHurt == 3) {
           body.gravityScale = 0;
           // TODO: modulus operation is done to avoid ultra-fast transition. Fix this when transitions are moved to the FixedUpdate function
-          if (hurtCounter % 8 == 0) {
-            int index = hurtCounter / 8;
+          if (hurtCounter % 4 == 0) {
+            int index = hurtCounter / 4;
             float xIncrement =  Constants.hurtCXTransitions[index >= Constants.hurtCXTransitions.Length ? Constants.hurtCXTransitions.Length - 1 : index];
             float yIncrement =  Constants.hurtCYTransitions[index >= Constants.hurtCYTransitions.Length ? Constants.hurtCYTransitions.Length - 1 : index];
 
