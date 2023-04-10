@@ -19,12 +19,13 @@ public class Patroller : MonoBehaviour {
     if (enemy.hero != null && enemy.hero.pauseCase == "") {
       // PATROLLER DEAD
         if (enemy.isDead) {
-          if (enemy.attackedFromBehind) {
-            // transform.position = new Vector2(transform.position.x + (isFacingLeft ? -1 : 1) * 0.05f, transform.position.y + 0.02f);
-            transform.position = new Vector3(enemy.deadPosition.x + enemy.deadAnimationIncrement * 0.025f * (enemy.isFacingLeft ? -1 : 1), enemy.deadPosition.y + 0.01f * enemy.deadAnimationIncrement);
-          } else {
-            // transform.position = new Vector2(transform.position.x + (isFacingLeft ? 1 : -1) * 0.05f, transform.position.y + 0.02f);
-            transform.position = new Vector3(enemy.deadPosition.x + enemy.deadAnimationIncrement * 0.025f * (enemy.isFacingLeft ? 1 : -1), enemy.deadPosition.y + 0.01f * enemy.deadAnimationIncrement);
+          // TODO: modulus operation is done to avoid ultra-fast transition. Fix this when transitions are moved to the FixedUpdate function
+          if (enemy.deadAnimationIncrement % 2 == 0) {
+            int index = enemy.deadAnimationIncrement / 2;
+            float xIncrement = Constants.enemyDeathXTransitions[index >= Constants.enemyDeathXTransitions.Length ? Constants.enemyDeathXTransitions.Length - 1 : index];
+            float yIncrement = Constants.enemyDeathYTransitions[index >= Constants.enemyDeathYTransitions.Length ? Constants.enemyDeathYTransitions.Length - 1 : index];
+
+            transform.position = new Vector2(enemy.deadPosition.x + (xIncrement * (enemy.isFacingLeft ? -1 : 1) * (enemy.attackedFromBehind ? -1 : 1)), enemy.deadPosition.y + yIncrement);
           }
 
           enemy.deadAnimationIncrement++;
@@ -36,7 +37,7 @@ public class Patroller : MonoBehaviour {
             int direction = enemy.isFacingLeft ? -1 : 1;
 
             // MOVEMENT
-              if (!enemy.isDead && !enemy.isDeadByBurning && !enemy.isDeadByPoison && !enemy.isBurning && !enemy.isStunned) {
+              if (enemy.ShouldMove()) {
                 enemy.body.velocity = new Vector2(direction * enemy.speed, enemy.body.velocity.y);
               } else {
                 enemy.body.velocity = Vector2.zero;
