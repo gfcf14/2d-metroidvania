@@ -503,26 +503,6 @@ public class Hero : MonoBehaviour {
           body.velocity = new Vector2(0, body.velocity.y);
         }
 
-        if (isHurt == 2 && isGrounded) {
-          float xIncrement = hurtCounter >= Constants.HurtBTransitions.Length ? 0 : Constants.HurtBTransitions[hurtCounter];
-          transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * xIncrement * (hurtFromBehind ? -1 : 1)), currentYPosition);
-          hurtCounter++;
-        }
-
-        if (isHurt == 3) {
-          body.gravityScale = 0;
-          // TODO: modulus operation is done to avoid ultra-fast transition. Fix this when transitions are moved to the FixedUpdate function
-          if (hurtCounter % 4 == 0) {
-            int index = hurtCounter / 4;
-            float xIncrement =  Constants.hurtCXTransitions[index >= Constants.hurtCXTransitions.Length ? Constants.hurtCXTransitions.Length - 1 : index];
-            float yIncrement =  Constants.hurtCYTransitions[index >= Constants.hurtCYTransitions.Length ? Constants.hurtCYTransitions.Length - 1 : index];
-
-            transform.position = new Vector2(currentXPosition + (xIncrement * (isFacingLeft ? -1 : 1) * (hurtFromBehind ? -1 : 1)), currentYPosition + yIncrement);
-          }
-
-          hurtCounter++;
-        }
-
         // jumping
         if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
           if (isGrounded) {
@@ -718,6 +698,32 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isClashing", isClashing);
   }
 
+  void FixedUpdate() {
+    if (isHurt == 2 && isGrounded) {
+      float xIncrement = hurtCounter >= Constants.HurtBTransitions.Length ? 0 : Constants.HurtBTransitions[hurtCounter];
+      transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * xIncrement * (hurtFromBehind ? -1 : 1)), currentYPosition);
+      hurtCounter++;
+    }
+
+    if (isHurt == 3) {
+      if (body.gravityScale == 1) {
+        body.gravityScale = 0;
+      }
+
+      if (body.interpolation == RigidbodyInterpolation2D.Interpolate) {
+        body.interpolation = RigidbodyInterpolation2D.Extrapolate;
+      }
+
+      int index = hurtCounter;
+      float xIncrement =  Constants.hurtCXTransitions[hurtCounter >= Constants.hurtCXTransitions.Length ? Constants.hurtCXTransitions.Length - 1 : hurtCounter];
+      float yIncrement =  Constants.hurtCYTransitions[hurtCounter >= Constants.hurtCYTransitions.Length ? Constants.hurtCYTransitions.Length - 1 : hurtCounter];
+
+      transform.position = new Vector2(currentXPosition + (xIncrement * (isFacingLeft ? -1 : 1) * (hurtFromBehind ? -1 : 1)), currentYPosition + yIncrement);
+
+      hurtCounter++;
+    }
+  }
+
   void DecideAttackType(string armEquipment, int armIndex) {
     armUsed = armIndex;
 
@@ -843,6 +849,7 @@ public class Hero : MonoBehaviour {
   void Recover() {
     isHurt = 0;
     body.gravityScale = 1;
+    body.interpolation = RigidbodyInterpolation2D.Interpolate;
   }
 
   void ClearPunch() {
