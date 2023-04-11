@@ -17,20 +17,6 @@ public class Patroller : MonoBehaviour {
 
   void Update() {
     if (enemy.hero != null && enemy.hero.pauseCase == "") {
-      // PATROLLER DEAD
-        if (enemy.isDead) {
-          // TODO: modulus operation is done to avoid ultra-fast transition. Fix this when transitions are moved to the FixedUpdate function
-          if (enemy.deadAnimationIncrement % 2 == 0) {
-            int index = enemy.deadAnimationIncrement / 2;
-            float xIncrement = Constants.enemyDeathXTransitions[index >= Constants.enemyDeathXTransitions.Length ? Constants.enemyDeathXTransitions.Length - 1 : index];
-            float yIncrement = Constants.enemyDeathYTransitions[index >= Constants.enemyDeathYTransitions.Length ? Constants.enemyDeathYTransitions.Length - 1 : index];
-
-            transform.position = new Vector2(enemy.deadPosition.x + (xIncrement * (enemy.isFacingLeft ? -1 : 1) * (enemy.attackedFromBehind ? -1 : 1)), enemy.deadPosition.y + yIncrement);
-          }
-
-          enemy.deadAnimationIncrement++;
-        }
-
       // PATROLLER MOVEMENT
         if (!enemy.needsCoolDown) {
           if (enemy.isWalking && !enemy.isAttacking) {
@@ -92,6 +78,21 @@ public class Patroller : MonoBehaviour {
             enemy.needsCoolDown = false;
             enemy.playerFound = false;
           }
+        }
+    }
+  }
+
+  void FixedUpdate() {
+    if (enemy.hero != null && enemy.hero.pauseCase == "") {
+      // PATROLLER DEAD
+        if (enemy.isDead) {
+          int index = enemy.deadAnimationIncrement;
+          float xIncrement = Constants.enemyDeathXTransitions[index >= Constants.enemyDeathXTransitions.Length ? Constants.enemyDeathXTransitions.Length - 1 : index];
+          float yIncrement = Constants.enemyDeathYTransitions[index >= Constants.enemyDeathYTransitions.Length ? Constants.enemyDeathYTransitions.Length - 1 : index];
+
+          transform.position = new Vector2(enemy.deadPosition.x + (xIncrement * (enemy.isFacingLeft ? -1 : 1) * (enemy.attackedFromBehind ? -1 : 1)), enemy.deadPosition.y + yIncrement);
+
+          enemy.deadAnimationIncrement++;
         }
     }
   }
