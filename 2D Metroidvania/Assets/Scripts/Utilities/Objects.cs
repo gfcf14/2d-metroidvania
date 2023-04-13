@@ -87,6 +87,7 @@ public class Objects {
     {"breakable", Resources.Load("Animations/Breakables/Breakable") as RuntimeAnimatorController},
     {"hero-1", Resources.Load("Animations/Hero/Hero-1") as RuntimeAnimatorController},
     {"hero-1-movement", Resources.Load("Animations/Hero/Hero-1-Movement") as RuntimeAnimatorController},
+    {"goblin-1", Resources.Load("Animations/Enemy/goblin-1/goblin-1") as RuntimeAnimatorController},
     {"skeleton-1", Resources.Load("Animations/Enemy/skeleton-1/skeleton-1") as RuntimeAnimatorController},
     {"skeleton-king", Resources.Load("Animations/Enemy/skeleton-king/skeleton-king") as RuntimeAnimatorController}
   };
@@ -104,6 +105,7 @@ public class Objects {
   };
 
   public static Dictionary<string, EnemyStats> enemyStats = new Dictionary<string, EnemyStats> {
+    {"goblin-1", new EnemyStats() {name = "Goblin Lvl 1", type = "patroller", hp = 80, atk = 40, def = 30, crit = 0.015f, exp = 60, speed= 3, reach = 0.5f}},
     {"skeleton-1", new EnemyStats() {name = "Skeleton Lvl 1", type = "patroller", hp = 100, atk = 20, def = 10, crit = 0.01f, exp = 30, speed= 3, reach = 0.5f}},
     {"skeleton-king", new EnemyStats() {name = "Skeleton King", type = "champion", hp = 300, atk = 60, def = 30, crit = 0.15f, exp = 100, speed= 2, reach = 1}}
   };

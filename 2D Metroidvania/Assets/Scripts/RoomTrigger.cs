@@ -13,6 +13,7 @@ public class RoomTrigger : MonoBehaviour {
         if (child.tag == "EnemySpawner") {
           GameObject enemySpawned = Instantiate(Objects.prefabs["enemy"], new Vector3(child.transform.position.x, child.transform.position.y, 0), Quaternion.identity);
           enemySpawned.transform.SetParent(transform);
+          enemySpawned.GetComponent<Enemy>().key = Constants.meadowEnemies[0];
         } else if (child.tag == "Enemy" && child.name == "Boss") {
           child.gameObject.GetComponent<Enemy>().isOnCamera = true;
         }
