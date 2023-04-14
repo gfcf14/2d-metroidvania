@@ -114,7 +114,7 @@ public class Enemy : MonoBehaviour {
     enemyRenderer.color = enemyColor;
 
     EnemyStats enemyStats = Objects.enemyStats[key];
-    EnemyName = enemyStats.name;
+    EnemyName = enemyStats.name + " Lvl " + level;
     type = enemyStats.type;
     atk = enemyStats.atk;
     def = enemyStats.def;
@@ -594,9 +594,9 @@ public class Enemy : MonoBehaviour {
       GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
     }
 
-    if (key == "skeleton-king") {
-      string guiLabel = "Attacks received: " + attacksReceived + "\n";
-      GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
-    }
+    // if (key == "skeleton-king") {
+    //   string guiLabel = "Attacks received: " + attacksReceived + "\n";
+    //   GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
+    // }
   }
 }
