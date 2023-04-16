@@ -156,8 +156,11 @@ public class Enemy : MonoBehaviour {
 
         foreach (string state in Constants.patrollerStates) {
           AnimatorController  animController = anim.runtimeAnimatorController as AnimatorController;
+          AnimatorController resourceController = GameObject.Find("UnityHelpers").gameObject.GetComponent<Animator>().runtimeAnimatorController as AnimatorController;
+
           AnimatorState animState = animController.layers[0].stateMachine.states.FirstOrDefault(s => s.state.nameHash == Animator.StringToHash(state)).state;
-          AnimatorState resourceState = animController.layers[0].stateMachine.states.FirstOrDefault(s => s.state.nameHash == Animator.StringToHash(key + "_" + state)).state;
+          // AnimatorState resourceState = animController.layers[0].stateMachine.states.FirstOrDefault(s => s.state.nameHash == Animator.StringToHash(key + "_" + state)).state;
+          AnimatorState resourceState = resourceController.layers[0].stateMachine.states.FirstOrDefault(s => s.state.nameHash == Animator.StringToHash(key + "_" + state)).state;
 
           animState.motion = resourceState.motion;
         }
