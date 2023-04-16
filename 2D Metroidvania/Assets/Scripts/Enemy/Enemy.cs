@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.Animations;
+using System.Linq;
 
 public class Enemy : MonoBehaviour {
   // Serialized
@@ -131,7 +133,38 @@ public class Enemy : MonoBehaviour {
       gameObject.AddComponent<Champion>();
     }
 
-    anim.runtimeAnimatorController = Objects.animationControllers[key];
+    if (type != "champion") {
+      // perform a check for an enemy which has the same type and key, thus it has a prepared animator with states
+      bool animatorAlreadyExists = false;
+      // gets a list of all Enemies usable
+      GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy").Where(obj => obj.name.Contains("Enemy") && obj.name != "EnemyCollider").ToArray();
+
+      foreach (GameObject objectWithAnimator in enemyObjects) {
+        Enemy objectEnemyScript = objectWithAnimator.GetComponent<Enemy>();
+
+        // if it is not the current gameObject and the type and key are the same and the animator and runtimeAnimatorController are not null, make a copy of that object's animator controller
+        if (objectEnemyScript != gameObject && objectEnemyScript.type == type && objectEnemyScript.key == key && objectEnemyScript.GetComponent<Animator>() != null && objectEnemyScript.GetComponent<Animator>().runtimeAnimatorController != null) {
+          anim.runtimeAnimatorController = objectWithAnimator.GetComponent<Animator>().runtimeAnimatorController;
+          animatorAlreadyExists = true;
+          break;
+        }
+      }
+
+      // if no such object (same type and key) was found, instantiate a new copy and assign clips based on key to states
+      if (!animatorAlreadyExists) {
+        anim.runtimeAnimatorController = Instantiate(Objects.animationControllers[type]);
+
+        foreach (string state in Constants.patrollerStates) {
+          AnimatorController  animController = anim.runtimeAnimatorController as AnimatorController;
+          AnimatorState animState = animController.layers[0].stateMachine.states.FirstOrDefault(s => s.state.nameHash == Animator.StringToHash(state)).state;
+          AnimatorState resourceState = animController.layers[0].stateMachine.states.FirstOrDefault(s => s.state.nameHash == Animator.StringToHash(key + "_" + state)).state;
+
+          animState.motion = resourceState.motion;
+        }
+      }
+    } else {
+      anim.runtimeAnimatorController = Objects.animationControllers[key];
+    }
   }
 
   void Update() {
