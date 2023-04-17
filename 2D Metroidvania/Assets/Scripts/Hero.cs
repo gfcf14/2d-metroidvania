@@ -656,17 +656,6 @@ public class Hero : MonoBehaviour {
           }
         }
       }
-    } else {
-      if (isGrounded) {
-        isRunning = true;
-        body.velocity = new Vector2(5 * bossTransitionDirection, 0);
-      } else {
-        isFalling = true;
-        anim.Play("falling-1", -1, 0f);
-        if (mustTransitionOnAir) {
-          body.velocity = new Vector2(5 * bossTransitionDirection, 0);
-        }
-      }
     }
 
     // UNCOMMENT ALL THESE TO START TESTING FOR PROGRAMMATIC PLAY - use the Hero - Copy animator
@@ -699,28 +688,41 @@ public class Hero : MonoBehaviour {
   }
 
   void FixedUpdate() {
-    if (isHurt == 2 && isGrounded) {
-      float xIncrement = hurtCounter >= Constants.HurtBTransitions.Length ? 0 : Constants.HurtBTransitions[hurtCounter];
-      transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * xIncrement * (hurtFromBehind ? -1 : 1)), currentYPosition);
-      hurtCounter++;
-    }
-
-    if (isHurt == 3) {
-      if (body.gravityScale == 1) {
-        body.gravityScale = 0;
+    if (isAutonomous) {
+      if (isGrounded) {
+        isRunning = true;
+        body.velocity = new Vector2(5 * bossTransitionDirection, 0);
+      } else {
+        isFalling = true;
+        anim.Play("falling-1", -1, 0f);
+        if (mustTransitionOnAir) {
+          body.velocity = new Vector2(5 * bossTransitionDirection, 0);
+        }
+      }
+    } else {
+      if (isHurt == 2 && isGrounded) {
+        float xIncrement = hurtCounter >= Constants.HurtBTransitions.Length ? 0 : Constants.HurtBTransitions[hurtCounter];
+        transform.position = new Vector2(transform.position.x + ((isFacingLeft ? 1 : -1) * xIncrement * (hurtFromBehind ? -1 : 1)), currentYPosition);
+        hurtCounter++;
       }
 
-      if (body.interpolation == RigidbodyInterpolation2D.Interpolate) {
-        body.interpolation = RigidbodyInterpolation2D.Extrapolate;
+      if (isHurt == 3) {
+        if (body.gravityScale == 1) {
+          body.gravityScale = 0;
+        }
+
+        if (body.interpolation == RigidbodyInterpolation2D.Interpolate) {
+          body.interpolation = RigidbodyInterpolation2D.Extrapolate;
+        }
+
+        int index = hurtCounter;
+        float xIncrement =  Constants.hurtCXTransitions[hurtCounter >= Constants.hurtCXTransitions.Length ? Constants.hurtCXTransitions.Length - 1 : hurtCounter];
+        float yIncrement =  Constants.hurtCYTransitions[hurtCounter >= Constants.hurtCYTransitions.Length ? Constants.hurtCYTransitions.Length - 1 : hurtCounter];
+
+        transform.position = new Vector2(currentXPosition + (xIncrement * (isFacingLeft ? -1 : 1) * (hurtFromBehind ? -1 : 1)), currentYPosition + yIncrement);
+
+        hurtCounter++;
       }
-
-      int index = hurtCounter;
-      float xIncrement =  Constants.hurtCXTransitions[hurtCounter >= Constants.hurtCXTransitions.Length ? Constants.hurtCXTransitions.Length - 1 : hurtCounter];
-      float yIncrement =  Constants.hurtCYTransitions[hurtCounter >= Constants.hurtCYTransitions.Length ? Constants.hurtCYTransitions.Length - 1 : hurtCounter];
-
-      transform.position = new Vector2(currentXPosition + (xIncrement * (isFacingLeft ? -1 : 1) * (hurtFromBehind ? -1 : 1)), currentYPosition + yIncrement);
-
-      hurtCounter++;
     }
   }
 
@@ -846,7 +848,7 @@ public class Hero : MonoBehaviour {
     throwableInstance.type = throwableType;
   }
 
-  void Recover() {
+  public void Recover() {
     isHurt = 0;
     body.gravityScale = 1;
     body.interpolation = RigidbodyInterpolation2D.Interpolate;

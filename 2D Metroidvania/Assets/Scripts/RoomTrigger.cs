@@ -61,6 +61,7 @@ public class RoomTrigger : MonoBehaviour {
 
   IEnumerator PauseRoomWhileOnBossEntry() {
     yield return new WaitForSecondsRealtime(3);
+
     GameObject hero = GameObject.FindGameObjectWithTag("Hero");
     Hero heroScript = hero.GetComponent<Hero>();
 
