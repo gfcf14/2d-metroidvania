@@ -156,6 +156,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-128084569669891710
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: skeleton_death-by-burning
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 02102b49cd8bb0b40883be3ab81c2f09, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -256,6 +282,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &1263922058746740434
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: goblin_death-by-burning
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 563434687c543e647b615d28ab8449b2, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &1576668243523685622
 AnimatorState:
   serializedVersion: 6
@@ -348,7 +400,7 @@ AnimatorStateMachine:
     m_Position: {x: -390, y: -230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3082136355474209262}
-    m_Position: {x: -390, y: 200, z: 0}
+    m_Position: {x: -390, y: 250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6827512900808478337}
     m_Position: {x: -390, y: -100, z: 0}
@@ -360,13 +412,13 @@ AnimatorStateMachine:
     m_Position: {x: -390, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8010991267343768386}
-    m_Position: {x: -390, y: 50, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -4088441167548693374}
     m_Position: {x: -390, y: 100, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -4591436284059832096}
+    m_State: {fileID: -4088441167548693374}
     m_Position: {x: -390, y: 150, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -4591436284059832096}
+    m_Position: {x: -390, y: 200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1576668243523685622}
     m_Position: {x: -600, y: -100, z: 0}
@@ -378,16 +430,22 @@ AnimatorStateMachine:
     m_Position: {x: -600, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5315159171759332487}
-    m_Position: {x: -600, y: 50, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 7352310784111489309}
     m_Position: {x: -600, y: 100, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -6202701831237588337}
+    m_State: {fileID: 7352310784111489309}
     m_Position: {x: -600, y: 150, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 271306775070477058}
+    m_State: {fileID: -6202701831237588337}
     m_Position: {x: -600, y: 200, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 271306775070477058}
+    m_Position: {x: -600, y: 250, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1263922058746740434}
+    m_Position: {x: -390, y: 50, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -128084569669891710}
+    m_Position: {x: -600, y: 50, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

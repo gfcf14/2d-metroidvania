@@ -36,7 +36,7 @@ public class Constants {
 
   public static string[] meadowEnemies = {"goblin"};
 
-  public static string[] patrollerStates = {"attack", "burning", "death", "death-by-poison", "stunned", "stunned-on-attack", "walk"};
+  public static string[] patrollerStates = {"attack", "burning", "death", "death-by-burning", "death-by-poison", "stunned", "stunned-on-attack", "walk"};
 
   public static int arrowExplosionDamage = 50;
   public static int arrowPoisonDamage = 10;
