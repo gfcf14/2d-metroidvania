@@ -19,6 +19,7 @@ public class SummonEnergy : MonoBehaviour {
 
   public void SummonEnemy() {
     GameObject summonedEnemy = Instantiate(Objects.prefabs["enemy"], new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+    summonedEnemy.GetComponent<Enemy>().key = summonKey;
     summonedEnemy.transform.SetParent(currentRoom.transform);
   }
 

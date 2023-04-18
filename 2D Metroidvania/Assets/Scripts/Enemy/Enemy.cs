@@ -609,7 +609,7 @@ public class Enemy : MonoBehaviour {
 
   public void Summon() {
     GameObject summonEnergy = Instantiate(Objects.prefabs["summon-energy"], new Vector3(transform.position.x + (isFacingLeft ? -1 : 1), transform.position.y, 0), Quaternion.identity);
-    summonEnergy.GetComponent<SummonEnergy>().summonKey = "skeleton-1";
+    summonEnergy.GetComponent<SummonEnergy>().summonKey = "skeleton";
     summonEnergy.GetComponent<SummonEnergy>().currentRoom = transform.parent.gameObject;
   }
 
