@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour {
   // Properties
     [System.NonSerialized] public bool isFacingLeft = false;
     [System.NonSerialized] public bool needsCoolDown = false;
+    [System.NonSerialized] public bool diesFlying = false;
 
 
     [System.NonSerialized] public float attackedStart = 0;
@@ -126,6 +127,8 @@ public class Enemy : MonoBehaviour {
     exp = enemyStats.exp;
     speed = enemyStats.speed;
     reach = enemyStats.reach;
+
+    diesFlying = enemyStats.diesFlying;
 
     if (type == "patroller") {
       gameObject.AddComponent<Patroller>();
