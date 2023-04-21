@@ -839,7 +839,7 @@ public class Hero : MonoBehaviour {
     string throwableType = Helpers.GetPauseItemKeyByName(Objects.pauseItems[isThrowing == 1 ? arm1Equipment : arm2Equipment].name);
 
     float throwableX = transform.position.x + ((isFacingLeft ? -1 : 1) * heroWidth * (throwableType == "axe" ? 0 : 1));
-    float throwableY = transform.position.y + (heroHeight * (throwableType == "axe" ? 0.5f : 1));
+    float throwableY = transform.position.y + (heroHeight * (throwableType == "axe" ? 0.5f : 0.75f));
 
     GameObject throwableWeapon = Instantiate(Objects.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
     Throwable throwableInstance = throwableWeapon.transform.Find("Throwable").gameObject.GetComponent<Throwable>();
