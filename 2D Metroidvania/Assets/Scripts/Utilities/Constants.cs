@@ -32,7 +32,7 @@ public class Constants {
   public static string[] angledThrowables = {"king-bone", "hatchet", "axe"};
   public static string[] rotatingThrowables = {"king-bone", "shuriken-4", "shuriken-6", "hatchet", "axe"};
 
-  public static string[] nonGroundableThrowables = {"king-bone", "axe"};
+  public static string[] nonGroundableThrowables = {"king-bone", "axe", "bomb"};
 
   public static string[] meadowEnemies = {"nymph", "goblin"};
 
