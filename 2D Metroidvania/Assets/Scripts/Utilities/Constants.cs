@@ -35,6 +35,7 @@ public class Constants {
   public static string[] nonGroundableThrowables = {"king-bone", "axe", "bomb"};
 
   public static string[] meadowEnemies = {"dwarf", "nymph", "goblin"};
+  public static string[] flyingDeathEnemies = {"dwarf", "goblin", "skeleton"};
 
   public static string[] patrollerStates = {"attack", "burning", "death", "death-by-burning", "death-by-poison", "stunned", "stunned-on-attack", "walk"};
 

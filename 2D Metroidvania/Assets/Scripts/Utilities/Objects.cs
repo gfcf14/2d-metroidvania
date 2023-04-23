@@ -104,11 +104,11 @@ public class Objects {
   };
 
   public static Dictionary<string, EnemyStats> enemyStats = new Dictionary<string, EnemyStats> {
-    {"dwarf", new EnemyStats() {name = "Dwarf", type = "patroller", hp = 50, atk = 20, def = 80, crit = 0.05f, exp = 30, speed= 5, reach = 0.5f, diesFlying = true}},
-    {"goblin", new EnemyStats() {name = "Goblin", type = "patroller", hp = 80, atk = 40, def = 30, crit = 0.015f, exp = 60, speed= 3, reach = 0.5f, diesFlying = true}},
-    {"nymph", new EnemyStats() {name = "Nymph", type = "patroller", hp = 50, atk = 10, def = 40, crit = 0.03f, exp = 80, speed= 4, reach = 0.5f, diesFlying = false}},
-    {"skeleton", new EnemyStats() {name = "Skeleton", type = "patroller", hp = 100, atk = 20, def = 10, crit = 0.01f, exp = 30, speed= 3, reach = 0.5f, diesFlying = true}},
-    {"skeleton-king", new EnemyStats() {name = "Skeleton King", type = "champion", hp = 300, atk = 60, def = 30, crit = 0.15f, exp = 100, speed= 2, reach = 1, diesFlying = false}}
+    {"dwarf", new EnemyStats() {name = "Dwarf", type = "patroller", hp = 50, atk = 20, def = 80, crit = 0.05f, exp = 30, speed= 5, reach = 0.5f}},
+    {"goblin", new EnemyStats() {name = "Goblin", type = "patroller", hp = 80, atk = 40, def = 30, crit = 0.015f, exp = 60, speed= 3, reach = 0.5f}},
+    {"nymph", new EnemyStats() {name = "Nymph", type = "patroller", hp = 50, atk = 10, def = 40, crit = 0.03f, exp = 80, speed= 4, reach = 0.5f}},
+    {"skeleton", new EnemyStats() {name = "Skeleton", type = "patroller", hp = 100, atk = 20, def = 10, crit = 0.01f, exp = 30, speed= 3, reach = 0.5f}},
+    {"skeleton-king", new EnemyStats() {name = "Skeleton King", type = "champion", hp = 300, atk = 60, def = 30, crit = 0.15f, exp = 100, speed= 2, reach = 1}}
   };
 
   public static Dictionary<string, Vector2> enemyDimensions = new Dictionary<string, Vector2> {

@@ -128,7 +128,7 @@ public class Enemy : MonoBehaviour {
     speed = enemyStats.speed;
     reach = enemyStats.reach;
 
-    diesFlying = enemyStats.diesFlying;
+    diesFlying = Helpers.IsValueInArray(Constants.flyingDeathEnemies, key);
 
     if (type == "patroller") {
       gameObject.AddComponent<Patroller>();
