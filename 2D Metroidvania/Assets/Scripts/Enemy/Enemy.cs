@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Animations;
 using System.Linq;
 
 public class Enemy : MonoBehaviour {
@@ -155,17 +153,17 @@ public class Enemy : MonoBehaviour {
 
       // if no such object (same type and key) was found, instantiate a new copy and assign clips based on key to states
       if (!animatorAlreadyExists) {
-        anim.runtimeAnimatorController = Instantiate(Objects.animationControllers[type]);
+        AnimatorOverrideController aoc = new AnimatorOverrideController(Instantiate(Objects.animationControllers[type]));
+        AnimatorOverrideController resourceAoc = new AnimatorOverrideController(GameObject.Find("UnityHelpers").gameObject.GetComponent<Animator>().runtimeAnimatorController);
 
-        foreach (string state in Constants.patrollerStates) {
-          AnimatorController  animController = anim.runtimeAnimatorController as AnimatorController;
-          AnimatorController resourceController = GameObject.Find("UnityHelpers").gameObject.GetComponent<Animator>().runtimeAnimatorController as AnimatorController;
-
-          AnimatorState animState = animController.layers[0].stateMachine.states.FirstOrDefault(s => s.state.nameHash == Animator.StringToHash(state)).state;
-          AnimatorState resourceState = resourceController.layers[0].stateMachine.states.FirstOrDefault(s => s.state.nameHash == Animator.StringToHash(key + "_" + state)).state;
-
-          animState.motion = resourceState.motion;
+        var anims = new List<KeyValuePair<AnimationClip, AnimationClip>>();
+        foreach (AnimationClip a in aoc.animationClips) {
+          string stateName = a.name.Split('_')[1];
+          anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(a, resourceAoc.animationClips.FirstOrDefault(resourceClip => resourceClip.name == key + "_" + stateName)));
         }
+        aoc.ApplyOverrides(anims);
+
+        anim.runtimeAnimatorController = aoc;
       }
     } else {
       anim.runtimeAnimatorController = Objects.animationControllers[key];
