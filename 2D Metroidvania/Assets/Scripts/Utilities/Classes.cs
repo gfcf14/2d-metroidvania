@@ -111,4 +111,5 @@ public class EnemyStats {
   public int exp;
   public int speed;
   public float reach;
+  public float groundCastLength;
 }

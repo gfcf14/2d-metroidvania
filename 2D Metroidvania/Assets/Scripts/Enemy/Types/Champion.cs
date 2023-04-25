@@ -5,7 +5,6 @@ public class Champion : MonoBehaviour {
     Enemy enemy;
 
   // Raycast properties
-    public float diagonalForwardCastLength = 1f;
     public float forwardCastLength = 5f;
     public float proximityCastLength = 0.1f;
 
@@ -39,8 +38,8 @@ public class Champion : MonoBehaviour {
                 Vector2 beginDiagonalForwardCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y + enemy.enemyHeight / 4);
                 Vector2 diagonalForwardCastDirection = transform.TransformDirection(new Vector2(0, -1));
 
-                RaycastHit2D diagonalForwardCast = Physics2D.Raycast(beginDiagonalForwardCast, diagonalForwardCastDirection, diagonalForwardCastLength);
-                Debug.DrawRay(beginDiagonalForwardCast, diagonalForwardCastDirection.normalized * diagonalForwardCastLength, Color.green);
+                RaycastHit2D diagonalForwardCast = Physics2D.Raycast(beginDiagonalForwardCast, diagonalForwardCastDirection, enemy.groundCastLength);
+                Debug.DrawRay(beginDiagonalForwardCast, diagonalForwardCastDirection.normalized * enemy.groundCastLength, Color.green);
 
                 if (!diagonalForwardCast) {
                   enemy.isFacingLeft = !enemy.isFacingLeft;

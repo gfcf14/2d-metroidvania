@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour {
     [System.NonSerialized] public float coolDownTime = 750;
     [System.NonSerialized] public float enemyHeight = 0f;
     [System.NonSerialized] public float enemyWidth = 0f;
+    [System.NonSerialized] public float groundCastLength = 0;
     [System.NonSerialized] public float poisonEffectTime = 0;
     [System.NonSerialized] public float poisonTime = 0;
 
@@ -126,6 +127,8 @@ public class Enemy : MonoBehaviour {
     speed = enemyStats.speed;
     reach = enemyStats.reach;
 
+    groundCastLength = enemyStats.groundCastLength;
+
     diesFlying = Helpers.IsValueInArray(Constants.flyingDeathEnemies, key);
 
     if (type == "patroller") {
@@ -167,6 +170,13 @@ public class Enemy : MonoBehaviour {
       }
     } else {
       anim.runtimeAnimatorController = Objects.animationControllers[key];
+    }
+
+    // move enemy upward a bit from ground to account for flying behavior
+    if (Helpers.IsValueInArray(Constants.flyingEnemies, key)) {
+      transform.position = new Vector2(transform.position.x, transform.position.y + Objects.enemyDimensions[key].y);
+      body.gravityScale = 0;
+      transform.Find("Grounder").gameObject.SetActive(false);
     }
   }
 
@@ -212,6 +222,8 @@ public class Enemy : MonoBehaviour {
               if (Helpers.ExceedsTime(burnTime, burningDuration)) {
                 isBurning = false;
                 isDeadByBurning = true;
+                // so flying enemies drop dead
+                body.gravityScale = 1;
               }
             }
 
@@ -241,6 +253,8 @@ public class Enemy : MonoBehaviour {
                   isDeadByPoison = true;
                   isWalking = false;
                   body.velocity = Vector2.zero;
+                  // so flying enemies drop dead
+                  body.gravityScale = 1;
 
                   if (!isDead) { // avoids getting double exp if dying from poison after being attacked
                     hero.exp += exp;
