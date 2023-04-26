@@ -208,13 +208,6 @@ public class Enemy : MonoBehaviour {
 
 
         if (hero != null && hero.pauseCase == "") {
-          // ENEMY NORMAL COLOR
-            if (!isPoisoned && !isStunned) {
-              enemyRenderer.color = enemyColor;
-            }
-
-          // heroIsDead = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().isDead != 0;
-
           // ENEMY BURNING
             if (isBurning) {
               enemyColor = Colors.statusColors["burned"];
@@ -291,6 +284,14 @@ public class Enemy : MonoBehaviour {
           anim.SetBool("isWalking", isWalking);
           anim.SetBool("needsCoolDown", needsCoolDown);
         }
+      }
+    }
+  }
+
+  void LateUpdate() {
+    if (hero != null && hero.pauseCase == "") {
+      if (!isPoisoned && !isStunned) {
+        enemyRenderer.color = enemyColor;
       }
     }
   }
