@@ -19,8 +19,9 @@ public class Enemy : MonoBehaviour {
     [System.NonSerialized] public bool isFacingLeft = false;
     [System.NonSerialized] public bool needsCoolDown = false;
     [System.NonSerialized] public bool diesFlying = false;
+    [System.NonSerialized] public bool isFlyingEnemy = false;
 
-
+    [System.NonSerialized] public float arrowBurnPosition = 0;
     [System.NonSerialized] public float attackedStart = 0;
     [System.NonSerialized] public float burnTime = 0;
     [System.NonSerialized] public float consecutiveAttackTime = 5000;
@@ -128,8 +129,10 @@ public class Enemy : MonoBehaviour {
     reach = enemyStats.reach;
 
     groundCastLength = enemyStats.groundCastLength;
+    arrowBurnPosition = enemyStats.arrowBurnPosition;
 
     diesFlying = Helpers.IsValueInArray(Constants.flyingDeathEnemies, key);
+    isFlyingEnemy = Helpers.IsValueInArray(Constants.flyingEnemies, key);
 
     if (type == "patroller") {
       gameObject.AddComponent<Patroller>();
@@ -173,7 +176,7 @@ public class Enemy : MonoBehaviour {
     }
 
     // move enemy upward a bit from ground to account for flying behavior
-    if (Helpers.IsValueInArray(Constants.flyingEnemies, key)) {
+    if (isFlyingEnemy) {
       transform.position = new Vector2(transform.position.x, transform.position.y + Objects.enemyDimensions[key].y);
       body.gravityScale = 0;
       transform.Find("Grounder").gameObject.SetActive(false);
@@ -483,8 +486,10 @@ public class Enemy : MonoBehaviour {
           float currentTime = Time.time * 1000;
 
           if (!isBurning) {
-            GameObject arrowBurn = Instantiate(Objects.prefabs["arrow-burn"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
-            arrowBurn.GetComponent<ArrowBurn>().startTime = currentTime;
+            GameObject arrowBurn = Instantiate(Objects.prefabs["arrow-burn"], new Vector2(transform.position.x, transform.position.y + ((enemyHeight / 2) * arrowBurnPosition)), Quaternion.identity);
+            ArrowBurn arrowBurnScript = arrowBurn.GetComponent<ArrowBurn>();
+            arrowBurnScript.startTime = currentTime;
+            arrowBurnScript.burnDimensions = Objects.enemyDimensions[key];
 
             burnTime = currentTime;
             isBurning = true;
