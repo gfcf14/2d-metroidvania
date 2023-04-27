@@ -165,7 +165,10 @@ public class Enemy : MonoBehaviour {
         var anims = new List<KeyValuePair<AnimationClip, AnimationClip>>();
         foreach (AnimationClip a in aoc.animationClips) {
           string stateName = a.name.Split('_')[1];
-          anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(a, resourceAoc.animationClips.FirstOrDefault(resourceClip => resourceClip.name == key + "_" + stateName)));
+          anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(a, resourceAoc.animationClips.FirstOrDefault(
+            resourceClip => resourceClip.name == key + "_" + stateName ||
+            (key == "nymph" && stateName == "death-by-poison" && resourceClip.name == "nymph_death") // nymph edge case since she uses nymph_death for regular death, and poison/burning death
+          )));
         }
         aoc.ApplyOverrides(anims);
 
