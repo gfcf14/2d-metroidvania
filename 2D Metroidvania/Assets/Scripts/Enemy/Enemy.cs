@@ -223,6 +223,7 @@ public class Enemy : MonoBehaviour {
                 isDeadByBurning = true;
                 // so flying enemies drop dead
                 body.gravityScale = 1;
+                transform.Find("Grounder").gameObject.SetActive(true); // so flying enemies can hit the ground while dropping
               }
             }
 
