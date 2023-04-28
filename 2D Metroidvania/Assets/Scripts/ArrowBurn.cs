@@ -6,11 +6,15 @@ public class ArrowBurn : MonoBehaviour {
 
   [System.NonSerialized] public float startTime;
   [System.NonSerialized] float maxBurnDuration = 3000f;
+  [System.NonSerialized] float arrowBurnX = 0;
+  [System.NonSerialized] float arrowBurnY = 0;
   [System.NonSerialized] public bool isFinished;
   [SerializeField] public Vector2 burnDimensions;
 
   void Start() {
     spriteRenderer = GetComponent<SpriteRenderer>();
+    arrowBurnX = Mathf.Max(burnDimensions.x, burnDimensions.y) * 1.2f;
+    arrowBurnY = arrowBurnX * 1.05f;
   }
 
   void Update() {
@@ -24,7 +28,7 @@ public class ArrowBurn : MonoBehaviour {
   }
 
   void LateUpdate() {
-    spriteRenderer.size = new Vector2(burnDimensions.x * 1.5f, burnDimensions.y * 1.25f);
+    spriteRenderer.size = new Vector2(arrowBurnX, arrowBurnY);
   }
 
   public void DestroySmoke() {
