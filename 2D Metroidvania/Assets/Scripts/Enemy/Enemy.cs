@@ -225,6 +225,9 @@ public class Enemy : MonoBehaviour {
                 body.gravityScale = 1;
                 transform.Find("Grounder").gameObject.SetActive(true); // so flying enemies can hit the ground while dropping
               }
+
+              // make HP 0 so it reflects upon dying by burning in the boss status canvas
+              currentHP = 0;
             }
 
           // ENEMY POISONED
