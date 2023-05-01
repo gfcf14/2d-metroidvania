@@ -464,7 +464,10 @@ public class Enemy : MonoBehaviour {
             }
           }
         } else {
-          isDead = true;
+          if (!isBurning) {
+            isDead = true;
+          }
+
           isPoisoned = false;
           isStunned = false;
           isWalking = false;

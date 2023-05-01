@@ -84,7 +84,7 @@ public class Patroller : MonoBehaviour {
   void FixedUpdate() {
     if (enemy.hero != null && enemy.hero.pauseCase == "") {
       // PATROLLER DEAD
-        if (enemy.isDead && enemy.diesFlying) {
+        if (enemy.isDead && (!enemy.isBurning || !enemy.isDeadByBurning || !enemy.isDeadByPoison) && enemy.diesFlying) {
           int index = enemy.deadAnimationIncrement;
           float xIncrement = Constants.enemyDeathXTransitions[index >= Constants.enemyDeathXTransitions.Length ? Constants.enemyDeathXTransitions.Length - 1 : index];
           float yIncrement = Constants.enemyDeathYTransitions[index >= Constants.enemyDeathYTransitions.Length ? Constants.enemyDeathYTransitions.Length - 1 : index];
