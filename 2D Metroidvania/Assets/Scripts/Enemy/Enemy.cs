@@ -81,6 +81,7 @@ public class Enemy : MonoBehaviour {
     [System.NonSerialized] public bool isDeadByBurning = false;
     [System.NonSerialized] public bool isDeadByPoison = false;
     [System.NonSerialized] public bool isDefending = false;
+    [System.NonSerialized] public bool isDying = false; // should encompass all death or death-leading states (isBurning, isDeadByBurning, isDeadByPoison)
     [System.NonSerialized] public bool isHitting = false; // provisional variable to only detect the moment the enemy attacks
     [System.NonSerialized] public bool isPoisoned = false;
     [System.NonSerialized] public bool isStunned = false;
@@ -187,6 +188,8 @@ public class Enemy : MonoBehaviour {
   }
 
   void Update() {
+    isDying = isBurning || isDeadByBurning || isDeadByPoison;
+
     if (hero.isAutonomous && gameObject.name == "Boss") {
       if (enemyRenderer.sprite.name == "boss-placeholder") {
         enemyRenderer.sprite = Sprites.firstBossSprites[key];
@@ -492,7 +495,8 @@ public class Enemy : MonoBehaviour {
         if (willBurn) {
           float currentTime = Time.time * 1000;
 
-          if (!isBurning) {
+          // only instantiate the flame if the enemy is not set to die (hence, !isDying)
+          if (!isDying) {
             GameObject arrowBurn = Instantiate(Objects.prefabs["arrow-burn"], new Vector2(transform.position.x, transform.position.y + ((enemyHeight / 2) * arrowBurnPosition)), Quaternion.identity);
             ArrowBurn arrowBurnScript = arrowBurn.GetComponent<ArrowBurn>();
             arrowBurnScript.startTime = currentTime;
