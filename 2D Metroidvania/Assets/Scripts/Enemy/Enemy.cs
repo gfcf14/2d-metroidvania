@@ -74,6 +74,7 @@ public class Enemy : MonoBehaviour {
 
   // Game Properties
     [System.NonSerialized] public bool attackedFromBehind = false;
+    [System.NonSerialized] public bool gaveExp = false;
     [System.NonSerialized] public bool isAttacking = false;
     [System.NonSerialized] public bool isAttackingMelee = false;
     [System.NonSerialized] public bool isBurning = false;
@@ -187,6 +188,12 @@ public class Enemy : MonoBehaviour {
     }
   }
 
+  void awardExp() {
+    gaveExp = true;
+    hero.exp += exp;
+    hero.CheckLevel();
+  }
+
   void Update() {
     isDying = isBurning || isDeadByBurning || isDeadByPoison;
 
@@ -261,6 +268,12 @@ public class Enemy : MonoBehaviour {
                   body.velocity = Vector2.zero;
                   // so flying enemies drop dead
                   body.gravityScale = 1;
+
+                  if (!isDead) { // avoids getting double exp if dying from poison after being attacked
+                     if (!gaveExp) {
+                      awardExp();
+                     }
+                  }
                 }
               }
             }
@@ -468,6 +481,12 @@ public class Enemy : MonoBehaviour {
           isWalking = false;
           body.velocity = Vector2.zero;
           deadPosition = new Vector2(transform.position.x, transform.position.y);
+
+          if (!isDeadByPoison) { // avoids getting double exp if attacking while dying from poison
+            if (!gaveExp) {
+              awardExp();
+            }
+          }
         }
       }
 
@@ -598,9 +617,6 @@ public class Enemy : MonoBehaviour {
   }
 
   void Destroy() {
-    hero.exp += exp;
-    hero.CheckLevel();
-
     if (gameObject.name == "Boss") {
       GameObject.Find("BossStatusCanvas").SetActive(false);
     }
