@@ -34,7 +34,8 @@ public class Constants {
 
   public static string[] nonGroundableThrowables = {"king-bone", "axe", "bomb"};
 
-  public static string[] meadowEnemies = {"pixie", "dwarf", "nymph", "goblin"};
+  // TODO: remove skeleton once testing for enemies is complete
+  public static string[] meadowEnemies = {"skeleton", "pixie", "dwarf", "nymph", "goblin"};
   public static string[] flyingDeathEnemies = {"dwarf", "goblin", "pixie", "skeleton"};
   public static string[] flyingEnemies = {"pixie"};
 
