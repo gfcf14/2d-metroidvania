@@ -16,6 +16,7 @@ public class Objects {
     {"defense", Resources.Load("Prefabs/Defense") as GameObject},
     {"droppable", Resources.Load("Prefabs/Droppable") as GameObject},
     {"enemy", Resources.Load("Prefabs/Enemy") as GameObject},
+    {"enemy-spawner", Resources.Load("Prefabs/EnemySpawner") as GameObject},
     {"enemy-explosion", Resources.Load("Prefabs/EnemyExplosion") as GameObject},
     {"item-button", Resources.Load("Prefabs/ItemButton") as GameObject},
     {"pierce", Resources.Load("Prefabs/Pierce") as GameObject},

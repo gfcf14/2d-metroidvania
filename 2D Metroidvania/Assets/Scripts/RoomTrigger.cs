@@ -11,9 +11,11 @@ public class RoomTrigger : MonoBehaviour {
       GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().currentRoom = gameObject;
       foreach(Transform child in gameObject.transform) {
         if (child.tag == "EnemySpawner") {
+          string spawnerKey = child.gameObject.GetComponent<EnemySpawner>().enemyKey;
+
           GameObject enemySpawned = Instantiate(Objects.prefabs["enemy"], new Vector3(child.transform.position.x, child.transform.position.y, 0), Quaternion.identity);
           enemySpawned.transform.SetParent(transform);
-          enemySpawned.GetComponent<Enemy>().key = Constants.meadowEnemies[UnityEngine.Random.Range(0, Constants.meadowEnemies.Length)];
+          enemySpawned.GetComponent<Enemy>().key = spawnerKey != "" ? spawnerKey : Constants.meadowEnemies[UnityEngine.Random.Range(0, Constants.meadowEnemies.Length)];
         } else if (child.tag == "Enemy" && child.name == "Boss") {
           child.gameObject.GetComponent<Enemy>().isOnCamera = true;
         }

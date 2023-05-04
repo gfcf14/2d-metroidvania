@@ -1226,6 +1226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 49371598}
   - component: {fileID: 49371599}
+  - component: {fileID: 49371600}
   m_Layer: 2
   m_Name: EnemySpawner
   m_TagString: EnemySpawner
@@ -1298,6 +1299,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &49371600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49371597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70948805e8530744a814d7e1eddba40d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyKey: 
 --- !u!1 &50161435
 GameObject:
   m_ObjectHideFlags: 0
@@ -52911,6 +52925,7 @@ GameObject:
   - component: {fileID: 2106091057}
   - component: {fileID: 2106091056}
   - component: {fileID: 2106091055}
+  - component: {fileID: 2106091058}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Ground
@@ -55801,6 +55816,19 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+--- !u!114 &2106091058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106091051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70948805e8530744a814d7e1eddba40d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyKey: skeleton
 --- !u!1 &2107502603
 GameObject:
   m_ObjectHideFlags: 0
