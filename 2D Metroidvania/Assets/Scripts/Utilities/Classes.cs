@@ -26,7 +26,9 @@ public class MagicResistance {
 public class Effects {
   public float? duration; // to be measured in seconds
   public int? hp;
+  public float? hpPercentage;
   public int? mp;
+  public float? mpPercentage;
   public string[] statusHeal;
   public int? atk;
   public int? def;
