@@ -865,9 +865,23 @@ public class Pause : MonoBehaviour {
         effectsCounter++;
       }
 
+      if (itemEffects.hpPercentage != null) {
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[0];
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.hpPercentage >= 0 ? "+" : "") + (int)(itemEffects.hpPercentage * 100) + "%";
+        effectsList.ElementAt(effectsCounter).SetActive(true);
+        effectsCounter++;
+      }
+
       if (itemEffects.mp != null) {
         effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[1];
         effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.mp >= 0 ? "+" : "") + itemEffects.mp;
+        effectsList.ElementAt(effectsCounter).SetActive(true);
+        effectsCounter++;
+      }
+
+      if (itemEffects.mpPercentage != null) {
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[1];
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.mpPercentage >= 0 ? "+" : "") + (int)(itemEffects.mpPercentage * 100) + "%";
         effectsList.ElementAt(effectsCounter).SetActive(true);
         effectsCounter++;
       }

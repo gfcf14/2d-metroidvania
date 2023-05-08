@@ -212,6 +212,7 @@ public class Hero : MonoBehaviour {
     arrowAnchor = transform.Find("ArrowAnchor").gameObject;
 
     //test items
+    items.Add(new Item("elixir", 1));
     items.Add(new Item("chicken-drumstick", 5));
     items.Add(new Item("basic-shield", 2));
     items.Add(new Item("basic-sword", 1));
