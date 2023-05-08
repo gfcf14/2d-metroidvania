@@ -542,7 +542,8 @@ public class Pause : MonoBehaviour {
       }
 
       if (itemEffects.hpPercentage != null) {
-        int hpTotal = (int) itemEffects.hpPercentage * heroScript.maxHP;
+        int hpTotal = (int)(itemEffects.hpPercentage * heroScript.maxHP);
+        Debug.Log(itemEffects.hpPercentage + ", " + heroScript.maxHP + ", " + (itemEffects.hpPercentage * heroScript.maxHP) + ", " + hpTotal);
         effectsCurrentHP.transform.Find("Text").gameObject.GetComponent<Text>().text = (hpTotal >= 0 ? "+" : "") + hpTotal;
         effectsCurrentHP.SetActive(true);
 

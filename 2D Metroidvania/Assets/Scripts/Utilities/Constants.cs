@@ -8,7 +8,7 @@ public class Constants {
   public static string[] nonBouncingThrowables = { "lance", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet", "axe", "king-bone" };
   public static string[] smallRotatingThrowables = { "shuriken-4", "shuriken-6", "hatchet" };
   public static string[] forbiddenKeys = {"Escape", "KeypadEnter", "Return", "W", "A", "S", "D", "UpArrow", "DownArrow", "RightArrow", "LeftArrow"};
-  public static string[] usableItemTypes = {"food", "potion"};
+  public static string[] usableItemTypes = {"consumable", "food", "throwable-food"};
 
   public static string[] bodyEquipmentTypes = {"body"};
   public static string[] armEquipmentTypes = {"double", "single", "defense", "throwable-double", "throwable", "bow"};
