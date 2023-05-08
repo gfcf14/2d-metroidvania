@@ -541,6 +541,15 @@ public class Pause : MonoBehaviour {
         heroScript.UpdateStats("hp", itemEffects.hp);
       }
 
+      if (itemEffects.hpPercentage != null) {
+        int hpTotal = (int) itemEffects.hpPercentage * heroScript.maxHP;
+        effectsCurrentHP.transform.Find("Text").gameObject.GetComponent<Text>().text = (hpTotal >= 0 ? "+" : "") + hpTotal;
+        effectsCurrentHP.SetActive(true);
+
+        // TODO: ensure that this can be either temporary (for potions of limited time use) or permanent (for single use items)
+        heroScript.UpdateStats("hp", hpTotal);
+      }
+
       // TODO: build the others as more items are created!
 
       // determines what to do with the item and its amount
