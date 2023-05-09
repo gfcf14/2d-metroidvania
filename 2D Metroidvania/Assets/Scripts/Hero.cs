@@ -110,7 +110,7 @@ public class Hero : MonoBehaviour {
     [System.NonSerialized] public int playerLevel = 1;
     [System.NonSerialized] public int currentHP = 1500;
     [System.NonSerialized] public int maxHP = 5000;
-    [System.NonSerialized] public int currentMP = 1500;
+    [System.NonSerialized] public int currentMP = 700;
     [System.NonSerialized] public int maxMP = 2000;
     [System.NonSerialized] public string status = "good";
     [System.NonSerialized] public int exp = 80;
@@ -212,6 +212,7 @@ public class Hero : MonoBehaviour {
     arrowAnchor = transform.Find("ArrowAnchor").gameObject;
 
     //test items
+    items.Add(new Item("magic-vial", 1));
     items.Add(new Item("potion", 1));
     items.Add(new Item("chicken-drumstick", 5));
     items.Add(new Item("basic-shield", 2));
@@ -368,6 +369,16 @@ public class Hero : MonoBehaviour {
           currentHP = maxHP;
         } else {
           currentHP += hpAggregate;
+        }
+      break;
+      case "mp":
+        int mpAggregate = aggregate ?? 0;
+
+        // condition below prevents restoring more than allowed
+        if ((currentMP + mpAggregate) >= maxMP) {
+          currentMP = maxMP;
+        } else {
+          currentMP += mpAggregate;
         }
       break;
       default:

@@ -543,7 +543,6 @@ public class Pause : MonoBehaviour {
 
       if (itemEffects.hpPercentage != null) {
         int hpTotal = (int)(itemEffects.hpPercentage * heroScript.maxHP);
-        Debug.Log(itemEffects.hpPercentage + ", " + heroScript.maxHP + ", " + (itemEffects.hpPercentage * heroScript.maxHP) + ", " + hpTotal);
         effectsCurrentHP.transform.Find("Text").gameObject.GetComponent<Text>().text = (hpTotal >= 0 ? "+" : "") + hpTotal;
         effectsCurrentHP.SetActive(true);
 
@@ -552,6 +551,22 @@ public class Pause : MonoBehaviour {
       }
 
       // TODO: build the others as more items are created!
+      if (itemEffects.mp != null) {
+        effectsCurrentMP.transform.Find("Text").gameObject.GetComponent<Text>().text = (itemEffects.mp >= 0 ? "+" : "") + itemEffects.mp;
+        effectsCurrentMP.SetActive(true);
+
+        // TODO: ensure that this can be either temporary (for potions of limited time use) or permanent (for single use items)
+        heroScript.UpdateStats("mp", itemEffects.mp);
+      }
+
+      if (itemEffects.mpPercentage != null) {
+        int mpTotal = (int)(itemEffects.mpPercentage * heroScript.maxMP);
+        effectsCurrentMP.transform.Find("Text").gameObject.GetComponent<Text>().text = (mpTotal >= 0 ? "+" : "") + mpTotal;
+        effectsCurrentMP.SetActive(true);
+
+        // TODO: ensure that this can be either temporary (for potions of limited time use) or permanent (for single use items)
+        heroScript.UpdateStats("mp", mpTotal);
+      }
 
       // determines what to do with the item and its amount
       if (heroItem.amount > 1) {
