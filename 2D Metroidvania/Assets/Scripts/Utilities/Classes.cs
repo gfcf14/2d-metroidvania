@@ -18,6 +18,12 @@ public class Item {
   }
 }
 
+public class Consumable {
+  public string key;
+  public float duration;
+  public float useTime;
+}
+
 public class MagicResistance {
   public string name;
   public string type; // add or remove

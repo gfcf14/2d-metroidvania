@@ -533,39 +533,43 @@ public class Pause : MonoBehaviour {
     if (currentPauseItem.effects != null) {
       Effects itemEffects = currentPauseItem.effects;
 
-      if (itemEffects.hp != null) {
-        effectsCurrentHP.transform.Find("Text").gameObject.GetComponent<Text>().text = (itemEffects.hp >= 0 ? "+" : "") + itemEffects.hp;
-        effectsCurrentHP.SetActive(true);
+      if (itemEffects.duration == null) {
+        if (itemEffects.hp != null) {
+          effectsCurrentHP.transform.Find("Text").gameObject.GetComponent<Text>().text = (itemEffects.hp >= 0 ? "+" : "") + itemEffects.hp;
+          effectsCurrentHP.SetActive(true);
 
-        // TODO: ensure that this can be either temporary (for potions of limited time use) or permanent (for single use items)
-        heroScript.UpdateStats("hp", itemEffects.hp);
-      }
+          // TODO: ensure that this can be either temporary (for potions of limited time use) or permanent (for single use items)
+          heroScript.UpdateStats("hp", itemEffects.hp);
+        }
 
-      if (itemEffects.hpPercentage != null) {
-        int hpTotal = (int)(itemEffects.hpPercentage * heroScript.maxHP);
-        effectsCurrentHP.transform.Find("Text").gameObject.GetComponent<Text>().text = (hpTotal >= 0 ? "+" : "") + hpTotal;
-        effectsCurrentHP.SetActive(true);
+        if (itemEffects.hpPercentage != null) {
+          int hpTotal = (int)(itemEffects.hpPercentage * heroScript.maxHP);
+          effectsCurrentHP.transform.Find("Text").gameObject.GetComponent<Text>().text = (hpTotal >= 0 ? "+" : "") + hpTotal;
+          effectsCurrentHP.SetActive(true);
 
-        // TODO: ensure that this can be either temporary (for potions of limited time use) or permanent (for single use items)
-        heroScript.UpdateStats("hp", hpTotal);
-      }
+          // TODO: ensure that this can be either temporary (for potions of limited time use) or permanent (for single use items)
+          heroScript.UpdateStats("hp", hpTotal);
+        }
 
-      // TODO: build the others as more items are created!
-      if (itemEffects.mp != null) {
-        effectsCurrentMP.transform.Find("Text").gameObject.GetComponent<Text>().text = (itemEffects.mp >= 0 ? "+" : "") + itemEffects.mp;
-        effectsCurrentMP.SetActive(true);
+        // TODO: build the others as more items are created!
+        if (itemEffects.mp != null) {
+          effectsCurrentMP.transform.Find("Text").gameObject.GetComponent<Text>().text = (itemEffects.mp >= 0 ? "+" : "") + itemEffects.mp;
+          effectsCurrentMP.SetActive(true);
 
-        // TODO: ensure that this can be either temporary (for potions of limited time use) or permanent (for single use items)
-        heroScript.UpdateStats("mp", itemEffects.mp);
-      }
+          // TODO: ensure that this can be either temporary (for potions of limited time use) or permanent (for single use items)
+          heroScript.UpdateStats("mp", itemEffects.mp);
+        }
 
-      if (itemEffects.mpPercentage != null) {
-        int mpTotal = (int)(itemEffects.mpPercentage * heroScript.maxMP);
-        effectsCurrentMP.transform.Find("Text").gameObject.GetComponent<Text>().text = (mpTotal >= 0 ? "+" : "") + mpTotal;
-        effectsCurrentMP.SetActive(true);
+        if (itemEffects.mpPercentage != null) {
+          int mpTotal = (int)(itemEffects.mpPercentage * heroScript.maxMP);
+          effectsCurrentMP.transform.Find("Text").gameObject.GetComponent<Text>().text = (mpTotal >= 0 ? "+" : "") + mpTotal;
+          effectsCurrentMP.SetActive(true);
 
-        // TODO: ensure that this can be either temporary (for potions of limited time use) or permanent (for single use items)
-        heroScript.UpdateStats("mp", mpTotal);
+          // TODO: ensure that this can be either temporary (for potions of limited time use) or permanent (for single use items)
+          heroScript.UpdateStats("mp", mpTotal);
+        }
+      } else {
+        heroScript.AddConsumable(new Consumable(){key=heroItem.key, duration=(float)itemEffects.duration, useTime=Time.time * 1000});
       }
 
       // determines what to do with the item and its amount

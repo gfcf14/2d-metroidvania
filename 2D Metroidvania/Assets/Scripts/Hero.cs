@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Hero : MonoBehaviour {
   [System.NonSerialized] public bool showDebug = false;
 
   [System.NonSerialized] public string pauseCase = "";
+  [SerializeField] public List<Consumable> consumables = new List<Consumable>();
   [SerializeField] public float speed;
   [SerializeField] private float jumpHeight;
   [SerializeField] private float jetpackHeight;
@@ -212,6 +214,8 @@ public class Hero : MonoBehaviour {
     arrowAnchor = transform.Find("ArrowAnchor").gameObject;
 
     //test items
+    items.Add(new Item("strength-flask", 1));
+    items.Add(new Item("stamina-flask", 1));
     items.Add(new Item("magic-vial", 1));
     items.Add(new Item("potion", 1));
     items.Add(new Item("chicken-drumstick", 5));
@@ -244,6 +248,15 @@ public class Hero : MonoBehaviour {
     UpdateStatsValues();
 
     next = Helpers.NextLevelEXP(playerLevel + 1);
+  }
+
+  // adds consumable only if it hasn't been consumed before
+  public void AddConsumable(Consumable newConsumable) {
+    bool isUsed = consumables.Any(c => c.key == newConsumable.key);
+
+    if (!isUsed) {
+      consumables.Add(newConsumable);
+    }
   }
 
   public void UpdateStatsValues() {
@@ -626,6 +639,15 @@ public class Hero : MonoBehaviour {
             body.velocity = new Vector2(-body.velocity.x + (jumpHeight * (isFacingLeft ? 2 : -2)), -(float)jumpHeight);
           } else {
             body.velocity = Vector2.zero;
+          }
+        }
+
+        // Continuously checks if consumed items should be in effect
+        for (int i = 0; i < consumables.Count; i++) {
+          Consumable currentConsumable = consumables[i];
+
+          if (Helpers.ExceedsTime(currentConsumable.useTime, currentConsumable.duration * 1000)) {
+            consumables.RemoveAt(i);
           }
         }
       }
