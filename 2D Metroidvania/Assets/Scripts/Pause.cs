@@ -51,12 +51,10 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject effectsTotalHP;
   [SerializeField] GameObject effectsCurrentMP;
   [SerializeField] GameObject effectsTotalMP;
-  [SerializeField] GameObject effectsATK1;
-  [SerializeField] GameObject effectsATK2;
-  [SerializeField] GameObject effectsDEF1;
-  [SerializeField] GameObject effectsDEF2;
-  [SerializeField] GameObject effectsCritical;
-  [SerializeField] GameObject effectsLuck;
+  [SerializeField] GameObject effectSTR;
+  [SerializeField] GameObject effectSTA;
+  [SerializeField] GameObject effectCRIT;
+  [SerializeField] GameObject effectLCK;
 
   // Item Objects
   [Header("Item Objects")]
