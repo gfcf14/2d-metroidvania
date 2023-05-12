@@ -169,6 +169,12 @@ public class Hero : MonoBehaviour {
     [System.NonSerialized] public int equippedDEF1 = 0;
     [System.NonSerialized] public int equippedDEF2 = 0;
 
+  // PLAYER EFFECT STATS
+    [SerializeField] public float effectSTR = 0f;
+    [SerializeField] public float effectSTA = 0f;
+    [SerializeField] public float effectCRIT = 0f;
+    [SerializeField] public float effectLCK = 0f;
+
   [System.NonSerialized] public List<Item> items = new List<Item>();
 
   public int tiredThreshold = 40;
@@ -256,7 +262,18 @@ public class Hero : MonoBehaviour {
 
     if (!isUsed) {
       consumables.Add(newConsumable);
+      UpdateEffectValues(newConsumable.key, true);
     }
+  }
+
+  public void UpdateEffectValues(string key, bool add) {
+    PauseItem effectItem = Objects.pauseItems[key];
+    int multiplier = add ? 1 : -1;
+
+    effectSTR += (float)(effectItem.effects.atk ?? 0) * multiplier;
+    effectSTA += (float)(effectItem.effects.def ?? 0) * multiplier;
+    effectCRIT += (float)(effectItem.effects.crit ?? 0) * multiplier;
+    effectLCK += (float)(effectItem.effects.luck ?? 0) * multiplier;
   }
 
   public void UpdateStatsValues() {
@@ -647,6 +664,7 @@ public class Hero : MonoBehaviour {
           Consumable currentConsumable = consumables[i];
 
           if (Helpers.ExceedsTime(currentConsumable.useTime, currentConsumable.duration * 1000)) {
+            UpdateEffectValues(currentConsumable.key, false);
             consumables.RemoveAt(i);
           }
         }
