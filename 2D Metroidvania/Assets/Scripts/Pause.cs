@@ -1258,14 +1258,24 @@ public class Pause : MonoBehaviour {
       goldObject.GetComponent<Text>().text = (gold).ToString();
     }
 
-    if (strength != (heroScript.strength + (int)heroScript.equippedSTR)) {
-      strength = heroScript.strength + (int)heroScript.equippedSTR;
+    if (strength != (heroScript.strength + (int)heroScript.equippedSTR + (int)heroScript.effectSTR)) {
+      strength = heroScript.strength + (int)heroScript.equippedSTR + (int)heroScript.effectSTR;
       strObject.GetComponent<Text>().text = (strength).ToString();
+      if (heroScript.effectSTR > 0) {
+        strObject.GetComponent<Text>().color = Colors.effect;
+      } else {
+        strObject.GetComponent<Text>().color = Color.white;
+      }
     }
 
-    if (stamina != (heroScript.stamina + (int)heroScript.equippedSTA)) {
-      stamina = heroScript.stamina + (int)heroScript.equippedSTA;
+    if (stamina != (heroScript.stamina + (int)heroScript.equippedSTA + (int)heroScript.effectSTA)) {
+      stamina = heroScript.stamina + (int)heroScript.equippedSTA + (int)heroScript.effectSTA;
       staObject.GetComponent<Text>().text = (stamina).ToString();
+      if (heroScript.effectSTA > 0) {
+        staObject.GetComponent<Text>().color = Colors.effect;
+      } else {
+        staObject.GetComponent<Text>().color = Color.white;
+      }
     }
 
     if (atk1 != heroScript.equippedATK1) {
@@ -1288,14 +1298,24 @@ public class Pause : MonoBehaviour {
       def2Object.GetComponent<Text>().text = (def2).ToString();
     }
 
-    if (criticalPercentage != heroScript.criticalPercentage) {
-      criticalPercentage = heroScript.criticalPercentage + heroScript.equippedCRIT;
+    if (criticalPercentage != (heroScript.criticalPercentage + heroScript.equippedCRIT + heroScript.effectCRIT)) {
+      criticalPercentage = heroScript.criticalPercentage + heroScript.equippedCRIT + heroScript.effectCRIT;
       critical.GetComponent<Text>().text = ((int)(criticalPercentage * 100)).ToString() + " %";
+      if (heroScript.effectCRIT > 0) {
+        critical.GetComponent<Text>().color = Colors.effect;
+      } else {
+        critical.GetComponent<Text>().color = Color.white;
+      }
     }
 
-    if (luckPercentage != heroScript.luckPercentage) {
-      luckPercentage = heroScript.luckPercentage + heroScript.equippedLUCK;
+    if (luckPercentage != heroScript.luckPercentage + heroScript.effectLCK) {
+      luckPercentage = heroScript.luckPercentage + heroScript.equippedLUCK + heroScript.effectLCK;
       luck.GetComponent<Text>().text = ((int)(luckPercentage * 100)).ToString() + " %";
+      if (heroScript.effectLCK > 0) {
+        luck.GetComponent<Text>().color = Colors.effect;
+      } else {
+        luck.GetComponent<Text>().color = Color.white;
+      }
     }
 
     if (location != heroScript.location) {
