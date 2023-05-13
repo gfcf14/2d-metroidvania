@@ -1141,7 +1141,7 @@ public class Hero : MonoBehaviour {
     int throwableDamage = Damages.weaponDamages[throwable.GetComponent<Throwable>().type].damage;
 
     if (mustTakeDamage) {
-      int damage = (stamina + (int)equippedSTA) - throwableDamage;
+      int damage = (stamina + (int)equippedSTA + (int)effectSTA) - throwableDamage;
       TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, contactPoint);
 
       if (currentHP > 0) {
@@ -1158,7 +1158,7 @@ public class Hero : MonoBehaviour {
         } else {
           DropDefense();
           currentShieldHP--;
-          int damage = (stamina + (int)equippedSTA + shieldDefense) - throwableDamage;
+          int damage = (stamina + (int)equippedSTA + shieldDefense + (int)effectSTA) - throwableDamage;
           TakeDamage(damage < 0 ? Math.Abs(damage) :  Constants.minimumDamageDealt, contactPoint);
 
           if (currentHP > 0) {
@@ -1196,7 +1196,7 @@ public class Hero : MonoBehaviour {
 
       if (mustTakeDamage) {
         bool isCritical = Helpers.IsCritical(enemyScript.criticalRate);
-        int damage = (stamina + (int)equippedSTA) - (enemyScript.atk * (isCritical ? 2 : 1));
+        int damage = (stamina + (int)equippedSTA + (int)effectSTA) - (enemyScript.atk * (isCritical ? 2 : 1));
         TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, contactPoint, isCritical);
 
         if (currentHP > 0) {
@@ -1214,7 +1214,7 @@ public class Hero : MonoBehaviour {
             DropDefense();
             currentShieldHP--;
             bool isCritical = Helpers.IsCritical(enemyScript.criticalRate);
-            int damage = (stamina + (int)equippedSTA + shieldDefense) - (enemyScript.atk * (isCritical ? 2 : 1));
+            int damage = (stamina + (int)equippedSTA + shieldDefense + (int)effectSTA) - (enemyScript.atk * (isCritical ? 2 : 1));
             TakeDamage(damage < 0 ? Math.Abs(damage) :  Constants.minimumDamageDealt, contactPoint, isCritical);
 
             if (currentHP > 0) {
