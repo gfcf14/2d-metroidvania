@@ -124,11 +124,22 @@ public class Hero : MonoBehaviour {
     [System.NonSerialized] public float criticalPercentage = 0.05f;
     [System.NonSerialized] public string location = "meadows";
     [System.NonSerialized] public HeroMagicResistance[] magicResistances = new HeroMagicResistance[] {
-      new HeroMagicResistance() {name = "earth", frequency = 1},
+      new HeroMagicResistance() {name = "earth", frequency = 0},
       new HeroMagicResistance() {name = "air", frequency = 0},
       new HeroMagicResistance() {name = "water", frequency = 0},
       new HeroMagicResistance() {name = "fire", frequency = 0},
-      new HeroMagicResistance() {name = "lightning", frequency = 1},
+      new HeroMagicResistance() {name = "lightning", frequency = 0},
+      new HeroMagicResistance() {name = "ice", frequency = 0},
+      new HeroMagicResistance() {name = "light", frequency = 0},
+      new HeroMagicResistance() {name = "dark", frequency = 0}
+    };
+
+    [System.NonSerialized] public HeroMagicResistance[] effectMagicResistances = new HeroMagicResistance[] {
+      new HeroMagicResistance() {name = "earth", frequency = 0},
+      new HeroMagicResistance() {name = "air", frequency = 0},
+      new HeroMagicResistance() {name = "water", frequency = 0},
+      new HeroMagicResistance() {name = "fire", frequency = 0},
+      new HeroMagicResistance() {name = "lightning", frequency = 0},
       new HeroMagicResistance() {name = "ice", frequency = 0},
       new HeroMagicResistance() {name = "light", frequency = 0},
       new HeroMagicResistance() {name = "dark", frequency = 0}
@@ -220,6 +231,7 @@ public class Hero : MonoBehaviour {
     arrowAnchor = transform.Find("ArrowAnchor").gameObject;
 
     //test items
+    items.Add(new Item("lightning-med", 1));
     items.Add(new Item("strength-flask", 1));
     items.Add(new Item("stamina-flask", 1));
     items.Add(new Item("magic-vial", 1));
@@ -263,6 +275,7 @@ public class Hero : MonoBehaviour {
     if (!isUsed) {
       consumables.Add(newConsumable);
       UpdateEffectValues(newConsumable.key, true);
+      UpdateEffectMagicResistances();
     }
   }
 
@@ -313,6 +326,7 @@ public class Hero : MonoBehaviour {
 
   public void UpdateMagicResistances() {
     foreach (HeroMagicResistance currHeroMR in magicResistances) {
+      // Frequencies are implied to be decided by item equipped only
       currHeroMR.frequency = 0;
     }
 
@@ -324,6 +338,22 @@ public class Hero : MonoBehaviour {
           foreach (MagicResistance currMagicResistance in currentPauseItem.effects.magicResistances) {
             magicResistances[magicResistanceTypeIndex[currMagicResistance.name]].frequency += currMagicResistance.type == "add" ? 1 : -1;
           }
+        }
+      }
+    }
+  }
+
+  public void UpdateEffectMagicResistances() {
+    foreach (HeroMagicResistance currentEffectHeroMR in effectMagicResistances) {
+      currentEffectHeroMR.frequency = 0;
+    }
+
+    foreach (Consumable currentConsumable in consumables) {
+      PauseItem currentPauseItem = Objects.pauseItems[currentConsumable.key];
+
+      if (currentPauseItem.effects.magicResistances != null) {
+        foreach (MagicResistance currMagicResistance in currentPauseItem.effects.magicResistances) {
+          effectMagicResistances[magicResistanceTypeIndex[currMagicResistance.name]].frequency += currMagicResistance.type == "add" ? 1 : -1;
         }
       }
     }
@@ -666,6 +696,7 @@ public class Hero : MonoBehaviour {
           if (Helpers.ExceedsTime(currentConsumable.useTime, currentConsumable.duration * 1000)) {
             UpdateEffectValues(currentConsumable.key, false);
             consumables.RemoveAt(i);
+            UpdateEffectMagicResistances();
           }
         }
       }

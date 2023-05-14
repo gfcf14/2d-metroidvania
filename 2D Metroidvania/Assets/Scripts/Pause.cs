@@ -1479,8 +1479,12 @@ public class Pause : MonoBehaviour {
 
   void UpdateMagicResistances() {
     string currentMagicResistances = "";
-    foreach(HeroMagicResistance currentMagicResistance in heroScript.magicResistances) {
-      if (currentMagicResistance.frequency >= 1) {
+
+    for (int i = 0; i < heroScript.magicResistances.Length; i++) {
+      HeroMagicResistance currentMagicResistance = heroScript.magicResistances[i];
+      HeroMagicResistance effectMagicResistance = heroScript.effectMagicResistances[i];
+
+      if (currentMagicResistance.frequency >= 1 || effectMagicResistance.frequency >= 1) {
         currentMagicResistances += currentMagicResistance.name + ",";
       }
     }
