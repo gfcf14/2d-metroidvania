@@ -763,7 +763,7 @@ public class Pause : MonoBehaviour {
 
     // Check STR
     if (currentlyEquippedIndex > 2) {
-      int totalEquippedSTR = heroScript.strength + (int)heroScript.equippedSTR;
+      int totalEquippedSTR = heroScript.strength + (int)heroScript.equippedSTR + (int)heroScript.effectSTR;
       float newEquippedSTR = (selectedEquipment.effects.atk ?? 0) + (totalEquippedSTR - (currentEquipment != null ? currentEquipment.effects.atk ?? 0 : 0));
       if (newEquippedSTR != totalEquippedSTR) {
         Color equippedLabelColor = newEquippedSTR > totalEquippedSTR ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
@@ -778,7 +778,7 @@ public class Pause : MonoBehaviour {
 
     // Check STA
     if (currentlyEquippedIndex > 2) {
-      int totalEquippedSTA = heroScript.stamina + (int)heroScript.equippedSTA;
+      int totalEquippedSTA = heroScript.stamina + (int)heroScript.equippedSTA + (int)heroScript.effectSTA;
       float newEquippedSTA = (selectedEquipment.effects.def ?? 0) + (totalEquippedSTA - (currentEquipment != null ? currentEquipment.effects.def ?? 0 : 0));
       if (newEquippedSTA != totalEquippedSTA) {
         Color equippedLabelColor = newEquippedSTA > totalEquippedSTA ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
@@ -792,7 +792,7 @@ public class Pause : MonoBehaviour {
     }
 
     // Check CRIT
-    float totalEquippedCRIT = heroScript.criticalPercentage + heroScript.equippedCRIT;
+    float totalEquippedCRIT = heroScript.criticalPercentage + heroScript.equippedCRIT + heroScript.effectCRIT;
     float newEquippedCRIT = (selectedEquipment.effects.crit ?? 0) + (totalEquippedCRIT - (currentEquipment != null ? currentEquipment.effects.crit ?? 0 : 0));
     if (newEquippedCRIT != totalEquippedCRIT) {
       Color equippedLabelColor = newEquippedCRIT > totalEquippedCRIT ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
@@ -805,7 +805,7 @@ public class Pause : MonoBehaviour {
     }
 
     // Check LUCK
-    float totalEquippedLUCK = heroScript.luckPercentage + heroScript.equippedLUCK;
+    float totalEquippedLUCK = heroScript.luckPercentage + heroScript.equippedLUCK + heroScript.effectLCK;
     float newEquippedLUCK = (selectedEquipment.effects.luck ?? 0) + (totalEquippedLUCK - (currentEquipment != null ? currentEquipment.effects.luck ?? 0 : 0));
     if (newEquippedLUCK != totalEquippedLUCK) {
       Color equippedLabelColor = newEquippedLUCK > totalEquippedLUCK ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
@@ -821,6 +821,14 @@ public class Pause : MonoBehaviour {
     MagicResistance[] possibleNewMagicResistances = selectedEquipment.effects.magicResistances ?? null;
     // clones the heroScript.magicResistances array to a new instance to compare
     HeroMagicResistance[] newMagicResistances = Array.ConvertAll(heroScript.magicResistances, currMR => new HeroMagicResistance() {name=(string)currMR.name.Clone(),  frequency=(int)currMR.frequency});
+
+    // adds the effect magic resistances to make the comparison
+    for (int i = 0; i < heroScript.effectMagicResistances.Length; i++) {
+      HeroMagicResistance currentEffectMagicResistance = heroScript.effectMagicResistances[i];
+      if (currentEffectMagicResistance.frequency == 1) {
+        newMagicResistances[i].frequency = 1;
+      }
+    }
 
     // removes the current equipment's magic resistances (if any)
     if (currentEquipment != null && currentEquipment.effects.magicResistances != null) {
