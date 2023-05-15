@@ -346,7 +346,7 @@ public class Enemy : MonoBehaviour {
       attackedFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
 
       if (hero.isKicking || hero.isDropKicking && !isDefending) {
-        bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
+        bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT + hero.effectCRIT);
         int damage = def - ((Constants.kickDamage + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
 
         if (!(isDefending && !attackedFromBehind)) {
@@ -359,7 +359,7 @@ public class Enemy : MonoBehaviour {
         string currentWeapon = hero.armUsed == 1 ? Hero.arm1Equipment : Hero.arm2Equipment;
 
         if (currentWeapon == "" && !isDefending) {
-          bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
+          bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT + hero.effectCRIT);
           int damage = def - ((Constants.punchDamage + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
 
           if (!(isDefending && !attackedFromBehind)) {
@@ -373,7 +373,7 @@ public class Enemy : MonoBehaviour {
 
           if (weaponType == "single" || weaponType == "double" && !isDefending) {
             string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
-            bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
+            bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT + hero.effectCRIT);
             int damage = def - ((Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
 
             if (!(isDefending && !attackedFromBehind)) {
@@ -390,7 +390,7 @@ public class Enemy : MonoBehaviour {
             mustTakeDamage = (Helpers.IsNonBouncingThrowable(weaponWielded) && !parentThrowable.hasCollided) || (weaponWielded == "bomb" && parentThrowable.isExploding);
 
             if (mustTakeDamage) {
-              bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
+              bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT + hero.effectCRIT);
               int damage = def - ((Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
               TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
 
@@ -423,7 +423,7 @@ public class Enemy : MonoBehaviour {
             willBurn = parentArrow.type == "arrow-fire" && !Helpers.IsFireResistant(elementResistances) && currentHP <= Constants.arrowExplosionDamage;
 
             if (mustTakeDamage) {
-              bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT);
+              bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT + hero.effectCRIT);
               int damage = (def * (isDefending ? 2 : 1)) - ((Helpers.GetDamage(arrowUsed) + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
               TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
 
