@@ -937,14 +937,14 @@ public class Pause : MonoBehaviour {
 
       if (itemEffects.crit != null) {
         effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[10];
-        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.crit >= 0 ? "+" : "") + (int)(itemEffects.crit * 100);
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.crit >= 0 ? "+" : "") + (int)(itemEffects.crit * 100) + "%";
         effectsList.ElementAt(effectsCounter).SetActive(true);
         effectsCounter++;
       }
 
       if (itemEffects.luck != null) {
         effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[11];
-        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.luck >= 0 ? "+" : "") + (int)(itemEffects.luck * 100);
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.luck >= 0 ? "+" : "") + (int)(itemEffects.luck * 100) + "%";
         effectsList.ElementAt(effectsCounter).SetActive(true);
         effectsCounter++;
       }
