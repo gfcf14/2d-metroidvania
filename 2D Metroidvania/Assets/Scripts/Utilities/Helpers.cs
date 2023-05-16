@@ -172,4 +172,27 @@ public class Helpers {
     Debug.Log(topObject + " VS " + bottomObject);
     return topObject > bottomObject;
   }
+
+  public static string GetRandomItemFromGroup(string[] itemGroup) {
+    return itemGroup[UnityEngine.Random.Range(0, itemGroup.Length)];
+  }
+
+  public static string GetLevelString(int level) {
+    return level >= 51 ? "high" : (level >= 21 ? "mid" : "low");
+  }
+
+  // TODO: include luck in this calculation
+  public static string GetDroppableItem(string key, int level) {
+    string enemyLevel = GetLevelString(level);
+    ProbabilityItem[] itemProbabilities = Objects.enemyDroppables[key][enemyLevel];
+    float randomOutcome = UnityEngine.Random.Range(0.0f, 1.0f);
+
+    string randomItemKey = itemProbabilities.FirstOrDefault(item => randomOutcome <= item.probability).key;
+
+    if (Helpers.IsValueInArray(Constants.recalculatableItemKeys, randomItemKey)) {
+      return GetRandomItemFromGroup(Objects.itemGroups[randomItemKey]);
+    }
+
+    return randomItemKey;
+  }
 }

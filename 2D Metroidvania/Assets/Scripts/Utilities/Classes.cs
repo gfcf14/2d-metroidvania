@@ -18,6 +18,11 @@ public class Item {
   }
 }
 
+public class ProbabilityItem {
+  public string key;
+  public float probability;
+}
+
 public class Consumable {
   public string key;
   public float duration;

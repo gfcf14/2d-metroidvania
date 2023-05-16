@@ -39,6 +39,11 @@ public class Constants {
   public static string[] flyingDeathEnemies = {"dwarf", "goblin", "pixie", "skeleton"};
   public static string[] flyingEnemies = {"pixie"};
 
+  public static string[] lowLevelFood = {"chicken-drumstick", "apple", "banana", "orange", "pear", "strawberry", "cherry", "grapes", "mango"};
+  public static string[] lowLevelMoney = {"money-50", "money-100"};
+
+  public static string[] recalculatableItemKeys = {"low-food", "low-money"};
+
   // TODO: consider if this will be used again in the future. If not, delete
   // public static string[] patrollerStates = {"attack", "burning", "death", "death-by-burning", "death-by-poison", "stunned", "stunned-on-attack", "walk"};
 

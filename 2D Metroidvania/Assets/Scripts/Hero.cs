@@ -267,6 +267,11 @@ public class Hero : MonoBehaviour {
     UpdateStatsValues();
 
     next = Helpers.NextLevelEXP(playerLevel + 1);
+
+    // TODO: remove after obtaining items from enemies upon death
+      // TODO: include luck in this calculation
+    string droppableItem = Helpers.GetDroppableItem("skeleton", 10);
+    Debug.Log(droppableItem);
   }
 
   // adds consumable only if it hasn't been consumed before

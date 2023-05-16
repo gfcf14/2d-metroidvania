@@ -144,6 +144,24 @@ public class Objects {
     // {"chicken-drumstick", new PauseItem(Sprites.itemThumbnails[3], Sprites.itemImages[3], "Chicken Drumstick", "From range-free raised fowl.", "food", new Effects() {hp = 99, mp=99, statusHeal=new string[]{"Poison", "Curse", "Drain"}, atk=-99, def=99, crit=0.5f, luck=-0.2f, magicResistances=new MagicResistance[]{new MagicResistance(){name="Earth", type="add"}, new MagicResistance(){name="Air", type="add"}, new MagicResistance(){name="Water", type="add"}, new MagicResistance(){name="Fire", type="add"}, new MagicResistance(){name="Lightning", type="remove"}, new MagicResistance(){name="Ice", type="remove"}, new MagicResistance(){name="Light", type="remove"}, new MagicResistance(){name="Dark", type="remove"}}})}
   };
 
+  // To get item probabilities, order them with the highest probability item first, then descending. the next item's probability has to be its inteded probability PLUS the previous ones
+  // Example: if 4 items (A, B, C, D) can be dropped, and A drops 80% of the time, B does so 10%, C does so 6% and D does so 4%, then A's probability is 0.8, B is 0.9, C is 0.96, and D is 1
+  public static Dictionary<string, Dictionary<string, ProbabilityItem[]>> enemyDroppables = new Dictionary<string, Dictionary<string, ProbabilityItem[]>> {
+    {"skeleton", new Dictionary<string, ProbabilityItem[]> {
+      {"low", new ProbabilityItem[] {
+        new ProbabilityItem(){key="low-food", probability=0.8f},
+        new ProbabilityItem(){key="low-money", probability=0.9f},
+        new ProbabilityItem(){key="skull", probability=0.96f},
+        new ProbabilityItem(){key="calcite", probability=1},
+      }}
+    }}
+  };
+
+  public static Dictionary<string, string[]> itemGroups = new Dictionary<string, string[]> {
+    {"low-food", Constants.lowLevelFood},
+    {"low-money", Constants.lowLevelMoney},
+  };
+
   public static Dictionary<string, MoneyItem> moneyItems = new Dictionary<string, MoneyItem> {
     {"money-50", new MoneyItem(){ image = Sprites.moneyImages[0], increment = 50, size = new Vector2(0.45f, 0.55f), text = "$50"}},
     {"money-100", new MoneyItem(){ image = Sprites.moneyImages[1], increment = 100, size = new Vector2(0.45f, 0.55f), text = "$100"}},
