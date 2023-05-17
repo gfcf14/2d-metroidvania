@@ -193,6 +193,12 @@ public class Objects {
         new ProbabilityItem(){key="low-potions", probability=0.8f},
         new ProbabilityItem(){key="low-bracelets", probability=0.95f},
         new ProbabilityItem(){key="laurel-crown", probability=1},
+      }},
+      {"mid", new ProbabilityItem[] {
+        new ProbabilityItem(){key="mid-food", probability=0.6f},
+        new ProbabilityItem(){key="vine-staff", probability=0.8f},
+        new ProbabilityItem(){key="low-pendants", probability=0.95f},
+        new ProbabilityItem(){key="flower-crown", probability=1},
       }}
     }}
   };
@@ -205,6 +211,7 @@ public class Objects {
     {"low-bracelets", Constants.lowLevelBracelets},
     {"low-food", Constants.lowLevelFood},
     {"low-money", Constants.lowLevelMoney},
+    {"low-pendants", Constants.lowLevelPendants},
     {"low-potions", Constants.lowLevelPotions},
     {"mid-food", Constants.midLevelFood},
   };
