@@ -42,7 +42,10 @@ public class Constants {
   public static string[] lowLevelFood = {"chicken-drumstick", "apple", "banana", "orange", "pear", "strawberry", "cherry", "grapes", "mango"};
   public static string[] lowLevelMoney = {"money-50", "money-100"};
   public static string[] midLevelFood = {"pineapple", "coconut", "honeydew", "watermelon", "wine"};
-  public static string[] recalculatableItemKeys = {"low-food", "low-money", "mid-food"};
+
+  // TODO: wine is on high level food array as placeholder. Remove once better food items are implemented
+  public static string[] highLevelFood = {"wine"};
+  public static string[] recalculatableItemKeys = {"high-food", "low-food", "low-money", "mid-food"};
 
   // TODO: consider if this will be used again in the future. If not, delete
   // public static string[] patrollerStates = {"attack", "burning", "death", "death-by-burning", "death-by-poison", "stunned", "stunned-on-attack", "walk"};
