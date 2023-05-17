@@ -179,11 +179,18 @@ public class Objects {
         new ProbabilityItem(){key="goblin-knives", probability=0.8f},
         new ProbabilityItem(){key="textiles", probability=0.9f},
         new ProbabilityItem(){key="goblin-mid-item4", probability=1},
+      }},
+      {"high", new ProbabilityItem[] {
+        new ProbabilityItem(){key="mid-food", probability=0.5f},
+        new ProbabilityItem(){key="bandit-rapier", probability=0.8f},
+        new ProbabilityItem(){key="mid-money", probability=0.9f},
+        new ProbabilityItem(){key="goblin-high-item4", probability=1},
       }}
     }}
   };
 
   public static Dictionary<string, string[]> itemGroups = new Dictionary<string, string[]> {
+    {"goblin-high-item4", Constants.goblinHighItem4},
     {"goblin-knives", Constants.goblinKnives},
     {"goblin-mid-item4", Constants.goblinMidItem4},
     {"high-food", Constants.highLevelFood},

@@ -47,7 +47,8 @@ public class Constants {
   public static string[] highLevelFood = {"wine"};
   public static string[] goblinKnives = {"bandit-knife", "knife"};
   public static string[] goblinMidItem4 = {"silver-bar", "bronze-ingot"};
-  public static string[] recalculatableItemKeys = {"high-food", "low-food", "low-money", "mid-food"};
+  public static string[] goblinHighItem4 = {"silver-ingot", "gold-bar"};
+  public static string[] recalculatableItemKeys = {"goblin-high-item4", "goblin-knives", "goblin-mid-item4", "high-food", "low-food", "low-money", "mid-food"};
 
   // TODO: consider if this will be used again in the future. If not, delete
   // public static string[] patrollerStates = {"attack", "burning", "death", "death-by-burning", "death-by-poison", "stunned", "stunned-on-attack", "walk"};
