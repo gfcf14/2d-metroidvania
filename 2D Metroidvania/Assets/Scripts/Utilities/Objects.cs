@@ -199,6 +199,12 @@ public class Objects {
         new ProbabilityItem(){key="vine-staff", probability=0.8f},
         new ProbabilityItem(){key="low-pendants", probability=0.95f},
         new ProbabilityItem(){key="flower-crown", probability=1},
+      }},
+      {"high", new ProbabilityItem[] {
+        new ProbabilityItem(){key="high-food", probability=0.6f},
+        new ProbabilityItem(){key="vine-scepter", probability=0.8f},
+        new ProbabilityItem(){key="mid-potions", probability=0.95f},
+        new ProbabilityItem(){key="flower-wreath", probability=1},
       }}
     }}
   };
@@ -214,6 +220,8 @@ public class Objects {
     {"low-pendants", Constants.lowLevelPendants},
     {"low-potions", Constants.lowLevelPotions},
     {"mid-food", Constants.midLevelFood},
+    {"mid-money", Constants.midLevelMoney},
+    {"mid-potions", Constants.midLevelPotions}
   };
 
   public static Dictionary<string, MoneyItem> moneyItems = new Dictionary<string, MoneyItem> {

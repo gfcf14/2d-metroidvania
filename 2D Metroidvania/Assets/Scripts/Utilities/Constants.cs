@@ -47,6 +47,7 @@ public class Constants {
   public static string[] highLevelFood = {"wine"};
   public static string[] goblinKnives = {"bandit-knife", "knife"};
   public static string[] goblinMidItem4 = {"silver-bar", "bronze-ingot"};
+  public static string[] midLevelMoney = {"money-200", "money-500"};
   public static string[] goblinHighItem4 = {"silver-ingot", "gold-bar"};
 
   // TODO: silver bracelet is on low level bracelets array as placeholder. Remove once worse bracelets are implemented
@@ -55,7 +56,8 @@ public class Constants {
 
   // TODO: moonlight-pendant should not have such low stats. Remove from this list when worse pendants have been implemented
   public static string[] lowLevelPendants = {"moonlight-pendant"};
-  public static string[] recalculatableItemKeys = {"goblin-high-item4", "goblin-knives", "goblin-mid-item4", "high-food", "low-bracelets", "low-food", "low-money", "low-pendants", "low-potions", "mid-food"};
+  public static string[] midLevelPotions = {"mid-potion", "magic-vial"};
+  public static string[] recalculatableItemKeys = {"goblin-high-item4", "goblin-knives", "goblin-mid-item4", "high-food", "low-bracelets", "low-food", "low-money", "low-pendants", "low-potions", "mid-food", "mid-money", "mid-potions"};
 
   // TODO: consider if this will be used again in the future. If not, delete
   // public static string[] patrollerStates = {"attack", "burning", "death", "death-by-burning", "death-by-poison", "stunned", "stunned-on-attack", "walk"};
