@@ -48,7 +48,11 @@ public class Constants {
   public static string[] goblinKnives = {"bandit-knife", "knife"};
   public static string[] goblinMidItem4 = {"silver-bar", "bronze-ingot"};
   public static string[] goblinHighItem4 = {"silver-ingot", "gold-bar"};
-  public static string[] recalculatableItemKeys = {"goblin-high-item4", "goblin-knives", "goblin-mid-item4", "high-food", "low-food", "low-money", "mid-food"};
+
+  // TODO: silver bracelet is on low level bracelets array as placeholder. Remove once worse bracelets are implemented
+  public static string[] lowLevelBracelets = {"silver-bracelet"};
+  public static string[] lowLevelPotions = {"potion", "magic-ampoule"};
+  public static string[] recalculatableItemKeys = {"goblin-high-item4", "goblin-knives", "goblin-mid-item4", "high-food", "low-bracelets", "low-food", "low-money", "low-potions", "mid-food"};
 
   // TODO: consider if this will be used again in the future. If not, delete
   // public static string[] patrollerStates = {"attack", "burning", "death", "death-by-burning", "death-by-poison", "stunned", "stunned-on-attack", "walk"};

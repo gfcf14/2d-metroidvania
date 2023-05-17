@@ -186,6 +186,14 @@ public class Objects {
         new ProbabilityItem(){key="mid-money", probability=0.9f},
         new ProbabilityItem(){key="goblin-high-item4", probability=1},
       }}
+    }},
+    {"nymph", new Dictionary<string, ProbabilityItem[]> {
+      {"low", new ProbabilityItem[] {
+        new ProbabilityItem(){key="low-food", probability=0.6f},
+        new ProbabilityItem(){key="low-potions", probability=0.8f},
+        new ProbabilityItem(){key="low-bracelets", probability=0.95f},
+        new ProbabilityItem(){key="laurel-crown", probability=1},
+      }}
     }}
   };
 
@@ -194,8 +202,10 @@ public class Objects {
     {"goblin-knives", Constants.goblinKnives},
     {"goblin-mid-item4", Constants.goblinMidItem4},
     {"high-food", Constants.highLevelFood},
+    {"low-bracelets", Constants.lowLevelBracelets},
     {"low-food", Constants.lowLevelFood},
     {"low-money", Constants.lowLevelMoney},
+    {"low-potions", Constants.lowLevelPotions},
     {"mid-food", Constants.midLevelFood},
   };
 
