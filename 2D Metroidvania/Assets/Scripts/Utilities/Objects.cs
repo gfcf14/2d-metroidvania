@@ -213,6 +213,12 @@ public class Objects {
         new ProbabilityItem(){key="low-money", probability=0.85f},
         new ProbabilityItem(){key="silver-bar", probability=0.95f},
         new ProbabilityItem(){key="wine", probability=1},
+      }},
+      {"mid", new ProbabilityItem[] {
+        new ProbabilityItem(){key="mid-food", probability=0.7f},
+        new ProbabilityItem(){key="axe", probability=0.85f},
+        new ProbabilityItem(){key="silver-ingot", probability=0.95f},
+        new ProbabilityItem(){key="dwarf-hammer", probability=1},
       }}
     }}
   };
