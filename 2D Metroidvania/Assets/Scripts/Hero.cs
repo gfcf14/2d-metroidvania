@@ -270,7 +270,7 @@ public class Hero : MonoBehaviour {
 
     // TODO: remove after obtaining items from enemies upon death
       // TODO: include luck in this calculation
-    string droppableItem = Helpers.GetDroppableItem("skeleton", 60);
+    string droppableItem = Helpers.GetDroppableItem("goblin", 10);
     Debug.Log(droppableItem);
   }
 

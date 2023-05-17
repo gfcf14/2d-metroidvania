@@ -166,6 +166,14 @@ public class Objects {
         new ProbabilityItem(){key="silver-skull", probability=0.96f},
         new ProbabilityItem(){key="precious-calcite", probability=1},
       }}
+    }},
+    {"goblin", new Dictionary<string, ProbabilityItem[]> {
+      {"low", new ProbabilityItem[] {
+        new ProbabilityItem(){key="low-food", probability=0.5f},
+        new ProbabilityItem(){key="low-money", probability=0.8f},
+        new ProbabilityItem(){key="spices", probability=0.9f},
+        new ProbabilityItem(){key="bronze-bar", probability=1},
+      }}
     }}
   };
 
