@@ -45,6 +45,8 @@ public class Constants {
 
   // TODO: wine is on high level food array as placeholder. Remove once better food items are implemented
   public static string[] highLevelFood = {"wine"};
+  public static string[] goblinKnives = {"bandit-knife", "knife"};
+  public static string[] goblinMidItem4 = {"silver-bar", "bronze-ingot"};
   public static string[] recalculatableItemKeys = {"high-food", "low-food", "low-money", "mid-food"};
 
   // TODO: consider if this will be used again in the future. If not, delete
