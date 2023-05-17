@@ -233,6 +233,12 @@ public class Objects {
         new ProbabilityItem(){key="low-potions", probability=0.8f},
         new ProbabilityItem(){key="low-money", probability=0.92f},
         new ProbabilityItem(){key="bronze-pixie-belt", probability=1},
+      }},
+      {"mid", new ProbabilityItem[] {
+        new ProbabilityItem(){key="mid-food", probability=0.5f},
+        new ProbabilityItem(){key="gold-bar", probability=0.8f},
+        new ProbabilityItem(){key="mid-potions", probability=0.92f},
+        new ProbabilityItem(){key="silver-pixie-belt", probability=1},
       }}
     }}
   };
