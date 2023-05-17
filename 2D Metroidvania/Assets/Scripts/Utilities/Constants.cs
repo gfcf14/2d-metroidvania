@@ -41,8 +41,8 @@ public class Constants {
 
   public static string[] lowLevelFood = {"chicken-drumstick", "apple", "banana", "orange", "pear", "strawberry", "cherry", "grapes", "mango"};
   public static string[] lowLevelMoney = {"money-50", "money-100"};
-
-  public static string[] recalculatableItemKeys = {"low-food", "low-money"};
+  public static string[] midLevelFood = {"pineapple", "coconut", "honeydew", "watermelon", "wine"};
+  public static string[] recalculatableItemKeys = {"low-food", "low-money", "mid-food"};
 
   // TODO: consider if this will be used again in the future. If not, delete
   // public static string[] patrollerStates = {"attack", "burning", "death", "death-by-burning", "death-by-poison", "stunned", "stunned-on-attack", "walk"};

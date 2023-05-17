@@ -153,6 +153,12 @@ public class Objects {
         new ProbabilityItem(){key="low-money", probability=0.9f},
         new ProbabilityItem(){key="skull", probability=0.96f},
         new ProbabilityItem(){key="calcite", probability=1},
+      }},
+      {"mid", new ProbabilityItem[] {
+        new ProbabilityItem(){key="mid-food", probability=0.8f},
+        new ProbabilityItem(){key="darkling-sword", probability=0.9f},
+        new ProbabilityItem(){key="polished-skull", probability=0.96f},
+        new ProbabilityItem(){key="refined-calcite", probability=1},
       }}
     }}
   };
@@ -160,6 +166,7 @@ public class Objects {
   public static Dictionary<string, string[]> itemGroups = new Dictionary<string, string[]> {
     {"low-food", Constants.lowLevelFood},
     {"low-money", Constants.lowLevelMoney},
+    {"mid-food", Constants.midLevelFood},
   };
 
   public static Dictionary<string, MoneyItem> moneyItems = new Dictionary<string, MoneyItem> {
