@@ -31094,6 +31094,10 @@ MonoBehaviour:
   currentWeapon: 
   hurtFromBehind: 0
   isHoldingDown: 0
+  effectSTR: 0
+  effectSTA: 0
+  effectCRIT: 0
+  effectLCK: 0
   tiredThreshold: 40
   dummyShieldHP: 5
   dummyShieldRecoverTime: 2000
@@ -42674,7 +42678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5225027722940946498, guid: 587e6ef9499e9074eb699910782fd0f1, type: 3}
       propertyPath: summonKey
-      value: nymph
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5450828272805675087, guid: 587e6ef9499e9074eb699910782fd0f1, type: 3}
       propertyPath: m_Controller
@@ -61597,6 +61601,10 @@ PrefabInstance:
     - target: {fileID: 5441866141893687778, guid: 60fb5eafd86f95340ad378e241cb6804, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5441866141893687804, guid: 60fb5eafd86f95340ad378e241cb6804, type: 3}
+      propertyPath: enemyKey
+      value: nymph
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60fb5eafd86f95340ad378e241cb6804, type: 3}
