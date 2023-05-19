@@ -42,7 +42,7 @@ public class RoomTrigger : MonoBehaviour {
     if (col.CompareTag("RoomTraverser")) {
       virtualCam.SetActive(false);
       foreach (Transform child in gameObject.transform) {
-        if (child.tag == "Enemy" && child.name != "Boss") {
+        if ((child.tag == "Enemy" && child.name != "Boss") || child.name.Contains("Droppable")) {
           if (child.name == "Boss") {
             child.gameObject.GetComponent<Enemy>().isOnCamera = false;
           } else {

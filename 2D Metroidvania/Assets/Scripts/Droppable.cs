@@ -3,12 +3,19 @@ using UnityEngine;
 
 public class Droppable : MonoBehaviour {
   [SerializeField] public string key;
+  [SerializeField] public GameObject room;
   [System.NonSerialized] public bool isDropped = false;
   [System.NonSerialized] MoneyItem moneyItem;
 
   private Animator anim;
 
   void Start() {
+    // if a room has been assigned, put the droppable in it to be deleted on exit
+    // if there is no room, the only way to delete it is to touch it
+    if (room) {
+      transform.parent.SetParent(room.transform);
+    }
+
     anim = GetComponent<Animator>();
 
     if (key.Contains("money")) {

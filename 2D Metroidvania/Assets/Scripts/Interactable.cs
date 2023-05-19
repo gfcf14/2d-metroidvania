@@ -30,6 +30,6 @@ public class Interactable : MonoBehaviour {
     GetComponent<BoxCollider2D>().enabled = false;
 
     // TODO: define what items will Interactables drop
-    GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().InstantiatePrefab("droppable", "moonlight-pendant", transform, spriteRenderer);
+    GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().InstantiatePrefab("droppable", "moonlight-pendant", transform.parent.gameObject, transform, spriteRenderer);
   }
 }

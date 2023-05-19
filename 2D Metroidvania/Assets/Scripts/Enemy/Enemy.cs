@@ -632,7 +632,7 @@ public class Enemy : MonoBehaviour {
     // instantiates the dropped item
     // TODO: include luck in this calculation
     // TODO: remove ternary when skeleton-king items are decided
-    GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().InstantiatePrefab("droppable", key == "skeleton-king" ? "moonlight-pendant" : Helpers.GetDroppableItem(key, level), transform, enemyRenderer);
+    GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().InstantiatePrefab("droppable", key == "skeleton-king" ? "moonlight-pendant" : Helpers.GetDroppableItem(key, level), transform.parent.gameObject, transform, enemyRenderer);
 
     // instantiates the explosion of the enemy
     Instantiate(Objects.prefabs["enemy-explosion"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
