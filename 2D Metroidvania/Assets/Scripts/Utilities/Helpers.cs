@@ -182,10 +182,14 @@ public class Helpers {
   }
 
   // TODO: include luck in this calculation
-  public static string GetDroppableItem(string key, int level) {
+  public static string GetDroppableItem(string key, int level, float playerLuck) {
     string enemyLevel = GetLevelString(level);
     ProbabilityItem[] itemProbabilities = Objects.enemyDroppables[key][enemyLevel];
-    float randomOutcome = UnityEngine.Random.Range(0.0f, 1.0f);
+    float randomOutcome = UnityEngine.Random.Range(0.0f, 1.0f) + playerLuck;
+
+    if (randomOutcome > 1) {
+      randomOutcome = 1;
+    }
 
     string randomItemKey = itemProbabilities.FirstOrDefault(item => randomOutcome <= item.probability).key;
 
