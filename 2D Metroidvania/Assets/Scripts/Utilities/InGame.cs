@@ -13,5 +13,8 @@ public class InGame : MonoBehaviour {
     droppedObject.key = key;
     droppedObject.isDropped = true;
     droppedObject.room = room;
+
+    // adds flicker effect
+    droppedObject.gameObject.transform.Find("Image").gameObject.AddComponent<Flicker>().enabled = false;
   }
 }

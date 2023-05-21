@@ -4,12 +4,20 @@ using UnityEngine;
 public class Droppable : MonoBehaviour {
   [SerializeField] public string key;
   [SerializeField] public GameObject room;
-  [System.NonSerialized] public bool isDropped = false;
+  [SerializeField] public bool isDropped = false;
+  [SerializeField] public bool isIdle = false;
+  [SerializeField] public bool isFlickering = false;
   [System.NonSerialized] MoneyItem moneyItem;
+  [System.NonSerialized] public float timer = 0;
+  [System.NonSerialized] public float maxIdleTime = 10000;
+  [System.NonSerialized] public float maxFlickerTime = 5000;
+  [System.NonSerialized] public Flicker flickerEffect;
 
   private Animator anim;
 
   void Start() {
+    flickerEffect = transform.Find("Image").gameObject.GetComponent<Flicker>();
+
     // if a room has been assigned, put the droppable in it to be deleted on exit
     // if there is no room, the only way to delete it is to touch it
     if (room) {
@@ -40,12 +48,33 @@ public class Droppable : MonoBehaviour {
     }
   }
 
-  void Update() {}
+  void Update() {
+    if (flickerEffect != null) {
+      if (isIdle) {
+        if (Helpers.ExceedsTime(timer, maxIdleTime)) {
+          flickerEffect.enabled = true;
+          timer = Time.time * 1000;
+          isFlickering = true;
+          isIdle = false;
+        }
+      } else if (isFlickering) {
+        if (Helpers.ExceedsTime(timer, maxFlickerTime)) {
+          Destroy(transform.parent.gameObject);
+        }
+      }
+    }
+  }
 
   private void OnCollisionEnter2D(Collision2D col) {
     if (col.gameObject.tag == "Ground") {
       Destroy(GetComponent<Rigidbody2D>());
       GetComponent<CapsuleCollider2D>().isTrigger = true;
+
+      if (flickerEffect != null) {
+        timer = Time.time * 1000;
+        isIdle = true;
+      }
+
     // } else if (col.gameObject.tag == "Hero") {
     //   DestroyDroppable(col.gameObject.GetComponent<Hero>());
     } else { // if (Helpers.IsValueInArray(Constants.droppableNonColliderTags, col.collider.tag) || Helpers.IsValueInArray(Constants.droppableNonColliderNames, col.collider.name)) {
