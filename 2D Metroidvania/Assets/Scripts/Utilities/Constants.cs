@@ -80,7 +80,7 @@ public class Constants {
   public static int existingMPWidth = 16;
 
   // Used to set a width per character for the Info Canvas
-  public static int characterWidth = 23;
+  public static int characterWidth = 25;
 
   public static float[] HurtBTransitions = {0.009155554f, 0.01235556f, 0.01528889f, 0.01795555f, 0.02035556f, 0.02248894f, 0.0243555f,
                                             0.0259556f, 0.0272888f, 0.0283556f, 0.0291556f, 0.0296888f, 0.0299556f, 0.0299556f, 0.0296889f,
