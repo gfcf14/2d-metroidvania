@@ -59,7 +59,6 @@ public class Breakable : MonoBehaviour {
       Destroy(GetComponent<Rigidbody2D>());
       GetComponent<BoxCollider2D>().isTrigger = true;
 
-      // TODO: define what items will Breakables drop
       GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().InstantiatePrefab("droppable", item, transform.parent.gameObject, transform, spriteRenderer);
 
       GameObject parentObject = col.transform.parent.gameObject;
