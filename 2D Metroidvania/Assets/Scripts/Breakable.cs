@@ -24,6 +24,10 @@ public class Breakable : MonoBehaviour {
     gameObject.AddComponent<Animator>();
     anim = GetComponent<Animator>();
     anim.runtimeAnimatorController = Objects.animationControllers["breakable"];
+
+    if (item == "") {
+      throw new Exception("No item declared for breakable in " + transform.parent.gameObject.name + ". Please declare an item for proper use.");
+    }
   }
 
   void Update() {}
@@ -56,7 +60,7 @@ public class Breakable : MonoBehaviour {
       GetComponent<BoxCollider2D>().isTrigger = true;
 
       // TODO: define what items will Breakables drop
-      GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().InstantiatePrefab("droppable", "moonlight-pendant", transform.parent.gameObject, transform, spriteRenderer);
+      GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().InstantiatePrefab("droppable", item, transform.parent.gameObject, transform, spriteRenderer);
 
       GameObject parentObject = col.transform.parent.gameObject;
       if (parentObject.name.Contains("Throwable")) {
