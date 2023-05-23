@@ -149,19 +149,19 @@ public class Objects {
   public static Dictionary<string, Dictionary<string, ProbabilityItem[]>> enemyDroppables = new Dictionary<string, Dictionary<string, ProbabilityItem[]>> {
     {"skeleton", new Dictionary<string, ProbabilityItem[]> {
       {"low", new ProbabilityItem[] {
-        new ProbabilityItem(){key="low-food", probability=0.8f},
+        new ProbabilityItem(){key="low-potions", probability=0.8f},
         new ProbabilityItem(){key="low-money", probability=0.9f},
         new ProbabilityItem(){key="skull", probability=0.96f},
         new ProbabilityItem(){key="calcite", probability=1},
       }},
       {"mid", new ProbabilityItem[] {
-        new ProbabilityItem(){key="mid-food", probability=0.8f},
+        new ProbabilityItem(){key="mid-potions", probability=0.8f},
         new ProbabilityItem(){key="darkling-sword", probability=0.9f},
         new ProbabilityItem(){key="polished-skull", probability=0.96f},
         new ProbabilityItem(){key="refined-calcite", probability=1},
       }},
       {"high", new ProbabilityItem[] {
-        new ProbabilityItem(){key="high-food", probability=0.8f},
+        new ProbabilityItem(){key="elixir", probability=0.8f},
         new ProbabilityItem(){key="darklord-sword", probability=0.9f},
         new ProbabilityItem(){key="silver-skull", probability=0.96f},
         new ProbabilityItem(){key="precious-calcite", probability=1},
