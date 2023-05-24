@@ -161,7 +161,7 @@ public class Objects {
         new ProbabilityItem(){key="refined-calcite", probability=1},
       }},
       {"high", new ProbabilityItem[] {
-        new ProbabilityItem(){key="elixir", probability=0.8f},
+        new ProbabilityItem(){key="silver-bracelet", probability=0.8f},
         new ProbabilityItem(){key="darklord-sword", probability=0.9f},
         new ProbabilityItem(){key="silver-skull", probability=0.96f},
         new ProbabilityItem(){key="precious-calcite", probability=1},
