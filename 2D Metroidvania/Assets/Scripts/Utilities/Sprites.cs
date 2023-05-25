@@ -394,7 +394,11 @@ public class Sprites {
     {"bronze-pixie-belt", droppableImages[96]},
     {"silver-pixie-belt", droppableImages[97]},
     {"gold-pixie-belt", droppableImages[98]},
-    {"draco-shield", droppableImages[99]}
+    {"draco-shield", droppableImages[99]},
+    {"king-skull", droppableImages[100]},
+    {"polished-king-skull", droppableImages[101]},
+    {"silver-king-skull", droppableImages[102]},
+    {"royal-pelt", droppableImages[103]}
   };
 
   public static Dictionary<string, Sprite> breakableSprites = new Dictionary<string, Sprite> {

@@ -138,6 +138,10 @@ public class Objects {
     {"silver-pixie-belt", new PauseItem(Sprites.itemThumbnails[97], Sprites.itemImages[97], "Silver Pixie Belt", "Pixie belt from nobility.", "armwear", new Effects() {atk=20, def=30, luck=0.05f})},
     {"gold-pixie-belt", new PauseItem(Sprites.itemThumbnails[98], Sprites.itemImages[98], "Gold Pixie Belt", "Prized possession of the wealthiest of pixies.", "armwear", new Effects() {atk=30, def=50, luck=0.05f, crit=0.05f})},
     {"draco-shield", new PauseItem(Sprites.itemThumbnails[99], Sprites.itemImages[99], "Draco Shield", "Bronze shield said to be indestructible.", "defense", new Effects() {def=100})},
+    {"king-skull", new PauseItem(Sprites.itemThumbnails[100], Sprites.itemImages[100], "King Skull", "The head from a skeleton king, far more intimidating than any skeleton's", "valuable")},
+    {"polished-king-skull", new PauseItem(Sprites.itemThumbnails[101], Sprites.itemImages[101], "Polished King Skull", "A more refined head from a skeleton king", "valuable")},
+    {"silver-king-skull", new PauseItem(Sprites.itemThumbnails[102], Sprites.itemImages[102], "Silver King Skull", "Silver skeleton king skull with a gold laurel crown", "valuable")},
+    {"royal-pelt", new PauseItem(Sprites.itemThumbnails[103], Sprites.itemImages[103], "Royal Pelt", "Comfortable pelt worn by skeleton kings", "valuable")}
 
 
     // Example of having everything
