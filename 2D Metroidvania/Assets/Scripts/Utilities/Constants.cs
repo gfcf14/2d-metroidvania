@@ -57,7 +57,8 @@ public class Constants {
   // TODO: moonlight-pendant should not have such low stats. Remove from this list when worse pendants have been implemented
   public static string[] lowLevelPendants = {"moonlight-pendant"};
   public static string[] midLevelPotions = {"mid-potion", "magic-vial"};
-  public static string[] recalculatableItemKeys = {"goblin-high-item4", "goblin-knives", "goblin-mid-item4", "high-food", "low-bracelets", "low-food", "low-money", "low-pendants", "low-potions", "mid-food", "mid-money", "mid-potions"};
+  public static string[] highLevelPotions = {"high-potion", "magic-bottle"};
+  public static string[] recalculatableItemKeys = {"goblin-high-item4", "goblin-knives", "goblin-mid-item4", "high-food", "high-potions", "low-bracelets", "low-food", "low-money", "low-pendants", "low-potions", "mid-food", "mid-money", "mid-potions"};
 
   // TODO: consider if this will be used again in the future. If not, delete
   // public static string[] patrollerStates = {"attack", "burning", "death", "death-by-burning", "death-by-poison", "stunned", "stunned-on-attack", "walk"};

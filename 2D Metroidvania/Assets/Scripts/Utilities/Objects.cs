@@ -250,6 +250,26 @@ public class Objects {
         new ProbabilityItem(){key="mid-potions", probability=0.92f},
         new ProbabilityItem(){key="gold-pixie-belt", probability=1},
       }}
+    }},
+    {"skeleton-king", new Dictionary<string, ProbabilityItem[]> {
+      {"low", new ProbabilityItem[] {
+        new ProbabilityItem(){key="giant-bone", probability=0.7f},
+        new ProbabilityItem(){key="mid-potions", probability=0.9f},
+        new ProbabilityItem(){key="royal-pelt", probability=0.97f},
+        new ProbabilityItem(){key="king-skull", probability=1},
+      }},
+      {"mid", new ProbabilityItem[] {
+        new ProbabilityItem(){key="giant-bone", probability=0.7f},
+        new ProbabilityItem(){key="high-potions", probability=0.9f},
+        new ProbabilityItem(){key="gold-ingot", probability=0.97f},
+        new ProbabilityItem(){key="polished-king-skull", probability=1},
+      }},
+      {"high", new ProbabilityItem[] {
+        new ProbabilityItem(){key="giant-bone", probability=0.7f},
+        new ProbabilityItem(){key="elixir", probability=0.9f},
+        new ProbabilityItem(){key="citrine", probability=0.97f},
+        new ProbabilityItem(){key="silver-king-skull", probability=1},
+      }}
     }}
   };
 
@@ -258,6 +278,7 @@ public class Objects {
     {"goblin-knives", Constants.goblinKnives},
     {"goblin-mid-item4", Constants.goblinMidItem4},
     {"high-food", Constants.highLevelFood},
+    {"high-potions", Constants.highLevelPotions},
     {"low-bracelets", Constants.lowLevelBracelets},
     {"low-food", Constants.lowLevelFood},
     {"low-money", Constants.lowLevelMoney},
