@@ -9,7 +9,7 @@ public class Hero : MonoBehaviour {
   [System.NonSerialized] public string pauseCase = "";
   [SerializeField] public List<Consumable> consumables = new List<Consumable>();
   [SerializeField] public float speed;
-  [SerializeField] private float jumpHeight;
+  [SerializeField] private float jumpHeight = 8f;
   [SerializeField] private float jetpackHeight;
   [SerializeField] public GameObject infoCanvas;
 
