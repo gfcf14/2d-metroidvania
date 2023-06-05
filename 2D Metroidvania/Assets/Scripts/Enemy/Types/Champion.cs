@@ -41,7 +41,7 @@ public class Champion : MonoBehaviour {
                 RaycastHit2D diagonalForwardCast = Physics2D.Raycast(beginDiagonalForwardCast, diagonalForwardCastDirection, enemy.groundCastLength);
                 Debug.DrawRay(beginDiagonalForwardCast, diagonalForwardCastDirection.normalized * enemy.groundCastLength, Color.green);
 
-                if (!diagonalForwardCast) {
+                if (diagonalForwardCast.collider.name == "EnemyFlipper") {
                   enemy.isFacingLeft = !enemy.isFacingLeft;
                   if (enemy.playerFound) {
                     enemy.playerFound = false;
