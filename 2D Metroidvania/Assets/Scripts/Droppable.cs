@@ -1,12 +1,15 @@
-using System.Linq;
 using UnityEngine;
 
 public class Droppable : MonoBehaviour {
   [SerializeField] public string key;
   [SerializeField] public GameObject room;
+
+  [SerializeField] public bool canBePicked = false;
+  [SerializeField] public bool isDropping = false;
   [SerializeField] public bool isDropped = false;
   [SerializeField] public bool isIdle = false;
   [SerializeField] public bool isFlickering = false;
+  [SerializeField] public int collisionCounter = 0;
   [System.NonSerialized] MoneyItem moneyItem;
   [System.NonSerialized] public float timer = 0;
   [System.NonSerialized] public float maxIdleTime = 10000;
@@ -63,28 +66,38 @@ public class Droppable : MonoBehaviour {
         }
       }
     }
-  }
 
-  private void OnCollisionEnter2D(Collision2D col) {
-    if (col.gameObject.tag == "Ground") {
-      Destroy(GetComponent<Rigidbody2D>());
-      GetComponent<CapsuleCollider2D>().isTrigger = true;
+    if (collisionCounter > 0) {
+      isDropping = false;
 
-      if (flickerEffect != null) {
+      if (timer == 0) {
         timer = Time.time * 1000;
         isIdle = true;
       }
+    } else {
+      isDropping = true;
+    }
+  }
 
-    // } else if (col.gameObject.tag == "Hero") {
-    //   DestroyDroppable(col.gameObject.GetComponent<Hero>());
-    } else { // if (Helpers.IsValueInArray(Constants.droppableNonColliderTags, col.collider.tag) || Helpers.IsValueInArray(Constants.droppableNonColliderNames, col.collider.name)) {
-      Physics2D.IgnoreCollision(col.collider, GetComponent<BoxCollider2D>());
+  void FixedUpdate() {
+    if (isDropping) {
+      transform.position = new Vector2(transform.position.x, transform.position.y - 0.2f);
     }
   }
 
   private void OnTriggerEnter2D(Collider2D col) {
-    if (col.gameObject.tag == "Hero") {
+    string gameObjectTag = col.gameObject.tag;
+
+    if (gameObjectTag == "Hero" && canBePicked) {
       DestroyDroppable(col.gameObject.GetComponent<Hero>());
+    }
+
+    if (gameObjectTag == "Ground" || gameObjectTag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type)) {
+      collisionCounter++;
+
+      if (gameObjectTag == "Breakable") {
+        col.gameObject.GetComponent<Breakable>().carriedDroppables.Add(gameObject);
+      }
     }
   }
 
@@ -109,6 +122,7 @@ public class Droppable : MonoBehaviour {
   }
 
   public void FinishAnim() {
+    canBePicked = true;
     anim.enabled = false;
   }
 }

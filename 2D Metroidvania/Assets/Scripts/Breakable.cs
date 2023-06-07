@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Breakable : MonoBehaviour {
@@ -7,6 +8,7 @@ public class Breakable : MonoBehaviour {
   [SerializeField] public string material;
 
   [System.NonSerialized] public bool isBreaking = false;
+  [System.NonSerialized] public List<GameObject> carriedDroppables = new List<GameObject>();
 
   private Animator anim;
   private SpriteRenderer spriteRenderer;
@@ -80,6 +82,12 @@ public class Breakable : MonoBehaviour {
       }
 
       anim.Play("breakable-" + type);
+    }
+  }
+
+  public void RemoveCarriedDroppables() {
+    foreach (GameObject droppable in carriedDroppables) {
+      droppable.GetComponent<Droppable>().collisionCounter--;
     }
   }
 
