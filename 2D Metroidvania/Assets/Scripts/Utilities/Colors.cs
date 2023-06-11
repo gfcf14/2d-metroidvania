@@ -60,4 +60,8 @@ public class Colors {
     {"bronze", new Color(1, 158f/255f, 62f/255f)},
     {"gold", new Color(1, 238f/255f, 51f/255f)}
   };
+
+  public static Dictionary<string, Color> heroCastColors = new Dictionary<string, Color> {
+    {"chat", new Color(0, 90f/255f, 43f/255f)}
+  };
 }

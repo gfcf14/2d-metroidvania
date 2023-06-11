@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NPC : MonoBehaviour {
   [SerializeField] public bool isFacingLeft = false;
+  [SerializeField] public bool canChat = true;
   void Start() {
     if (isFacingLeft) {
       FlipNPC();

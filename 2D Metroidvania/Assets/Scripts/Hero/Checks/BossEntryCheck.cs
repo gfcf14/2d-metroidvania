@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BossEntryCheck : MonoBehaviour {
@@ -11,6 +9,26 @@ public class BossEntryCheck : MonoBehaviour {
       Physics2D.IgnoreCollision(col.collider, GetComponent<BoxCollider2D>());
     } else {
       Debug.Log("colliding with " + col.collider.name);
+    }
+  }
+
+  private void OnTriggerEnter2D(Collider2D col) {
+    string colTag = col.gameObject.tag;
+
+    if (colTag == "NPC") {
+      NPC npcFound = col.gameObject.GetComponent<NPC>();
+
+      if (npcFound.canChat) {
+        Debug.Log("should start chat");
+      }
+    }
+  }
+
+  private void OnTriggerExit2D(Collider2D col) {
+    string colTag = col.gameObject.tag;
+
+    if (colTag == "NPC") {
+      Debug.Log("should exit chat");
     }
   }
 }
