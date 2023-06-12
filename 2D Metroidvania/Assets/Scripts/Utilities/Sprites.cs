@@ -410,10 +410,10 @@ public class Sprites {
   };
 
   public static Dictionary<string, Sprite> uiElements = new Dictionary<string, Sprite> {
-    {"checkbox-checked", Resources.Load<Sprite>("Sprites/UI/checkbox-checked")},
-    {"checkbox-unchecked", Resources.Load<Sprite>("Sprites/UI/checkbox-unchecked")},
-    {"radio-checked", Resources.Load<Sprite>("Sprites/UI/radio-checked")},
-    {"radio-unchecked", Resources.Load<Sprite>("Sprites/UI/radio-unchecked")}
+    {"checkbox-checked", Resources.Load<Sprite>("Sprites/UI/Pause/checkbox-checked")},
+    {"checkbox-unchecked", Resources.Load<Sprite>("Sprites/UI/Pause/checkbox-unchecked")},
+    {"radio-checked", Resources.Load<Sprite>("Sprites/UI/Pause/radio-checked")},
+    {"radio-unchecked", Resources.Load<Sprite>("Sprites/UI/Pause/radio-unchecked")}
   };
 
   public static Dictionary<string, Sprite> firstBossSprites = new Dictionary<string, Sprite> {
