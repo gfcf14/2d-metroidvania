@@ -12,6 +12,7 @@ public class Hero : MonoBehaviour {
   [SerializeField] private float jumpHeight = 8f;
   [SerializeField] private float jetpackHeight;
   [SerializeField] public GameObject infoCanvas;
+  [SerializeField] public GameObject actionCanvas;
 
   [SerializeField] public GameObject hpBarContainer;
   [SerializeField] public GameObject mpBarContainer;

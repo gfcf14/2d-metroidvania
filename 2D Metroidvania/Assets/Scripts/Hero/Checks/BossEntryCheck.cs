@@ -1,7 +1,11 @@
 using UnityEngine;
 
 public class BossEntryCheck : MonoBehaviour {
-  void Start() {}
+  [SerializeField] GameObject hero;
+  [System.NonSerialized] Hero heroScript;
+  void Start() {
+    heroScript = hero.GetComponent<Hero>();
+  }
   void Update() {}
 
   private void OnCollisionEnter2D(Collision2D col) {
@@ -19,7 +23,7 @@ public class BossEntryCheck : MonoBehaviour {
       NPC npcFound = col.gameObject.GetComponent<NPC>();
 
       if (npcFound.canChat) {
-        Debug.Log("should start chat");
+        heroScript.actionCanvas.SetActive(true);
       }
     }
   }
@@ -28,7 +32,7 @@ public class BossEntryCheck : MonoBehaviour {
     string colTag = col.gameObject.tag;
 
     if (colTag == "NPC") {
-      Debug.Log("should exit chat");
+      heroScript.actionCanvas.SetActive(false);
     }
   }
 }
