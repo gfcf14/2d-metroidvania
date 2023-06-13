@@ -22,7 +22,8 @@ public class BossEntryCheck : MonoBehaviour {
     if (colTag == "NPC") {
       NPC npcFound = col.gameObject.GetComponent<NPC>();
 
-      if (npcFound.canChat) {
+      if (npcFound.actionAvailable != "") {
+        heroScript.SetNPCAction(npcFound.actionAvailable);
         heroScript.actionCanvas.SetActive(true);
       }
     }

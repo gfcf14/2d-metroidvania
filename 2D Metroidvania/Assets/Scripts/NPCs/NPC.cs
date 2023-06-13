@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour {
   [SerializeField] public bool isFacingLeft = false;
-  [SerializeField] public bool canChat = true;
+  [SerializeField] public string actionAvailable = "";
   void Start() {
     if (isFacingLeft) {
       FlipNPC();

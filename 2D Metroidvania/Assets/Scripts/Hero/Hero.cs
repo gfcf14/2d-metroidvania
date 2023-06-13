@@ -1378,4 +1378,9 @@ public class Hero : MonoBehaviour {
     pauseCase = "";
     Time.timeScale = 1;
   }
+
+  public void SetNPCAction(string action) {
+    ActionCanvas actionCanvasScript = actionCanvas.GetComponent<ActionCanvas>();
+    actionCanvasScript.SetContent(action);
+  }
 }
