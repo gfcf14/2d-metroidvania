@@ -116,11 +116,18 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject atk2GamepadImage;
   [Space(10)]
 
+  [Header("ACTION Controls")]
+  [SerializeField] GameObject actionButton;
+  [SerializeField] GameObject actionKeyboardImage;
+  [SerializeField] GameObject actionGamepadImage;
+  [Space(10)]
+
   // Awaiting Input Objects
   [Header("Awaiting Input")]
   [SerializeField] GameObject jumpAwaitLabel;
   [SerializeField] GameObject atk1AwaitLabel;
   [SerializeField] GameObject atk2AwaitLabel;
+  [SerializeField] GameObject actionAwaitLabel;
   [SerializeField] GameObject resetButton;
   [SerializeField] GameObject resetRectangle;
   [SerializeField] GameObject resetYes;
@@ -218,6 +225,8 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] string atk1GamepadString = "";
   [System.NonSerialized] string atk2KeyboardString = "";
   [System.NonSerialized] string atk2GamepadString = "";
+  [System.NonSerialized] string actionKeyboardString = "";
+  [System.NonSerialized] string actionGamepadString = "";
 
   // variables to keep track of equipment
   [System.NonSerialized] string bodyEquipmentKey = "";
@@ -1206,6 +1215,16 @@ public class Pause : MonoBehaviour {
       atk2GamepadString = Controls.currentGamepadAttack2;
       atk2GamepadImage.GetComponent<Image>().sprite = Sprites.keycodeSprites[atk2GamepadString];
     }
+
+    if (actionKeyboardString != Controls.currentKeyboardAction) {
+      actionKeyboardString = Controls.currentKeyboardAction;
+      actionKeyboardImage.GetComponent<Image>().sprite = Sprites.keycodeSprites[actionKeyboardString];
+    }
+
+    if (actionGamepadString != Controls.currentGamepadAction) {
+      actionGamepadString = Controls.currentGamepadAction;
+      actionGamepadImage.GetComponent<Image>().sprite = Sprites.keycodeSprites[actionGamepadString];
+    }
   }
 
   void UpdatePreferredInput() {
@@ -1558,6 +1577,9 @@ public class Pause : MonoBehaviour {
       case "atk2":
         atk2AwaitLabel.SetActive(true);
         break;
+      case "action":
+        actionAwaitLabel.SetActive(true);
+        break;
       default:
         Debug.Log("Unknown await case: " + key);
         break;
@@ -1574,6 +1596,8 @@ public class Pause : MonoBehaviour {
             Controls.currentGamepadAttack1 = Controls.currentGamepadJump;
           } else if (keyCode == Controls.currentGamepadAttack2) {
             Controls.currentGamepadAttack2 = Controls.currentGamepadJump;
+          } else if (keyCode == Controls.currentGamepadAction) {
+            Controls.currentGamepadAction = Controls.currentGamepadJump;
           }
 
           Controls.currentGamepadJump = keyCode;
@@ -1582,6 +1606,8 @@ public class Pause : MonoBehaviour {
             Controls.currentKeyboardAttack1 = Controls.currentKeyboardJump;
           } else if (keyCode == Controls.currentKeyboardAttack2) {
             Controls.currentKeyboardAttack2 = Controls.currentKeyboardJump;
+          } else if (keyCode == Controls.currentKeyboardAction) {
+            Controls.currentKeyboardAction = Controls.currentKeyboardJump;
           }
 
           Controls.currentKeyboardJump = keyCode;
@@ -1596,6 +1622,8 @@ public class Pause : MonoBehaviour {
             Controls.currentGamepadJump = Controls.currentGamepadAttack1;
           } else if (keyCode == Controls.currentGamepadAttack2) {
             Controls.currentGamepadAttack2 = Controls.currentGamepadAttack1;
+          } else if (keyCode == Controls.currentGamepadAction) {
+            Controls.currentGamepadAction = Controls.currentGamepadAttack1;
           }
 
           Controls.currentGamepadAttack1 = keyCode;
@@ -1604,6 +1632,8 @@ public class Pause : MonoBehaviour {
             Controls.currentKeyboardJump = Controls.currentKeyboardAttack1;
           } else if (keyCode == Controls.currentKeyboardAttack2) {
             Controls.currentKeyboardAttack2 = Controls.currentKeyboardAttack1;
+          } else if (keyCode == Controls.currentKeyboardAction) {
+            Controls.currentKeyboardAction = Controls.currentKeyboardAttack1;
           }
 
           Controls.currentKeyboardAttack1 = keyCode;
@@ -1618,6 +1648,8 @@ public class Pause : MonoBehaviour {
             Controls.currentGamepadJump = Controls.currentGamepadAttack2;
           } else if (keyCode == Controls.currentGamepadAttack1) {
             Controls.currentGamepadAttack1 = Controls.currentGamepadAttack2;
+          } else if (keyCode == Controls.currentGamepadAction) {
+            Controls.currentGamepadAction = Controls.currentGamepadAttack2;
           }
 
           Controls.currentGamepadAttack2 = keyCode;
@@ -1626,6 +1658,8 @@ public class Pause : MonoBehaviour {
             Controls.currentKeyboardJump = Controls.currentKeyboardAttack2;
           } else if (keyCode == Controls.currentKeyboardAttack1) {
             Controls.currentKeyboardAttack1 = Controls.currentKeyboardAttack2;
+          } else if (keyCode == Controls.currentKeyboardAction) {
+            Controls.currentKeyboardAction = Controls.currentKeyboardAttack2;
           }
 
           Controls.currentKeyboardAttack2 = keyCode;
@@ -1633,6 +1667,32 @@ public class Pause : MonoBehaviour {
 
         atk2AwaitLabel.SetActive(false);
         Helpers.FocusUIElement(atk2Button);
+        break;
+      case "action":
+        if (Helpers.IsGamepadKey(keyCode)) {
+          if (keyCode == Controls.currentGamepadJump) {
+            Controls.currentGamepadJump = Controls.currentGamepadAction;
+          } else if (keyCode == Controls.currentGamepadAttack1) {
+            Controls.currentGamepadAttack1 = Controls.currentGamepadAction;
+          } else if (keyCode == Controls.currentGamepadAttack2) {
+            Controls.currentGamepadAttack2 = Controls.currentGamepadAction;
+          }
+
+          Controls.currentGamepadAction = keyCode;
+        } else {
+          if (keyCode == Controls.currentKeyboardJump) {
+            Controls.currentKeyboardJump = Controls.currentKeyboardAction;
+          } else if (keyCode == Controls.currentKeyboardAttack1) {
+            Controls.currentKeyboardAttack1 = Controls.currentKeyboardAction;
+          } else if (keyCode == Controls.currentKeyboardAttack2) {
+            Controls.currentKeyboardAttack2 = Controls.currentKeyboardAction;
+          }
+
+          Controls.currentKeyboardAction = keyCode;
+        }
+
+        actionAwaitLabel.SetActive(false);
+        Helpers.FocusUIElement(actionButton);
         break;
       default:
         Debug.Log("unknown map case: " + currentlyMapping);
