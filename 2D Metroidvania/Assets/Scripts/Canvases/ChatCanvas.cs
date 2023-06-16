@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ChatCanvas : MonoBehaviour {
   [SerializeField] GameObject characterObject;
   [SerializeField] GameObject textObject;
+  [SerializeField] GameObject continuePrompt;
   [SerializeField] public ChatLine[] chatLines;
   [SerializeField] float textSpeed;
 
@@ -20,11 +21,13 @@ public class ChatCanvas : MonoBehaviour {
   }
   void Update() {
     if (Helpers.IsKeyUp(Controls.currentKeyboardAction) || Helpers.IsKeyUp(Controls.currentGamepadAction)) {
+      // if the entire text is on screen, get the next line
       if (textComponent.text == chatLines[lineIndex].line) {
         NextLine();
-      } else {
+      } else { // otherwise, show the entire line right away
         StopAllCoroutines();
         textComponent.text = chatLines[lineIndex].line;
+        continuePrompt.SetActive(true);
       }
     }
   }
@@ -38,9 +41,15 @@ public class ChatCanvas : MonoBehaviour {
     }
   }
 
+  // adds a line character by character based on the textSpeed
   IEnumerator ShowLine() {
     foreach (char c in chatLines[lineIndex].line.ToCharArray()) {
       textComponent.text += c;
+      if(textComponent.text.Length == chatLines[lineIndex].line.Length) {
+        continuePrompt.SetActive(true);
+      } else {
+        continuePrompt.SetActive(false);
+      }
       yield return new WaitForSeconds(textSpeed);
     }
   }
@@ -63,7 +72,7 @@ public class ChatCanvas : MonoBehaviour {
       SetCharacter(chatLines[lineIndex].character);
       ClearText();
       StartCoroutine(ShowLine());
-    } else {
+    } else { // if there are no more lines, hide the chat window
       gameObject.SetActive(false);
     }
   }
