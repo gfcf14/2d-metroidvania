@@ -133,3 +133,16 @@ public class ChatLine {
   public string emotion;
   public string line;
 }
+
+public class Condition {
+  public string check;
+  public string value;
+}
+
+public class ChatNode {
+  public string name;
+  public Condition condition;
+  public ChatLine[] lines;
+  public string next;
+  public string fallback;
+}
