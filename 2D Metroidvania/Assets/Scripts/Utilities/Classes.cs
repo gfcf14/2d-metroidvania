@@ -127,3 +127,9 @@ public class EnemyStats {
   public float groundCastLength;
   public float arrowBurnPosition;
 }
+
+public class ChatLine {
+  public string character;
+  public string emotion;
+  public string line;
+}

@@ -21,9 +21,11 @@ public class BossEntryCheck : MonoBehaviour {
 
     if (colTag == "NPC") {
       NPC npcFound = col.gameObject.GetComponent<NPC>();
+      heroScript.NPCnearby = col.gameObject.name;
 
       if (npcFound.actionAvailable != "") {
         heroScript.SetNPCAction(npcFound.actionAvailable);
+        heroScript.NPCnearbyAction = npcFound.actionAvailable;
         heroScript.actionCanvas.SetActive(true);
       }
     }
@@ -34,6 +36,8 @@ public class BossEntryCheck : MonoBehaviour {
 
     if (colTag == "NPC") {
       heroScript.actionCanvas.SetActive(false);
+      heroScript.NPCnearby = "";
+      heroScript.NPCnearbyAction = "";
     }
   }
 }

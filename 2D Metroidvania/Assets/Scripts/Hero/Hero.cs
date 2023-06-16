@@ -13,6 +13,7 @@ public class Hero : MonoBehaviour {
   [SerializeField] private float jetpackHeight;
   [SerializeField] public GameObject infoCanvas;
   [SerializeField] public GameObject actionCanvas;
+  [SerializeField] public GameObject chatCanvas;
 
   [SerializeField] public GameObject hpBarContainer;
   [SerializeField] public GameObject mpBarContainer;
@@ -104,6 +105,8 @@ public class Hero : MonoBehaviour {
   public int weaponIndex = 0;
 
   public string currentWeapon;
+  public string NPCnearby;
+  public string NPCnearbyAction;
 
   public bool hurtFromBehind = false;
 
@@ -619,6 +622,17 @@ public class Hero : MonoBehaviour {
 
         if (verticalInput == 0) {
           isHoldingDown = false;
+        }
+
+        // action
+        if (Helpers.IsKeyUp(Controls.currentKeyboardAction) || Helpers.IsKeyUp(Controls.currentGamepadAction)) {
+          if (chatCanvas.activeSelf) {
+            // CloseChat();
+          } else {
+            if (NPCnearbyAction == "chat") {
+              OpenChat();
+            }
+          }
         }
 
         // arm 1
@@ -1382,5 +1396,17 @@ public class Hero : MonoBehaviour {
   public void SetNPCAction(string action) {
     ActionCanvas actionCanvasScript = actionCanvas.GetComponent<ActionCanvas>();
     actionCanvasScript.SetSpecs(action);
+  }
+
+  // TODO: player and/or NPC should change their current sprite to the appropriate emotion sprite
+  public void OpenChat() {
+    chatCanvas.GetComponent<ChatCanvas>().chatLines = Chat.chatNodes[Helpers.PascalToKebab(NPCnearby)];
+    chatCanvas.SetActive(true);
+    chatCanvas.GetComponent<ChatCanvas>().StartChat();
+  }
+
+  // TODO: other properties, such as changing the emotion sprites, should be done inside below
+  public void CloseChat() {
+    chatCanvas.SetActive(false);
   }
 }

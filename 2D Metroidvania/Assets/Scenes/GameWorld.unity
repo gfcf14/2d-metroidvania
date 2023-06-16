@@ -32639,13 +32639,29 @@ GameObject:
   - component: {fileID: 911961833}
   - component: {fileID: 911961832}
   - component: {fileID: 911961831}
+  - component: {fileID: 911961830}
   m_Layer: 5
   m_Name: ChatCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
+--- !u!114 &911961830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911961829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28f6cbacec91eab4c80132acfaf6bf6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterObject: {fileID: 1431095935}
+  textObject: {fileID: 2030888999}
+  textSpeed: 0.05
 --- !u!114 &911961831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41318,6 +41334,7 @@ MonoBehaviour:
   jetpackHeight: 20
   infoCanvas: {fileID: 599924968}
   actionCanvas: {fileID: 560352835}
+  chatCanvas: {fileID: 911961829}
   hpBarContainer: {fileID: 993828300}
   mpBarContainer: {fileID: 1717227587}
   weaponCollider: {fileID: 1552469822}
@@ -41362,6 +41379,8 @@ MonoBehaviour:
   timeoutDuration: 1
   weaponIndex: 0
   currentWeapon: 
+  NPCnearby: 
+  NPCnearbyAction: 
   hurtFromBehind: 0
   isHoldingDown: 0
   effectSTR: 0
@@ -46572,7 +46591,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'NPC:'
+  m_Text: 
 --- !u!222 &1431095938
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -62890,15 +62909,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-    doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis
-    et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem
-    quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
-    dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est,
-    qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia
-    non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat
-    voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-    suscipit laboriosam, nisi ut aliquid ex ea commodi
+  m_Text: 
 --- !u!222 &2030889002
 CanvasRenderer:
   m_ObjectHideFlags: 0

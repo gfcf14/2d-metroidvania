@@ -199,4 +199,8 @@ public class Helpers {
 
     return randomItemKey;
   }
+
+  public static string PascalToKebab(string input) {
+    return string.Concat(input.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + char.ToLower(x) : x.ToString())).ToLower();
+  }
 }
