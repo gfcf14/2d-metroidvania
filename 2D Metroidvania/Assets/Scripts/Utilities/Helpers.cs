@@ -203,4 +203,8 @@ public class Helpers {
   public static string PascalToKebab(string input) {
     return string.Concat(input.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + char.ToLower(x) : x.ToString())).ToLower();
   }
+
+  public static bool HasAll(List<Item> items, string[] itemsToCheck) {
+    return itemsToCheck.All(key => items.Any(item => item.key == key));
+  }
 }

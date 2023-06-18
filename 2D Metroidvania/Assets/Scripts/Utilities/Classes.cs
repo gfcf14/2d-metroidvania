@@ -135,14 +135,13 @@ public class ChatLine {
 }
 
 public class Condition {
-  public string check;
-  public string value;
+  public string conditionCheck;
+  public string conditionValue;
 }
 
 public class ChatNode {
-  public string name;
-  public Condition condition;
-  public ChatLine[] lines;
-  public string next;
-  public string fallback;
+  public Condition nodeCondition;
+  public ChatLine[] nodeLines;
+  public string nextNode;
+  public string fallbackNode;
 }

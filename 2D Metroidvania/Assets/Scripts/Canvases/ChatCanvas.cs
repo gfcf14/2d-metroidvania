@@ -8,6 +8,8 @@ public class ChatCanvas : MonoBehaviour {
   [SerializeField] GameObject textObject;
   [SerializeField] GameObject continuePrompt;
   [SerializeField] public ChatLine[] chatLines;
+  [SerializeField] public string startingNPC;
+  [SerializeField] public string nextNode;
   [SerializeField] float textSpeed;
 
   private int lineIndex;
@@ -48,6 +50,7 @@ public class ChatCanvas : MonoBehaviour {
       if(textComponent.text.Length == chatLines[lineIndex].line.Length) {
         continuePrompt.SetActive(true);
       } else {
+        GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().UpdateChatNode(startingNPC, nextNode);
         continuePrompt.SetActive(false);
       }
       yield return new WaitForSeconds(textSpeed);

@@ -216,6 +216,10 @@ public class Hero : MonoBehaviour {
 
   [System.NonSerialized] public int bossTransitionDirection = 0;
 
+  [System.NonSerialized] private Dictionary<string, string> npcNodes = new Dictionary<string, string> {
+    {"peasant-girl", ""}
+  };
+
   // called when script is loaded
   private void Start() {
     body = GetComponent<Rigidbody2D>();
@@ -1398,15 +1402,53 @@ public class Hero : MonoBehaviour {
     actionCanvasScript.SetSpecs(action);
   }
 
+  public bool SatisfiesCondition(Condition nodeCondition) {
+    switch (nodeCondition.conditionCheck) {
+      case "items":
+        string[] itemsToCheck = nodeCondition.conditionValue.Split(',');
+
+        return Helpers.HasAll(items, itemsToCheck);
+      default:
+        Debug.Log("Returning true for unknown case: check=" + nodeCondition.conditionCheck + ", value=" + nodeCondition.conditionValue);
+        return true;
+    }
+  }
+
+  public ChatLine[] GetChatLines(string npcKey, string nodeKey) {
+    ChatNode currentNode = Chat.chatNodes[npcKey][nodeKey];
+
+    if (currentNode.nodeCondition.conditionCheck == "") {
+      UpdateChatNode(npcKey, nodeKey);
+      return currentNode.nodeLines;
+    } else {
+      if (SatisfiesCondition(currentNode.nodeCondition)) {
+        UpdateChatNode(npcKey, nodeKey);
+        return currentNode.nodeLines;
+      } else {
+        return GetChatLines(npcKey, currentNode.fallbackNode);
+      }
+    }
+  }
+
   // TODO: player and/or NPC should change their current sprite to the appropriate emotion sprite
   public void OpenChat() {
-    chatCanvas.GetComponent<ChatCanvas>().chatLines = Chat.chatNodes[Helpers.PascalToKebab(NPCnearby)];
+    string npcKey = Helpers.PascalToKebab(NPCnearby);
+    ChatCanvas chatCanvasScript = chatCanvas.GetComponent<ChatCanvas>();
+
+    chatCanvasScript.chatLines = GetChatLines(npcKey, npcNodes[npcKey]);
+    chatCanvasScript.startingNPC = npcKey;
+    chatCanvasScript.nextNode = Chat.chatNodes[npcKey][npcNodes[npcKey]].nextNode;
+
     chatCanvas.SetActive(true);
-    chatCanvas.GetComponent<ChatCanvas>().StartChat();
+    chatCanvasScript.StartChat();
   }
 
   // TODO: other properties, such as changing the emotion sprites, should be done inside below
   public void CloseChat() {
     chatCanvas.SetActive(false);
+  }
+
+  public void UpdateChatNode(string npcKey, string newNodeKey) {
+    npcNodes[npcKey] = newNodeKey;
   }
 }
