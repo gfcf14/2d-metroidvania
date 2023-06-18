@@ -19,6 +19,8 @@ public class Sprites {
   public static Sprite[] breakableVases = Resources.LoadAll<Sprite>("Spritesheets/vase");
   public static Sprite[] skeletonKingSprites = Resources.LoadAll<Sprite>("Spritesheets/skeleton-king");
 
+  public static Sprite[] peasantGirlSprites = Resources.LoadAll<Sprite>("Spritesheets/npcs/peasant-girl");
+
   public static Dictionary<string, Sprite> equipmentIcons = new Dictionary<string, Sprite> {
     {"body", equipmentButtonIcons[0]},
     {"arm1", equipmentButtonIcons[1]},
@@ -418,5 +420,20 @@ public class Sprites {
 
   public static Dictionary<string, Sprite> firstBossSprites = new Dictionary<string, Sprite> {
     {"skeleton-king", skeletonKingSprites[0]}
+  };
+
+  public static Dictionary<string, Dictionary<string, Sprite>> emotions = new Dictionary<string, Dictionary<string, Sprite>> {
+    {"peasant-girl", new Dictionary<string, Sprite> {
+      {"affective", peasantGirlSprites[10]},
+      {"afraid", peasantGirlSprites[19]},
+      {"angry", peasantGirlSprites[14]},
+      {"ashamed", peasantGirlSprites[16]},
+      {"confused", peasantGirlSprites[18]},
+      {"happy", peasantGirlSprites[11]},
+      {"jealous", peasantGirlSprites[17]},
+      {"lonely", peasantGirlSprites[13]},
+      {"sad", peasantGirlSprites[12]},
+      {"surprised", peasantGirlSprites[15]}
+    }}
   };
 }
