@@ -204,6 +204,15 @@ public class Helpers {
     return string.Concat(input.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + char.ToLower(x) : x.ToString())).ToLower();
   }
 
+  // splits the input by '-', capitalizes the first letter of each word, then joins them by a space
+  public static string KebabToCharacter(string input) {
+    return string.Join(" ", input.Split('-').Select(word => char.ToUpper(word[0]) + word.Substring(1)));
+  }
+
+  public static string KebabToObject(string input) {
+    return string.Concat(input.Split('-').Select(word => char.ToUpper(word[0]) + word.Substring(1)));
+  }
+
   public static bool HasAll(List<Item> items, string[] itemsToCheck) {
     return itemsToCheck.All(key => items.Any(item => item.key == key));
   }

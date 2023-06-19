@@ -37,6 +37,7 @@ public class ChatCanvas : MonoBehaviour {
   public void StartChat() {
     lineIndex = 0;
     SetCharacter(chatLines[lineIndex].character);
+    SetEmotion(chatLines[lineIndex].character, chatLines[lineIndex].emotion);
     ClearText();
     if (textComponent != null) {
       StartCoroutine(ShowLine());
@@ -65,14 +66,19 @@ public class ChatCanvas : MonoBehaviour {
 
   void SetCharacter(string character) {
     if (characterComponent != null) {
-      characterComponent.text = character + ":";
+      characterComponent.text = Helpers.KebabToCharacter(character) + ":";
     }
+  }
+
+  void SetEmotion(string character, string emotion) {
+    GameObject.Find(Helpers.KebabToObject(character)).GetComponent<SpriteRenderer>().sprite = Sprites.emotions[character][emotion];
   }
 
   void NextLine() {
     if (lineIndex < chatLines.Length - 1) {
       lineIndex++;
       SetCharacter(chatLines[lineIndex].character);
+      SetEmotion(chatLines[lineIndex].character, chatLines[lineIndex].emotion);
       ClearText();
       StartCoroutine(ShowLine());
     } else { // if there are no more lines, hide the chat window

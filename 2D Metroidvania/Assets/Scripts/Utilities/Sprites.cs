@@ -429,6 +429,7 @@ public class Sprites {
       {"angry", peasantGirlSprites[14]},
       {"ashamed", peasantGirlSprites[16]},
       {"confused", peasantGirlSprites[18]},
+      {"default", peasantGirlSprites[0]},
       {"happy", peasantGirlSprites[11]},
       {"jealous", peasantGirlSprites[17]},
       {"lonely", peasantGirlSprites[13]},
