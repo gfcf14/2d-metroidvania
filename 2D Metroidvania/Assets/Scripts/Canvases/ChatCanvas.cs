@@ -51,7 +51,6 @@ public class ChatCanvas : MonoBehaviour {
       if(textComponent.text.Length == chatLines[lineIndex].line.Length) {
         continuePrompt.SetActive(true);
       } else {
-        GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().UpdateChatNode(startingNPC, nextNode);
         continuePrompt.SetActive(false);
       }
       yield return new WaitForSeconds(textSpeed);
@@ -82,7 +81,13 @@ public class ChatCanvas : MonoBehaviour {
       ClearText();
       StartCoroutine(ShowLine());
     } else { // if there are no more lines, hide the chat window
-      gameObject.SetActive(false);
+      FinishChat();
     }
+  }
+
+  public void FinishChat() {
+    GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().UpdateChatNode(startingNPC, nextNode);
+    SetEmotion(startingNPC, "default");
+    gameObject.SetActive(false);
   }
 }
