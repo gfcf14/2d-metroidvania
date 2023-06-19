@@ -23,7 +23,7 @@ public class RoomTrigger : MonoBehaviour {
 
     }
 
-    if (col.gameObject.name == "BossEntryCheck") {
+    if (col.gameObject.name == "ProximityCheck") {
       foreach(Transform child in gameObject.transform) {
         if (child.tag == "Enemy" && child.name == "Boss") {
           GameObject hero = GameObject.FindGameObjectWithTag("Hero");
@@ -52,7 +52,7 @@ public class RoomTrigger : MonoBehaviour {
       }
     }
 
-    if (col.gameObject.name == "BossEntryCheck") {
+    if (col.gameObject.name == "ProximityCheck") {
       Hero hero = GameObject.FindGameObjectWithTag("Hero").gameObject.GetComponent<Hero>();
       if (hero.isAutonomous && hero.mustTransitionOnAir) {
         hero.mustTransitionOnAir = false;

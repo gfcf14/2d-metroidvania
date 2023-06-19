@@ -4836,7 +4836,7 @@ GameObject:
   - component: {fileID: 198629289}
   - component: {fileID: 198629290}
   m_Layer: 2
-  m_Name: BossEntryCheck
+  m_Name: ProximityCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4891,7 +4891,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 198629287}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96736af6c64ddf042a65cb5c5bc80f55, type: 3}
+  m_Script: {fileID: 11500000, guid: b5b731fc9c82e004c8e5a53b413c36a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hero: {fileID: 1177825369}
@@ -27099,7 +27099,7 @@ BoxCollider2D:
   m_Offset: {x: 0.002639532, y: 1.0708777}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.53494126, y: -0.0008799005}
     oldSize: {x: 0.66, y: 2.21}
     newSize: {x: 1.2, y: 2.2905135}
     adaptiveTilingThreshold: 0.5
@@ -32757,6 +32757,8 @@ MonoBehaviour:
   characterObject: {fileID: 1431095935}
   textObject: {fileID: 2030888999}
   continuePrompt: {fileID: 399868769}
+  startingNPC: 
+  nextNode: 
   textSpeed: 0.05
 --- !u!114 &911961831
 MonoBehaviour:

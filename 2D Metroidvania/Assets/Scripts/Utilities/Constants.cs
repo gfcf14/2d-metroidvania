@@ -24,8 +24,8 @@ public class Constants {
   public static string[] landingObjects = {"Breakable", "Ground"};
   public static string[] enemyNonColliderNames = {"Enemy", "EnemyCollider", "Grounder"};
   public static string[] enemyThrowableBouncers = {"Hero", "Shield", "Weapon"};
-  public static string[] bossEntryCheckNonColliderTags = {"Breakable", "Enemy", "Ground", "Interactable", "Item"};
-  public static string[] droppableNonColliderNames = {"BossEntryCheck", "ChestOpener", "Grounder"};
+  public static string[] proximityCheckNonColliderTags = {"Breakable", "Enemy", "Ground", "Interactable", "Item"};
+  public static string[] droppableNonColliderNames = {"ProximityCheck", "ChestOpener", "Grounder"};
   public static string[] droppableNonColliderTags = {"Enemy", "Hero"};
 
   public static string[] smallThrowables = {"knife", "kunai", "shuriken-4", "shuriken-6"};

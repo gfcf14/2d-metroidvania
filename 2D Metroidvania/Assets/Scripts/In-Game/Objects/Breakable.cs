@@ -44,7 +44,7 @@ public class Breakable : MonoBehaviour {
       throw new Exception("Breakable objects that are not Barrels or Boxes should not stack with anything");
     }
 
-    if (col.gameObject.tag == "Item" || col.gameObject.name == "BossEntryCheck") {
+    if (col.gameObject.tag == "Item" || col.gameObject.name == "ProximityCheck") {
       Physics2D.IgnoreCollision(col.gameObject.GetComponent<CapsuleCollider2D>(), GetComponent<BoxCollider2D>());
     }
   }
