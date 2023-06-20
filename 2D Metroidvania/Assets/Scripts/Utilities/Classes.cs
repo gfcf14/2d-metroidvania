@@ -128,10 +128,16 @@ public class EnemyStats {
   public float arrowBurnPosition;
 }
 
+public class Outcome {
+  public string outcomeCase;
+  public string outcomeValue;
+}
+
 public class ChatLine {
   public string character;
   public string emotion;
   public string line;
+  public Outcome outcome;
 }
 
 public class Condition {
