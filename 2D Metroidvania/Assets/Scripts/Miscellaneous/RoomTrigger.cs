@@ -6,9 +6,10 @@ public class RoomTrigger : MonoBehaviour {
   [SerializeField] GameObject virtualCam;
 
   private void OnTriggerEnter2D(Collider2D col) {
+    GameObject hero = GameObject.FindGameObjectWithTag("Hero");
     if (col.CompareTag("RoomTraverser")) {
       virtualCam.SetActive(true);
-      GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().currentRoom = gameObject;
+      hero.GetComponent<Hero>().currentRoom = gameObject;
       foreach(Transform child in gameObject.transform) {
         if (child.tag == "EnemySpawner") {
           string spawnerKey = child.gameObject.GetComponent<EnemySpawner>().enemyKey;
@@ -21,18 +22,25 @@ public class RoomTrigger : MonoBehaviour {
         }
       }
 
+      // if the chat canvas is active, close it
+      Hero heroScript = hero.GetComponent<Hero>();
+
+      if (heroScript.chatCanvas.activeSelf) {
+        heroScript.chatCanvas.GetComponent<ChatCanvas>().FinishChat();
+      }
+
     }
 
+    // if the player entes a room with a boss
     if (col.gameObject.name == "ProximityCheck") {
       foreach(Transform child in gameObject.transform) {
         if (child.tag == "Enemy" && child.name == "Boss") {
-          GameObject hero = GameObject.FindGameObjectWithTag("Hero");
           Rigidbody2D heroBody = hero.GetComponent<Rigidbody2D>();
           Hero heroScript = hero.GetComponent<Hero>();
 
           heroScript.SetPauseCase("boss-room-entry");
           heroScript.bossTransitionDirection = (int)(heroBody.velocity.x / Math.Abs(heroBody.velocity.x));
-          StartCoroutine(PauseRoomWhileOnBossEntry());
+          StartCoroutine(PauseRoomWhileOnBossEntry(hero));
         }
       }
     }
@@ -61,10 +69,9 @@ public class RoomTrigger : MonoBehaviour {
     }
   }
 
-  IEnumerator PauseRoomWhileOnBossEntry() {
+  IEnumerator PauseRoomWhileOnBossEntry(GameObject hero) {
     yield return new WaitForSecondsRealtime(3);
 
-    GameObject hero = GameObject.FindGameObjectWithTag("Hero");
     Hero heroScript = hero.GetComponent<Hero>();
 
     heroScript.ClearPauseCase();
