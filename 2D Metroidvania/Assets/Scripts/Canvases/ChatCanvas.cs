@@ -73,11 +73,40 @@ public class ChatCanvas : MonoBehaviour {
     GameObject.Find(Helpers.KebabToObject(character)).GetComponent<SpriteRenderer>().sprite = Sprites.emotions[character][emotion];
   }
 
+  void RunOutcome(Outcome outcome) {
+    switch (outcome.outcomeCase) {
+      case "":
+        // do nothing
+        return;
+      break;
+      case "give":
+        Hero heroScript = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
+        string itemKey = outcome.outcomeValue;
+
+        Item currItem = Helpers.GetItemFromList(heroScript.items, itemKey);
+
+        if (currItem == null) { // if not found, the item must be added
+          heroScript.items.Add(new Item(itemKey, 1));
+        } else { // if found, the item is incremented
+          currItem.amount++;
+        }
+
+        if (Settings.showItemInfo) {
+          heroScript.infoCanvas.GetComponent<InfoCanvas>().Display(itemKey.Contains("money") ? Objects.moneyItems[itemKey].text : Objects.pauseItems[itemKey].name);
+        }
+      break;
+      default:
+        Debug.Log("Unknown outcome case: case=" + outcome.outcomeCase + "value=" + outcome.outcomeValue);
+        break;
+    }
+  }
+
   void NextLine() {
     if (lineIndex < chatLines.Length - 1) {
       lineIndex++;
       SetCharacter(chatLines[lineIndex].character);
       SetEmotion(chatLines[lineIndex].character, chatLines[lineIndex].emotion);
+      RunOutcome(chatLines[lineIndex].outcome);
       ClearText();
       StartCoroutine(ShowLine());
     } else { // if there are no more lines, hide the chat window

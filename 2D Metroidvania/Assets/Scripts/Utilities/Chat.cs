@@ -123,8 +123,8 @@ public class Chat {
             emotion = "jealous",
             line = "I just hope with all my heart that I'm not part of some form of love triangle!",
             outcome = new Outcome() {
-              outcomeCase = "",
-              outcomeValue = ""
+              outcomeCase = "give",
+              outcomeValue = "apple"
             }
           }
         },
