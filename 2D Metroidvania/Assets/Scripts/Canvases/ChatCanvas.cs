@@ -110,12 +110,16 @@ public class ChatCanvas : MonoBehaviour {
       ClearText();
       StartCoroutine(ShowLine());
     } else { // if there are no more lines, hide the chat window
-      FinishChat();
+      FinishChat(playerLeft: false);
     }
   }
 
-  public void FinishChat() {
-    GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().UpdateChatNode(startingNPC, nextNode);
+  // Finishes the chat, but only sets the next node if the player left, otherwise a line could potentially not be read by player
+  public void FinishChat(bool playerLeft = false) {
+    if (!playerLeft) {
+      GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().UpdateChatNode(startingNPC, nextNode);
+    }
+
     SetEmotion(startingNPC, "default");
     gameObject.SetActive(false);
   }

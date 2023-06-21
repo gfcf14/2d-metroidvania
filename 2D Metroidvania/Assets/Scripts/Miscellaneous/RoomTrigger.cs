@@ -26,7 +26,7 @@ public class RoomTrigger : MonoBehaviour {
       Hero heroScript = hero.GetComponent<Hero>();
 
       if (heroScript.chatCanvas.activeSelf) {
-        heroScript.chatCanvas.GetComponent<ChatCanvas>().FinishChat();
+        heroScript.chatCanvas.GetComponent<ChatCanvas>().FinishChat(playerLeft: true);
       }
 
     }
