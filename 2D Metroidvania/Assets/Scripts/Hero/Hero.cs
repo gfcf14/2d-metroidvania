@@ -1409,8 +1409,8 @@ public class Hero : MonoBehaviour {
 
         return Helpers.HasAll(items, itemsToCheck);
       default:
-        Debug.Log("Returning true for unknown case: check=" + nodeCondition.conditionCheck + ", value=" + nodeCondition.conditionValue);
-        return true;
+        Debug.Log("Returning false for unknown case: check=" + nodeCondition.conditionCheck + ", value=" + nodeCondition.conditionValue);
+        return false;
     }
   }
 

@@ -19,7 +19,46 @@ public class Chat {
             }
           }
         },
+        // nextNode = "emotion-dialogue",
+        nextNode = "pay-dialogue",
+        fallbackNode = ""
+      }},
+      {"pay-dialogue", new ChatNode() {
+        nodeCondition = new Condition() {
+          conditionCheck = "money",
+          conditionValue = "1000"
+        },
+        nodeLines = new ChatLine[] {
+          new ChatLine() {
+            character = "peasant-girl",
+            emotion = "happy",
+            line = "Thank you! Here's an elixir",
+            outcome = new Outcome() {
+              outcomeCase = "trade",
+              outcomeValue = "money-1000|elixir"
+            }
+          }
+        },
         nextNode = "emotion-dialogue",
+        fallbackNode = "no-pay-dialogue"
+      }},
+      {"no-pay-dialogue", new ChatNode() {
+        nodeCondition = new Condition() {
+          conditionCheck = "",
+          conditionValue = ""
+        },
+        nodeLines = new ChatLine[] {
+          new ChatLine() {
+            character = "peasant-girl",
+            emotion = "default",
+            line = "If you bring me $1000 I'll give you something special",
+            outcome = new Outcome() {
+              outcomeCase = "",
+              outcomeValue = ""
+            }
+          }
+        },
+        nextNode = "pay-dialogue",
         fallbackNode = ""
       }},
       {"emotion-dialogue", new ChatNode() {
