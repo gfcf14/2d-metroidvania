@@ -114,6 +114,10 @@ public class Helpers {
     return itemList.Find(currItem => currItem.key == key);
   }
 
+  public static int GetItemIndex(List<Item> itemList, string key) {
+    return itemList.FindIndex(currItem => currItem.key == key);
+  }
+
   public static string GetPauseItemKeyByName(string name) {
     return Objects.pauseItems.FirstOrDefault(currEntry => currEntry.Value.name == name).Key;
   }

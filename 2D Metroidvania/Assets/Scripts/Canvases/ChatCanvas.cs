@@ -15,6 +15,13 @@ public class ChatCanvas : MonoBehaviour {
   private int lineIndex;
   private Text characterComponent;
   private Text textComponent;
+
+  void Chat() {
+    SetCharacter(chatLines[lineIndex].character);
+    SetEmotion(chatLines[lineIndex].character, chatLines[lineIndex].emotion);
+    RunOutcome(chatLines[lineIndex].outcome);
+    ClearText();
+  }
   void Start() {
     characterComponent = characterObject.GetComponent<Text>();
     textComponent = textObject.GetComponent<Text>();
@@ -36,9 +43,7 @@ public class ChatCanvas : MonoBehaviour {
 
   public void StartChat() {
     lineIndex = 0;
-    SetCharacter(chatLines[lineIndex].character);
-    SetEmotion(chatLines[lineIndex].character, chatLines[lineIndex].emotion);
-    ClearText();
+    Chat();
     if (textComponent != null) {
       StartCoroutine(ShowLine());
     }
@@ -73,26 +78,61 @@ public class ChatCanvas : MonoBehaviour {
     GameObject.Find(Helpers.KebabToObject(character)).GetComponent<SpriteRenderer>().sprite = Sprites.emotions[character][emotion];
   }
 
+  void GiveItem(Hero heroScript, string itemKey) {
+    Item currItem = Helpers.GetItemFromList(heroScript.items, itemKey);
+
+    if (itemKey.Contains("money")) {
+      heroScript.gold += Objects.moneyItems[itemKey].increment;
+    } else {
+      if (currItem == null) { // if not found, the item must be added
+        heroScript.items.Add(new Item(itemKey, 1));
+      } else { // if found, the item is incremented
+        currItem.amount++;
+      }
+    }
+
+    if (Settings.showItemInfo) {
+      heroScript.infoCanvas.GetComponent<InfoCanvas>().Display(itemKey.Contains("money") ? Objects.moneyItems[itemKey].text : Objects.pauseItems[itemKey].name);
+    }
+  }
+
+  void TakeItem(Hero heroScript, string itemKey) {
+    Item currItem = Helpers.GetItemFromList(heroScript.items, itemKey);
+
+    // TODO: ensure the player can "give" money to the NPC
+
+    if (currItem.amount > 1) { // if more than one, just decrement
+      currItem.amount--;
+    } else { // otherwise, remove it from the item list
+      heroScript.RemoveItem(Helpers.GetItemIndex(heroScript.items, itemKey));
+    }
+  }
+
   void RunOutcome(Outcome outcome) {
+    Hero heroScript = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
+
     switch (outcome.outcomeCase) {
       case "":
         // do nothing
         return;
       break;
       case "give":
-        Hero heroScript = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
+        // TODO: divide the value into several items separated by a comma, in case the NPC needs to give several items at once
         string itemKey = outcome.outcomeValue;
 
-        Item currItem = Helpers.GetItemFromList(heroScript.items, itemKey);
+        GiveItem(heroScript, itemKey);
+      break;
+      case "trade":
+        string[] outcomeValues = outcome.outcomeValue.Split('|'); // splits the outcome value by | in two, where the left part is what the hero gives, and the right side is what the NPC gives
+        string[] heroItems = outcomeValues[0].Split(',');
+        string[] npcItems = outcomeValues[1].Split(',');
 
-        if (currItem == null) { // if not found, the item must be added
-          heroScript.items.Add(new Item(itemKey, 1));
-        } else { // if found, the item is incremented
-          currItem.amount++;
+        foreach (string item in heroItems) {
+          TakeItem(heroScript, item);
         }
 
-        if (Settings.showItemInfo) {
-          heroScript.infoCanvas.GetComponent<InfoCanvas>().Display(itemKey.Contains("money") ? Objects.moneyItems[itemKey].text : Objects.pauseItems[itemKey].name);
+        foreach(string item in npcItems) {
+          GiveItem(heroScript, item);
         }
       break;
       default:
@@ -104,10 +144,7 @@ public class ChatCanvas : MonoBehaviour {
   void NextLine() {
     if (lineIndex < chatLines.Length - 1) {
       lineIndex++;
-      SetCharacter(chatLines[lineIndex].character);
-      SetEmotion(chatLines[lineIndex].character, chatLines[lineIndex].emotion);
-      RunOutcome(chatLines[lineIndex].outcome);
-      ClearText();
+      Chat();
       StartCoroutine(ShowLine());
     } else { // if there are no more lines, hide the chat window
       FinishChat(playerLeft: false);

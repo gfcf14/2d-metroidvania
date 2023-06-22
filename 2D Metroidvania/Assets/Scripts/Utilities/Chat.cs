@@ -33,8 +33,8 @@ public class Chat {
             emotion = "happy",
             line = "Hi again! I'm a happy peasant girl!!",
             outcome = new Outcome() {
-              outcomeCase = "",
-              outcomeValue = ""
+              outcomeCase = "trade",
+              outcomeValue = "draco-shield|money-5000"
             }
           },
           new ChatLine() {
