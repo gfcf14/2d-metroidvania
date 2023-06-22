@@ -12,10 +12,10 @@ public class Chat {
           new ChatLine() {
             character = "peasant-girl",
             emotion = "default",
-            line = "Hi! Nice to meet ya! I'm a peasant girl!",
+            line = "Hi! Nice to meet ya! I'm a peasant girl! Here! Have a Pineapple and a Watermelon!",
             outcome = new Outcome() {
-              outcomeCase = "",
-              outcomeValue = ""
+              outcomeCase = "give",
+              outcomeValue = "pineapple,watermelon"
             }
           }
         },

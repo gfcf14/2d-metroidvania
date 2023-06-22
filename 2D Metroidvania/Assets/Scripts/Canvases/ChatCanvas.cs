@@ -42,10 +42,12 @@ public class ChatCanvas : MonoBehaviour {
   }
 
   public void StartChat() {
-    lineIndex = 0;
-    Chat();
-    if (textComponent != null) {
-      StartCoroutine(ShowLine());
+    if (characterComponent != null) {
+      lineIndex = 0;
+      Chat();
+      if (textComponent != null) {
+        StartCoroutine(ShowLine());
+      }
     }
   }
 
@@ -114,13 +116,13 @@ public class ChatCanvas : MonoBehaviour {
     switch (outcome.outcomeCase) {
       case "":
         // do nothing
-        return;
-      break;
+      return;
       case "give":
-        // TODO: divide the value into several items separated by a comma, in case the NPC needs to give several items at once
-        string itemKey = outcome.outcomeValue;
+        string[] itemKeys = outcome.outcomeValue.Split(',');
 
-        GiveItem(heroScript, itemKey);
+        foreach (string itemKey in itemKeys) {
+          GiveItem(heroScript, itemKey);
+        }
       break;
       case "trade":
         string[] outcomeValues = outcome.outcomeValue.Split('|'); // splits the outcome value by | in two, where the left part is what the hero gives, and the right side is what the NPC gives
@@ -144,6 +146,7 @@ public class ChatCanvas : MonoBehaviour {
   void NextLine() {
     if (lineIndex < chatLines.Length - 1) {
       lineIndex++;
+      Debug.Log("chat from next line");
       Chat();
       StartCoroutine(ShowLine());
     } else { // if there are no more lines, hide the chat window
