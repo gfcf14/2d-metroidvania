@@ -1408,6 +1408,14 @@ public class Hero : MonoBehaviour {
         string[] itemsToCheck = nodeCondition.conditionValue.Split(',');
 
         return Helpers.HasAll(items, itemsToCheck);
+      case "money":
+        int moneyValue;
+
+        if (int.TryParse(nodeCondition.conditionValue, out moneyValue)) {
+          return gold >= moneyValue;
+        } else {
+          return false;
+        }
       default:
         Debug.Log("Returning false for unknown case: check=" + nodeCondition.conditionCheck + ", value=" + nodeCondition.conditionValue);
         return false;
