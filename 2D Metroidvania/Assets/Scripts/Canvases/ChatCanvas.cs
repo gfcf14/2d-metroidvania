@@ -99,14 +99,16 @@ public class ChatCanvas : MonoBehaviour {
   }
 
   void TakeItem(Hero heroScript, string itemKey) {
-    Item currItem = Helpers.GetItemFromList(heroScript.items, itemKey);
+    if (itemKey.Contains("money")) { // if there is money involved, remove from the gold value
+      heroScript.gold -= Objects.moneyItems[itemKey].increment;
+    } else { // if there is no money involved, remove from the hero item list
+      Item currItem = Helpers.GetItemFromList(heroScript.items, itemKey);
 
-    // TODO: ensure the player can "give" money to the NPC
-
-    if (currItem.amount > 1) { // if more than one, just decrement
-      currItem.amount--;
-    } else { // otherwise, remove it from the item list
-      heroScript.RemoveItem(Helpers.GetItemIndex(heroScript.items, itemKey));
+      if (currItem.amount > 1) { // if more than one, just decrement
+        currItem.amount--;
+      } else { // otherwise, remove it from the item list
+        heroScript.RemoveItem(Helpers.GetItemIndex(heroScript.items, itemKey));
+      }
     }
   }
 
