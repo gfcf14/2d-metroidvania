@@ -148,7 +148,6 @@ public class ChatCanvas : MonoBehaviour {
   void NextLine() {
     if (lineIndex < chatLines.Length - 1) {
       lineIndex++;
-      Debug.Log("chat from next line");
       Chat();
       StartCoroutine(ShowLine());
     } else { // if there are no more lines, hide the chat window
