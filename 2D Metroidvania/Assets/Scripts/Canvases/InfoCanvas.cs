@@ -21,8 +21,9 @@ public class InfoCanvas : MonoBehaviour {
     }
   }
 
-  public void Display(string text, EnemyHealth enemyHealth = null) {
-    int textAndContainerWidth = text.Length > 2 ? text.Length * Constants.characterWidth : (text.Length == 1 ? 40 : 48);
+  public void Display(string text, bool displayMoney, EnemyHealth enemyHealth = null) {
+    int characterWidth = displayMoney ? Constants.numericCharacterWidth : Constants.alphaCharacterWidth;
+    int textAndContainerWidth = text.Length > 2 ? text.Length * characterWidth : (text.Length == 1 ? 40 : 48);
 
     gameObject.SetActive(false);
     enemyHPContainer.SetActive(false);

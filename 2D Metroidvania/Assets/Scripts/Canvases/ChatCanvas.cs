@@ -94,7 +94,8 @@ public class ChatCanvas : MonoBehaviour {
     }
 
     if (Settings.showItemInfo) {
-      heroScript.infoCanvas.GetComponent<InfoCanvas>().Display(itemKey.Contains("money") ? Objects.moneyItems[itemKey].text : Objects.pauseItems[itemKey].name);
+      bool displayMoney = itemKey.Contains("money");
+      heroScript.infoCanvas.GetComponent<InfoCanvas>().Display(displayMoney ? Objects.moneyItems[itemKey].text : Objects.pauseItems[itemKey].name, displayMoney);
     }
   }
 

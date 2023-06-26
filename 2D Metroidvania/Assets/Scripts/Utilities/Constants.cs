@@ -81,7 +81,8 @@ public class Constants {
   public static int existingMPWidth = 16;
 
   // Used to set a width per character for the Info and Action Canvas
-  public static int characterWidth = 28;
+  public static int alphaCharacterWidth = 22;
+  public static int numericCharacterWidth = 28;
 
   // Marks the default mandatory additional width for the Action Canvas text container
   public static int defaultActionTextContainerWidth = 76;
