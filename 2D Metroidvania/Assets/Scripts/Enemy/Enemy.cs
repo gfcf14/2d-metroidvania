@@ -540,7 +540,7 @@ public class Enemy : MonoBehaviour {
 
   public void DisplayEnemyInInfoCanvas() {
     if (gameObject.name != "Boss") {
-      hero.infoCanvas.GetComponent<InfoCanvas>().Display(EnemyName, displayMoney: false, new EnemyHealth(currentHP, maxHP));
+      hero.infoCanvas.GetComponent<InfoCanvas>().Display(EnemyName, new EnemyHealth(currentHP, maxHP));
     }
   }
 

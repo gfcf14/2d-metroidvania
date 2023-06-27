@@ -220,4 +220,9 @@ public class Helpers {
   public static bool HasAll(List<Item> items, string[] itemsToCheck) {
     return itemsToCheck.All(key => items.Any(item => item.key == key));
   }
+
+  public static bool IsThinLetter(char letter) {
+    string[] thinLetters = new string[] {"f", "i", "j", "l", "t", "I"};
+    return IsValueInArray(thinLetters, letter.ToString());
+  }
 }

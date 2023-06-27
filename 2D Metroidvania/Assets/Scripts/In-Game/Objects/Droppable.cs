@@ -116,7 +116,7 @@ public class Droppable : MonoBehaviour {
 
     if (Settings.showItemInfo) {
       bool displayMoney = key.Contains("money");
-      hero.infoCanvas.GetComponent<InfoCanvas>().Display(displayMoney ? moneyItem.text : Objects.pauseItems[key].name, displayMoney);
+      hero.infoCanvas.GetComponent<InfoCanvas>().Display(displayMoney ? moneyItem.text : Objects.pauseItems[key].name);
     }
 
     Destroy(transform.parent.gameObject);
