@@ -87,7 +87,7 @@ public class Breakable : MonoBehaviour {
 
   public void RemoveCarriedDroppables() {
     foreach (GameObject droppable in carriedDroppables) {
-      droppable.GetComponent<Droppable>().collisionCounter--;
+      droppable.GetComponent<Droppable>().DecrementCollision();
     }
   }
 

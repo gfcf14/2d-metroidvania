@@ -14,12 +14,15 @@ public class Droppable : MonoBehaviour {
   [System.NonSerialized] public float timer = 0;
   [System.NonSerialized] public float maxIdleTime = 10000;
   [System.NonSerialized] public float maxFlickerTime = 5000;
+  [System.NonSerialized] public float collisionY = 0;
   [System.NonSerialized] public Flicker flickerEffect;
+  [System.NonSerialized] SpriteRenderer droppableSprite;
 
   private Animator anim;
 
   void Start() {
     flickerEffect = transform.Find("Image").gameObject.GetComponent<Flicker>();
+    droppableSprite = transform.Find("Image").gameObject.GetComponent<SpriteRenderer>();
 
     // if a room has been assigned, put the droppable in it to be deleted on exit
     // if there is no room, the only way to delete it is to touch it
@@ -82,6 +85,10 @@ public class Droppable : MonoBehaviour {
   void FixedUpdate() {
     if (isDropping) {
       transform.position = new Vector2(transform.position.x, transform.position.y - 0.2f);
+    } else {
+      if (collisionY != 0 && transform.position.y != collisionY) {
+        transform.position = new Vector2(transform.position.x, collisionY);
+      }
     }
   }
 
@@ -92,11 +99,21 @@ public class Droppable : MonoBehaviour {
       DestroyDroppable(col.gameObject.GetComponent<Hero>());
     }
 
-    if (gameObjectTag == "Ground" || gameObjectTag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type)) {
-      collisionCounter++;
+    if (canBePicked && gameObjectTag == "Ground" || gameObjectTag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type)) {
+      ContactPoint2D[] contacts = new ContactPoint2D[10];
+      int contactCount = col.GetContacts(contacts);
 
-      if (gameObjectTag == "Breakable") {
-        col.gameObject.GetComponent<Breakable>().carriedDroppables.Add(gameObject);
+      for (int i = 0; i < contactCount; i++) {
+        ContactPoint2D contact = contacts[i];
+        if (contact.point.y <= transform.position.y) { // Trigger happened at or below the current object's position (bottom contact)
+          collisionCounter++;
+          collisionY = col.ClosestPoint(transform.position).y + (droppableSprite.bounds.size.y / 2);
+
+          if (gameObjectTag == "Breakable") {
+            col.gameObject.GetComponent<Breakable>().carriedDroppables.Add(gameObject);
+          }
+          break;
+        }
       }
     }
   }
@@ -125,5 +142,12 @@ public class Droppable : MonoBehaviour {
   public void FinishAnim() {
     canBePicked = true;
     anim.enabled = false;
+  }
+
+  public void DecrementCollision() {
+    collisionCounter--;
+    if (collisionCounter == 0) {
+      collisionY = 0;
+    }
   }
 }
