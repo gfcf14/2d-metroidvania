@@ -17,12 +17,13 @@ public class Droppable : MonoBehaviour {
   [System.NonSerialized] public float collisionY = 0;
   [System.NonSerialized] public Flicker flickerEffect;
   [System.NonSerialized] SpriteRenderer droppableSprite;
+  [System.NonSerialized] Sprite spriteHolder;
 
   private Animator anim;
 
   void Start() {
-    flickerEffect = transform.Find("Image").gameObject.GetComponent<Flicker>();
-    droppableSprite = transform.Find("Image").gameObject.GetComponent<SpriteRenderer>();
+    flickerEffect = GetComponent<Flicker>();
+    droppableSprite = GetComponent<SpriteRenderer>();
 
     // if a room has been assigned, put the droppable in it to be deleted on exit
     // if there is no room, the only way to delete it is to touch it
@@ -35,7 +36,8 @@ public class Droppable : MonoBehaviour {
     if (key.Contains("money")) {
       moneyItem = Objects.moneyItems[key];
 
-      transform.Find("Image").gameObject.GetComponent<SpriteRenderer>().sprite = moneyItem.image;
+      droppableSprite.sprite = moneyItem.image;
+      spriteHolder = moneyItem.image;
 
       if (moneyItem.increment >= 1000) {
         GetComponent<CapsuleCollider2D>().direction = CapsuleDirection2D.Horizontal;
@@ -43,14 +45,15 @@ public class Droppable : MonoBehaviour {
 
       GetComponent<CapsuleCollider2D>().size = moneyItem.size;
     } else {
-     transform.Find("Image").gameObject.GetComponent<SpriteRenderer>().sprite = Sprites.droppableSprites[key];
+     droppableSprite.sprite = Sprites.droppableSprites[key];
+     spriteHolder = Sprites.droppableSprites[key];
     }
 
     if (isDropped) {
       anim.Play("droppable-rise");
     } else {
       FinishAnim();
-      GetComponent<SpriteRenderer>().sprite = null;
+      // GetComponent<SpriteRenderer>().sprite = null;
     }
   }
 
@@ -89,6 +92,12 @@ public class Droppable : MonoBehaviour {
       if (collisionY != 0 && transform.position.y != collisionY) {
         transform.position = new Vector2(transform.position.x, collisionY);
       }
+    }
+  }
+
+  void LateUpdate() {
+    if (droppableSprite.sprite == null) {
+      droppableSprite.sprite = spriteHolder;
     }
   }
 

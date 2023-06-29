@@ -9,12 +9,12 @@ public class InGame : MonoBehaviour {
   public void InstantiatePrefab(string prefab, string key, GameObject room, Transform trans, SpriteRenderer spr) {
     Vector2 itemOrigin = new Vector2(trans.position.x, trans.position.y + (spr.bounds.size.y / 2));
     GameObject droppedItem = Instantiate(Objects.prefabs[prefab], itemOrigin, Quaternion.identity);
-    Droppable droppedObject = droppedItem.transform.Find("GameObject").GetComponent<Droppable>();
-    droppedObject.key = key;
-    droppedObject.isDropped = true;
-    droppedObject.room = room;
+    Droppable droppableScript = droppedItem.transform.Find("GameObject").GetComponent<Droppable>();
+    droppableScript.key = key;
+    droppableScript.isDropped = true;
+    droppableScript.room = room;
 
     // adds flicker effect
-    droppedObject.gameObject.transform.Find("Image").gameObject.AddComponent<Flicker>().enabled = false;
+    droppableScript.gameObject.AddComponent<Flicker>().enabled = false;
   }
 }
