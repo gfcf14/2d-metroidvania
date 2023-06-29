@@ -45,7 +45,7 @@ public class Breakable : MonoBehaviour {
     }
 
     if (col.gameObject.tag == "Item" || col.gameObject.name == "ProximityCheck") {
-      Physics2D.IgnoreCollision(col.gameObject.GetComponent<CapsuleCollider2D>(), GetComponent<BoxCollider2D>());
+      Physics2D.IgnoreCollision(col.gameObject.GetComponent<PolygonCollider2D>(), GetComponent<BoxCollider2D>());
     }
   }
 

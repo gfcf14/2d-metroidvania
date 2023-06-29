@@ -38,16 +38,14 @@ public class Droppable : MonoBehaviour {
 
       droppableSprite.sprite = moneyItem.image;
       spriteHolder = moneyItem.image;
-
-      if (moneyItem.increment >= 1000) {
-        GetComponent<CapsuleCollider2D>().direction = CapsuleDirection2D.Horizontal;
-      }
-
-      GetComponent<CapsuleCollider2D>().size = moneyItem.size;
     } else {
      droppableSprite.sprite = Sprites.droppableSprites[key];
      spriteHolder = Sprites.droppableSprites[key];
     }
+
+    PolygonCollider2D collider = gameObject.AddComponent<PolygonCollider2D>();
+    collider.isTrigger = true;
+    collider.autoTiling = true;
 
     if (isDropped) {
       anim.Play("droppable-rise");
@@ -116,7 +114,7 @@ public class Droppable : MonoBehaviour {
         ContactPoint2D contact = contacts[i];
         if (contact.point.y <= transform.position.y) { // Trigger happened at or below the current object's position (bottom contact)
           collisionCounter++;
-          collisionY = col.ClosestPoint(transform.position).y + (droppableSprite.bounds.size.y / 2);
+          collisionY = col.ClosestPoint(transform.position).y + (droppableSprite.bounds.size.y * 0.33f);
 
           if (gameObjectTag == "Breakable") {
             col.gameObject.GetComponent<Breakable>().carriedDroppables.Add(gameObject);

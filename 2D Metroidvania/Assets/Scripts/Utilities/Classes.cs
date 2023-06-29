@@ -100,7 +100,6 @@ public class BreakableDimension {
 public class MoneyItem {
   public Sprite image;
   public int increment;
-  public Vector2 size;
   public string text;
 }
 
