@@ -767,7 +767,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -775.1492
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -3398,7 +3398,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -792.1697
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -4226,7 +4226,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -792.1697
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -18693,6 +18693,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 381998560}
   m_CullTransparentMesh: 1
+--- !u!1001 &395716618
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1480874508889903805, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_Name
+      value: Droppable (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2210702500459868757, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 15e822d4c9ccbc7449990a97daac4589, type: 3}
+    - target: {fileID: 2210702500459868757, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_SpriteSortPoint
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468974557190483306, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_RootOrder
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468974557190483306, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 14.016
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468974557190483306, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.917
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468974557190483306, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468974557190483306, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468974557190483306, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468974557190483306, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468974557190483306, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468974557190483306, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468974557190483306, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468974557190483306, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8790483501494819559, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: key
+      value: basic-longsword
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
 --- !u!1 &395899979
 GameObject:
   m_ObjectHideFlags: 0
@@ -23027,7 +23096,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -775.1492
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -24377,7 +24446,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -518.4797
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
@@ -27172,7 +27241,7 @@ Transform:
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &715659825
 MonoBehaviour:
@@ -39580,7 +39649,7 @@ MonoBehaviour:
   RoundedProperties:
     Type: 1
     ResolutionMode: 0
-    UniformRadius: -732.30804
+    UniformRadius: 0
     UseMaxRadius: 0
     TLRadius: 15
     TLResolution:
