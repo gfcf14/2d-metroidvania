@@ -114,7 +114,7 @@ public class Droppable : MonoBehaviour {
         ContactPoint2D contact = contacts[i];
         if (contact.point.y <= transform.position.y) { // Trigger happened at or below the current object's position (bottom contact)
           collisionCounter++;
-          collisionY = col.ClosestPoint(transform.position).y + (droppableSprite.bounds.size.y * 0.33f);
+          collisionY = col.ClosestPoint(transform.position).y; // + (droppableSprite.bounds.size.y * 0.33f);
 
           if (gameObjectTag == "Breakable") {
             col.gameObject.GetComponent<Breakable>().carriedDroppables.Add(gameObject);
