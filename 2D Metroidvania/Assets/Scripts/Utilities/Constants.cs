@@ -82,6 +82,7 @@ public class Constants {
 
   // Used to set a width per character for the Info and Action Canvas
   public static int alphaCharacterWidth = 22;
+  public static int uppercaseCharacterWidth = 28;
   public static int numericCharacterWidth = 28;
   public static int thinCharacterWidth = 20;
   public static int spaceCharacterWidth = 10;
