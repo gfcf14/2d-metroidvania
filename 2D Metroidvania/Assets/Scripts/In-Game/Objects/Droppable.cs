@@ -14,9 +14,9 @@ public class Droppable : MonoBehaviour {
   [System.NonSerialized] public float timer = 0;
   [System.NonSerialized] public float maxIdleTime = 10000;
   [System.NonSerialized] public float maxFlickerTime = 5000;
-  [System.NonSerialized] public float collisionY = 0;
   [System.NonSerialized] public Flicker flickerEffect;
   [System.NonSerialized] SpriteRenderer droppableSprite;
+  [System.NonSerialized] Rigidbody2D body;
   [System.NonSerialized] Sprite spriteHolder;
 
   private Animator anim;
@@ -44,7 +44,6 @@ public class Droppable : MonoBehaviour {
     }
 
     PolygonCollider2D collider = gameObject.AddComponent<PolygonCollider2D>();
-    collider.isTrigger = true;
     collider.autoTiling = true;
 
     if (isDropped) {
@@ -73,6 +72,7 @@ public class Droppable : MonoBehaviour {
 
     if (collisionCounter > 0) {
       isDropping = false;
+      body.velocity = Vector2.zero;
 
       if (timer == 0) {
         timer = Time.time * 1000;
@@ -83,45 +83,24 @@ public class Droppable : MonoBehaviour {
     }
   }
 
-  void FixedUpdate() {
-    if (isDropping) {
-      transform.position = new Vector2(transform.position.x, transform.position.y - 0.2f);
-    } else {
-      if (collisionY != 0 && transform.position.y != collisionY) {
-        transform.position = new Vector2(transform.position.x, collisionY);
-      }
-    }
-  }
-
   void LateUpdate() {
     if (droppableSprite.sprite == null) {
       droppableSprite.sprite = spriteHolder;
     }
   }
 
-  private void OnTriggerEnter2D(Collider2D col) {
+  private void OnCollisionEnter2D(Collision2D col) {
     string gameObjectTag = col.gameObject.tag;
 
-    if (gameObjectTag == "Hero" && canBePicked) {
-      DestroyDroppable(col.gameObject.GetComponent<Hero>());
-    }
-
     if (canBePicked && gameObjectTag == "Ground" || gameObjectTag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type)) {
-      ContactPoint2D[] contacts = new ContactPoint2D[10];
-      int contactCount = col.GetContacts(contacts);
+      gameObject.layer = LayerMask.NameToLayer("Objects");
+      collisionCounter++;
 
-      for (int i = 0; i < contactCount; i++) {
-        ContactPoint2D contact = contacts[i];
-        if (contact.point.y <= transform.position.y) { // Trigger happened at or below the current object's position (bottom contact)
-          collisionCounter++;
-          collisionY = col.ClosestPoint(transform.position).y; // + (droppableSprite.bounds.size.y * 0.33f);
-
-          if (gameObjectTag == "Breakable") {
-            col.gameObject.GetComponent<Breakable>().carriedDroppables.Add(gameObject);
-          }
-          break;
-        }
+      if (gameObjectTag == "Breakable") {
+        col.gameObject.GetComponent<Breakable>().carriedDroppables.Add(gameObject);
       }
+    } else if (gameObjectTag == "Hero" && canBePicked) {
+      DestroyDroppable(col.gameObject.GetComponent<Hero>());
     }
   }
 
@@ -149,12 +128,11 @@ public class Droppable : MonoBehaviour {
   public void FinishAnim() {
     canBePicked = true;
     anim.enabled = false;
+    body = gameObject.AddComponent<Rigidbody2D>();
+    body.freezeRotation = true;
   }
 
   public void DecrementCollision() {
     collisionCounter--;
-    if (collisionCounter == 0) {
-      collisionY = 0;
-    }
   }
 }
