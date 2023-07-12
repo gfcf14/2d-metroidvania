@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerStopper : MonoBehaviour {
   [SerializeField] GameObject bossStatusCanvas;
   void Start() {
-    // GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+    GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
   }
 
   void Update() {}
