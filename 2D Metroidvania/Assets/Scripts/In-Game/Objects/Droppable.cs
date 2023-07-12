@@ -94,7 +94,7 @@ public class Droppable : MonoBehaviour {
     string gameObjectTag = col.gameObject.tag;
 
     if (gameObjectTag == "Ground" || gameObjectTag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type)) {
-      gameObject.layer = LayerMask.NameToLayer("Objects");
+      gameObject.layer = LayerMask.NameToLayer("Dropped");
       collisionCounter++;
 
       if (gameObjectTag == "Breakable") {
