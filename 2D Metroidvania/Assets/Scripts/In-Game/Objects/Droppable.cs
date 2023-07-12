@@ -72,7 +72,7 @@ public class Droppable : MonoBehaviour {
 
     if (collisionCounter > 0) {
       isDropping = false;
-      body.velocity = Vector2.zero;
+      body.bodyType = RigidbodyType2D.Static;
 
       if (timer == 0) {
         timer = Time.time * 1000;
@@ -80,6 +80,7 @@ public class Droppable : MonoBehaviour {
       }
     } else {
       isDropping = true;
+      body.bodyType = RigidbodyType2D.Dynamic;
     }
   }
 
@@ -92,7 +93,7 @@ public class Droppable : MonoBehaviour {
   private void OnCollisionEnter2D(Collision2D col) {
     string gameObjectTag = col.gameObject.tag;
 
-    if (canBePicked && gameObjectTag == "Ground" || gameObjectTag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type)) {
+    if (gameObjectTag == "Ground" || gameObjectTag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type)) {
       gameObject.layer = LayerMask.NameToLayer("Objects");
       collisionCounter++;
 
