@@ -95,10 +95,10 @@ public class Droppable : MonoBehaviour {
 
     if (gameObjectTag == "Ground" || gameObjectTag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type)) {
       gameObject.layer = LayerMask.NameToLayer("Dropped");
-      collisionCounter++;
 
       if (gameObjectTag == "Breakable") {
         col.gameObject.GetComponent<Breakable>().carriedDroppables.Add(gameObject);
+        collisionCounter++;
       }
     } else if (gameObjectTag == "Hero" && canBePicked) {
       DestroyDroppable(col.gameObject.GetComponent<Hero>());
