@@ -12,7 +12,9 @@ public class Breakable : MonoBehaviour {
 
   private Animator anim;
   private SpriteRenderer spriteRenderer;
+  private Rigidbody2D body;
   void Start() {
+    body = GetComponent<Rigidbody2D>();
     spriteRenderer = GetComponent<SpriteRenderer>();
     spriteRenderer.sprite = Sprites.breakableSprites[type];
 
@@ -32,14 +34,28 @@ public class Breakable : MonoBehaviour {
     }
   }
 
-  void Update() {}
+  void Update() {
+    // ensure that, if falling, the droppables on top move again
+    if (body != null) {
+      int yVelocity = (int)body.velocity.y;
+
+      if (yVelocity == 0) {
+        if (gameObject.layer == LayerMask.NameToLayer("Dropping")) {
+          gameObject.layer = LayerMask.NameToLayer("Objects");
+        }
+      } else {
+        if (yVelocity < 0 && gameObject.layer == LayerMask.NameToLayer("Objects")) {
+          gameObject.layer = LayerMask.NameToLayer("Dropping");
+
+          if (carriedDroppables.Count > 0) {
+            RemoveCarriedDroppables();
+          }
+        }
+      }
+    }
+  }
 
   private void OnCollisionEnter2D(Collision2D col) {
-    if (col.gameObject.tag == "Ground" && !Helpers.IsValueInArray(Constants.stackableBreakables, type)) {
-      GetComponent<Rigidbody2D>().gravityScale = 0;
-      GetComponent<BoxCollider2D>().isTrigger = true;
-    }
-
     if (col.gameObject.tag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type) && !Helpers.IsValueInArray(Constants.stackableBreakables, type)) {
       throw new Exception("Breakable objects that are not Barrels or Boxes should not stack with anything");
     }
@@ -52,13 +68,13 @@ public class Breakable : MonoBehaviour {
   private void OnTriggerEnter2D(Collider2D col) {
     // since these objects are to go on top of other same objects, change the transform.position z value to render on top
     if (col.gameObject.tag == "Breakable" && !Helpers.IsValueInArray(Constants.stackableBreakables, type)) {
-      Destroy(GetComponent<Rigidbody2D>());
+      Destroy(body);
       GetComponent<BoxCollider2D>().isTrigger = true;
     }
 
     if (col.gameObject.tag == "Weapon" && !isBreaking) {
       isBreaking = true;
-      Destroy(GetComponent<Rigidbody2D>());
+      Destroy(body);
       GetComponent<BoxCollider2D>().isTrigger = true;
 
       GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().InstantiatePrefab("droppable", item, transform.parent.gameObject, transform, spriteRenderer);

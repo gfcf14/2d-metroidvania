@@ -72,7 +72,9 @@ public class Droppable : MonoBehaviour {
 
     if (collisionCounter > 0) {
       isDropping = false;
-      body.bodyType = RigidbodyType2D.Static;
+      if (canBePicked) {
+        body.bodyType = RigidbodyType2D.Static;
+      }
 
       if (timer == 0) {
         timer = Time.time * 1000;
@@ -80,7 +82,9 @@ public class Droppable : MonoBehaviour {
       }
     } else {
       isDropping = true;
-      body.bodyType = RigidbodyType2D.Dynamic;
+      if (canBePicked) {
+        body.bodyType = RigidbodyType2D.Dynamic;
+      }
     }
   }
 
