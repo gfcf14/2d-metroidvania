@@ -60,7 +60,11 @@ public class Breakable : MonoBehaviour {
   }
 
   bool CheckIfGrounded() {
-    Collider2D[] colliders = Physics2D.OverlapBoxAll(new Vector2(transform.position.x, transform.position.y + (spriteRenderer.bounds.size.y / 2)), breakableCollider.size, 0f);
+    Collider2D[] colliders = Physics2D.OverlapBoxAll(new Vector2(transform.position.x, transform.position.y + breakableCollider.offset.y), breakableCollider.size, 0f);
+
+    // if (gameObject.name == "Breakable (3)") {
+    //   DrawRectangle(new Vector2(transform.position.x, transform.position.y + breakableCollider.offset.y), breakableCollider.size);
+    // }
 
     foreach(Collider2D currentCollider in colliders) {
       if (currentCollider != breakableCollider) {
@@ -72,6 +76,21 @@ public class Breakable : MonoBehaviour {
 
     return false;
   }
+
+  // TODO: find a better place for this rectangle debug
+  // void DrawRectangle(Vector2 center, Vector2 size) {
+  //   Vector2 halfSize = size / 2f;
+
+  //   Vector3 topLeft = new Vector3(center.x - halfSize.x, center.y + halfSize.y, 0f);
+  //   Vector3 topRight = new Vector3(center.x + halfSize.x, center.y + halfSize.y, 0f);
+  //   Vector3 bottomRight = new Vector3(center.x + halfSize.x, center.y - halfSize.y, 0f);
+  //   Vector3 bottomLeft = new Vector3(center.x - halfSize.x, center.y - halfSize.y, 0f);
+
+  //   Debug.DrawLine(topLeft, topRight, Color.red);
+  //   Debug.DrawLine(topRight, bottomRight, Color.red);
+  //   Debug.DrawLine(bottomRight, bottomLeft, Color.red);
+  //   Debug.DrawLine(bottomLeft, topLeft, Color.red);
+  // }
 
   private void OnCollisionEnter2D(Collision2D col) {
     if (col.gameObject.tag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type) && !Helpers.IsValueInArray(Constants.stackableBreakables, type)) {
@@ -121,7 +140,9 @@ public class Breakable : MonoBehaviour {
 
   public void RemoveCarriedDroppables() {
     foreach (GameObject droppable in carriedDroppables) {
-      droppable.GetComponent<Droppable>().DecrementCollision();
+      if (droppable != null) {
+        droppable.GetComponent<Droppable>().DecrementCollision();
+      }
     }
   }
 
