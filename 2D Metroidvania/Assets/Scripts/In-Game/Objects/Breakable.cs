@@ -7,23 +7,27 @@ public class Breakable : MonoBehaviour {
   [SerializeField] public string item;
   [SerializeField] public string material;
 
+  [SerializeField] public bool isGrounded;
+
   [System.NonSerialized] public bool isBreaking = false;
   [System.NonSerialized] public List<GameObject> carriedDroppables = new List<GameObject>();
 
   private Animator anim;
   private SpriteRenderer spriteRenderer;
   private Rigidbody2D body;
+  private BoxCollider2D breakableCollider;
   void Start() {
     body = GetComponent<Rigidbody2D>();
     spriteRenderer = GetComponent<SpriteRenderer>();
+    breakableCollider = GetComponent<BoxCollider2D>();
     spriteRenderer.sprite = Sprites.breakableSprites[type];
 
     if (type == "vase") {
       spriteRenderer.color = Colors.vaseColors[material == "" ? "brass" : material];
     }
 
-    GetComponent<BoxCollider2D>().offset = Objects.breakableSizes[type].offset;
-    GetComponent<BoxCollider2D>().size = Objects.breakableSizes[type].size;
+    breakableCollider.offset = Objects.breakableSizes[type].offset;
+    breakableCollider.size = Objects.breakableSizes[type].size;
 
     gameObject.AddComponent<Animator>();
     anim = GetComponent<Animator>();
@@ -37,14 +41,14 @@ public class Breakable : MonoBehaviour {
   void Update() {
     // ensure that, if falling, the droppables on top move again
     if (body != null) {
-      int yVelocity = (int)body.velocity.y;
+      isGrounded = CheckIfGrounded();
 
-      if (yVelocity == 0) {
+      if (isGrounded) {
         if (gameObject.layer == LayerMask.NameToLayer("Dropping")) {
           gameObject.layer = LayerMask.NameToLayer("Objects");
         }
       } else {
-        if (yVelocity < 0 && gameObject.layer == LayerMask.NameToLayer("Objects")) {
+        if (!isGrounded && gameObject.layer == LayerMask.NameToLayer("Objects")) {
           gameObject.layer = LayerMask.NameToLayer("Dropping");
 
           if (carriedDroppables.Count > 0) {
@@ -55,13 +59,27 @@ public class Breakable : MonoBehaviour {
     }
   }
 
+  bool CheckIfGrounded() {
+    Collider2D[] colliders = Physics2D.OverlapBoxAll(new Vector2(transform.position.x, transform.position.y + (spriteRenderer.bounds.size.y / 2)), breakableCollider.size, 0f);
+
+    foreach(Collider2D currentCollider in colliders) {
+      if (currentCollider != breakableCollider) {
+        if (currentCollider.gameObject.name == "Ground" || transform.position.y > currentCollider.gameObject.transform.position.y) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   private void OnCollisionEnter2D(Collision2D col) {
     if (col.gameObject.tag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type) && !Helpers.IsValueInArray(Constants.stackableBreakables, type)) {
       throw new Exception("Breakable objects that are not Barrels or Boxes should not stack with anything");
     }
 
     if (col.gameObject.tag == "Item" || col.gameObject.name == "ProximityCheck") {
-      Physics2D.IgnoreCollision(col.gameObject.GetComponent<PolygonCollider2D>(), GetComponent<BoxCollider2D>());
+      Physics2D.IgnoreCollision(col.gameObject.GetComponent<PolygonCollider2D>(), breakableCollider);
     }
   }
 
