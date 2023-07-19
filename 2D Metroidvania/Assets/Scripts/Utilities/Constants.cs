@@ -63,6 +63,9 @@ public class Constants {
   // TODO: consider if this will be used again in the future. If not, delete
   // public static string[] patrollerStates = {"attack", "burning", "death", "death-by-burning", "death-by-poison", "stunned", "stunned-on-attack", "walk"};
 
+  // ensure that these tiles are updated if the dirt position in the detail tileset is updated
+  public static int[] detailDirt = {150, 151, 158, 159};
+
   public static int arrowExplosionDamage = 50;
   public static int arrowPoisonDamage = 10;
   public static int kickDamage = 10;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Hero : MonoBehaviour {
   [System.NonSerialized] public bool showDebug = false;
@@ -20,6 +21,8 @@ public class Hero : MonoBehaviour {
   [SerializeField] public GameObject weaponCollider;
   [SerializeField] public GameObject levelUpCanvas;
   [SerializeField] public GameObject fadeOutCanvas;
+  private Tilemap groundTiles;
+  private Tilemap detailTiles;
   private Rigidbody2D body;
   private Animator anim;
   private SpriteRenderer heroRenderer;
@@ -225,6 +228,8 @@ public class Hero : MonoBehaviour {
     body = GetComponent<Rigidbody2D>();
     anim = GetComponent<Animator>();
     heroRenderer = GetComponent<SpriteRenderer>();
+    groundTiles = GameObject.Find("Ground").GetComponent<Tilemap>();
+    detailTiles = GameObject.Find("Detail").GetComponent<Tilemap>();
 
     // currentWeapon = weapons[weaponIndex % weapons.Length];
 
@@ -473,8 +478,47 @@ public class Hero : MonoBehaviour {
     items.RemoveAt(index);
   }
 
+  public void GetGroundMaterial(string tileName) {
+    // gets the material given that tilebase name convension is "tiles-material_number"
+    string material = tileName.Split('_')[0].Split('-')[1];
+
+    switch (material) {
+      case "meadows":
+        Debug.Log("grass");
+      break;
+      default:
+        Debug.Log("Material (" + material + ") not accounted for, using tile " + tileName);
+      break;
+    }
+  }
+
+  public void GetCurrentTile() {
+    Vector3Int groundTileCoordinates = groundTiles.WorldToCell(transform.position);
+    Vector3Int groundTileBelowCoordinates = groundTileCoordinates + new Vector3Int(0, -1, 0);
+
+    Vector3Int detailTileCoordinates = detailTiles.WorldToCell(transform.position);
+    Vector3Int detailTileBelowCoordinates = detailTileCoordinates + new Vector3Int(0, -1, 0);
+
+    TileBase groundTileBelowPlayer = groundTiles.GetTile(groundTileBelowCoordinates);
+    TileBase detailTileBelowPlayer = detailTiles.GetTile(detailTileBelowCoordinates);
+
+    if (detailTileBelowPlayer != null) {
+      int detailTileIndex = int.Parse(detailTileBelowPlayer.name.Replace("tiles-details_", ""));
+
+      if (Helpers.IsValueInArray(Constants.detailDirt, detailTileIndex)) {
+        Debug.Log("dirt");
+      } else {
+        GetGroundMaterial(groundTileBelowPlayer.name);
+      }
+    } else {
+      GetGroundMaterial(groundTileBelowPlayer.name);
+    }
+  }
+
   // called on every frame of the game
   private void Update() {
+    GetCurrentTile();
+
     if (!isAutonomous) {
       // TODO: remove key combinations as they will not be used to favor two keys pressed
       foreach (KeyCode currentKey in System.Enum.GetValues(typeof(KeyCode))) {
