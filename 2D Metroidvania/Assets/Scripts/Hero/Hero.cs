@@ -26,6 +26,7 @@ public class Hero : MonoBehaviour {
   private Rigidbody2D body;
   private Animator anim;
   private SpriteRenderer heroRenderer;
+  private AudioSource audioSource;
 
   private float heroHeight;
   private float heroWidth;
@@ -228,6 +229,7 @@ public class Hero : MonoBehaviour {
     body = GetComponent<Rigidbody2D>();
     anim = GetComponent<Animator>();
     heroRenderer = GetComponent<SpriteRenderer>();
+    audioSource = GetComponent<AudioSource>();
     groundTiles = GameObject.Find("Ground").GetComponent<Tilemap>();
     detailTiles = GameObject.Find("Detail").GetComponent<Tilemap>();
 
@@ -478,21 +480,20 @@ public class Hero : MonoBehaviour {
     items.RemoveAt(index);
   }
 
-  public void GetGroundMaterial(string tileName) {
+  public string GetGroundMaterial(string tileName) {
     // gets the material given that tilebase name convension is "tiles-material_number"
     string material = tileName.Split('_')[0].Split('-')[1];
 
     switch (material) {
       case "meadows":
-        Debug.Log("grass");
-      break;
+        return "grass";
       default:
         Debug.Log("Material (" + material + ") not accounted for, using tile " + tileName);
-      break;
+        return null;
     }
   }
 
-  public void GetCurrentTile() {
+  public string GetTileMaterial() {
     Vector3Int groundTileCoordinates = groundTiles.WorldToCell(transform.position);
     Vector3Int groundTileBelowCoordinates = groundTileCoordinates + new Vector3Int(0, -1, 0);
 
@@ -506,19 +507,26 @@ public class Hero : MonoBehaviour {
       int detailTileIndex = int.Parse(detailTileBelowPlayer.name.Replace("tiles-details_", ""));
 
       if (Helpers.IsValueInArray(Constants.detailDirt, detailTileIndex)) {
-        Debug.Log("dirt");
+        return "dirt";
       } else {
-        GetGroundMaterial(groundTileBelowPlayer.name);
+        return GetGroundMaterial(groundTileBelowPlayer.name);
       }
     } else {
-      GetGroundMaterial(groundTileBelowPlayer.name);
+      return GetGroundMaterial(groundTileBelowPlayer.name);
+    }
+  }
+
+  public void PlaySound() {
+    string materialRunningOn = GetTileMaterial();
+
+    if (materialRunningOn != null) {
+      AudioClip[] materialClips = Objects.materialRunningSounds[materialRunningOn];
+      audioSource.PlayOneShot(materialClips[UnityEngine.Random.Range(0, materialClips.Length)]);
     }
   }
 
   // called on every frame of the game
   private void Update() {
-    GetCurrentTile();
-
     if (!isAutonomous) {
       // TODO: remove key combinations as they will not be used to favor two keys pressed
       foreach (KeyCode currentKey in System.Enum.GetValues(typeof(KeyCode))) {

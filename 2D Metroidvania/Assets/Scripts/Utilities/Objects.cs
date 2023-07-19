@@ -346,4 +346,21 @@ public class Objects {
   public static Dictionary<string, TMP_FontAsset> fonts = new Dictionary<string, TMP_FontAsset> {
     {"levi-rebrushed", Resources.Load("Fonts/LeviRebrushed SDF") as TMP_FontAsset}
   };
+
+  public static Dictionary<string, AudioClip[]> materialRunningSounds = new Dictionary<string, AudioClip[]> {
+    {"dirt", new AudioClip[] {
+      Resources.Load<AudioClip>("SFX/running/dirt/dirt-1"),
+      Resources.Load<AudioClip>("SFX/running/dirt/dirt-2"),
+      Resources.Load<AudioClip>("SFX/running/dirt/dirt-3"),
+      Resources.Load<AudioClip>("SFX/running/dirt/dirt-4"),
+      Resources.Load<AudioClip>("SFX/running/dirt/dirt-5"),
+    }},
+    {"grass", new AudioClip[] {
+      Resources.Load<AudioClip>("SFX/running/grass/grass-1"),
+      Resources.Load<AudioClip>("SFX/running/grass/grass-2"),
+      Resources.Load<AudioClip>("SFX/running/grass/grass-3"),
+      Resources.Load<AudioClip>("SFX/running/grass/grass-4"),
+      Resources.Load<AudioClip>("SFX/running/grass/grass-5"),
+    }}
+  };
 }
