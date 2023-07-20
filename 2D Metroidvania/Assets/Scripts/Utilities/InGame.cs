@@ -1,9 +1,13 @@
-using UnityEditor;
 using UnityEngine;
-using System.Linq;
+using UnityEngine.Tilemaps;
 
 public class InGame : MonoBehaviour {
-  void Start() {}
+  private Tilemap groundTiles;
+  private Tilemap detailTiles;
+  void Start() {
+    groundTiles = GameObject.Find("Ground").GetComponent<Tilemap>();
+    detailTiles = GameObject.Find("Detail").GetComponent<Tilemap>();
+  }
   void Update() {}
 
   public void InstantiatePrefab(string prefab, string key, GameObject room, Transform trans, SpriteRenderer spr) {
@@ -19,5 +23,41 @@ public class InGame : MonoBehaviour {
 
     // adds flicker effect
     droppableScript.gameObject.AddComponent<Flicker>().enabled = false;
+  }
+
+  public string GetGroundMaterial(string tileName) {
+    // gets the material given that tilebase name convension is "tiles-material_number"
+    string material = tileName.Split('_')[0].Split('-')[1];
+
+    switch (material) {
+      case "meadows":
+        return "grass";
+      default:
+        Debug.Log("Material (" + material + ") not accounted for, using tile " + tileName);
+        return null;
+    }
+  }
+
+  public string GetTileMaterial(Vector3 objectPosition) {
+    Vector3Int groundTileCoordinates = groundTiles.WorldToCell(objectPosition);
+    Vector3Int groundTileBelowCoordinates = groundTileCoordinates + new Vector3Int(0, -1, 0);
+
+    Vector3Int detailTileCoordinates = detailTiles.WorldToCell(objectPosition);
+    Vector3Int detailTileBelowCoordinates = detailTileCoordinates + new Vector3Int(0, -1, 0);
+
+    TileBase groundTileBelowPlayer = groundTiles.GetTile(groundTileBelowCoordinates);
+    TileBase detailTileBelowPlayer = detailTiles.GetTile(detailTileBelowCoordinates);
+
+    if (detailTileBelowPlayer != null) {
+      int detailTileIndex = int.Parse(detailTileBelowPlayer.name.Replace("tiles-details_", ""));
+
+      if (Helpers.IsValueInArray(Constants.detailDirt, detailTileIndex)) {
+        return "dirt";
+      } else {
+        return GetGroundMaterial(groundTileBelowPlayer.name);
+      }
+    } else {
+      return GetGroundMaterial(groundTileBelowPlayer.name);
+    }
   }
 }

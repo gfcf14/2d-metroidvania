@@ -181,6 +181,10 @@ public class Helpers {
     return itemGroup[UnityEngine.Random.Range(0, itemGroup.Length)];
   }
 
+  public static AudioClip GetRandomClipFromGroup(AudioClip[] audioclipGroup) {
+    return audioclipGroup[UnityEngine.Random.Range(0, audioclipGroup.Length)];
+  }
+
   public static string GetLevelString(int level) {
     return level >= 51 ? "high" : (level >= 21 ? "mid" : "low");
   }

@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour {
     [System.NonSerialized] private SimpleFlash flashEffect;
     [System.NonSerialized] public Rigidbody2D body;
     [System.NonSerialized] public SpriteRenderer enemyRenderer;
+    private InGame inGame;
 
   // Properties
     [System.NonSerialized] public bool isFacingLeft = false;
@@ -101,6 +102,7 @@ public class Enemy : MonoBehaviour {
     body = GetComponent<Rigidbody2D>();
     anim = GetComponent<Animator>();
     enemyRenderer = GetComponent<SpriteRenderer>();
+    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
     enemyHeight = enemyRenderer.bounds.size.y;
     enemyWidth = enemyRenderer.bounds.size.x;
 
@@ -630,7 +632,7 @@ public class Enemy : MonoBehaviour {
     }
 
     // instantiates the dropped item
-    GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().InstantiatePrefab("droppable", Helpers.GetDroppableItem(key, level, hero.luckPercentage + hero.equippedLUCK + hero.effectLCK), transform.parent.gameObject, transform, enemyRenderer);
+    inGame.InstantiatePrefab("droppable", Helpers.GetDroppableItem(key, level, hero.luckPercentage + hero.equippedLUCK + hero.effectLCK), transform.parent.gameObject, transform, enemyRenderer);
 
     // instantiates the explosion of the enemy
     Instantiate(Objects.prefabs["enemy-explosion"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);

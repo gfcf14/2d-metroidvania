@@ -7,10 +7,12 @@ public class Interactable : MonoBehaviour {
   [System.NonSerialized] public bool isOpen = false;
   private Animator anim;
   private SpriteRenderer spriteRenderer;
+  private InGame inGame;
 
   void Start() {
     anim = GetComponent<Animator>();
     spriteRenderer = GetComponent<SpriteRenderer>();
+    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
 
     if (!isFacingLeft) {
       transform.localScale = new Vector2(-1, 1);
@@ -36,6 +38,6 @@ public class Interactable : MonoBehaviour {
     GetComponent<BoxCollider2D>().enabled = false;
 
     // TODO: define what items will Interactables drop
-    GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().InstantiatePrefab("droppable", item, transform.parent.gameObject, transform, spriteRenderer);
+    inGame.InstantiatePrefab("droppable", item, transform.parent.gameObject, transform, spriteRenderer);
   }
 }

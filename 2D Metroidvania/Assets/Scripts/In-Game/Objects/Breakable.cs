@@ -17,11 +17,13 @@ public class Breakable : MonoBehaviour {
   private Rigidbody2D body;
   private BoxCollider2D breakableCollider;
   private AudioSource audioSource;
+  private InGame inGame;
   void Start() {
     body = GetComponent<Rigidbody2D>();
     spriteRenderer = GetComponent<SpriteRenderer>();
     breakableCollider = GetComponent<BoxCollider2D>();
     audioSource = GetComponent<AudioSource>();
+    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
     spriteRenderer.sprite = Sprites.breakableSprites[type];
 
     if (type == "vase") {
@@ -95,28 +97,36 @@ public class Breakable : MonoBehaviour {
   // }
 
   private void OnCollisionEnter2D(Collision2D col) {
-    if (col.gameObject.tag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type) && !Helpers.IsValueInArray(Constants.stackableBreakables, type)) {
+    string colTag = col.gameObject.tag;
+
+    if (colTag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type) && !Helpers.IsValueInArray(Constants.stackableBreakables, type)) {
       throw new Exception("Breakable objects that are not Barrels or Boxes should not stack with anything");
     }
 
-    if (col.gameObject.tag == "Item" || col.gameObject.name == "ProximityCheck") {
+    if (colTag == "Item" || col.gameObject.name == "ProximityCheck") {
       Physics2D.IgnoreCollision(col.gameObject.GetComponent<PolygonCollider2D>(), breakableCollider);
+    }
+
+    if (spriteRenderer.isVisible) {
+      PlayFalling(col.gameObject);
     }
   }
 
   private void OnTriggerEnter2D(Collider2D col) {
+    string colTag = col.gameObject.tag;
+
     // since these objects are to go on top of other same objects, change the transform.position z value to render on top
-    if (col.gameObject.tag == "Breakable" && !Helpers.IsValueInArray(Constants.stackableBreakables, type)) {
+    if (colTag == "Breakable" && !Helpers.IsValueInArray(Constants.stackableBreakables, type)) {
       Destroy(body);
       GetComponent<BoxCollider2D>().isTrigger = true;
     }
 
-    if (col.gameObject.tag == "Weapon" && !isBreaking) {
+    if (colTag == "Weapon" && !isBreaking) {
       isBreaking = true;
       Destroy(body);
       GetComponent<BoxCollider2D>().isTrigger = true;
 
-      GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().InstantiatePrefab("droppable", item, transform.parent.gameObject, transform, spriteRenderer);
+      inGame.InstantiatePrefab("droppable", item, transform.parent.gameObject, transform, spriteRenderer);
 
       GameObject parentObject = col.transform.parent.gameObject;
       if (parentObject.name.Contains("Throwable")) {
@@ -152,8 +162,28 @@ public class Breakable : MonoBehaviour {
     Destroy(gameObject);
   }
 
-  public void PlaySound() {
+  public void PlayBreaking() {
     AudioClip[] breakableClips = Objects.breakableSounds[type];
-    audioSource.PlayOneShot(breakableClips[UnityEngine.Random.Range(0, breakableClips.Length)]);
+    PlaySound(Helpers.GetRandomClipFromGroup(breakableClips));
+  }
+
+  public void PlayFalling(GameObject objectUnder) {
+    switch (objectUnder.tag) {
+      case "Breakable":
+        AudioClip[] breakableClips = Objects.fallingSounds[type][objectUnder.GetComponent<Breakable>().type];
+        PlaySound(Helpers.GetRandomClipFromGroup(breakableClips));
+      break;
+      case "Ground":
+        AudioClip[] groundClips = Objects.fallingSounds[type][inGame.GetTileMaterial(transform.position)];
+        PlaySound(Helpers.GetRandomClipFromGroup(groundClips));
+      break;
+      default:
+        Debug.Log("Consider adding sound for when falling on " + objectUnder.name + "(tagged " + objectUnder.tag + ")");
+      break;
+    }
+  }
+
+  public void PlaySound(AudioClip breakableSound) {
+    audioSource.PlayOneShot(breakableSound);
   }
 }

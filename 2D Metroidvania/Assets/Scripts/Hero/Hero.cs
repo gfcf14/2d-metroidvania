@@ -21,12 +21,11 @@ public class Hero : MonoBehaviour {
   [SerializeField] public GameObject weaponCollider;
   [SerializeField] public GameObject levelUpCanvas;
   [SerializeField] public GameObject fadeOutCanvas;
-  private Tilemap groundTiles;
-  private Tilemap detailTiles;
   private Rigidbody2D body;
   private Animator anim;
   private SpriteRenderer heroRenderer;
   private AudioSource audioSource;
+  private InGame inGame;
 
   private float heroHeight;
   private float heroWidth;
@@ -230,8 +229,7 @@ public class Hero : MonoBehaviour {
     anim = GetComponent<Animator>();
     heroRenderer = GetComponent<SpriteRenderer>();
     audioSource = GetComponent<AudioSource>();
-    groundTiles = GameObject.Find("Ground").GetComponent<Tilemap>();
-    detailTiles = GameObject.Find("Detail").GetComponent<Tilemap>();
+    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
 
     // currentWeapon = weapons[weaponIndex % weapons.Length];
 
@@ -480,44 +478,8 @@ public class Hero : MonoBehaviour {
     items.RemoveAt(index);
   }
 
-  public string GetGroundMaterial(string tileName) {
-    // gets the material given that tilebase name convension is "tiles-material_number"
-    string material = tileName.Split('_')[0].Split('-')[1];
-
-    switch (material) {
-      case "meadows":
-        return "grass";
-      default:
-        Debug.Log("Material (" + material + ") not accounted for, using tile " + tileName);
-        return null;
-    }
-  }
-
-  public string GetTileMaterial() {
-    Vector3Int groundTileCoordinates = groundTiles.WorldToCell(transform.position);
-    Vector3Int groundTileBelowCoordinates = groundTileCoordinates + new Vector3Int(0, -1, 0);
-
-    Vector3Int detailTileCoordinates = detailTiles.WorldToCell(transform.position);
-    Vector3Int detailTileBelowCoordinates = detailTileCoordinates + new Vector3Int(0, -1, 0);
-
-    TileBase groundTileBelowPlayer = groundTiles.GetTile(groundTileBelowCoordinates);
-    TileBase detailTileBelowPlayer = detailTiles.GetTile(detailTileBelowCoordinates);
-
-    if (detailTileBelowPlayer != null) {
-      int detailTileIndex = int.Parse(detailTileBelowPlayer.name.Replace("tiles-details_", ""));
-
-      if (Helpers.IsValueInArray(Constants.detailDirt, detailTileIndex)) {
-        return "dirt";
-      } else {
-        return GetGroundMaterial(groundTileBelowPlayer.name);
-      }
-    } else {
-      return GetGroundMaterial(groundTileBelowPlayer.name);
-    }
-  }
-
   public void PlaySound() {
-    string materialRunningOn = GetTileMaterial();
+    string materialRunningOn = inGame.GetTileMaterial(transform.position);
 
     if (materialRunningOn != null) {
       AudioClip[] materialClips = Objects.materialRunningSounds[materialRunningOn];

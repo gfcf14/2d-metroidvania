@@ -366,9 +366,22 @@ public class Objects {
 
   public static Dictionary<string, AudioClip[]> breakableSounds = new Dictionary<string, AudioClip[]> {
     {"box", new AudioClip[] {
-      Resources.Load<AudioClip>("SFX/breakables/box/box-1"),
-      Resources.Load<AudioClip>("SFX/breakables/box/box-2"),
-      Resources.Load<AudioClip>("SFX/breakables/box/box-3"),
+      Resources.Load<AudioClip>("SFX/breakables/box/breaking/breaking-1"),
+      Resources.Load<AudioClip>("SFX/breakables/box/breaking/breaking-2"),
+      Resources.Load<AudioClip>("SFX/breakables/box/breaking/breaking-3"),
+    }}
+  };
+
+  public static Dictionary<string, Dictionary<string, AudioClip[]>> fallingSounds = new Dictionary<string, Dictionary<string, AudioClip[]>> {
+    {"box", new Dictionary<string, AudioClip[]> {
+      {"box", new AudioClip[] {
+        Resources.Load<AudioClip>("SFX/breakables/box/falling/on-box-1"),
+        Resources.Load<AudioClip>("SFX/breakables/box/falling/on-box-2"),
+      }},
+      {"grass", new AudioClip[] {
+        Resources.Load<AudioClip>("SFX/breakables/box/falling/on-grass-1"),
+        Resources.Load<AudioClip>("SFX/breakables/box/falling/on-grass-2"),
+      }}
     }}
   };
 }
