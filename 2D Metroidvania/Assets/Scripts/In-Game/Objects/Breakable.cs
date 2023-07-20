@@ -16,10 +16,12 @@ public class Breakable : MonoBehaviour {
   private SpriteRenderer spriteRenderer;
   private Rigidbody2D body;
   private BoxCollider2D breakableCollider;
+  private AudioSource audioSource;
   void Start() {
     body = GetComponent<Rigidbody2D>();
     spriteRenderer = GetComponent<SpriteRenderer>();
     breakableCollider = GetComponent<BoxCollider2D>();
+    audioSource = GetComponent<AudioSource>();
     spriteRenderer.sprite = Sprites.breakableSprites[type];
 
     if (type == "vase") {
@@ -148,5 +150,10 @@ public class Breakable : MonoBehaviour {
 
   public void DestroyBreakable() {
     Destroy(gameObject);
+  }
+
+  public void PlaySound() {
+    AudioClip[] breakableClips = Objects.breakableSounds[type];
+    audioSource.PlayOneShot(breakableClips[UnityEngine.Random.Range(0, breakableClips.Length)]);
   }
 }

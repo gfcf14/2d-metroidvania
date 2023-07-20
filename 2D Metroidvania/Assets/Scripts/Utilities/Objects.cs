@@ -363,4 +363,12 @@ public class Objects {
       Resources.Load<AudioClip>("SFX/running/grass/grass-5"),
     }}
   };
+
+  public static Dictionary<string, AudioClip[]> breakableSounds = new Dictionary<string, AudioClip[]> {
+    {"box", new AudioClip[] {
+      Resources.Load<AudioClip>("SFX/breakables/box/box-1"),
+      Resources.Load<AudioClip>("SFX/breakables/box/box-2"),
+      Resources.Load<AudioClip>("SFX/breakables/box/box-3"),
+    }}
+  };
 }
