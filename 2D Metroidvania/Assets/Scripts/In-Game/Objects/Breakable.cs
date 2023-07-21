@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,10 +9,11 @@ public class Breakable : MonoBehaviour {
   [SerializeField] public string material;
 
   [SerializeField] public bool isGrounded;
-
+  [SerializeField] public bool isFalling = false;
   [System.NonSerialized] public bool isBreaking = false;
   [System.NonSerialized] public List<GameObject> carriedDroppables = new List<GameObject>();
 
+  private float soundLength = 0;
   private Animator anim;
   private SpriteRenderer spriteRenderer;
   private Rigidbody2D body;
@@ -107,9 +109,15 @@ public class Breakable : MonoBehaviour {
       Physics2D.IgnoreCollision(col.gameObject.GetComponent<PolygonCollider2D>(), breakableCollider);
     }
 
-    if (spriteRenderer.isVisible) {
-      PlayFalling(col.gameObject);
-    }
+    // if (spriteRenderer.isVisible && !isFalling) {
+      isFalling = true;
+      StartCoroutine(PrepareFalling(col.gameObject));
+    // }
+  }
+
+  IEnumerator PrepareFalling(GameObject gameObjectUnder) {
+    yield return new WaitForSeconds(0.01f);
+    PlayFalling(gameObjectUnder);
   }
 
   private void OnTriggerEnter2D(Collider2D col) {
@@ -171,7 +179,7 @@ public class Breakable : MonoBehaviour {
     switch (objectUnder.tag) {
       case "Breakable":
         AudioClip[] breakableClips = Objects.fallingSounds[type][objectUnder.GetComponent<Breakable>().type];
-        PlaySound(Helpers.GetRandomClipFromGroup(breakableClips));
+        PlaySound(Helpers.GetRandomClipFromGroup(breakableClips)); //, isFallingOnBox: true);
       break;
       case "Ground":
         AudioClip[] groundClips = Objects.fallingSounds[type][inGame.GetTileMaterial(transform.position)];
@@ -183,7 +191,38 @@ public class Breakable : MonoBehaviour {
     }
   }
 
-  public void PlaySound(AudioClip breakableSound) {
+  public void PlaySound(AudioClip breakableSound, bool isFallingOnBox = false) {
+    if (isFallingOnBox) {
+      float audioVolume = 1 / OtherBreakablesPlaying();
+      audioSource.volume = audioVolume;
+    }
+
+    soundLength = breakableSound.length;
+
     audioSource.PlayOneShot(breakableSound);
+    StartCoroutine(ActionAfterSound());
+  }
+
+  IEnumerator ActionAfterSound() {
+    yield return new WaitForSeconds(soundLength);
+    audioSource.volume = 1;
+    isFalling = false;
+  }
+
+  private int OtherBreakablesPlaying() {
+    int objectsPlaying = 0;
+    foreach (Transform child in transform.parent) {
+      GameObject currentObject = child.gameObject;
+
+      if (currentObject.GetComponent<AudioSource>() != null) {
+        if (currentObject.tag == "Breakable") {
+          if (currentObject.GetComponent<Breakable>().isFalling) {
+            objectsPlaying++;
+          }
+        }
+      }
+    }
+
+    return objectsPlaying;
   }
 }
