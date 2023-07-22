@@ -109,10 +109,10 @@ public class Breakable : MonoBehaviour {
       Physics2D.IgnoreCollision(col.gameObject.GetComponent<PolygonCollider2D>(), breakableCollider);
     }
 
-    // if (spriteRenderer.isVisible && !isFalling) {
+    if (spriteRenderer.isVisible) {
       isFalling = true;
       StartCoroutine(PrepareFalling(col.gameObject));
-    // }
+    }
   }
 
   IEnumerator PrepareFalling(GameObject gameObjectUnder) {
