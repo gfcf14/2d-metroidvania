@@ -134,7 +134,7 @@ public class Breakable : MonoBehaviour {
       Destroy(body);
       GetComponent<BoxCollider2D>().isTrigger = true;
 
-      inGame.InstantiatePrefab("droppable", item, transform.parent.gameObject, transform, spriteRenderer);
+      inGame.InstantiatePrefab("droppable", item, GetItemSpawnedParent(), transform, spriteRenderer);
 
       GameObject parentObject = col.transform.parent.gameObject;
       if (parentObject.name.Contains("Throwable")) {
@@ -179,7 +179,7 @@ public class Breakable : MonoBehaviour {
     switch (objectUnder.tag) {
       case "Breakable":
         AudioClip[] breakableClips = Objects.fallingSounds[type][objectUnder.GetComponent<Breakable>().type];
-        PlaySound(Helpers.GetRandomClipFromGroup(breakableClips)); //, isFallingOnBox: true);
+        PlaySound(Helpers.GetRandomClipFromGroup(breakableClips), isFalling: true);
       break;
       case "Ground":
         AudioClip[] groundClips = Objects.fallingSounds[type][inGame.GetTileMaterial(transform.position)];
@@ -191,9 +191,10 @@ public class Breakable : MonoBehaviour {
     }
   }
 
-  public void PlaySound(AudioClip breakableSound, bool isFallingOnBox = false) {
-    if (isFallingOnBox) {
-      float audioVolume = 1 / OtherBreakablesPlaying();
+  public void PlaySound(AudioClip breakableSound, bool isFalling = false) {
+    if (isFalling) {
+      // lower volume to aggregate to 1 depending on the breakable siblings
+      float audioVolume = 1 / BreakableCount();
       audioSource.volume = audioVolume;
     }
 
@@ -209,20 +210,20 @@ public class Breakable : MonoBehaviour {
     isFalling = false;
   }
 
-  private int OtherBreakablesPlaying() {
-    int objectsPlaying = 0;
-    foreach (Transform child in transform.parent) {
-      GameObject currentObject = child.gameObject;
-
-      if (currentObject.GetComponent<AudioSource>() != null) {
-        if (currentObject.tag == "Breakable") {
-          if (currentObject.GetComponent<Breakable>().isFalling) {
-            objectsPlaying++;
-          }
-        }
-      }
+  private int BreakableCount() {
+    if (transform.parent.gameObject.name != "AudioGroup") {
+      return 1;
     }
 
-    return objectsPlaying;
+    return transform.parent.childCount;
+  }
+
+  private GameObject GetItemSpawnedParent() {
+    Transform immediateParent = transform.parent;
+    if (immediateParent.gameObject.name == "AudioGroup") {
+      return immediateParent.parent.gameObject;
+    }
+
+    return immediateParent.gameObject;
   }
 }
