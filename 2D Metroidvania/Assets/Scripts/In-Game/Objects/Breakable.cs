@@ -179,7 +179,7 @@ public class Breakable : MonoBehaviour {
     switch (objectUnder.tag) {
       case "Breakable":
         AudioClip[] breakableClips = Objects.fallingSounds[type][objectUnder.GetComponent<Breakable>().type];
-        PlaySound(Helpers.GetRandomClipFromGroup(breakableClips), isFalling: true);
+        PlaySound(Helpers.GetRandomClipFromGroup(breakableClips));
       break;
       case "Ground":
         AudioClip[] groundClips = Objects.fallingSounds[type][inGame.GetTileMaterial(transform.position)];
@@ -191,12 +191,10 @@ public class Breakable : MonoBehaviour {
     }
   }
 
-  public void PlaySound(AudioClip breakableSound, bool isFalling = false) {
-    if (isFalling) {
-      // lower volume to aggregate to 1 depending on the breakable siblings
-      float audioVolume = 1 / BreakableCount();
-      audioSource.volume = audioVolume;
-    }
+  public void PlaySound(AudioClip breakableSound) {
+    // lower volume to aggregate to 1 depending on the breakable siblings
+    float audioVolume = 1 / BreakableCount();
+    audioSource.volume = audioVolume;
 
     soundLength = breakableSound.length;
 
@@ -210,7 +208,7 @@ public class Breakable : MonoBehaviour {
     isFalling = false;
   }
 
-  private int BreakableCount() {
+  private float BreakableCount() {
     if (transform.parent.gameObject.name != "AudioGroup") {
       return 1;
     }
