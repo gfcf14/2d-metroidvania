@@ -9,7 +9,9 @@ public class RoomTrigger : MonoBehaviour {
     GameObject hero = GameObject.FindGameObjectWithTag("Hero");
     if (col.CompareTag("RoomTraverser")) {
       virtualCam.SetActive(true);
-      hero.GetComponent<Hero>().currentRoom = gameObject;
+      Hero heroScript = hero.GetComponent<Hero>();
+
+      heroScript.currentRoom = gameObject;
       foreach(Transform child in gameObject.transform) {
         if (child.tag == "EnemySpawner") {
           string spawnerKey = child.gameObject.GetComponent<EnemySpawner>().enemyKey;
@@ -23,8 +25,6 @@ public class RoomTrigger : MonoBehaviour {
       }
 
       // if the chat canvas is active, close it
-      Hero heroScript = hero.GetComponent<Hero>();
-
       if (heroScript.chatCanvas.activeSelf) {
         heroScript.chatCanvas.GetComponent<ChatCanvas>().FinishChat(playerLeft: true);
       }

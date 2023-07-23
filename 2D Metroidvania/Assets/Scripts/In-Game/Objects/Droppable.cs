@@ -20,10 +20,14 @@ public class Droppable : MonoBehaviour {
   [System.NonSerialized] Sprite spriteHolder;
 
   private Animator anim;
+  private AudioSource audioSource;
+  private InGame inGame;
 
   void Start() {
     flickerEffect = GetComponent<Flicker>();
     droppableSprite = GetComponent<SpriteRenderer>();
+    audioSource = GetComponent<AudioSource>();
+    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
 
     // if a room has been assigned, put the droppable in it to be deleted on exit
     // if there is no room, the only way to delete it is to touch it
@@ -94,6 +98,10 @@ public class Droppable : MonoBehaviour {
     }
   }
 
+  public void PlaySound(AudioClip droppableSound) {
+    audioSource.PlayOneShot(droppableSound);
+  }
+
   private void OnCollisionEnter2D(Collision2D col) {
     string gameObjectTag = col.gameObject.tag;
 
@@ -103,6 +111,10 @@ public class Droppable : MonoBehaviour {
       if (gameObjectTag == "Breakable") {
         col.gameObject.GetComponent<Breakable>().carriedDroppables.Add(gameObject);
         collisionCounter++;
+      }
+
+      if (gameObjectTag == "Ground" && inGame.IsInRoom(inGame.FindRoom(transform.parent))) {
+        PlaySound(Sounds.droppableFallingSounds[inGame.GetTileMaterial(transform.position)]);
       }
     } else if (gameObjectTag == "Hero" && canBePicked) {
       DestroyDroppable(col.gameObject.GetComponent<Hero>());

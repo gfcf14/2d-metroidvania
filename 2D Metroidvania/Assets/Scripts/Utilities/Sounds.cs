@@ -37,7 +37,14 @@ public class Sounds {
       {"grass", new AudioClip[] {
         Resources.Load<AudioClip>("SFX/breakables/box/falling/on-grass-1"),
         Resources.Load<AudioClip>("SFX/breakables/box/falling/on-grass-2"),
+      }},
+      {"item", new AudioClip[] {
+        Resources.Load<AudioClip>("SFX/items/falling/on-box"),
       }}
     }}
+  };
+
+  public static Dictionary<string, AudioClip> droppableFallingSounds = new Dictionary<string, AudioClip> {
+    {"grass", Resources.Load<AudioClip>("SFX/items/falling/on-grass")},
   };
 }

@@ -4,9 +4,11 @@ using UnityEngine.Tilemaps;
 public class InGame : MonoBehaviour {
   private Tilemap groundTiles;
   private Tilemap detailTiles;
+  private Hero hero;
   void Start() {
     groundTiles = GameObject.Find("Ground").GetComponent<Tilemap>();
     detailTiles = GameObject.Find("Detail").GetComponent<Tilemap>();
+    hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
   }
   void Update() {}
 
@@ -59,5 +61,22 @@ public class InGame : MonoBehaviour {
     } else {
       return GetGroundMaterial(groundTileBelowPlayer.name);
     }
+  }
+
+  public bool IsInRoom(string roomName) {
+    return roomName == hero.currentRoom.name;
+  }
+
+  // Checks the name of the provided parent if it's a room. If not a room, get its parent and recheck. If null, return blank
+  public string FindRoom(Transform currentParentCheck) {
+    if (currentParentCheck == null) {
+      return "";
+    }
+
+    if (currentParentCheck.gameObject.name.Contains("Room")) {
+      return currentParentCheck.gameObject.name;
+    }
+
+    return FindRoom(currentParentCheck.parent);
   }
 }

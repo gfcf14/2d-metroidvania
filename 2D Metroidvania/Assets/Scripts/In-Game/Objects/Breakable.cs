@@ -109,7 +109,8 @@ public class Breakable : MonoBehaviour {
       Physics2D.IgnoreCollision(col.gameObject.GetComponent<PolygonCollider2D>(), breakableCollider);
     }
 
-    if (spriteRenderer.isVisible) {
+    // if (spriteRenderer.isVisible) {
+    if (inGame.IsInRoom(inGame.FindRoom(transform.parent))) {
       isFalling = true;
       StartCoroutine(PrepareFalling(col.gameObject));
     }
@@ -184,6 +185,10 @@ public class Breakable : MonoBehaviour {
       case "Ground":
         AudioClip[] groundClips = Sounds.fallingSounds[type][inGame.GetTileMaterial(transform.position)];
         PlaySound(Helpers.GetRandomClipFromGroup(groundClips));
+      break;
+      case "Item":
+        AudioClip[] itemClips = Sounds.fallingSounds[type][objectUnder.tag.ToLower()];
+        PlaySound(Helpers.GetRandomClipFromGroup(itemClips));
       break;
       default:
         Debug.Log("Consider adding sound for when falling on " + objectUnder.name + "(tagged " + objectUnder.tag + ")");
