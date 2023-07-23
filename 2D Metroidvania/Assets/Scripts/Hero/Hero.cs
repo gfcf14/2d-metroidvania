@@ -482,7 +482,7 @@ public class Hero : MonoBehaviour {
     string materialRunningOn = inGame.GetTileMaterial(transform.position);
 
     if (materialRunningOn != null) {
-      AudioClip[] materialClips = Objects.materialRunningSounds[materialRunningOn];
+      AudioClip[] materialClips = Sounds.materialRunningSounds[materialRunningOn];
       audioSource.PlayOneShot(materialClips[UnityEngine.Random.Range(0, materialClips.Length)]);
     }
   }

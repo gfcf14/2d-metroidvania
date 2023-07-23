@@ -171,18 +171,18 @@ public class Breakable : MonoBehaviour {
   }
 
   public void PlayBreaking() {
-    AudioClip[] breakableClips = Objects.breakableSounds[type];
+    AudioClip[] breakableClips = Sounds.breakableSounds[type];
     PlaySound(Helpers.GetRandomClipFromGroup(breakableClips));
   }
 
   public void PlayFalling(GameObject objectUnder) {
     switch (objectUnder.tag) {
       case "Breakable":
-        AudioClip[] breakableClips = Objects.fallingSounds[type][objectUnder.GetComponent<Breakable>().type];
+        AudioClip[] breakableClips = Sounds.fallingSounds[type][objectUnder.GetComponent<Breakable>().type];
         PlaySound(Helpers.GetRandomClipFromGroup(breakableClips));
       break;
       case "Ground":
-        AudioClip[] groundClips = Objects.fallingSounds[type][inGame.GetTileMaterial(transform.position)];
+        AudioClip[] groundClips = Sounds.fallingSounds[type][inGame.GetTileMaterial(transform.position)];
         PlaySound(Helpers.GetRandomClipFromGroup(groundClips));
       break;
       default:
