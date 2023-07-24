@@ -109,7 +109,6 @@ public class Breakable : MonoBehaviour {
       Physics2D.IgnoreCollision(col.gameObject.GetComponent<PolygonCollider2D>(), breakableCollider);
     }
 
-    // if (spriteRenderer.isVisible) {
     if (inGame.IsInRoom(inGame.FindRoom(transform.parent))) {
       isFalling = true;
       StartCoroutine(PrepareFalling(col.gameObject));

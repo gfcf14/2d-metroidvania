@@ -1168,7 +1168,7 @@ public class Hero : MonoBehaviour {
 
           weaponCollider.SetActive(false);
         } else {
-          horizontalCollision = true;
+          horizontalCollision = objectCollided.tag == "Breakable" ? false : true;
 
           if (isBottomCollision(otherCollider, collider)) {
             horizontalCollision = false;
@@ -1176,15 +1176,6 @@ public class Hero : MonoBehaviour {
           }
         }
       }
-    }
-
-    // TODO: test further to understand better
-    if (col.collider.tag == "Breakable") {
-      // if (isGrounded) {
-        Physics2D.IgnoreCollision(col.collider, GetComponent<BoxCollider2D>());
-      // } else {
-      //   isGrounded = true;
-      // }
     }
 
     if (objectCollided.tag != "Item") {
