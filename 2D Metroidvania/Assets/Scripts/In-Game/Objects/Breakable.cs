@@ -11,7 +11,6 @@ public class Breakable : MonoBehaviour {
   [SerializeField] public bool isGrounded;
   [SerializeField] public bool isFalling = false;
   [System.NonSerialized] public bool isBreaking = false;
-  [System.NonSerialized] public List<GameObject> carriedDroppables = new List<GameObject>();
 
   private float soundLength = 0;
   private Animator anim;
@@ -56,10 +55,6 @@ public class Breakable : MonoBehaviour {
       } else {
         if (!isGrounded && gameObject.layer == LayerMask.NameToLayer("Objects")) {
           gameObject.layer = LayerMask.NameToLayer("Dropping");
-
-          if (carriedDroppables.Count > 0) {
-            RemoveCarriedDroppables();
-          }
         }
       }
     }
@@ -83,21 +78,6 @@ public class Breakable : MonoBehaviour {
     return false;
   }
 
-  // TODO: find a better place for this rectangle debug
-  // void DrawRectangle(Vector2 center, Vector2 size) {
-  //   Vector2 halfSize = size / 2f;
-
-  //   Vector3 topLeft = new Vector3(center.x - halfSize.x, center.y + halfSize.y, 0f);
-  //   Vector3 topRight = new Vector3(center.x + halfSize.x, center.y + halfSize.y, 0f);
-  //   Vector3 bottomRight = new Vector3(center.x + halfSize.x, center.y - halfSize.y, 0f);
-  //   Vector3 bottomLeft = new Vector3(center.x - halfSize.x, center.y - halfSize.y, 0f);
-
-  //   Debug.DrawLine(topLeft, topRight, Color.red);
-  //   Debug.DrawLine(topRight, bottomRight, Color.red);
-  //   Debug.DrawLine(bottomRight, bottomLeft, Color.red);
-  //   Debug.DrawLine(bottomLeft, topLeft, Color.red);
-  // }
-
   private void OnCollisionEnter2D(Collision2D col) {
     string colTag = col.gameObject.tag;
 
@@ -105,7 +85,7 @@ public class Breakable : MonoBehaviour {
       throw new Exception("Breakable objects that are not Barrels or Boxes should not stack with anything");
     }
 
-    if (colTag == "Item" || col.gameObject.name == "ProximityCheck") {
+    if (col.gameObject.name == "ProximityCheck") {
       Physics2D.IgnoreCollision(col.gameObject.GetComponent<PolygonCollider2D>(), breakableCollider);
     }
 
@@ -155,14 +135,6 @@ public class Breakable : MonoBehaviour {
       }
 
       anim.Play("breakable-" + type);
-    }
-  }
-
-  public void RemoveCarriedDroppables() {
-    foreach (GameObject droppable in carriedDroppables) {
-      if (droppable != null) {
-        droppable.GetComponent<Droppable>().DecrementCollision();
-      }
     }
   }
 

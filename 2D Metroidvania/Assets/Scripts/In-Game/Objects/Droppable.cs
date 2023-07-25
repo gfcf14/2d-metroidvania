@@ -73,23 +73,6 @@ public class Droppable : MonoBehaviour {
         }
       }
     }
-
-    if (collisionCounter > 0) {
-      isDropping = false;
-      if (canBePicked) {
-        body.bodyType = RigidbodyType2D.Static;
-      }
-
-      if (timer == 0) {
-        timer = Time.time * 1000;
-        isIdle = true;
-      }
-    } else {
-      isDropping = true;
-      if (canBePicked) {
-        body.bodyType = RigidbodyType2D.Dynamic;
-      }
-    }
   }
 
   void LateUpdate() {
@@ -106,15 +89,9 @@ public class Droppable : MonoBehaviour {
     string gameObjectTag = col.gameObject.tag;
 
     if (gameObjectTag == "Ground" || gameObjectTag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type)) {
-      gameObject.layer = LayerMask.NameToLayer("Dropped");
-
-      if (gameObjectTag == "Breakable") {
-        col.gameObject.GetComponent<Breakable>().carriedDroppables.Add(gameObject);
-        collisionCounter++;
-      }
-
       if (gameObjectTag == "Ground" && inGame.IsInRoom(inGame.FindRoom(transform.parent))) {
         PlaySound(Sounds.droppableFallingSounds[inGame.GetTileMaterial(transform.position)]);
+        gameObject.layer = LayerMask.NameToLayer("Dropped");
       }
     } else if (gameObjectTag == "Hero" && canBePicked) {
       DestroyDroppable(col.gameObject.GetComponent<Hero>());
@@ -147,9 +124,5 @@ public class Droppable : MonoBehaviour {
     anim.enabled = false;
     body = gameObject.AddComponent<Rigidbody2D>();
     body.freezeRotation = true;
-  }
-
-  public void DecrementCollision() {
-    collisionCounter--;
   }
 }

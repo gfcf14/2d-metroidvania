@@ -79,4 +79,19 @@ public class InGame : MonoBehaviour {
 
     return FindRoom(currentParentCheck.parent);
   }
+
+  // draws a rectangle based on parameter given
+  public void DrawRectangle(Vector2 center, Vector2 size) {
+    Vector2 halfSize = size / 2f;
+
+    Vector3 topLeft = new Vector3(center.x - halfSize.x, center.y + halfSize.y, 0f);
+    Vector3 topRight = new Vector3(center.x + halfSize.x, center.y + halfSize.y, 0f);
+    Vector3 bottomRight = new Vector3(center.x + halfSize.x, center.y - halfSize.y, 0f);
+    Vector3 bottomLeft = new Vector3(center.x - halfSize.x, center.y - halfSize.y, 0f);
+
+    Debug.DrawLine(topLeft, topRight, Color.red);
+    Debug.DrawLine(topRight, bottomRight, Color.red);
+    Debug.DrawLine(bottomRight, bottomLeft, Color.red);
+    Debug.DrawLine(bottomLeft, topLeft, Color.red);
+  }
 }
