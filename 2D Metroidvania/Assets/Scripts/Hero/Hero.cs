@@ -202,6 +202,8 @@ public class Hero : MonoBehaviour {
   private float currentShieldRecoverTime = 0;
   private float shieldDropTime = 0;
 
+  private float objectUnderCast = 0.3f;
+
   // TODO: remove these variables and add a new dictionary when adding another shield sprite
   public int dummyShieldHP = 5;
   public float dummyShieldRecoverTime = 2000;
@@ -478,13 +480,35 @@ public class Hero : MonoBehaviour {
     items.RemoveAt(index);
   }
 
-  public void PlaySound() {
+  public void PlaySound(AudioClip sound) {
+    audioSource.PlayOneShot(sound);
+  }
+
+  public void PlayRunningSound() {
     string materialRunningOn = inGame.GetTileMaterial(transform.position);
 
     if (materialRunningOn != null) {
       AudioClip[] materialClips = Sounds.materialRunningSounds[materialRunningOn];
-      audioSource.PlayOneShot(materialClips[UnityEngine.Random.Range(0, materialClips.Length)]);
+      PlaySound(materialClips[UnityEngine.Random.Range(0, materialClips.Length)]);
     }
+  }
+
+  public GameObject GetObjectUnder() {
+    Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, GetComponent<BoxCollider2D>().size, 0f);
+
+    // get the first one that is not Hero
+    foreach (Collider2D collider in colliders) {
+      if (collider.gameObject.tag != "Hero") {
+        return collider.gameObject;
+      }
+    }
+
+    return null;
+  }
+
+  public void PlayFallingSound() {
+    GameObject objectUnder = GetObjectUnder();
+    Debug.Log(objectUnder.tag);
   }
 
   // called on every frame of the game
@@ -1149,6 +1173,12 @@ public class Hero : MonoBehaviour {
     if (Helpers.IsValueInArray(Constants.landingObjects, objectCollided.tag)) {
       if (otherCollider.tag == "Hero") {
         if (!isHorizontalCollision(otherCollider, collider)) {
+          if (collider.tag == "Ground") {
+            Debug.Log("determine ground type and play fall sound");
+          } else if  (collider.tag == "Breakable") {
+            Debug.Log("determine breakable type and play fall sound");
+          }
+
           isGrounded = true;
           isFalling = false;
           isJumping = false;
