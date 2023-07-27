@@ -1177,7 +1177,8 @@ public class Hero : MonoBehaviour {
             // when falling, y position may need to be adjusted by 0.1f to avoid null tile recognition
             PlaySound(Sounds.fallingSounds["hero"][inGame.GetTileMaterial(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z))][0]);
           } else if  (collider.tag == "Breakable") {
-            Debug.Log("determine breakable type and play fall sound");
+            // TODO: This will fail for barrels. Prepare falling sound for barrels
+            PlaySound(Sounds.fallingSounds["hero"][collider.gameObject.GetComponent<Breakable>().type][0]);
           }
 
           isGrounded = true;
