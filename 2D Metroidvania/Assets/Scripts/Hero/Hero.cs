@@ -1173,8 +1173,9 @@ public class Hero : MonoBehaviour {
     if (Helpers.IsValueInArray(Constants.landingObjects, objectCollided.tag)) {
       if (otherCollider.tag == "Hero") {
         if (!isHorizontalCollision(otherCollider, collider)) {
-          if (collider.tag == "Ground") {
-            Debug.Log("determine ground type and play fall sound");
+          if (collider.tag == "Ground" && isFalling) {
+            // when falling, y position may need to be adjusted by 0.1f to avoid null tile recognition
+            PlaySound(Sounds.fallingSounds["hero"][inGame.GetTileMaterial(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z))][0]);
           } else if  (collider.tag == "Breakable") {
             Debug.Log("determine breakable type and play fall sound");
           }
