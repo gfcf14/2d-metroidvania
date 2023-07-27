@@ -89,8 +89,11 @@ public class Droppable : MonoBehaviour {
     string gameObjectTag = col.gameObject.tag;
 
     if (gameObjectTag == "Ground" || gameObjectTag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type)) {
-      if (gameObjectTag == "Ground" && inGame.IsInRoom(inGame.FindRoom(transform.parent))) {
-        PlaySound(Sounds.droppableFallingSounds[inGame.GetTileMaterial(transform.position)]);
+      if (gameObjectTag == "Ground") {
+        if (inGame.IsInRoom(inGame.FindRoom(transform.parent))) {
+          PlaySound(Sounds.droppableFallingSounds[inGame.GetTileMaterial(transform.position)]);
+        }
+
         gameObject.layer = LayerMask.NameToLayer("Dropped");
       }
     } else if (gameObjectTag == "Hero" && canBePicked) {
