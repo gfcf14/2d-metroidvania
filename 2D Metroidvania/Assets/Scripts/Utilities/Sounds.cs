@@ -58,4 +58,10 @@ public class Sounds {
   public static Dictionary<string, AudioClip> droppableFallingSounds = new Dictionary<string, AudioClip> {
     {"grass", Resources.Load<AudioClip>("SFX/items/falling/on-grass")},
   };
+
+  // TODO: since not all sounds of a type will involve weapons of the same material (e.g. not all singles will be swords),
+  // at some point some differentiation will be needed
+  public static Dictionary<string, AudioClip> weaponSounds = new Dictionary<string, AudioClip> {
+    {"single", Resources.Load<AudioClip>("SFX/weapons/single/sword")}
+  };
 }

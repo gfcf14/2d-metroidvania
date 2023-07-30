@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour {
   Hero hero;
+  private AudioSource audioSource;
   [System.NonSerialized] public List<GameObject> triggeredObjects = new List<GameObject>();
 
   void Start() {
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
+    audioSource = transform.parent.gameObject.GetComponent<AudioSource>();
   }
 
   void Update() {}
@@ -31,5 +33,9 @@ public class Weapon : MonoBehaviour {
     if (col.gameObject.tag == "Enemy") {
       triggeredObjects.Remove(col.gameObject);
     }
+  }
+
+  public void PlaySound(string type) {
+    audioSource.PlayOneShot(Sounds.weaponSounds[type]);
   }
 }

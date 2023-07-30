@@ -165,8 +165,8 @@ public class Hero : MonoBehaviour {
 
   // PLAYER EQUIPMENT
     [System.NonSerialized] public static string bodyEquipment = "body-1";
-    [System.NonSerialized] public static string arm1Equipment = "basic-longsword";
-    [System.NonSerialized] public static string arm2Equipment = "basic-longsword";
+    [System.NonSerialized] public static string arm1Equipment = "basic-sword";
+    [System.NonSerialized] public static string arm2Equipment = "basic-shield";
     [System.NonSerialized] public static string neckEquipment = "";
     [System.NonSerialized] public static string armwear1Equipment = "silver-bracelet";
     [System.NonSerialized] public static string armwear2Equipment = "";
@@ -201,8 +201,6 @@ public class Hero : MonoBehaviour {
   private float currentShieldHP = 0;
   private float currentShieldRecoverTime = 0;
   private float shieldDropTime = 0;
-
-  private float objectUnderCast = 0.3f;
 
   // TODO: remove these variables and add a new dictionary when adding another shield sprite
   public int dummyShieldHP = 5;
@@ -506,9 +504,9 @@ public class Hero : MonoBehaviour {
     return null;
   }
 
-  public void PlayFallingSound() {
-    GameObject objectUnder = GetObjectUnder();
-    Debug.Log(objectUnder.tag);
+  public void PlayAttackSound() {
+    string attackSoundType = Objects.pauseItems[equipmentArray[armUsed]].type;
+    weaponCollider.GetComponent<Weapon>().PlaySound(attackSoundType);
   }
 
   // called on every frame of the game
