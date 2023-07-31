@@ -35,7 +35,15 @@ public class Weapon : MonoBehaviour {
     }
   }
 
-  public void PlaySound(string type) {
-    audioSource.PlayOneShot(Sounds.weaponSounds[type]);
+  private string GetThrowableSound(string type, string key) {
+    return type.Contains("double") ?
+      type + "-large" :
+      Helpers.IsValueInArray(Constants.smallThrowables, key) ?
+      type + "-small" :
+      type + "-middle";
+  }
+
+  public void PlaySound(string type, string key) {
+    audioSource.PlayOneShot(Sounds.weaponSounds[type.Contains("throwable") ? GetThrowableSound(type, key) : type]);
   }
 }

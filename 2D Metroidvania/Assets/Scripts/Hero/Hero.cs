@@ -505,8 +505,8 @@ public class Hero : MonoBehaviour {
   }
 
   public void PlayAttackSound() {
-    string attackSoundType = Objects.pauseItems[equipmentArray[armUsed]].type;
-    weaponCollider.GetComponent<Weapon>().PlaySound(attackSoundType);
+    PauseItem equipmentUsed = Objects.pauseItems[equipmentArray[armUsed]];
+    weaponCollider.GetComponent<Weapon>().PlaySound(equipmentUsed.type, equipmentArray[armUsed]);
   }
 
   // called on every frame of the game

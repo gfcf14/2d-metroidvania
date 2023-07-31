@@ -64,5 +64,8 @@ public class Sounds {
   public static Dictionary<string, AudioClip> weaponSounds = new Dictionary<string, AudioClip> {
     {"double", Resources.Load<AudioClip>("SFX/weapons/double/sword")},
     {"single", Resources.Load<AudioClip>("SFX/weapons/single/sword")},
+    {"throwable-small", Resources.Load<AudioClip>("SFX/weapons/throwable/small")},
+    {"throwable-middle", Resources.Load<AudioClip>("SFX/weapons/throwable/middle")},
+    {"throwable-double-large", Resources.Load<AudioClip>("SFX/weapons/throwable-double/large")},
   };
 }
