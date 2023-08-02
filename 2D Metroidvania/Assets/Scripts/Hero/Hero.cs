@@ -19,6 +19,7 @@ public class Hero : MonoBehaviour {
   [SerializeField] public GameObject hpBarContainer;
   [SerializeField] public GameObject mpBarContainer;
   [SerializeField] public GameObject weaponCollider;
+  [SerializeField] public GameObject bow;
   [SerializeField] public GameObject levelUpCanvas;
   [SerializeField] public GameObject fadeOutCanvas;
   private Rigidbody2D body;
@@ -507,6 +508,10 @@ public class Hero : MonoBehaviour {
   public void PlayAttackSound() {
     PauseItem equipmentUsed = Objects.pauseItems[equipmentArray[armUsed]];
     weaponCollider.GetComponent<Weapon>().PlaySound(equipmentUsed.type, equipmentArray[armUsed]);
+  }
+
+  public void PlayBowSound() {
+    bow.GetComponent<Bow>().PlaySound(projectileEquipment);
   }
 
   // called on every frame of the game
