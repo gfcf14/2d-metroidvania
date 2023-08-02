@@ -166,8 +166,8 @@ public class Hero : MonoBehaviour {
 
   // PLAYER EQUIPMENT
     [System.NonSerialized] public static string bodyEquipment = "body-1";
-    [System.NonSerialized] public static string arm1Equipment = "basic-longsword";
-    [System.NonSerialized] public static string arm2Equipment = "basic-longsword";
+    [System.NonSerialized] public static string arm1Equipment = "";
+    [System.NonSerialized] public static string arm2Equipment = "";
     [System.NonSerialized] public static string neckEquipment = "";
     [System.NonSerialized] public static string armwear1Equipment = "silver-bracelet";
     [System.NonSerialized] public static string armwear2Equipment = "";
@@ -508,6 +508,14 @@ public class Hero : MonoBehaviour {
   public void PlayAttackSound() {
     PauseItem equipmentUsed = Objects.pauseItems[equipmentArray[armUsed]];
     weaponCollider.GetComponent<Weapon>().PlaySound(equipmentUsed.type, equipmentArray[armUsed]);
+  }
+
+  public void PunchSound() {
+    weaponCollider.GetComponent<Weapon>().PlaySound("punch");
+  }
+
+  public void KickSound() {
+    weaponCollider.GetComponent<Weapon>().PlaySound("kick");
   }
 
   public void PlayBowSound() {

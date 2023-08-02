@@ -61,12 +61,14 @@ public class Sounds {
 
   // TODO: since not all sounds of a type will involve weapons of the same material (e.g. not all singles will be swords),
   // at some point some differentiation will be needed
-  public static Dictionary<string, AudioClip> weaponSounds = new Dictionary<string, AudioClip> {
+  public static Dictionary<string, AudioClip> attackSounds = new Dictionary<string, AudioClip> {
     {"bow", Resources.Load<AudioClip>("SFX/weapons/bow/basic")},
     {"double", Resources.Load<AudioClip>("SFX/weapons/double/sword")},
     {"single", Resources.Load<AudioClip>("SFX/weapons/single/sword")},
     {"throwable-small", Resources.Load<AudioClip>("SFX/weapons/throwable/small")},
     {"throwable-middle", Resources.Load<AudioClip>("SFX/weapons/throwable/middle")},
     {"throwable-double-large", Resources.Load<AudioClip>("SFX/weapons/throwable-double/large")},
+    {"punch", Resources.Load<AudioClip>("SFX/unequipped/punch")},
+    {"kick", Resources.Load<AudioClip>("SFX/unequipped/kick")},
   };
 }

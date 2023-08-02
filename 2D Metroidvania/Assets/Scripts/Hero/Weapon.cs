@@ -43,7 +43,7 @@ public class Weapon : MonoBehaviour {
       type + "-middle";
   }
 
-  public void PlaySound(string type, string key) {
-    audioSource.PlayOneShot(Sounds.weaponSounds[type.Contains("throwable") ? GetThrowableSound(type, key) : type]);
+  public void PlaySound(string type, string key = "") {
+    audioSource.PlayOneShot(Sounds.attackSounds[type.Contains("throwable") ? GetThrowableSound(type, key) : type]);
   }
 }
