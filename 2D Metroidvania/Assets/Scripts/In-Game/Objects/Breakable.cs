@@ -43,22 +43,7 @@ public class Breakable : MonoBehaviour {
     }
   }
 
-  void Update() {
-    // ensure that, if falling, the droppables on top move again
-    if (body != null) {
-      isGrounded = CheckIfGrounded();
-
-      if (isGrounded) {
-        if (gameObject.layer == LayerMask.NameToLayer("Dropping")) {
-          gameObject.layer = LayerMask.NameToLayer("Objects");
-        }
-      } else {
-        if (!isGrounded && gameObject.layer == LayerMask.NameToLayer("Objects")) {
-          gameObject.layer = LayerMask.NameToLayer("Dropping");
-        }
-      }
-    }
-  }
+  void Update() {}
 
   bool CheckIfGrounded() {
     Collider2D[] colliders = Physics2D.OverlapBoxAll(new Vector2(transform.position.x, transform.position.y + breakableCollider.offset.y), breakableCollider.size, 0f);
