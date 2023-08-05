@@ -346,4 +346,8 @@ public class Objects {
   public static Dictionary<string, TMP_FontAsset> fonts = new Dictionary<string, TMP_FontAsset> {
     {"levi-rebrushed", Resources.Load("Fonts/LeviRebrushed SDF") as TMP_FontAsset}
   };
+
+  public static Dictionary<string, string> equipmentBaseMaterial = new Dictionary<string, string> {
+    {"body-1", "boots"}
+  };
 }

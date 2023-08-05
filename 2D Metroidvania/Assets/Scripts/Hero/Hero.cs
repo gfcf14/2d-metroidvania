@@ -166,8 +166,8 @@ public class Hero : MonoBehaviour {
 
   // PLAYER EQUIPMENT
     [System.NonSerialized] public static string bodyEquipment = "body-1";
-    [System.NonSerialized] public static string arm1Equipment = "";
-    [System.NonSerialized] public static string arm2Equipment = "";
+    [System.NonSerialized] public static string arm1Equipment = "basic-longsword";
+    [System.NonSerialized] public static string arm2Equipment = "basic-longsword";
     [System.NonSerialized] public static string neckEquipment = "";
     [System.NonSerialized] public static string armwear1Equipment = "silver-bracelet";
     [System.NonSerialized] public static string armwear2Equipment = "";
@@ -487,7 +487,7 @@ public class Hero : MonoBehaviour {
     string materialRunningOn = inGame.GetTileMaterial(transform.position);
 
     if (materialRunningOn != null) {
-      AudioClip[] materialClips = Sounds.materialRunningSounds[materialRunningOn];
+      AudioClip[] materialClips = Sounds.runningSounds[materialRunningOn][Objects.equipmentBaseMaterial[bodyEquipment]];
       PlaySound(materialClips[UnityEngine.Random.Range(0, materialClips.Length)]);
     }
   }
@@ -1186,10 +1186,10 @@ public class Hero : MonoBehaviour {
         if (!isHorizontalCollision(otherCollider, collider)) {
           if (collider.tag == "Ground" && isFalling) {
             // when falling, y position may need to be adjusted by 0.1f to avoid null tile recognition
-            PlaySound(Sounds.fallingSounds["hero"][inGame.GetTileMaterial(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z))][0]);
+            PlaySound(Sounds.characterFallingSounds[inGame.GetTileMaterial(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z))][Objects.equipmentBaseMaterial[bodyEquipment]]);
           } else if  (collider.tag == "Breakable") {
             // TODO: This will fail for barrels. Prepare falling sound for barrels
-            PlaySound(Sounds.fallingSounds["hero"][collider.gameObject.GetComponent<Breakable>().type][0]);
+            PlaySound(Sounds.characterFallingSounds[collider.gameObject.GetComponent<Breakable>().type][Objects.equipmentBaseMaterial[bodyEquipment]]);
           }
 
           isGrounded = true;

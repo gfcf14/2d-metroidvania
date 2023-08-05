@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Sounds {
-  public static Dictionary<string, AudioClip[]> materialRunningSounds = new Dictionary<string, AudioClip[]> {
-    {"dirt", new AudioClip[] {
-      Resources.Load<AudioClip>("SFX/running/dirt/dirt-1"),
-      Resources.Load<AudioClip>("SFX/running/dirt/dirt-2"),
-      Resources.Load<AudioClip>("SFX/running/dirt/dirt-3"),
-      Resources.Load<AudioClip>("SFX/running/dirt/dirt-4"),
-      Resources.Load<AudioClip>("SFX/running/dirt/dirt-5"),
+  public static Dictionary<string, Dictionary<string, AudioClip[]>> runningSounds = new Dictionary<string, Dictionary<string, AudioClip[]>> {
+    {"dirt", new Dictionary<string, AudioClip[]> {
+      {"boots", new AudioClip[] {
+        Resources.Load<AudioClip>("SFX/running/dirt/boots-1"),
+        Resources.Load<AudioClip>("SFX/running/dirt/boots-2"),
+        Resources.Load<AudioClip>("SFX/running/dirt/boots-3"),
+        Resources.Load<AudioClip>("SFX/running/dirt/boots-4"),
+        Resources.Load<AudioClip>("SFX/running/dirt/boots-5"),
+      }}
     }},
-    {"grass", new AudioClip[] {
-      Resources.Load<AudioClip>("SFX/running/grass/grass-1"),
-      Resources.Load<AudioClip>("SFX/running/grass/grass-2"),
-      Resources.Load<AudioClip>("SFX/running/grass/grass-3"),
-      Resources.Load<AudioClip>("SFX/running/grass/grass-4"),
-      Resources.Load<AudioClip>("SFX/running/grass/grass-5"),
-    }}
+    {"grass", new Dictionary<string, AudioClip[]> {
+      {"boots", new AudioClip[] {
+        Resources.Load<AudioClip>("SFX/running/grass/boots-1"),
+        Resources.Load<AudioClip>("SFX/running/grass/boots-2"),
+        Resources.Load<AudioClip>("SFX/running/grass/boots-3"),
+        Resources.Load<AudioClip>("SFX/running/grass/boots-4"),
+        Resources.Load<AudioClip>("SFX/running/grass/boots-5"),
+      }}
+    }},
   };
 
   public static Dictionary<string, AudioClip[]> breakableSounds = new Dictionary<string, AudioClip[]> {
@@ -28,6 +32,7 @@ public class Sounds {
     }}
   };
 
+  // falling sounds for anything which base material is not changeable
   public static Dictionary<string, Dictionary<string, AudioClip[]>> fallingSounds = new Dictionary<string, Dictionary<string, AudioClip[]>> {
     {"box", new Dictionary<string, AudioClip[]> {
       {"box", new AudioClip[] {
@@ -42,7 +47,7 @@ public class Sounds {
         Resources.Load<AudioClip>("SFX/items/falling/on-box"),
       }}
     }},
-    {"hero", new Dictionary<string, AudioClip[]> {
+    {"character", new Dictionary<string, AudioClip[]> {
       {"dirt", new AudioClip[] {
         Resources.Load<AudioClip>("SFX/falling/dirt/boots"),
       }},
@@ -53,6 +58,18 @@ public class Sounds {
         Resources.Load<AudioClip>("SFX/falling/breakables/box/boots"),
       }}
     }}
+  };
+
+  public static Dictionary<string, Dictionary<string, AudioClip>> characterFallingSounds = new Dictionary<string, Dictionary<string, AudioClip>> {
+    {"dirt", new Dictionary<string, AudioClip> {
+      {"boots", Resources.Load<AudioClip>("SFX/falling/dirt/boots")}
+    }},
+    {"grass", new Dictionary<string, AudioClip> {
+      {"boots", Resources.Load<AudioClip>("SFX/falling/grass/boots")}
+    }},
+    {"box", new Dictionary<string, AudioClip> {
+      {"boots", Resources.Load<AudioClip>("SFX/falling/breakables/box/boots")}
+    }},
   };
 
   public static Dictionary<string, AudioClip> droppableFallingSounds = new Dictionary<string, AudioClip> {
