@@ -5,6 +5,13 @@ using UnityEngine;
 public class Sounds {
   public static Dictionary<string, Dictionary<string, AudioClip[]>> runningSounds = new Dictionary<string, Dictionary<string, AudioClip[]>> {
     {"dirt", new Dictionary<string, AudioClip[]> {
+      {"barefoot", new AudioClip[] {
+        Resources.Load<AudioClip>("SFX/running/dirt/barefoot-1"),
+        Resources.Load<AudioClip>("SFX/running/dirt/barefoot-2"),
+        Resources.Load<AudioClip>("SFX/running/dirt/barefoot-3"),
+        Resources.Load<AudioClip>("SFX/running/dirt/barefoot-4"),
+        Resources.Load<AudioClip>("SFX/running/dirt/barefoot-5"),
+      }},
       {"boots", new AudioClip[] {
         Resources.Load<AudioClip>("SFX/running/dirt/boots-1"),
         Resources.Load<AudioClip>("SFX/running/dirt/boots-2"),
@@ -14,6 +21,13 @@ public class Sounds {
       }}
     }},
     {"grass", new Dictionary<string, AudioClip[]> {
+      {"barefoot", new AudioClip[] {
+        Resources.Load<AudioClip>("SFX/running/grass/barefoot-1"),
+        Resources.Load<AudioClip>("SFX/running/grass/barefoot-2"),
+        Resources.Load<AudioClip>("SFX/running/grass/barefoot-3"),
+        Resources.Load<AudioClip>("SFX/running/grass/barefoot-4"),
+        Resources.Load<AudioClip>("SFX/running/grass/barefoot-5"),
+      }},
       {"boots", new AudioClip[] {
         Resources.Load<AudioClip>("SFX/running/grass/boots-1"),
         Resources.Load<AudioClip>("SFX/running/grass/boots-2"),

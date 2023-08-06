@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour {
     [System.NonSerialized] private SimpleFlash flashEffect;
     [System.NonSerialized] public Rigidbody2D body;
     [System.NonSerialized] public SpriteRenderer enemyRenderer;
+    private AudioSource audioSource;
     private InGame inGame;
 
   // Properties
@@ -71,8 +72,9 @@ public class Enemy : MonoBehaviour {
     [System.NonSerialized] public int maxThrowCounter = 0;
 
 
-    [System.NonSerialized] public string EnemyName;
+    [System.NonSerialized] public string enemyName;
     [System.NonSerialized] public string type;
+    [System.NonSerialized] public string baseMaterial;
 
   // Game Properties
     [System.NonSerialized] public bool attackedFromBehind = false;
@@ -103,6 +105,7 @@ public class Enemy : MonoBehaviour {
     anim = GetComponent<Animator>();
     enemyRenderer = GetComponent<SpriteRenderer>();
     inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+    audioSource = GetComponent<AudioSource>();
     enemyHeight = enemyRenderer.bounds.size.y;
     enemyWidth = enemyRenderer.bounds.size.x;
 
@@ -122,8 +125,9 @@ public class Enemy : MonoBehaviour {
     enemyRenderer.color = enemyColor;
 
     EnemyStats enemyStats = Objects.enemyStats[key];
-    EnemyName = enemyStats.name + " Lvl " + level;
+    enemyName = enemyStats.name + " Lvl " + level;
     type = enemyStats.type;
+    baseMaterial = enemyStats.baseMaterial;
     atk = enemyStats.atk;
     def = enemyStats.def;
     currentHP = enemyStats.hp;
@@ -195,6 +199,20 @@ public class Enemy : MonoBehaviour {
     gaveExp = true;
     hero.exp += exp;
     hero.CheckLevel();
+  }
+
+  public void PlaySound(AudioClip sound) {
+    audioSource.PlayOneShot(sound);
+  }
+
+  // TODO: consider if enemies should constantly be making sound (e.g. walking)
+  public void PlayRunningSound() {
+    // string materialRunningOn = inGame.GetTileMaterial(transform.position);
+
+    // if (materialRunningOn != null) {
+    //   AudioClip[] materialClips = Sounds.runningSounds[materialRunningOn][baseMaterial];
+    //   PlaySound(materialClips[UnityEngine.Random.Range(0, materialClips.Length)]);
+    // }
   }
 
   void Update() {
@@ -542,7 +560,7 @@ public class Enemy : MonoBehaviour {
 
   public void DisplayEnemyInInfoCanvas() {
     if (gameObject.name != "Boss") {
-      hero.infoCanvas.GetComponent<InfoCanvas>().Display(EnemyName, new EnemyHealth(currentHP, maxHP));
+      hero.infoCanvas.GetComponent<InfoCanvas>().Display(enemyName, new EnemyHealth(currentHP, maxHP));
     }
   }
 

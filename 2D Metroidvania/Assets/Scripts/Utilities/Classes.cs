@@ -116,6 +116,7 @@ public class EnemyHealth {
 public class EnemyStats {
   public string name;
   public string type;
+  public string baseMaterial;
   public int hp;
   public int atk;
   public int def;

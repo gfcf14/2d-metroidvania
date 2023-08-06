@@ -26,7 +26,7 @@ public class PlayerStopper : MonoBehaviour {
         // Gets boss name and level to activate the boss status canvas
         Enemy roomBoss = transform.parent.Find("Boss").gameObject.GetComponent<Enemy>();
         bossStatusCanvas.GetComponent<BossBarsCanvas>().boss = roomBoss;
-        bossStatusCanvas.GetComponent<BossBarsCanvas>().bossName = roomBoss.EnemyName;
+        bossStatusCanvas.GetComponent<BossBarsCanvas>().bossName = roomBoss.enemyName;
         bossStatusCanvas.SetActive(true);
       }
     }
