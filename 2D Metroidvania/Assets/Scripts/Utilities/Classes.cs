@@ -117,6 +117,7 @@ public class EnemyStats {
   public string name;
   public string type;
   public string baseMaterial;
+  public string normalAttackType;
   public int hp;
   public int atk;
   public int def;

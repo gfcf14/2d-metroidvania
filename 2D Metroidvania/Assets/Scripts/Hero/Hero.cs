@@ -166,8 +166,8 @@ public class Hero : MonoBehaviour {
 
   // PLAYER EQUIPMENT
     [System.NonSerialized] public static string bodyEquipment = "body-1";
-    [System.NonSerialized] public static string arm1Equipment = "basic-longsword";
-    [System.NonSerialized] public static string arm2Equipment = "basic-longsword";
+    [System.NonSerialized] public static string arm1Equipment = "";
+    [System.NonSerialized] public static string arm2Equipment = "";
     [System.NonSerialized] public static string neckEquipment = "";
     [System.NonSerialized] public static string armwear1Equipment = "silver-bracelet";
     [System.NonSerialized] public static string armwear2Equipment = "";
@@ -1278,6 +1278,10 @@ public class Hero : MonoBehaviour {
     }
   }
 
+  public void PlayDamageSound(string type, bool isCritical) {
+    audioSource.PlayOneShot(Sounds.impactSounds[type][isCritical ? "critical" : "normal"]);
+  }
+
   public void ReceiveAttack(GameObject enemy, Vector2 contactPoint) {
     Enemy enemyScript = enemy.GetComponent<Enemy>();
 
@@ -1296,6 +1300,7 @@ public class Hero : MonoBehaviour {
       if (mustTakeDamage) {
         bool isCritical = Helpers.IsCritical(enemyScript.criticalRate);
         int damage = (stamina + (int)equippedSTA + (int)effectSTA) - (enemyScript.atk * (isCritical ? 2 : 1));
+        PlayDamageSound("fist", isCritical);
         TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, contactPoint, isCritical);
 
         if (currentHP > 0) {
