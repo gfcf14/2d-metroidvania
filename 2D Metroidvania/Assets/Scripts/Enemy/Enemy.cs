@@ -75,6 +75,7 @@ public class Enemy : MonoBehaviour {
     [System.NonSerialized] public string enemyName;
     [System.NonSerialized] public string type;
     [System.NonSerialized] public string baseMaterial;
+    [System.NonSerialized] public string normalAttackType;
 
   // Game Properties
     [System.NonSerialized] public bool attackedFromBehind = false;
@@ -128,6 +129,7 @@ public class Enemy : MonoBehaviour {
     enemyName = enemyStats.name + " Lvl " + level;
     type = enemyStats.type;
     baseMaterial = enemyStats.baseMaterial;
+    normalAttackType = enemyStats.normalAttackType;
     atk = enemyStats.atk;
     def = enemyStats.def;
     currentHP = enemyStats.hp;
@@ -213,6 +215,15 @@ public class Enemy : MonoBehaviour {
     //   AudioClip[] materialClips = Sounds.runningSounds[materialRunningOn][baseMaterial];
     //   PlaySound(materialClips[UnityEngine.Random.Range(0, materialClips.Length)]);
     // }
+  }
+
+  public void PlayAttackSound() {
+    Debug.Log(normalAttackType);
+    audioSource.PlayOneShot(Sounds.attackSounds[normalAttackType]);
+  }
+
+  public void PlayDamageSound(string type, bool isCritical) {
+    audioSource.PlayOneShot(Sounds.impactSounds[type][isCritical ? "critical" : "normal"]);
   }
 
   void Update() {
@@ -349,10 +360,6 @@ public class Enemy : MonoBehaviour {
     }
   }
 
-  public void PlayDamageSound(string type, bool isCritical) {
-    audioSource.PlayOneShot(Sounds.impactSounds[type][isCritical ? "critical" : "normal"]);
-  }
-
   public void Collision(Collision2D col) {
     CheckAttackToPlayer(col.collider);
   }
@@ -389,7 +396,7 @@ public class Enemy : MonoBehaviour {
           int damage = def - ((Constants.punchDamage + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
 
           if (!(isDefending && !attackedFromBehind)) {
-            PlayDamageSound("fist", isCritical);
+            PlayDamageSound("punch", isCritical);
             TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
             TurnWhenAttackedFromBehind();
           } else {

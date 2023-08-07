@@ -104,9 +104,9 @@ public class Sounds {
   };
 
   public static Dictionary<string, Dictionary<string, AudioClip>> impactSounds = new Dictionary<string, Dictionary<string, AudioClip>> {
-    {"fist", new Dictionary<string, AudioClip> {
-      {"normal", Resources.Load<AudioClip>("SFX/hitting/normal/fist")},
-      {"critical", Resources.Load<AudioClip>("SFX/hitting/critical/fist")}
+    {"punch", new Dictionary<string, AudioClip> {
+      {"normal", Resources.Load<AudioClip>("SFX/hitting/normal/punch")},
+      {"critical", Resources.Load<AudioClip>("SFX/hitting/critical/punch")}
     }}
   };
 }

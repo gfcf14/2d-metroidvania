@@ -1300,7 +1300,7 @@ public class Hero : MonoBehaviour {
       if (mustTakeDamage) {
         bool isCritical = Helpers.IsCritical(enemyScript.criticalRate);
         int damage = (stamina + (int)equippedSTA + (int)effectSTA) - (enemyScript.atk * (isCritical ? 2 : 1));
-        PlayDamageSound("fist", isCritical);
+        PlayDamageSound(enemyScript.normalAttackType, isCritical);
         TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, contactPoint, isCritical);
 
         if (currentHP > 0) {
