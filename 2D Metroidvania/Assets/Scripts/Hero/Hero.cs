@@ -637,8 +637,9 @@ public class Hero : MonoBehaviour {
         if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
           if (isGrounded) {
             if (isHoldingDown) {
-              if (!isRunning) {
+              if (!isRunning && !isKicking) {
                 isKicking = true;
+                anim.SetTrigger("isKicking");
                 weaponCollider.SetActive(true);
               }
             } else {
@@ -821,7 +822,6 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isAttackingSingle", isAttackingSingle);
     anim.SetBool("isAirAttackSingle", isAirAttackSingle);
     anim.SetBool("isAirAttackHeavy", isAirAttackHeavy);
-    anim.SetBool("isKicking", isKicking);
     anim.SetBool("isDropKicking", isDropKicking);
     anim.SetBool("isAirPunching", isAirPunching);
     // anim.SetBool("isShootingSingle", isShootingSingle);
