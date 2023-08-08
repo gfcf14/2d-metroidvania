@@ -383,6 +383,7 @@ public class Enemy : MonoBehaviour {
         int damage = def - ((Constants.kickDamage + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
 
         if (!(isDefending && !attackedFromBehind)) {
+          PlayDamageSound("kick", isCritical);
           TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
           TurnWhenAttackedFromBehind();
         } else {
