@@ -412,6 +412,8 @@ public class Enemy : MonoBehaviour {
             int damage = def - ((Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
 
             if (!(isDefending && !attackedFromBehind)) {
+              // TODO: might need to adjust to different types other than swords
+              PlayDamageSound("sword", isCritical);
               TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
               TurnWhenAttackedFromBehind();
             } else {

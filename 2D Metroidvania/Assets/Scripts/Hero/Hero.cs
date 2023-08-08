@@ -166,12 +166,12 @@ public class Hero : MonoBehaviour {
 
   // PLAYER EQUIPMENT
     [System.NonSerialized] public static string bodyEquipment = "body-1";
-    [System.NonSerialized] public static string arm1Equipment = "";
-    [System.NonSerialized] public static string arm2Equipment = "";
-    [System.NonSerialized] public static string neckEquipment = "";
+    [System.NonSerialized] public static string arm1Equipment = "basic-longsword";
+    [System.NonSerialized] public static string arm2Equipment = "basic-longsword";
+    [System.NonSerialized] public static string neckEquipment = "moonlight-pendant";
     [System.NonSerialized] public static string armwear1Equipment = "silver-bracelet";
     [System.NonSerialized] public static string armwear2Equipment = "";
-    [System.NonSerialized] public static string ring1Equipment = "";
+    [System.NonSerialized] public static string ring1Equipment = "skull-ring";
     [System.NonSerialized] public static string ring2Equipment = "";
 
     [System.NonSerialized] public static string projectileEquipment = "";

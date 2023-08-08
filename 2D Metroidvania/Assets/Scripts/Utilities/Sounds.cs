@@ -111,6 +111,10 @@ public class Sounds {
     {"kick", new Dictionary<string, AudioClip> {
       {"normal", Resources.Load<AudioClip>("SFX/hitting/normal/kick")},
       {"critical", Resources.Load<AudioClip>("SFX/hitting/critical/kick")}
+    }},
+    {"sword", new Dictionary<string, AudioClip> {
+      {"normal", Resources.Load<AudioClip>("SFX/hitting/normal/sword")},
+      {"critical", Resources.Load<AudioClip>("SFX/hitting/critical/sword")}
     }}
   };
 }
