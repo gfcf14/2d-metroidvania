@@ -1278,9 +1278,6 @@ public class Hero : MonoBehaviour {
     }
   }
 
-  public void PlayDamageSound(string type, bool isCritical) {
-    audioSource.PlayOneShot(Sounds.impactSounds[type][isCritical ? "critical" : "normal"]);
-  }
 
   public void ReceiveAttack(GameObject enemy, Vector2 contactPoint) {
     Enemy enemyScript = enemy.GetComponent<Enemy>();
@@ -1301,8 +1298,7 @@ public class Hero : MonoBehaviour {
         bool isCritical = Helpers.IsCritical(enemyScript.criticalRate);
         int damage = (stamina + (int)equippedSTA + (int)effectSTA) - (enemyScript.atk * (isCritical ? 2 : 1));
         // TODO: modify first argument based on different attack type used by the enemy
-        PlayDamageSound(enemyScript.normalAttackType, isCritical);
-        TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, contactPoint, isCritical);
+        TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, contactPoint, isCritical, enemyScript.normalAttackType);
 
         if (currentHP > 0) {
           PlayerHurt(isGrounded ? 2 : 3);
@@ -1321,8 +1317,7 @@ public class Hero : MonoBehaviour {
             bool isCritical = Helpers.IsCritical(enemyScript.criticalRate);
             int damage = (stamina + (int)equippedSTA + shieldDefense + (int)effectSTA) - (enemyScript.atk * (isCritical ? 2 : 1));
             // TODO: modify first argument based on different attack type used by the enemy
-            PlayDamageSound(enemyScript.normalAttackType, isCritical);
-            TakeDamage(damage < 0 ? Math.Abs(damage) :  Constants.minimumDamageDealt, contactPoint, isCritical);
+            TakeDamage(damage < 0 ? Math.Abs(damage) :  Constants.minimumDamageDealt, contactPoint, isCritical, enemyScript.normalAttackType);
 
             if (currentHP > 0) {
               PlayerHurt(isGrounded ? 2 : 3);
@@ -1355,7 +1350,7 @@ public class Hero : MonoBehaviour {
     }
   }
 
-  public void TakeDamage(int damage, Vector2? damagePosition = null, bool? isCritical = false) {
+  public void TakeDamage(int damage, Vector2? damagePosition = null, bool? isCritical = false, string soundType = "") {
     currentHP -= damage;
 
     if (currentHP < 0) {
@@ -1370,11 +1365,7 @@ public class Hero : MonoBehaviour {
     if (Settings.showDamage) {
       // TODO: consider changing the Hero colliders for damage so the connecting point is higher
       Vector2 position = damagePosition == null ? new Vector2(transform.position.x, transform.position.y + heroHeight / 2) : new Vector2(damagePosition.Value.x, damagePosition.Value.y + heroHeight / 2);
-
-      GameObject damageObject = Instantiate(Objects.prefabs["damage-container"], position, Quaternion.identity);
-      damageObject.transform.SetParent(null);
-      damageObject.GetComponent<DamageContainer>().damage = damage;
-      damageObject.GetComponent<DamageContainer>().isCritical = isCritical ?? false;
+      inGame.DrawDamage(position, damage, isCritical, soundType);
     }
 
     // TODO: for testing purposes. Remove once magic can be spent by other means

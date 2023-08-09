@@ -94,4 +94,16 @@ public class InGame : MonoBehaviour {
     Debug.DrawLine(bottomRight, bottomLeft, Color.red);
     Debug.DrawLine(bottomLeft, topLeft, Color.red);
   }
+
+  public void DrawDamage(Vector2 position, int damage, bool? isCritical, string soundType = "") {
+    GameObject damageObject = Instantiate(Objects.prefabs["damage-container"], position, Quaternion.identity);
+    damageObject.transform.SetParent(null);
+    DamageContainer damageScript = damageObject.GetComponent<DamageContainer>();
+    damageScript.damage = damage;
+    damageScript.isCritical = isCritical ?? false;
+
+    if (soundType != "") {
+      damageScript.soundType = soundType;
+    }
+  }
 }

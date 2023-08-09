@@ -222,10 +222,6 @@ public class Enemy : MonoBehaviour {
     audioSource.PlayOneShot(Sounds.attackSounds[normalAttackType]);
   }
 
-  public void PlayDamageSound(string type, bool isCritical) {
-    audioSource.PlayOneShot(Sounds.impactSounds[type][isCritical ? "critical" : "normal"]);
-  }
-
   void Update() {
     isDying = isBurning || isDeadByBurning || isDeadByPoison;
 
@@ -383,8 +379,7 @@ public class Enemy : MonoBehaviour {
         int damage = def - ((Constants.kickDamage + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
 
         if (!(isDefending && !attackedFromBehind)) {
-          PlayDamageSound("kick", isCritical);
-          TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
+          TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical, "kick");
           TurnWhenAttackedFromBehind();
         } else {
           mustTakeDamage = false;
@@ -397,8 +392,7 @@ public class Enemy : MonoBehaviour {
           int damage = def - ((Constants.punchDamage + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
 
           if (!(isDefending && !attackedFromBehind)) {
-            PlayDamageSound("punch", isCritical);
-            TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
+            TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical, "punch");
             TurnWhenAttackedFromBehind();
           } else {
             mustTakeDamage = false;
@@ -413,8 +407,7 @@ public class Enemy : MonoBehaviour {
 
             if (!(isDefending && !attackedFromBehind)) {
               // TODO: might need to adjust to different types other than swords
-              PlayDamageSound("sword", isCritical);
-              TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical);
+              TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical, "sword");
               TurnWhenAttackedFromBehind();
             } else {
               mustTakeDamage = false;
@@ -588,14 +581,12 @@ public class Enemy : MonoBehaviour {
     }
   }
 
-  public void TakeDamage(int damage, Vector2? damagePosition = null, bool? isCritical = false) {
+  public void TakeDamage(int damage, Vector2? damagePosition = null, bool? isCritical = false, string soundType = "") {
     currentHP -= damage;
 
     if (Settings.showDamage) {
-      GameObject damageObject = Instantiate(Objects.prefabs["damage-container"], damagePosition ?? new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
-      damageObject.transform.SetParent(null);
-      damageObject.GetComponent<DamageContainer>().damage = damage;
-      damageObject.GetComponent<DamageContainer>().isCritical = isCritical ?? false;
+      Vector2 position = damagePosition ?? new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2));
+      inGame.DrawDamage(position, damage, isCritical, soundType);
     }
   }
 

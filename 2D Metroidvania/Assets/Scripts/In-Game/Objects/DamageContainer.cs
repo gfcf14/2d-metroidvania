@@ -4,7 +4,17 @@ using UnityEngine;
 public class DamageContainer : MonoBehaviour {
   [System.NonSerialized] public int damage;
   [System.NonSerialized] public bool isCritical;
+  [System.NonSerialized] public string soundType;
+
+  private AudioSource audioSource;
+  private bool mustDestroy = false;
   void Start() {
+    audioSource = GetComponent<AudioSource>();
+
+    if (soundType != "") {
+      audioSource.PlayOneShot(Sounds.impactSounds[soundType][isCritical ? "critical" : "normal"]);
+    }
+
     GetComponent<Animator>().enabled = true;
 
     TextMeshPro textElement = transform.Find("DamageText").gameObject.GetComponent<TextMeshPro>();
@@ -23,9 +33,13 @@ public class DamageContainer : MonoBehaviour {
     }
   }
 
-  void Update() {}
+  void Update() {
+    if (!audioSource.isPlaying && mustDestroy) {
+      Destroy(gameObject);
+    }
+  }
 
   public void DestroyDamageContainer() {
-    Destroy(gameObject);
+    mustDestroy = true;
   }
 }
