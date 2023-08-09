@@ -50,10 +50,15 @@ public class RoomTrigger : MonoBehaviour {
     if (col.CompareTag("RoomTraverser")) {
       virtualCam.SetActive(false);
       foreach (Transform child in gameObject.transform) {
-        if ((child.tag == "Enemy" && child.name != "Boss") || child.name.Contains("Droppable")) {
-          if (child.name == "Boss") {
-            child.gameObject.GetComponent<Enemy>().isOnCamera = false;
-          } else {
+        if (child.tag == "Enemy" && child.name != "Boss") {
+          GameObject.Destroy(child.gameObject);
+        } else if (child.name == "Boss") {
+          child.gameObject.GetComponent<Enemy>().isOnCamera = false;
+        } else if (child.name.Contains("Droppable")) {
+          Droppable droppableInstance = child.Find("GameObject").gameObject.GetComponent<Droppable>();
+
+          // only spawned items get destroyed; items that are part of the Scene will only destroy when grabbed
+          if (droppableInstance.room != null) {
             GameObject.Destroy(child.gameObject);
           }
         }
