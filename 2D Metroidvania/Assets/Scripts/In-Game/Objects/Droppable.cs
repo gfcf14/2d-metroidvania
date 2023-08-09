@@ -88,15 +88,18 @@ public class Droppable : MonoBehaviour {
   private void OnCollisionEnter2D(Collision2D col) {
     string gameObjectTag = col.gameObject.tag;
 
-    if (gameObjectTag == "Ground" || gameObjectTag == "Breakable" && Helpers.IsValueInArray(Constants.stackableBreakables, col.gameObject.GetComponent<Breakable>().type)) {
       if (gameObjectTag == "Ground") {
         if (inGame.IsInRoom(inGame.FindRoom(transform.parent))) {
           PlaySound(Sounds.droppableFallingSounds[inGame.GetTileMaterial(transform.position)]);
         }
 
         gameObject.layer = LayerMask.NameToLayer("Dropped");
-      }
-    } else if (gameObjectTag == "Hero" && canBePicked) {
+
+        if (GetComponent<Flicker>() != null) {
+          timer = Time.time * 1000;
+          isIdle = true;
+        }
+      } else if (gameObjectTag == "Hero" && canBePicked) {
       DestroyDroppable(col.gameObject.GetComponent<Hero>());
     }
   }
