@@ -9,6 +9,7 @@ public class Throwable : MonoBehaviour {
   [System.NonSerialized] public Animator anim;
 
   [System.NonSerialized] public Sprite bounceSprite;
+  [System.NonSerialized] public AudioSource audioSource;
 
   [System.NonSerialized] public bool isFacingLeft;
   [System.NonSerialized] public bool hasCollided = false;
@@ -31,9 +32,13 @@ public class Throwable : MonoBehaviour {
   float initialAngle;
   float rotationAngle;
 
+  private InGame inGame;
+
   void Start() {
     anim = GetComponent<Animator>();
     objectRenderer = GetComponent<SpriteRenderer>();
+    audioSource = GetComponent<AudioSource>();
+    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
     throwableCollider = transform.Find("ThrowableCollider").gameObject;
 
     // TODO: remove extra component once bomb sprites are modified to include spark in them
@@ -102,10 +107,6 @@ public class Throwable : MonoBehaviour {
     }
   }
 
-  void DestroyBomb() {
-    Destroy(gameObject);
-  }
-
   public void DestroyThrowable() {
     Destroy(transform.parent.gameObject);
   }
@@ -127,5 +128,8 @@ public class Throwable : MonoBehaviour {
     anim.speed = 1;
     transform.parent.position = new Vector2(bounceX - (objectRenderer.bounds.size.x * 2), bounceY - objectRenderer.bounds.size.y);
     transform.position = Vector2.zero;
+
+    // TODO: consider a better way to play a sound other than using the in game helper
+    inGame.PlaySound(Sounds.explosionSounds["basic"], transform.position);
   }
 }

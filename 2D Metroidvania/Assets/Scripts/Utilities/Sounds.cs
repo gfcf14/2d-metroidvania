@@ -117,4 +117,8 @@ public class Sounds {
       {"critical", Resources.Load<AudioClip>("SFX/hitting/critical/sword")}
     }}
   };
+
+  public static Dictionary<string, AudioClip> explosionSounds = new Dictionary<string, AudioClip> {
+    {"basic", Resources.Load<AudioClip>("SFX/explosions/basic")}
+  };
 }

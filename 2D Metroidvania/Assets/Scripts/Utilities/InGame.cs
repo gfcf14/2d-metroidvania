@@ -106,4 +106,11 @@ public class InGame : MonoBehaviour {
       damageScript.soundType = soundType;
     }
   }
+
+  // Plays a sound by creating a sound prefab that lives only until it is done playing
+  public void PlaySound(AudioClip clip, Vector3 position) {
+    GameObject sound = Instantiate(Objects.prefabs["sound"], position, Quaternion.identity);
+    Sound soundInstance = sound.GetComponent<Sound>();
+    soundInstance.PlaySound(clip);
+  }
 }
