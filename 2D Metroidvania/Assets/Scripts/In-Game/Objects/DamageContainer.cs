@@ -11,7 +11,7 @@ public class DamageContainer : MonoBehaviour {
   void Start() {
     audioSource = GetComponent<AudioSource>();
 
-    if (soundType != "") {
+    if (soundType != null) {
       audioSource.PlayOneShot(Sounds.impactSounds[soundType][isCritical ? "critical" : "normal"]);
     }
 
