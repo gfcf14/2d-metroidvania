@@ -36,11 +36,11 @@ public class Weapon : MonoBehaviour {
   }
 
   private string GetThrowableSound(string type, string key) {
-    return type.Contains("double") ?
-      type + "-large" :
-      Helpers.IsValueInArray(Constants.smallThrowables, key) ?
-      type + "-small" :
-      type + "-middle";
+    return type + (
+      type.Contains("double") ? "-large" : (
+        Helpers.IsValueInArray(Constants.smallThrowables, key) ? "-small" : "-middle"
+      )
+    );
   }
 
   public void PlaySound(string type, string key = "") {

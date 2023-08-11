@@ -115,6 +115,18 @@ public class Sounds {
     {"sword", new Dictionary<string, AudioClip> {
       {"normal", Resources.Load<AudioClip>("SFX/hitting/normal/sword")},
       {"critical", Resources.Load<AudioClip>("SFX/hitting/critical/sword")}
+    }},
+    {"throwable-small", new Dictionary<string, AudioClip> {
+      {"normal", Resources.Load<AudioClip>("SFX/hitting/normal/throwable-small")},
+      {"critical", Resources.Load<AudioClip>("SFX/hitting/critical/throwable-small")}
+    }},
+    {"throwable-middle", new Dictionary<string, AudioClip> {
+      {"normal", Resources.Load<AudioClip>("SFX/hitting/normal/throwable-middle")},
+      {"critical", Resources.Load<AudioClip>("SFX/hitting/critical/throwable-middle")}
+    }},
+    {"throwable-double-large", new Dictionary<string, AudioClip> {
+      {"normal", Resources.Load<AudioClip>("SFX/hitting/normal/throwable-double-large")},
+      {"critical", Resources.Load<AudioClip>("SFX/hitting/critical/throwable-double-large")}
     }}
   };
 

@@ -229,4 +229,20 @@ public class Helpers {
     string[] thinLetters = new string[] {"f", "i", "j", "l", "t", "I"};
     return IsValueInArray(thinLetters, letter.ToString());
   }
+
+  public static string GetThrowableSoundType(string itemType) {
+    // TODO: include any other non-collidable throwables (e.g. ones that should explode on contact)
+    if (itemType == "bomb") {
+      return "";
+    }
+
+    PauseItem throwableItem = Objects.pauseItems[itemType];
+
+    // TODO: account for throwable-double items which do not slash (e.g. giant-bone)
+    if (throwableItem.type == "throwable-double") {
+      return "throwable-double-large";
+    }
+
+    return "throwable-" + (Helpers.IsValueInArray(Constants.smallThrowables, itemType) ? "small" : "middle");
+  }
 }
