@@ -25,10 +25,7 @@ public class InfoCanvas : MonoBehaviour {
     int textAndContainerWidth = 0;
 
     foreach(char currCharacter in text) {
-      textAndContainerWidth += currCharacter == ' ' ? Constants.spaceCharacterWidth :
-        Helpers.IsThinLetter(currCharacter) ?
-          Constants.thinCharacterWidth : (char.IsDigit(currCharacter) || char.IsSymbol(currCharacter)) ?
-            Constants.numericCharacterWidth : Constants.alphaCharacterWidth;
+      textAndContainerWidth += Objects.characterWidths[currCharacter];
     }
 
     gameObject.SetActive(false);

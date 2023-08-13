@@ -245,4 +245,14 @@ public class Helpers {
 
     return "throwable-" + (Helpers.IsValueInArray(Constants.smallThrowables, itemType) ? "small" : "middle");
   }
+
+  public static int GetTextDisplayWidth(string text) {
+    int textDisplayWidth = 0;
+
+    for (int i = 0; i < text.Length; i++) {
+      textDisplayWidth += Objects.characterWidths[text[i]];
+    }
+
+    return textDisplayWidth;
+  }
 }

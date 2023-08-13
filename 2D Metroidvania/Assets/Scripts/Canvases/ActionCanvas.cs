@@ -52,7 +52,7 @@ public class ActionCanvas : MonoBehaviour {
     text = action.ToUpper();
     textWidth = 0;
     textContainerWidth = 0;
-    maxTextWidth = text.Length * Constants.uppercaseCharacterWidth;
+    maxTextWidth = Helpers.GetTextDisplayWidth(text);
     maxTextContainerWidth = maxTextWidth + Constants.defaultActionTextContainerWidth;
   }
 
@@ -73,7 +73,7 @@ public class ActionCanvas : MonoBehaviour {
     int truncateIndex = text.Length;
 
     for (int i = 0; i < text.Length; i++) {
-      accumulatedWidth += Constants.uppercaseCharacterWidth;
+      accumulatedWidth += Objects.characterWidths[text[i]];
       if (accumulatedWidth > width) {
         truncateIndex = i;
         break;
