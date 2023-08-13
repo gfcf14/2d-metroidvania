@@ -25,7 +25,7 @@ public class InfoCanvas : MonoBehaviour {
     int textAndContainerWidth = 0;
 
     foreach(char currCharacter in text) {
-      textAndContainerWidth += Objects.characterWidths[currCharacter];
+      textAndContainerWidth += Helpers.GetCharacterDisplayWidth(currCharacter);
     }
 
     gameObject.SetActive(false);

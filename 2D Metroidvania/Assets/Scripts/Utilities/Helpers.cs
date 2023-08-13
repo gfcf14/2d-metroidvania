@@ -246,11 +246,21 @@ public class Helpers {
     return "throwable-" + (Helpers.IsValueInArray(Constants.smallThrowables, itemType) ? "small" : "middle");
   }
 
+  public static int GetCharacterDisplayWidth(char c) {
+    foreach (string key in Objects.characterWidths.Keys) {
+      if (key.Contains(c)) {
+        return Objects.characterWidths[key];
+      }
+    }
+
+    return 0;
+  }
+
   public static int GetTextDisplayWidth(string text) {
     int textDisplayWidth = 0;
 
     for (int i = 0; i < text.Length; i++) {
-      textDisplayWidth += Objects.characterWidths[text[i]];
+      textDisplayWidth += GetCharacterDisplayWidth(text[i]);
     }
 
     return textDisplayWidth;

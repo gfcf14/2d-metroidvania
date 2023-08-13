@@ -73,7 +73,7 @@ public class ActionCanvas : MonoBehaviour {
     int truncateIndex = text.Length;
 
     for (int i = 0; i < text.Length; i++) {
-      accumulatedWidth += Objects.characterWidths[text[i]];
+      accumulatedWidth += Helpers.GetCharacterDisplayWidth(text[i]);
       if (accumulatedWidth > width) {
         truncateIndex = i;
         break;
