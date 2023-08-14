@@ -18,6 +18,7 @@ public class Throwable : MonoBehaviour {
 
   [System.NonSerialized] public int transitionIncrement = 0;
   [System.NonSerialized] public int distance = 0;
+  [System.NonSerialized] public float criticalRate = 0;
 
   [System.NonSerialized] public float bounceRotationMultiplier = 3;
   [System.NonSerialized] public float bounceX;

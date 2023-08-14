@@ -218,7 +218,6 @@ public class Enemy : MonoBehaviour {
   }
 
   public void PlayAttackSound() {
-    Debug.Log(normalAttackType);
     audioSource.PlayOneShot(Sounds.attackSounds[normalAttackType]);
   }
 
@@ -676,8 +675,10 @@ public class Enemy : MonoBehaviour {
     Throwable throwableInstance = throwableObject.GetComponent<Throwable>();
 
     throwableInstance.isFacingLeft = isFacingLeft;
+    // TODO: change when implementing other throwable types
     throwableInstance.type = "king-bone";
     throwableInstance.distance = (int)distance < minimumThrowDistance ? 3 : (int)distance;
+    throwableInstance.criticalRate = criticalRate;
 
     Transform throwableCollider = throwableObject.transform.Find("ThrowableCollider");
     throwableCollider.eulerAngles = Vector3.zero;

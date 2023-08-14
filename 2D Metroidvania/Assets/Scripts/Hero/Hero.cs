@@ -1229,6 +1229,10 @@ public class Hero : MonoBehaviour {
   public void ReceiveThrowable(GameObject throwable, Vector2 contactPoint) {
     float currentX = transform.position.x;
     float throwableX = throwable.transform.position.x;
+    Throwable throwableInstance = throwable.GetComponent<Throwable>();
+    string throwableType = throwableInstance.type;
+    float criticalRate = throwableInstance.criticalRate;
+    bool isCritical = Helpers.IsCritical(criticalRate);
 
     hurtFromBehind = (currentX < throwableX && isFacingLeft) || (currentX > throwableX && !isFacingLeft);
     bool mustTakeDamage = (!isDefending || (isDefending && hurtFromBehind)) && (!isParrying || (isParrying && hurtFromBehind));
@@ -1237,11 +1241,11 @@ public class Hero : MonoBehaviour {
       FlipPlayer(true);
     }
 
-    int throwableDamage = Damages.weaponDamages[throwable.GetComponent<Throwable>().type].damage;
+    int throwableDamage = Damages.weaponDamages[throwableType].damage;
 
     if (mustTakeDamage) {
-      int damage = (stamina + (int)equippedSTA + (int)effectSTA) - throwableDamage;
-      TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, contactPoint);
+      int damage = (stamina + (int)equippedSTA + (int)effectSTA) - (throwableDamage * (isCritical ? 2 : 1));
+      TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, contactPoint, isCritical, Objects.throwableImpactType[throwableType]);
 
       if (currentHP > 0) {
         PlayerHurt(isGrounded ? 2 : 3);
@@ -1257,8 +1261,8 @@ public class Hero : MonoBehaviour {
         } else {
           DropDefense();
           currentShieldHP--;
-          int damage = (stamina + (int)equippedSTA + shieldDefense + (int)effectSTA) - throwableDamage;
-          TakeDamage(damage < 0 ? Math.Abs(damage) :  Constants.minimumDamageDealt, contactPoint);
+          int damage = (stamina + (int)equippedSTA + shieldDefense + (int)effectSTA) - (throwableDamage * (isCritical ? 2 : 1));
+          TakeDamage(damage < 0 ? Math.Abs(damage) :  Constants.minimumDamageDealt, contactPoint, isCritical, Objects.throwableImpactType[throwableType]);
 
           if (currentHP > 0) {
             PlayerHurt(isGrounded ? 2 : 3);

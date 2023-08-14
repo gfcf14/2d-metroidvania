@@ -143,7 +143,7 @@ public class Objects {
     {"polished-king-skull", new PauseItem(Sprites.itemThumbnails[101], Sprites.itemImages[101], "Polished King Skull", "A more refined head from a skeleton king", "valuable")},
     {"silver-king-skull", new PauseItem(Sprites.itemThumbnails[102], Sprites.itemImages[102], "Silver King Skull", "Silver skeleton king skull with a gold laurel crown", "valuable")},
     {"royal-pelt", new PauseItem(Sprites.itemThumbnails[103], Sprites.itemImages[103], "Royal Pelt", "Comfortable pelt worn by skeleton kings", "valuable")},
-    {"giant-bone", new PauseItem(Sprites.itemThumbnails[104], Sprites.itemImages[104], "Giant Bone", "Thrown by the skeleton king. Quite deadly when it hits", "throwable-double", new Effects() {atk=80})},
+    {"king-bone", new PauseItem(Sprites.itemThumbnails[104], Sprites.itemImages[104], "Giant Bone", "Thrown by the skeleton king. Quite deadly when it hits", "throwable-double", new Effects() {atk=80})},
 
     // Example of having everything
     // {"chicken-drumstick", new PauseItem(Sprites.itemThumbnails[3], Sprites.itemImages[3], "Chicken Drumstick", "From range-free raised fowl.", "food", new Effects() {hp = 99, mp=99, statusHeal=new string[]{"Poison", "Curse", "Drain"}, atk=-99, def=99, crit=0.5f, luck=-0.2f, magicResistances=new MagicResistance[]{new MagicResistance(){name="Earth", type="add"}, new MagicResistance(){name="Air", type="add"}, new MagicResistance(){name="Water", type="add"}, new MagicResistance(){name="Fire", type="add"}, new MagicResistance(){name="Lightning", type="remove"}, new MagicResistance(){name="Ice", type="remove"}, new MagicResistance(){name="Light", type="remove"}, new MagicResistance(){name="Dark", type="remove"}}})}
@@ -254,19 +254,19 @@ public class Objects {
     }},
     {"skeleton-king", new Dictionary<string, ProbabilityItem[]> {
       {"low", new ProbabilityItem[] {
-        new ProbabilityItem(){key="giant-bone", probability=0.7f},
+        new ProbabilityItem(){key="king-bone", probability=0.7f},
         new ProbabilityItem(){key="mid-potions", probability=0.9f},
         new ProbabilityItem(){key="royal-pelt", probability=0.97f},
         new ProbabilityItem(){key="king-skull", probability=1},
       }},
       {"mid", new ProbabilityItem[] {
-        new ProbabilityItem(){key="giant-bone", probability=0.7f},
+        new ProbabilityItem(){key="king-bone", probability=0.7f},
         new ProbabilityItem(){key="high-potions", probability=0.9f},
         new ProbabilityItem(){key="gold-ingot", probability=0.97f},
         new ProbabilityItem(){key="polished-king-skull", probability=1},
       }},
       {"high", new ProbabilityItem[] {
-        new ProbabilityItem(){key="giant-bone", probability=0.7f},
+        new ProbabilityItem(){key="king-bone", probability=0.7f},
         new ProbabilityItem(){key="elixir", probability=0.9f},
         new ProbabilityItem(){key="citrine", probability=0.97f},
         new ProbabilityItem(){key="silver-king-skull", probability=1},
@@ -332,7 +332,7 @@ public class Objects {
     {"nymph", new EnemyStats() {name = "Nymph", type = "patroller", baseMaterial = "barefoot", normalAttackType = "punch", hp = 50, atk = 10, def = 40, crit = 0.03f, exp = 80, speed= 4, reach = 0.5f, groundCastLength = 1, arrowBurnPosition = 1}},
     {"pixie", new EnemyStats() {name = "Pixie", type = "patroller", baseMaterial = "barefoot", normalAttackType = "punch", hp = 100, atk = 10, def = 60, crit = 0.01f, exp = 100, speed= 3, reach = 0.25f, groundCastLength = 1.5f, arrowBurnPosition = 0.5f}},
     {"skeleton", new EnemyStats() {name = "Skeleton", type = "patroller", baseMaterial = "barefoot", normalAttackType = "punch", hp = 100, atk = 20, def = 10, crit = 0.01f, exp = 30, speed= 3, reach = 0.5f, groundCastLength = 1, arrowBurnPosition = 1}},
-    {"skeleton-king", new EnemyStats() {name = "Skeleton King", type = "champion", baseMaterial = "boots", normalAttackType = "bone", hp = 300, atk = 60, def = 30, crit = 0.15f, exp = 100, speed= 2, reach = 1, groundCastLength = 1, arrowBurnPosition = 1.5f}}
+    {"skeleton-king", new EnemyStats() {name = "Skeleton King", type = "champion", baseMaterial = "boots", normalAttackType = "blunt", hp = 300, atk = 60, def = 30, crit = 0.15f, exp = 100, speed= 2, reach = 1, groundCastLength = 1, arrowBurnPosition = 1.5f}}
   };
 
   public static Dictionary<string, Vector2> enemyDimensions = new Dictionary<string, Vector2> {
@@ -372,5 +372,9 @@ public class Objects {
     {"V", 32},
     {"w", 35},
     {"W", 38},
+  };
+
+  public static Dictionary<string, string> throwableImpactType = new Dictionary<string, string> {
+    {"king-bone", "blunt"}
   };
 }

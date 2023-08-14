@@ -238,7 +238,7 @@ public class Helpers {
 
     PauseItem throwableItem = Objects.pauseItems[itemType];
 
-    // TODO: account for throwable-double items which do not slash (e.g. giant-bone)
+    // TODO: account for throwable-double items which do not slash (e.g. king-bone)
     if (throwableItem.type == "throwable-double") {
       return "throwable-double-large";
     }
