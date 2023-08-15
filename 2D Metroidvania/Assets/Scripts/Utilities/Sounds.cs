@@ -139,6 +139,7 @@ public class Sounds {
   };
 
   public static Dictionary<string, AudioClip> explosionSounds = new Dictionary<string, AudioClip> {
-    {"basic", Resources.Load<AudioClip>("SFX/explosions/basic")}
+    {"basic", Resources.Load<AudioClip>("SFX/explosions/basic")},
+    {"enemy", Resources.Load<AudioClip>("SFX/explosions/enemy")}
   };
 }
