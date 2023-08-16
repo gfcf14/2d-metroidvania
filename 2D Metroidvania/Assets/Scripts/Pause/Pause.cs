@@ -1799,7 +1799,7 @@ public class Pause : MonoBehaviour {
     Settings.showItemInfo = !showItemInfo;
   }
 
-  public void PlayMove() {
-    audioSource.PlayOneShot(Sounds.menuSounds["move"]);
+  public void PlayMenuSound(string sound) {
+    audioSource.PlayOneShot(Sounds.menuSounds[sound]);
   }
 }
