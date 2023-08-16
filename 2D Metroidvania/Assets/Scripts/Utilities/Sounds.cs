@@ -142,4 +142,8 @@ public class Sounds {
     {"basic", Resources.Load<AudioClip>("SFX/explosions/basic")},
     {"enemy", Resources.Load<AudioClip>("SFX/explosions/enemy")}
   };
+
+  public static Dictionary<string, AudioClip> menuSounds = new Dictionary<string, AudioClip> {
+    {"move", Resources.Load<AudioClip>("SFX/menu/move")}
+  };
 }

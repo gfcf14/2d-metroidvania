@@ -271,8 +271,12 @@ public class Pause : MonoBehaviour {
   // tracks if item info should show
   [System.NonSerialized] bool showItemInfo = false;
 
+  // plays sounds
+  private AudioSource audioSource;
+
   void Start() {
     heroScript = hero.GetComponent<Hero>();
+    audioSource = GetComponent<AudioSource>();
     eventSystem = EventSystem.current;
 
     // adds all single effects to the list
@@ -1793,5 +1797,9 @@ public class Pause : MonoBehaviour {
 
   public void ToggleItemInfo() {
     Settings.showItemInfo = !showItemInfo;
+  }
+
+  public void PlayMove() {
+    audioSource.PlayOneShot(Sounds.menuSounds["move"]);
   }
 }
