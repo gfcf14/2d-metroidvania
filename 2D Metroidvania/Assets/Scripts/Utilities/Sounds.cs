@@ -144,6 +144,7 @@ public class Sounds {
   };
 
   public static Dictionary<string, AudioClip> menuSounds = new Dictionary<string, AudioClip> {
-    {"move", Resources.Load<AudioClip>("SFX/menu/move")}
+    {"move", Resources.Load<AudioClip>("SFX/menu/move")},
+    {"select", Resources.Load<AudioClip>("SFX/menu/select")}
   };
 }
