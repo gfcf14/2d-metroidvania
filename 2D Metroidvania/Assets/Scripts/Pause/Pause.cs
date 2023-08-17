@@ -1129,6 +1129,8 @@ public class Pause : MonoBehaviour {
   }
 
   public void PerformBack() {
+    PlayMenuSound("back");
+
     switch (canvasStatus) {
       case "items":
         GoBackToMainFromItems();
