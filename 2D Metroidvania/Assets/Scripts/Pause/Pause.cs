@@ -448,6 +448,8 @@ public class Pause : MonoBehaviour {
   }
 
   public void ProceedToUse() {
+    PlayMenuSound("attention");
+
     canvasStatus = "items_use";
     Helpers.FocusUIElement(itemUseYes);
   }
@@ -491,6 +493,8 @@ public class Pause : MonoBehaviour {
     }
 
     if (currProjectileButtonIndex > 1) { // means that there is more than one projectile
+      PlayMenuSound("attention");
+
       canvasStatus = "equipment_select_projectile";
       projectileCanvas.SetActive(true);
 
