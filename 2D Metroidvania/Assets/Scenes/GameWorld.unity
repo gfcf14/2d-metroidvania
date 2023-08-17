@@ -3667,6 +3667,7 @@ GameObject:
   - component: {fileID: 140681212}
   - component: {fileID: 140681210}
   - component: {fileID: 140681209}
+  - component: {fileID: 140681213}
   m_Layer: 5
   m_Name: ShowStatusesPrompt
   m_TagString: Untagged
@@ -3815,6 +3816,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 140681207}
   m_CullTransparentMesh: 1
+--- !u!114 &140681213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140681207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1437520760}
+          m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: move
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1437520760}
+          m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: select
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &140874126
 GameObject:
   m_ObjectHideFlags: 0
@@ -21211,7 +21257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &299332789
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31248,7 +31294,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &703887124
 RectTransform:
   m_ObjectHideFlags: 0
@@ -54386,7 +54432,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1437520756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55787,6 +55833,7 @@ GameObject:
   - component: {fileID: 1476251002}
   - component: {fileID: 1476251000}
   - component: {fileID: 1476250999}
+  - component: {fileID: 1476251003}
   m_Layer: 5
   m_Name: StandardPrompt
   m_TagString: Untagged
@@ -55935,6 +55982,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1476250997}
   m_CullTransparentMesh: 1
+--- !u!114 &1476251003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476250997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1437520760}
+          m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: move
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1437520760}
+          m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: select
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1477575385
 GameObject:
   m_ObjectHideFlags: 0
@@ -58976,6 +59068,7 @@ GameObject:
   - component: {fileID: 1620900352}
   - component: {fileID: 1620900350}
   - component: {fileID: 1620900349}
+  - component: {fileID: 1620900353}
   m_Layer: 5
   m_Name: DontShowStatusesPrompt
   m_TagString: Untagged
@@ -59124,6 +59217,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1620900347}
   m_CullTransparentMesh: 1
+--- !u!114 &1620900353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620900347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1437520760}
+          m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: move
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1437520760}
+          m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: select
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1625695635
 GameObject:
   m_ObjectHideFlags: 0
@@ -61235,6 +61373,7 @@ GameObject:
   - component: {fileID: 1683924538}
   - component: {fileID: 1683924536}
   - component: {fileID: 1683924535}
+  - component: {fileID: 1683924539}
   m_Layer: 5
   m_Name: ShowDamagePrompt
   m_TagString: Untagged
@@ -61383,6 +61522,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1683924533}
   m_CullTransparentMesh: 1
+--- !u!114 &1683924539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683924533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1437520760}
+          m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: move
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1437520760}
+          m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: select
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1687927646
 GameObject:
   m_ObjectHideFlags: 0
@@ -68017,6 +68201,7 @@ GameObject:
   - component: {fileID: 1970340159}
   - component: {fileID: 1970340157}
   - component: {fileID: 1970340156}
+  - component: {fileID: 1970340160}
   m_Layer: 5
   m_Name: ShowItemInfoPrompt
   m_TagString: Untagged
@@ -68165,6 +68350,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1970340154}
   m_CullTransparentMesh: 1
+--- !u!114 &1970340160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970340154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1437520760}
+          m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: move
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1437520760}
+          m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: select
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1976659322
 GameObject:
   m_ObjectHideFlags: 0
@@ -68837,7 +69067,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2000951915
 RectTransform:
   m_ObjectHideFlags: 0
@@ -73423,6 +73653,7 @@ GameObject:
   - component: {fileID: 2053334679}
   - component: {fileID: 2053334677}
   - component: {fileID: 2053334676}
+  - component: {fileID: 2053334680}
   m_Layer: 5
   m_Name: MinifiedPrompt
   m_TagString: Untagged
@@ -73571,6 +73802,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2053334674}
   m_CullTransparentMesh: 1
+--- !u!114 &2053334680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053334674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1437520760}
+          m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: move
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 15
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1437520760}
+          m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: select
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &2060486092
 GameObject:
   m_ObjectHideFlags: 0
