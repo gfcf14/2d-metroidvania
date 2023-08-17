@@ -393,6 +393,28 @@ public class Pause : MonoBehaviour {
 
         currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = (canvasStatus == "equipment" ? currentAmount - (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) ? 0 : itemUsageFrequency) : currentAmount).ToString();
 
+        // set the Event Trigger Deselect and Submit objects and functions
+          EventTrigger eventTrigger = currentItemButton.GetComponent<EventTrigger>();
+
+          // deselect
+          EventTrigger.Entry deselectEntry = new EventTrigger.Entry();
+          deselectEntry.eventID = EventTriggerType.Deselect;
+          deselectEntry.callback.AddListener((data) => {
+            PlayMenuSound("move");
+          });
+
+          // submit
+          EventTrigger.Entry submitEntry = new EventTrigger.Entry();
+          submitEntry.eventID = EventTriggerType.Submit;
+          submitEntry.callback.AddListener((data) => {
+            PlayMenuSound("select");
+          });
+
+          eventTrigger.triggers.Add(deselectEntry);
+          eventTrigger.triggers.Add(submitEntry);
+        // end of Event Trigger settings
+
+
         itemButtons.Add(currentItemButton);
         itemTypes.Add(currentPauseItem.type);
       } else {
