@@ -1714,6 +1714,8 @@ public class Pause : MonoBehaviour {
   }
 
   public void ProceedToReset() {
+    PlayMenuSound("attention");
+
     canvasStatus = "options_controls_reset";
     resetRectangle.SetActive(true);
     Helpers.FocusUIElement(resetYes);
