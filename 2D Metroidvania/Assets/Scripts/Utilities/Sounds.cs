@@ -147,6 +147,7 @@ public class Sounds {
     {"attention", Resources.Load<AudioClip>("SFX/menu/attention")},
     {"back", Resources.Load<AudioClip>("SFX/menu/back")},
     {"move", Resources.Load<AudioClip>("SFX/menu/move")},
-    {"select", Resources.Load<AudioClip>("SFX/menu/select")}
+    {"select", Resources.Load<AudioClip>("SFX/menu/select")},
+    {"use", Resources.Load<AudioClip>("SFX/menu/use")}
   };
 }
