@@ -403,15 +403,18 @@ public class Pause : MonoBehaviour {
             PlayMenuSound("move");
           });
 
-          // submit
-          EventTrigger.Entry submitEntry = new EventTrigger.Entry();
-          submitEntry.eventID = EventTriggerType.Submit;
-          submitEntry.callback.AddListener((data) => {
-            PlayMenuSound("select");
-          });
-
           eventTrigger.triggers.Add(deselectEntry);
-          eventTrigger.triggers.Add(submitEntry);
+
+          // submit - but only for items
+          if (canvasStatus == "equipment") {
+            EventTrigger.Entry submitEntry = new EventTrigger.Entry();
+            submitEntry.eventID = EventTriggerType.Submit;
+            submitEntry.callback.AddListener((data) => {
+              PlayMenuSound("select");
+            });
+
+            eventTrigger.triggers.Add(submitEntry);
+          }
         // end of Event Trigger settings
 
 
