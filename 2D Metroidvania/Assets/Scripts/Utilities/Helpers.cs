@@ -225,11 +225,6 @@ public class Helpers {
     return itemsToCheck.All(key => items.Any(item => item.key == key));
   }
 
-  public static bool IsThinLetter(char letter) {
-    string[] thinLetters = new string[] {"f", "i", "j", "l", "t", "I"};
-    return IsValueInArray(thinLetters, letter.ToString());
-  }
-
   public static string GetThrowableSoundType(string itemType) {
     // TODO: include any other non-collidable throwables (e.g. ones that should explode on contact)
     if (itemType == "bomb") {
