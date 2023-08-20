@@ -393,17 +393,8 @@ public class Pause : MonoBehaviour {
 
         currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = (canvasStatus == "equipment" ? currentAmount - (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) ? 0 : itemUsageFrequency) : currentAmount).ToString();
 
-        // set the Event Trigger Deselect and Submit objects and functions
+        // set the Event Trigger Submit objects and functions
           EventTrigger eventTrigger = currentItemButton.GetComponent<EventTrigger>();
-
-          // deselect
-          EventTrigger.Entry deselectEntry = new EventTrigger.Entry();
-          deselectEntry.eventID = EventTriggerType.Deselect;
-          deselectEntry.callback.AddListener((data) => {
-            PlayMenuSound("move");
-          });
-
-          eventTrigger.triggers.Add(deselectEntry);
 
           // submit - but only for items
           if (canvasStatus == "equipment") {
@@ -720,6 +711,7 @@ public class Pause : MonoBehaviour {
   }
 
   void SetEquipmentProspect(int index) {
+    PlayMenuSound("move");
     HideEquipmentLabels();
 
     currentItemButtonIndex = index;
@@ -921,6 +913,7 @@ public class Pause : MonoBehaviour {
   }
 
   void SetItemInfo(int index) {
+    PlayMenuSound("move");
     HideEffectsObjects();
     currentItemButtonIndex = index;
 
