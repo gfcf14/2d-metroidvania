@@ -150,4 +150,9 @@ public class Sounds {
     {"select", Resources.Load<AudioClip>("SFX/menu/select")},
     {"use", Resources.Load<AudioClip>("SFX/menu/use")}
   };
+
+  public static Dictionary<string, AudioClip> itemPickSounds = new Dictionary<string, AudioClip> {
+    {"normal", Resources.Load<AudioClip>("SFX/items/pick/normal")},
+    {"rare", Resources.Load<AudioClip>("SFX/items/pick/rare")}
+  };
 }

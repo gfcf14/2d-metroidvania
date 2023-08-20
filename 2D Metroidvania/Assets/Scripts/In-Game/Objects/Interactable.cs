@@ -38,6 +38,7 @@ public class Interactable : MonoBehaviour {
     GetComponent<BoxCollider2D>().enabled = false;
 
     // TODO: define what items will Interactables drop
-    inGame.InstantiatePrefab("droppable", item, transform.parent.gameObject, transform, spriteRenderer);
+    // TODO: define a property that would allow to use different rarities
+    inGame.InstantiatePrefab("droppable", item, "normal", transform.parent.gameObject, transform, spriteRenderer);
   }
 }

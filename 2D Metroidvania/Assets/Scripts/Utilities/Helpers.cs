@@ -201,11 +201,15 @@ public class Helpers {
 
     string randomItemKey = itemProbabilities.FirstOrDefault(item => randomOutcome <= item.probability).key;
 
+    // gets the rarity of an item to play a sound when the item is picked
+    bool isRare = itemProbabilities.FirstOrDefault(item => randomItemKey == item.key).probability == 1;
+
+    // if the item is from a group, it needs to be recalculated
     if (Helpers.IsValueInArray(Constants.recalculatableItemKeys, randomItemKey)) {
-      return GetRandomItemFromGroup(Objects.itemGroups[randomItemKey]);
+      return GetRandomItemFromGroup(Objects.itemGroups[randomItemKey]) + "|" + (isRare ? "rare" : "normal");
     }
 
-    return randomItemKey;
+    return randomItemKey + "|" + (isRare ? "rare" : "normal");
   }
 
   public static string PascalToKebab(string input) {

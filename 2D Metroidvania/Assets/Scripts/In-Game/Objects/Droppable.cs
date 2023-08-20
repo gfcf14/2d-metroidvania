@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Droppable : MonoBehaviour {
   [SerializeField] public string key;
+  [SerializeField] public string rarity;
   [SerializeField] public GameObject room;
 
   [SerializeField] public bool canBePicked = false;
@@ -100,8 +101,9 @@ public class Droppable : MonoBehaviour {
           isIdle = true;
         }
       } else if (gameObjectTag == "Hero" && canBePicked) {
-      DestroyDroppable(col.gameObject.GetComponent<Hero>());
-    }
+        inGame.PlaySound(Sounds.itemPickSounds[rarity == null || rarity == "" ? "normal" : rarity], transform.position);
+        DestroyDroppable(col.gameObject.GetComponent<Hero>());
+      }
   }
 
   public void DestroyDroppable(Hero hero) {

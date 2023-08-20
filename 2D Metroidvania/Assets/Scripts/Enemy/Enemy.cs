@@ -659,7 +659,8 @@ public class Enemy : MonoBehaviour {
     }
 
     // instantiates the dropped item
-    inGame.InstantiatePrefab("droppable", Helpers.GetDroppableItem(key, level, hero.luckPercentage + hero.equippedLUCK + hero.effectLCK), transform.parent.gameObject, transform, enemyRenderer);
+    string[] droppableAndRarity = Helpers.GetDroppableItem(key, level, hero.luckPercentage + hero.equippedLUCK + hero.effectLCK).Split('|');
+    inGame.InstantiatePrefab("droppable", droppableAndRarity[0], droppableAndRarity[1], transform.parent.gameObject, transform, enemyRenderer);
 
     // instantiates the explosion of the enemy
     Instantiate(Objects.prefabs["enemy-explosion"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);

@@ -99,7 +99,8 @@ public class Breakable : MonoBehaviour {
       Destroy(body);
       GetComponent<BoxCollider2D>().isTrigger = true;
 
-      inGame.InstantiatePrefab("droppable", item, GetItemSpawnedParent(), transform, spriteRenderer);
+      // TODO: define a property that would allow to use different rarities
+      inGame.InstantiatePrefab("droppable", item, "normal", GetItemSpawnedParent(), transform, spriteRenderer);
 
       GameObject parentObject = col.transform.parent.gameObject;
       if (parentObject.name.Contains("Throwable")) {
