@@ -152,6 +152,7 @@ public class Sounds {
   };
 
   public static Dictionary<string, AudioClip> itemPickSounds = new Dictionary<string, AudioClip> {
+    {"money", Resources.Load<AudioClip>("SFX/items/pick/money")},
     {"normal", Resources.Load<AudioClip>("SFX/items/pick/normal")},
     {"rare", Resources.Load<AudioClip>("SFX/items/pick/rare")}
   };

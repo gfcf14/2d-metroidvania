@@ -39,6 +39,6 @@ public class Interactable : MonoBehaviour {
 
     // TODO: define what items will Interactables drop
     // TODO: define a property that would allow to use different rarities
-    inGame.InstantiatePrefab("droppable", item, "normal", transform.parent.gameObject, transform, spriteRenderer);
+    inGame.InstantiatePrefab("droppable", item, Helpers.IsValueInArray(Constants.moneyItemKeys, item) ? "money" : "normal", transform.parent.gameObject, transform, spriteRenderer);
   }
 }
