@@ -102,7 +102,6 @@ public class Droppable : MonoBehaviour {
         }
       } else if (gameObjectTag == "Hero" && canBePicked) {
         string itemPickSoundIndex = rarity == "" ? (Helpers.IsValueInArray(Constants.moneyItemKeys, key) ? "money" : "normal") : rarity;
-        Debug.Log(key + " " + itemPickSoundIndex);
 
         inGame.PlaySound(Sounds.itemPickSounds[itemPickSoundIndex], transform.position);
         DestroyDroppable(col.gameObject.GetComponent<Hero>());

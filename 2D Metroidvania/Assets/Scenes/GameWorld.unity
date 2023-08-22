@@ -58410,6 +58410,10 @@ PrefabInstance:
       value: draco-shield
       objectReference: {fileID: 0}
     - target: {fileID: 1975134744910775112, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
+      propertyPath: rarity
+      value: rare
+      objectReference: {fileID: 0}
+    - target: {fileID: 1975134744910775112, guid: 2ff36b780f231444bade62723a6d8f3b, type: 3}
       propertyPath: persistRoomChange
       value: 1
       objectReference: {fileID: 0}
@@ -65803,11 +65807,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 152878885551489066, guid: e90b33a5a3fd08147b1f34caf8711493, type: 3}
       propertyPath: item
-      value: money-50
+      value: money-5000
       objectReference: {fileID: 0}
     - target: {fileID: 152878885551489066, guid: e90b33a5a3fd08147b1f34caf8711493, type: 3}
       propertyPath: type
       value: box
+      objectReference: {fileID: 0}
+    - target: {fileID: 152878885551489066, guid: e90b33a5a3fd08147b1f34caf8711493, type: 3}
+      propertyPath: itemRarity
+      value: rare
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e90b33a5a3fd08147b1f34caf8711493, type: 3}

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Breakable : MonoBehaviour {
   [SerializeField] public string type;
   [SerializeField] public string item;
+  [SerializeField] public string itemRarity;
   [SerializeField] public string material;
 
   [SerializeField] public bool isGrounded;
@@ -99,8 +100,9 @@ public class Breakable : MonoBehaviour {
       Destroy(body);
       GetComponent<BoxCollider2D>().isTrigger = true;
 
-      // TODO: define a property that would allow to use different rarities
-      inGame.InstantiatePrefab("droppable", item, Helpers.IsValueInArray(Constants.moneyItemKeys, item) ? "money" : "normal", GetItemSpawnedParent(), transform, spriteRenderer);
+      string rarity = itemRarity != "" ? itemRarity : (Helpers.IsValueInArray(Constants.moneyItemKeys, item) ? "money" : "normal");
+
+      inGame.InstantiatePrefab("droppable", item, rarity, GetItemSpawnedParent(), transform, spriteRenderer);
 
       GameObject parentObject = col.transform.parent.gameObject;
       if (parentObject.name.Contains("Throwable")) {
