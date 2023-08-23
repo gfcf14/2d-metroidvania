@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Chest : MonoBehaviour {
 
+  [Header("chest-small | chest-large")]
+  [SerializeField] public string type;
   [Header("Frame Color (bronze, silver, or gold)")]
   [SerializeField] string frame;
   [Header("Main Color (refer to Colors.cs)")]

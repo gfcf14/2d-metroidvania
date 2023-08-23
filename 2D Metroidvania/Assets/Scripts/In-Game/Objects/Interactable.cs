@@ -6,13 +6,17 @@ public class Interactable : MonoBehaviour {
   [SerializeField] public string item;
   [System.NonSerialized] public bool isOpen = false;
   private Animator anim;
+  private Chest chest;
   private SpriteRenderer spriteRenderer;
   private InGame inGame;
+  private AudioSource audioSource;
 
   void Start() {
     anim = GetComponent<Animator>();
+    chest = GetComponent<Chest>();
     spriteRenderer = GetComponent<SpriteRenderer>();
     inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+    audioSource = GetComponent<AudioSource>();
 
     if (!isFacingLeft) {
       transform.localScale = new Vector2(-1, 1);
@@ -23,14 +27,17 @@ public class Interactable : MonoBehaviour {
     }
   }
 
-  void Update() {
-    anim.SetBool("isOpen", isOpen);
-  }
+  void Update() {}
 
   private void OnCollisionEnter2D(Collision2D col) {
     if (col.collider.name == "Hero" && !isOpen) {
       isOpen = true;
+      anim.Play(chest.type + "-open");
     }
+  }
+
+  public void PlaySound() {
+    audioSource.PlayOneShot(Sounds.chestSounds[chest.type]);
   }
 
   public void releaseTreasure() {
