@@ -456,7 +456,9 @@ public class Enemy : MonoBehaviour {
             if (mustTakeDamage) {
               isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT + hero.effectCRIT);
               int damage = (def * (isDefending ? 2 : 1)) - ((Helpers.GetDamage(arrowUsed) + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
-              TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical, "arrow");
+
+              // do not play standard damage sound if the arrow used is a fire arrow
+              TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical, parentArrow.type == "arrow-fire" ? "" : "arrow");
 
               if (parentArrow.type == "arrow-poison" && !Helpers.IsPoisonResistant(elementResistances)) {
                 isPoisoned = true;
