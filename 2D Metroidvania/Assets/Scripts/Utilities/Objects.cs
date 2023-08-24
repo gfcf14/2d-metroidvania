@@ -363,7 +363,7 @@ public class Objects {
     {"7bdhkpq", 21},
     {"acegnosuxyz", 23},
     {"4", 24},
-    {"EJT", 25},
+    {"EJT$", 25},
     {"36CKLPRSXYZv", 26},
     {"02589ABDFGHNOU", 27},
     {"Q", 29},
