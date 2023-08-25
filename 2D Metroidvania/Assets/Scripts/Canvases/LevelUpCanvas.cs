@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 public class LevelUpCanvas : MonoBehaviour {
-  [System.NonSerialized] float displaySeconds = 0.5f;
+  [System.NonSerialized] float displaySeconds = 1.25f;
   void Start() {}
 
   void Update() {}

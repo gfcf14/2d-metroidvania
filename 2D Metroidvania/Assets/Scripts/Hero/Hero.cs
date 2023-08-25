@@ -1428,6 +1428,7 @@ public class Hero : MonoBehaviour {
 
     playerLevel++;
     next = Helpers.NextLevelEXP(playerLevel + 1);
+    inGame.PlaySound(Sounds.notificationSounds["levelup"], transform.position);
     levelUpCanvas.SetActive(true);
     SetPauseCase("level-up");
     levelUpCanvas.GetComponent<LevelUpCanvas>().ShowLevelUp();
