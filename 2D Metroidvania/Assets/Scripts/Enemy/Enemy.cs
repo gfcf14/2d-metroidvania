@@ -284,6 +284,7 @@ public class Enemy : MonoBehaviour {
               }
 
               if (currentTime > nextPoisonAttackTime)  {
+                inGame.PlaySound(Sounds.poisonSounds["basic"], transform.position);
                 TakeDamage(Constants.arrowPoisonDamage);
                 poisonEffectTime = Time.time * 1000;
                 enemyRenderer.color = Colors.statusColors["poisoned"];

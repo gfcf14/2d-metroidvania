@@ -166,4 +166,8 @@ public class Sounds {
   public static Dictionary<string, AudioClip> notificationSounds = new Dictionary<string, AudioClip> {
     {"levelup", Resources.Load<AudioClip>("SFX/notifications/levelup")},
   };
+
+  public static Dictionary<string, AudioClip> poisonSounds = new Dictionary<string, AudioClip> {
+    {"basic", Resources.Load<AudioClip>("SFX/poison/basic")},
+  };
 }
