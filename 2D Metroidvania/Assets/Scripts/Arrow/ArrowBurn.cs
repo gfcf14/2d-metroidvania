@@ -11,10 +11,14 @@ public class ArrowBurn : MonoBehaviour {
   [System.NonSerialized] public bool isFinished;
   [SerializeField] public Vector2 burnDimensions;
 
+  private AudioSource audioSource;
+
   void Start() {
     spriteRenderer = GetComponent<SpriteRenderer>();
     arrowBurnX = Mathf.Max(burnDimensions.x, burnDimensions.y) * 1.2f;
     arrowBurnY = arrowBurnX * 1.05f;
+    audioSource = GetComponent<AudioSource>();
+    audioSource.loop = true;
   }
 
   void Update() {
@@ -33,5 +37,12 @@ public class ArrowBurn : MonoBehaviour {
 
   public void DestroySmoke() {
     Destroy(gameObject);
+  }
+
+  public void PlayBurnSound() {
+    if (!audioSource.isPlaying) {
+      audioSource.clip = Sounds.loops["arrow-burn"];
+      audioSource.Play();
+    }
   }
 }
