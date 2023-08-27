@@ -6,8 +6,11 @@ public class SmashWave : MonoBehaviour {
   [System.NonSerialized] public float width;
   [System.NonSerialized] public int damage;
   [System.NonSerialized] public bool hitPlayer = false;
+
+  private InGame inGame;
   void Start() {
     GetComponent<SpriteRenderer>().size = new Vector2(width, width * 0.8f);
+    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
   }
 
   void Update() {}
@@ -21,5 +24,9 @@ public class SmashWave : MonoBehaviour {
       hitPlayer = true;
       col.gameObject.GetComponent<Hero>().ReceiveSmashWave(damage, col.ClosestPoint(transform.position));
     }
+  }
+
+  public void PlaySmash() {
+    inGame.PlaySound(Sounds.meleeSounds["smash"], transform.position);
   }
 }
