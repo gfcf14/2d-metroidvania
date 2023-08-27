@@ -105,6 +105,10 @@ public class Enemy : MonoBehaviour {
     body = GetComponent<Rigidbody2D>();
     anim = GetComponent<Animator>();
     enemyRenderer = GetComponent<SpriteRenderer>();
+
+    // "hides" the enemy initially so the placeholder is not seen until the animations start
+    enemyRenderer.color = Colors.transparent;
+
     inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
     audioSource = GetComponent<AudioSource>();
     enemyHeight = enemyRenderer.bounds.size.y;

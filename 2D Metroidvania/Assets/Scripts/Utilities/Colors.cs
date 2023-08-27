@@ -31,6 +31,7 @@ public class Colors {
   public static Color criticalColorOutline = new Color(1, 1, 1);
   public static Color criticalColorTop = new Color(0, 0 , 0);
   public static Color effect = new Color(0, 192f/255f, 1);
+  public static Color transparent = new Color(0, 0, 0, 0);
 
   public static Dictionary<string, Color> vaseColors = new Dictionary<string, Color> {
     {"gold", new Color(1, 1, 0.5f)},
