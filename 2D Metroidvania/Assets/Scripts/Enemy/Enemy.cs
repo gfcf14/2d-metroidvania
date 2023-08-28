@@ -688,6 +688,9 @@ public class Enemy : MonoBehaviour {
     throwableInstance.distance = (int)distance < minimumThrowDistance ? 3 : (int)distance;
     throwableInstance.criticalRate = criticalRate;
 
+    // TODO: change when implementing other throwable types
+    audioSource.PlayOneShot(Sounds.attackSounds["throwable-double-large"]);
+
     Transform throwableCollider = throwableObject.transform.Find("ThrowableCollider");
     throwableCollider.eulerAngles = Vector3.zero;
     throwableCollider.gameObject.tag = "EnemyWeapon";
