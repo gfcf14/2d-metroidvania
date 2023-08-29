@@ -19,6 +19,7 @@ public class Hero : MonoBehaviour {
   [SerializeField] public GameObject hpBarContainer;
   [SerializeField] public GameObject mpBarContainer;
   [SerializeField] public GameObject weaponCollider;
+  [SerializeField] public GameObject shieldCollider;
   [SerializeField] public GameObject bow;
   [SerializeField] public GameObject levelUpCanvas;
   [SerializeField] public GameObject fadeOutCanvas;
@@ -1314,6 +1315,7 @@ public class Hero : MonoBehaviour {
           int shieldDefense = armUsed == 1 ? equippedDEF1 : equippedDEF2;
 
           if (enemyScript.atk <= shieldDefense) {
+            inGame.Block(shieldCollider.transform.position, !isFacingLeft);
             currentShieldHP--;
           } else {
             DropDefense();

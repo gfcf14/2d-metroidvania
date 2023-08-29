@@ -114,4 +114,10 @@ public class InGame : MonoBehaviour {
     Sound soundInstance = sound.GetComponent<Sound>();
     soundInstance.PlaySound(clip);
   }
+
+  // instantiates a defense/block sprite on a contact point
+  public void Block(Vector2 position, bool isFacingLeft) {
+    GameObject defenseEffect = Instantiate(Objects.prefabs["defense"], position, Quaternion.identity);
+    defenseEffect.GetComponent<Defense>().isFacingLeft = isFacingLeft;
+  }
 }
