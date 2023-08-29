@@ -38,8 +38,8 @@ public class Champion : MonoBehaviour {
                 Vector2 beginDiagonalForwardCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y + enemy.enemyHeight / 4);
                 Vector2 diagonalForwardCastDirection = transform.TransformDirection(new Vector2(0, -1));
 
-                RaycastHit2D diagonalForwardCast = Physics2D.Raycast(beginDiagonalForwardCast, diagonalForwardCastDirection, enemy.groundCastLength);
-                Debug.DrawRay(beginDiagonalForwardCast, diagonalForwardCastDirection.normalized * enemy.groundCastLength, Color.green);
+                RaycastHit2D diagonalForwardCast = Physics2D.Raycast(beginDiagonalForwardCast, diagonalForwardCastDirection, enemy.edgeCastLength);
+                Debug.DrawRay(beginDiagonalForwardCast, diagonalForwardCastDirection.normalized * enemy.edgeCastLength, Color.green);
 
                 if (diagonalForwardCast.collider.name == "EnemyFlipper") {
                   enemy.isFacingLeft = !enemy.isFacingLeft;

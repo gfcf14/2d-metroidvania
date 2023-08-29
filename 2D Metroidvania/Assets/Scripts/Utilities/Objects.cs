@@ -327,12 +327,12 @@ public class Objects {
   };
 
   public static Dictionary<string, EnemyStats> enemyStats = new Dictionary<string, EnemyStats> {
-    {"dwarf", new EnemyStats() {name = "Dwarf", type = "patroller", baseMaterial = "boots", normalAttackType = "kick", hp = 50, atk = 20, def = 80, crit = 0.05f, exp = 30, speed= 5, reach = 0.5f, groundCastLength = 1, arrowBurnPosition = 1}},
-    {"goblin", new EnemyStats() {name = "Goblin", type = "patroller", baseMaterial = "boots", normalAttackType = "punch", hp = 80, atk = 40, def = 30, crit = 0.015f, exp = 60, speed= 3, reach = 0.5f, groundCastLength = 1, arrowBurnPosition = 1}},
-    {"nymph", new EnemyStats() {name = "Nymph", type = "patroller", baseMaterial = "barefoot", normalAttackType = "punch", hp = 50, atk = 10, def = 40, crit = 0.03f, exp = 80, speed= 4, reach = 0.5f, groundCastLength = 1, arrowBurnPosition = 1}},
-    {"pixie", new EnemyStats() {name = "Pixie", type = "patroller", baseMaterial = "barefoot", normalAttackType = "punch", hp = 100, atk = 10, def = 60, crit = 0.01f, exp = 100, speed= 3, reach = 0.25f, groundCastLength = 1.5f, arrowBurnPosition = 0.5f}},
-    {"skeleton", new EnemyStats() {name = "Skeleton", type = "patroller", baseMaterial = "barefoot", normalAttackType = "punch", hp = 100, atk = 20, def = 10, crit = 0.01f, exp = 30, speed= 3, reach = 0.5f, groundCastLength = 1, arrowBurnPosition = 1}},
-    {"skeleton-king", new EnemyStats() {name = "Skeleton King", type = "champion", baseMaterial = "boots", normalAttackType = "blunt", hp = 300, atk = 60, def = 30, crit = 0.15f, exp = 100, speed= 2, reach = 1, groundCastLength = 1, arrowBurnPosition = 1.5f}}
+    {"dwarf", new EnemyStats() {name = "Dwarf", type = "patroller", baseMaterial = "boots", normalAttackType = "kick", hp = 50, atk = 20, def = 80, crit = 0.05f, exp = 30, speed= 5, reach = 0.5f, edgeCastLength = 0.5f, arrowBurnPosition = 1}},
+    {"goblin", new EnemyStats() {name = "Goblin", type = "patroller", baseMaterial = "boots", normalAttackType = "punch", hp = 80, atk = 40, def = 30, crit = 0.015f, exp = 60, speed= 3, reach = 0.5f, edgeCastLength = 0.5f, arrowBurnPosition = 1}},
+    {"nymph", new EnemyStats() {name = "Nymph", type = "patroller", baseMaterial = "barefoot", normalAttackType = "punch", hp = 50, atk = 10, def = 40, crit = 0.03f, exp = 80, speed= 4, reach = 0.5f, edgeCastLength = 0.5f, arrowBurnPosition = 1}},
+    {"pixie", new EnemyStats() {name = "Pixie", type = "patroller", baseMaterial = "barefoot", normalAttackType = "punch", hp = 100, atk = 10, def = 60, crit = 0.01f, exp = 100, speed= 3, reach = 0.25f, edgeCastLength = 1, arrowBurnPosition = 0.5f}},
+    {"skeleton", new EnemyStats() {name = "Skeleton", type = "patroller", baseMaterial = "barefoot", normalAttackType = "punch", hp = 100, atk = 20, def = 10, crit = 0.01f, exp = 30, speed= 3, reach = 0.5f, edgeCastLength = 0.5f, arrowBurnPosition = 1}},
+    {"skeleton-king", new EnemyStats() {name = "Skeleton King", type = "champion", baseMaterial = "boots", normalAttackType = "blunt", hp = 300, atk = 60, def = 30, crit = 0.15f, exp = 100, speed= 2, reach = 1, edgeCastLength = 1, arrowBurnPosition = 1.5f}}
   };
 
   public static Dictionary<string, Vector2> enemyDimensions = new Dictionary<string, Vector2> {

@@ -8,7 +8,7 @@ public class Patroller : MonoBehaviour {
 
   // Raycast properties
     public float forwardCastLength = 2f;
-    public float proximityCastLength = 0.1f;
+    public float proximityCastLength = 0.5f;
 
   void Start() {
     enemy = GetComponent<Enemy>();
@@ -31,13 +31,13 @@ public class Patroller : MonoBehaviour {
             // There's floor forward
             // if (!diagonalForwardCast && diagonalForwardCast.collider.tag == "Ground") {
             // FOUND EDGE
-              Vector2 beginDiagonalForwardCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y + enemy.enemyHeight / 4);
-              Vector2 diagonalForwardCastDirection = transform.TransformDirection(new Vector2(0, -1));
+              Vector2 beginEdgeCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y);
+              Vector2 edgeCastDirection = transform.TransformDirection(new Vector2(direction * 2, -1));
 
-              RaycastHit2D diagonalForwardCast = Physics2D.Raycast(beginDiagonalForwardCast, diagonalForwardCastDirection, enemy.groundCastLength);
-              Debug.DrawRay(beginDiagonalForwardCast, diagonalForwardCastDirection.normalized * enemy.groundCastLength, Color.green);
+              RaycastHit2D edgeCast = Physics2D.Raycast(beginEdgeCast, edgeCastDirection, enemy.edgeCastLength);
+              Debug.DrawRay(beginEdgeCast, edgeCastDirection.normalized * enemy.edgeCastLength, Color.green);
 
-              if (diagonalForwardCast.collider.name == "EnemyFlipper") {
+              if (edgeCast.collider && edgeCast.collider.name == "EnemyFlipper") {
                 enemy.isFacingLeft = !enemy.isFacingLeft;
                 if (enemy.playerFound) {
                   enemy.playerFound = false;
@@ -46,7 +46,7 @@ public class Patroller : MonoBehaviour {
 
             // if (!heroIsDead) {
               Vector2 beginForwardCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y + enemy.enemyHeight / 2);
-              Vector2 forwardCastDirection = transform.TransformDirection(new Vector2(1 * (direction), 0));
+              Vector2 forwardCastDirection = transform.TransformDirection(new Vector2(direction, 0));
 
             // FOUND PLAYER
               if (!enemy.playerFound) {
@@ -58,10 +58,10 @@ public class Patroller : MonoBehaviour {
                   enemy.playerFound = true;
                 }
               } else {
-                Vector2 beginProximityCast = new Vector2(transform.position.x + ((enemy.enemyWidth * enemy.reach) * direction), transform.position.y + enemy.enemyHeight / 2);
+                Vector2 beginProximityCast = new Vector2(transform.position.x + ((enemy.enemyWidth * enemy.reach) * direction * 2), transform.position.y + enemy.enemyHeight / 2);
 
                 RaycastHit2D proximityCast = Physics2D.Raycast(beginProximityCast, forwardCastDirection, proximityCastLength);
-                Debug.DrawRay(beginProximityCast, forwardCastDirection.normalized * proximityCastLength, Color.magenta);
+                Debug.DrawRay(beginProximityCast, forwardCastDirection.normalized * proximityCastLength, new Color(1, 1, 0));
 
                 // ATTACK
                   if (proximityCast && proximityCast.collider.tag == "Hero") {

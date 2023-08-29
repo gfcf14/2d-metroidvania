@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour {
     [System.NonSerialized] public float coolDownTime = 750;
     [System.NonSerialized] public float enemyHeight = 0f;
     [System.NonSerialized] public float enemyWidth = 0f;
-    [System.NonSerialized] public float groundCastLength = 0;
+    [System.NonSerialized] public float edgeCastLength = 0;
     [System.NonSerialized] public float poisonEffectTime = 0;
     [System.NonSerialized] public float poisonTime = 0;
 
@@ -139,7 +139,7 @@ public class Enemy : MonoBehaviour {
     speed = enemyStats.speed;
     reach = enemyStats.reach;
 
-    groundCastLength = enemyStats.groundCastLength;
+    edgeCastLength = enemyStats.edgeCastLength;
     arrowBurnPosition = enemyStats.arrowBurnPosition;
 
     diesFlying = Helpers.IsValueInArray(Constants.flyingDeathEnemies, key);
