@@ -88,10 +88,9 @@ public class Droppable : MonoBehaviour {
 
   private void OnCollisionEnter2D(Collision2D col) {
     string gameObjectTag = col.gameObject.tag;
-
-      if (gameObjectTag == "Ground") {
+      if (gameObjectTag == "Ground" || gameObjectTag == "Interactable") {
         if (inGame.IsInRoom(inGame.FindRoom(transform.parent))) {
-          PlaySound(Sounds.droppableFallingSounds[inGame.GetTileMaterial(transform.position)]);
+          PlaySound(Sounds.droppableFallingSounds[gameObjectTag == "Interactable" ? "interactable" : inGame.GetTileMaterial(transform.position)]);
         }
 
         gameObject.layer = LayerMask.NameToLayer("Dropped");
