@@ -1191,6 +1191,9 @@ public class Hero : MonoBehaviour {
           } else if  (collider.tag == "Breakable") {
             // TODO: This will fail for barrels. Prepare falling sound for barrels
             PlaySound(Sounds.characterFallingSounds[collider.gameObject.GetComponent<Breakable>().type][Objects.equipmentBaseMaterial[bodyEquipment]]);
+          } else if (collider.tag == "Interactable") {
+            // TODO: for now, box sounds appear to work fine. If interactables made of non-wood material are implemented, consider changing this
+            PlaySound(Sounds.characterFallingSounds["box"]["boots"]);
           }
 
           isGrounded = true;
@@ -1212,7 +1215,7 @@ public class Hero : MonoBehaviour {
 
           weaponCollider.SetActive(false);
         } else {
-          horizontalCollision = objectCollided.tag == "Breakable" ? false : true;
+          horizontalCollision = objectCollided.tag == "Breakable" || objectCollided.tag == "Interactable" ? false : true;
 
           if (isBottomCollision(otherCollider, collider)) {
             horizontalCollision = false;
