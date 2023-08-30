@@ -1338,6 +1338,7 @@ public class Hero : MonoBehaviour {
           DropDefense();
         }
         if (isParrying) {
+          inGame.Block(weaponCollider.transform.position, !isFacingLeft);
           Clash();
           enemyScript.stunOnAttack = true;
         }
