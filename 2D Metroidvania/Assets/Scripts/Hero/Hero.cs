@@ -1215,7 +1215,7 @@ public class Hero : MonoBehaviour {
 
           weaponCollider.SetActive(false);
         } else {
-          horizontalCollision = objectCollided.tag == "Breakable" || objectCollided.tag == "Interactable" ? false : true;
+          horizontalCollision = Helpers.IsValueInArray(Constants.nonHorizontalCollidableObjects, objectCollided.tag) ? false : true;
 
           if (isBottomCollision(otherCollider, collider)) {
             horizontalCollision = false;
