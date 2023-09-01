@@ -61,6 +61,8 @@ public class RoomTrigger : MonoBehaviour {
           if (droppableInstance.room != null) {
             GameObject.Destroy(child.gameObject);
           }
+        } else if (child.name.Contains("ArrowBurn")) { // destroys arrow burns so they don't infinitely harm enemies when player exits and enters repeatedly
+          GameObject.Destroy(child.gameObject);
         }
       }
     }

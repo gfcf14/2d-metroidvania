@@ -547,6 +547,10 @@ public class Enemy : MonoBehaviour {
           // only instantiate the flame if the enemy is not set to die (hence, !isDying)
           if (!isDying) {
             GameObject arrowBurn = Instantiate(Objects.prefabs["arrow-burn"], new Vector2(transform.position.x, transform.position.y + arrowBurnPosition), Quaternion.identity);
+
+            // sets the parent room so that the flame can be found and deleted more easily on room exit
+            arrowBurn.transform.SetParent(transform.parent);
+
             ArrowBurn arrowBurnScript = arrowBurn.GetComponent<ArrowBurn>();
             arrowBurnScript.startTime = currentTime;
             arrowBurnScript.burnDimensions = Objects.enemyDimensions[key];
