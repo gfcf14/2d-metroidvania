@@ -546,7 +546,7 @@ public class Enemy : MonoBehaviour {
 
           // only instantiate the flame if the enemy is not set to die (hence, !isDying)
           if (!isDying) {
-            GameObject arrowBurn = Instantiate(Objects.prefabs["arrow-burn"], new Vector2(transform.position.x, transform.position.y + ((enemyHeight / 2) * arrowBurnPosition)), Quaternion.identity);
+            GameObject arrowBurn = Instantiate(Objects.prefabs["arrow-burn"], new Vector2(transform.position.x, transform.position.y + arrowBurnPosition), Quaternion.identity);
             ArrowBurn arrowBurnScript = arrowBurn.GetComponent<ArrowBurn>();
             arrowBurnScript.startTime = currentTime;
             arrowBurnScript.burnDimensions = Objects.enemyDimensions[key];
@@ -706,6 +706,10 @@ public class Enemy : MonoBehaviour {
 
   public bool ShouldMove() {
     return !isDead && !isDeadByBurning && !isDeadByPoison && !isBurning && !isStunned && !isThrowingWeapon && !isAttackingMelee && !isDefending && !isSummoning;
+  }
+
+  public bool WillDie() {
+    return isDead || isDeadByBurning || isDeadByPoison || isBurning;
   }
 
   public void OnGUI() {
