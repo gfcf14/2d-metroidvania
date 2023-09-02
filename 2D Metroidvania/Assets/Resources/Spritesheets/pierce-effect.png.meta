@@ -3,23 +3,23 @@ guid: df1c9165d89f144428a4b160d2759dbb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4470617243253176823
+      213: 4272774732834456783
+    second: pierce-effect_3
+  - first:
+      213: 624459976747241927
     second: pierce-effect_2
   - first:
-      213: 2490738150533950488
+      213: -4470617243253176823
     second: pierce-effect_1
   - first:
-      213: -8834322627192410772
-    second: pierce-effect_0
+      213: 2490738150533950488
+    second: pierce-effect_3
   - first:
-      213: 4915236799904527667
+      213: -695662980449117408
     second: pierce-effect_4
   - first:
-      213: 5164611174799002596
-    second: pierce-effect_5
-  - first:
-      213: -5646717054863012319
-    second: pierce-effect_3
+      213: 722952909390377043
+    second: pierce-effect_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -105,17 +105,71 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
+      name: pierce-effect_3
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 110
+        width: 140
+        height: 317
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc4ccdb3bf1fb4b30800000000000000
+      internalID: 4272774732834456783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: pierce-effect_2
       rect:
         serializedVersion: 2
-        x: 323
-        y: 136
-        width: 127
-        height: 265
+        x: 326
+        y: 131
+        width: 124
+        height: 275
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c1d7725a078aa800800000000000000
+      internalID: 624459976747241927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pierce-effect_1
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 156
+        width: 94
+        height: 225
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,13 +184,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pierce-effect_1
+      name: pierce-effect_0
       rect:
         serializedVersion: 2
-        x: 179
-        y: 156
-        width: 94
-        height: 226
+        x: 50
+        y: 182
+        width: 86
+        height: 173
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,34 +205,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pierce-effect_0
-      rect:
-        serializedVersion: 2
-        x: 49
-        y: 181
-        width: 87
-        height: 176
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c6d2007706e266580800000000000000
-      internalID: -8834322627192410772
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: pierce-effect_4
       rect:
         serializedVersion: 2
-        x: 721
-        y: 99
-        width: 142
-        height: 339
+        x: 723
+        y: 101
+        width: 140
+        height: 336
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,8 +219,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 335bc35d3dd663440800000000000000
-      internalID: 4915236799904527667
+      spriteID: 02bd0fe74328856f0800000000000000
+      internalID: -695662980449117408
       vertices: []
       indices: 
       edges: []
@@ -196,10 +229,10 @@ TextureImporter:
       name: pierce-effect_5
       rect:
         serializedVersion: 2
-        x: 945
-        y: 90
-        width: 152
-        height: 357
+        x: 949
+        y: 97
+        width: 150
+        height: 343
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -207,29 +240,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4eb48ec00826ca740800000000000000
-      internalID: 5164611174799002596
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pierce-effect_3
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 106
-        width: 138
-        height: 326
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 12e00c591c4d2a1b0800000000000000
-      internalID: -5646717054863012319
+      spriteID: 3507c8937d1780a00800000000000000
+      internalID: 722952909390377043
       vertices: []
       indices: 
       edges: []
