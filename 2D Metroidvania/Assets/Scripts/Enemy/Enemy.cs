@@ -653,6 +653,12 @@ public class Enemy : MonoBehaviour {
     isAttacking = false;
     isHitting = false;
     maxThrowCounter = 0;
+
+    // checks if a RigidBody2D component exists. If not, add it
+    Rigidbody2D currentBody = GetComponent<Rigidbody2D>();
+    if (currentBody == null) {
+      AddRigidBody();
+    }
   }
 
   void Destroy() {
@@ -726,5 +732,15 @@ public class Enemy : MonoBehaviour {
     //   string guiLabel = "Attacks received: " + attacksReceived + "\n";
     //   GUI.Label(new Rect(600, 0, 200, 400), guiLabel);
     // }
+  }
+
+  public void RemoveRigidBody() {
+    Destroy(GetComponent<Rigidbody2D>());
+  }
+
+  public void AddRigidBody() {
+    gameObject.AddComponent<Rigidbody2D>();
+    body = GetComponent<Rigidbody2D>();
+    body.constraints = RigidbodyConstraints2D.FreezeRotation;
   }
 }
