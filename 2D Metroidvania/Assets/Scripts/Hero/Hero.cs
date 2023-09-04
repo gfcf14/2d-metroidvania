@@ -600,6 +600,29 @@ public class Hero : MonoBehaviour {
           }
         }
 
+        // ground casts to detect if player is on a incline, descent, or level ground
+        float groundCastDistance = 0.05f;
+        int direction = isFacingLeft ? -1 : 1;
+        Vector2 forwardCastOrigin = new Vector2(transform.position.x + (((heroWidth / 2)) * direction), transform.position.y);
+        Vector2 downwardCastOrigin = new Vector2(transform.position.x - (((heroWidth / 2)) * direction), transform.position.y);
+
+        Vector2 hitForwardDirection = transform.TransformDirection(new Vector2(direction, -1));
+        Vector2 hitDownwardDirection = transform.TransformDirection(new Vector2(0, -1));
+        RaycastHit2D hitForward = Physics2D.Raycast(forwardCastOrigin, hitForwardDirection, groundCastDistance);
+        RaycastHit2D hitDownward = Physics2D.Raycast(downwardCastOrigin, hitDownwardDirection, groundCastDistance);
+
+        Debug.DrawRay(forwardCastOrigin, hitForwardDirection.normalized * groundCastDistance, new Color(0.5f, 0, 0.5f));
+        Debug.DrawRay(downwardCastOrigin, hitDownwardDirection.normalized * groundCastDistance, new Color(0.5f, 0, 0.5f));
+
+        if (hitForward.collider != null && hitDownward.collider == null) { // On an incline
+            Debug.Log("incline");
+        } else if (hitForward.collider == null && hitDownward.collider != null) { // On a descent
+            Debug.Log("descent");
+        } else { // On level ground
+            Debug.Log("level");
+        }
+
+
         // x axis movement
         if (!horizontalCollision && isHurt < 1) {
           if (!isDefending && !isParrying && !isClashing && isThrowing == 0) {
