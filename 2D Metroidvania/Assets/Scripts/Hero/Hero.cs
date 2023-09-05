@@ -10,7 +10,9 @@ public class Hero : MonoBehaviour {
   [System.NonSerialized] public string pauseCase = "";
   [SerializeField] public List<Consumable> consumables = new List<Consumable>();
   [SerializeField] public float speed;
-  [SerializeField] private float jumpHeight = 8f;
+  [SerializeField] public string groundType = "level";
+  [SerializeField] public float inclineSlope = 0.25f;
+  [SerializeField] public float jumpHeight = 8f;
   [SerializeField] private float jetpackHeight;
   [SerializeField] public GameObject infoCanvas;
   [SerializeField] public GameObject actionCanvas;
@@ -106,6 +108,8 @@ public class Hero : MonoBehaviour {
 
   private string userInput = "";
   private float timeoutTime = 0.0f;
+
+  private int direction = 1;
 
   public int weaponIndex = 0;
 
@@ -282,6 +286,27 @@ public class Hero : MonoBehaviour {
     UpdateStatsValues();
 
     next = Helpers.NextLevelEXP(playerLevel + 1);
+  }
+
+  public float GetGroundVerticalModifier(string groundType, float currentSpeed) {
+    if (!isGrounded) {
+      return body.velocity.y;
+    }
+
+    switch (groundType) {
+      case "level": {
+        return 0;
+      }
+      case "incline": {
+        return currentSpeed * inclineSlope;
+      }
+      case "descent": {
+        return currentSpeed; // * inclineSlope; // in theory the inclineSlope should be multiplied but it still makes the player float on descent
+      }
+      default: {
+        return 0;
+      }
+    }
   }
 
   // adds consumable only if it hasn't been consumed before
@@ -588,6 +613,7 @@ public class Hero : MonoBehaviour {
       }
 
       if (!isPaused && pauseCase == "") {
+        direction = isFacingLeft ? -1 : 1;
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
@@ -602,7 +628,6 @@ public class Hero : MonoBehaviour {
 
         // ground casts to detect if player is on a incline, descent, or level ground
         float groundCastDistance = 0.05f;
-        int direction = isFacingLeft ? -1 : 1;
         Vector2 forwardCastOrigin = new Vector2(transform.position.x + (((heroWidth / 2)) * direction), transform.position.y);
         Vector2 downwardCastOrigin = new Vector2(transform.position.x - (((heroWidth / 2)) * direction), transform.position.y);
 
@@ -615,11 +640,11 @@ public class Hero : MonoBehaviour {
         Debug.DrawRay(downwardCastOrigin, hitDownwardDirection.normalized * groundCastDistance, new Color(0.5f, 0, 0.5f));
 
         if (hitForward.collider != null && hitDownward.collider == null) { // On an incline
-            Debug.Log("incline");
+            groundType = "incline";
         } else if (hitForward.collider == null && hitDownward.collider != null) { // On a descent
-            Debug.Log("descent");
+            groundType = "descent";
         } else { // On level ground
-            Debug.Log("level");
+            groundType = "level";
         }
 
 
@@ -627,7 +652,7 @@ public class Hero : MonoBehaviour {
         if (!horizontalCollision && isHurt < 1) {
           if (!isDefending && !isParrying && !isClashing && isThrowing == 0) {
             // movement happens on this line
-            body.velocity = new Vector2(!isDropKicking ? horizontalInput * speed : 0, body.velocity.y);
+            body.velocity = new Vector2(!isDropKicking ? horizontalInput * speed : 0, GetGroundVerticalModifier(groundType, horizontalInput * speed));
           }
 
           // flip player back when moving right
@@ -758,11 +783,11 @@ public class Hero : MonoBehaviour {
         // }
 
         if (isDropKicking) {
-          body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.75));
+          body.velocity = new Vector2(body.velocity.x + (jumpHeight * direction), -(float)(jumpHeight * 0.75));
         }
 
         // if (isGliding) {
-        //   body.velocity = new Vector2(body.velocity.x + (jumpHeight * (isFacingLeft ? -1 : 1)), -(float)(jumpHeight * 0.25));
+        //   body.velocity = new Vector2(body.velocity.x + (jumpHeight * direction), -(float)(jumpHeight * 0.25));
         // }
 
         // if (jetpackHorizontal != "") {
@@ -895,7 +920,7 @@ public class Hero : MonoBehaviour {
         float xIncrement =  Constants.hurtCXTransitions[hurtCounter >= Constants.hurtCXTransitions.Length ? Constants.hurtCXTransitions.Length - 1 : hurtCounter];
         float yIncrement =  Constants.hurtCYTransitions[hurtCounter >= Constants.hurtCYTransitions.Length ? Constants.hurtCYTransitions.Length - 1 : hurtCounter];
 
-        transform.position = new Vector2(currentXPosition + (xIncrement * (isFacingLeft ? -1 : 1) * (hurtFromBehind ? -1 : 1)), currentYPosition + yIncrement);
+        transform.position = new Vector2(currentXPosition + (xIncrement * direction * (hurtFromBehind ? -1 : 1)), currentYPosition + yIncrement);
 
         hurtCounter++;
       }
@@ -1014,7 +1039,7 @@ public class Hero : MonoBehaviour {
   void StartThrow() {
     string throwableType = Helpers.GetPauseItemKeyByName(Objects.pauseItems[isThrowing == 1 ? arm1Equipment : arm2Equipment].name);
 
-    float throwableX = transform.position.x + ((isFacingLeft ? -1 : 1) * heroWidth * (throwableType == "axe" ? 0 : 1));
+    float throwableX = transform.position.x + (direction * heroWidth * (throwableType == "axe" ? 0 : 1));
     float throwableY = transform.position.y + (heroHeight * (throwableType == "axe" ? 0.5f : 0.75f));
 
     GameObject throwableWeapon = Instantiate(Objects.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
