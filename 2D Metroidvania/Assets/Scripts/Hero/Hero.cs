@@ -548,6 +548,12 @@ public class Hero : MonoBehaviour {
     bow.GetComponent<Bow>().PlaySound(projectileEquipment);
   }
 
+  public void GroundOnIncline() {
+    isJumping = false;
+    isFalling = false;
+    isGrounded = true;
+  }
+
   // called on every frame of the game
   private void Update() {
     if (!isAutonomous) {
@@ -647,6 +653,9 @@ public class Hero : MonoBehaviour {
             groundType = "level";
         }
 
+        if (isFalling && (hitDownward.collider != null || hitForward.collider != null)) {
+          GroundOnIncline();
+        }
 
         // x axis movement
         if (!horizontalCollision && isHurt < 1) {
