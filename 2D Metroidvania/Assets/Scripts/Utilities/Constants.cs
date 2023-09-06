@@ -67,6 +67,7 @@ public class Constants {
 
   // ensure that these tiles are updated if the dirt position in the detail tileset is updated
   public static int[] detailDirt = {150, 151, 158, 159};
+  public static int[] inclineMeadows = {163, 164, 165, 166, 168, 169, 170, 171};
 
   public static int arrowExplosionDamage = 50;
   public static int arrowPoisonDamage = 10;

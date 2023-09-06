@@ -377,4 +377,8 @@ public class Objects {
   public static Dictionary<string, string> throwableImpactType = new Dictionary<string, string> {
     {"king-bone", "blunt"}
   };
+
+  public static Dictionary<string, int[]> locationInclineTiles = new Dictionary<string, int[]> {
+    {"meadows", Constants.inclineMeadows}
+  };
 }

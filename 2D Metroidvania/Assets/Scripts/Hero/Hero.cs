@@ -90,7 +90,7 @@ public class Hero : MonoBehaviour {
 
   public bool horizontalCollision;
 
-  public int collisionCounter = 0;
+  public Vector2 heroDimensions = new Vector2(1.136886f, 2.290915f);
 
   public float horizontalInput = 0;
   public float verticalInput = 0;
@@ -554,6 +554,10 @@ public class Hero : MonoBehaviour {
     isGrounded = true;
   }
 
+  public bool IsOnIncline() {
+    return inGame.IsOnIncline(transform.position);
+  }
+
   // called on every frame of the game
   private void Update() {
     if (!isAutonomous) {
@@ -653,7 +657,8 @@ public class Hero : MonoBehaviour {
             groundType = "level";
         }
 
-        if (isFalling && (hitDownward.collider != null || hitForward.collider != null)) {
+        // ensures the player can fall on an incline/descent after jumping
+        if (IsOnIncline() && isFalling && (hitDownward.collider != null || hitForward.collider != null)) {
           GroundOnIncline();
         }
 
@@ -766,7 +771,10 @@ public class Hero : MonoBehaviour {
         }
 
         // if (!isGrounded && verticalSpeed < -1 && jetpackHorizontal == "") {
-        if (!isGrounded && verticalSpeed < -1) {
+
+        // ensures that if there is nothing colliding with the player and the vertical speed has changed to negative, that falling is triggered
+        Collider2D[] playerColliders = Physics2D.OverlapBoxAll(transform.position, heroDimensions, 0f);
+        if (playerColliders.Length <= 1 && verticalSpeed < 0) {
           Fall();
         }
 
@@ -1206,6 +1214,7 @@ public class Hero : MonoBehaviour {
     isJumping = true;
     // TESTING FOR PROGRAMMATIC PLAY
     // anim.Play("jumping-1", -1, 0f);
+    Debug.Log("started jumping");
     isGrounded = false;
   }
 
@@ -1280,10 +1289,6 @@ public class Hero : MonoBehaviour {
           }
         }
       }
-    }
-
-    if (objectCollided.tag != "Item") {
-      collisionCounter++;
     }
   }
 
@@ -1467,17 +1472,6 @@ public class Hero : MonoBehaviour {
     int c2LeftEdge = (int) collider2.bounds.min.x;
 
     return (c1RightEdge == c2LeftEdge) || (c1LeftEdge == c2RightEdge);
-  }
-
-  private void OnCollisionExit2D(Collision2D collision) {
-    if (collision.gameObject.tag != "Item") {
-      collisionCounter--;
-    }
-
-    if (collisionCounter == 0) {
-      isGrounded = false;
-      DropDefense();
-    }
   }
 
   public void CheckLevel() {

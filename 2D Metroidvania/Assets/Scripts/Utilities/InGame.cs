@@ -64,6 +64,22 @@ public class InGame : MonoBehaviour {
     }
   }
 
+  public bool IsOnIncline(Vector3 objectPosition) {
+    Vector3Int groundTileCoordinates = groundTiles.WorldToCell(objectPosition);
+    Vector3Int groundTileBelowCoordinates = groundTileCoordinates + new Vector3Int(0, -1, 0);
+    TileBase groundTileBelowPlayer = groundTiles.GetTile(groundTileBelowCoordinates);
+
+    if (groundTileBelowPlayer != null) {
+      string[] tileInfo = groundTileBelowPlayer.name.Split('_');
+      string tileMaterial = tileInfo[0].Split('-')[1];
+      int tileIndex = int.Parse(tileInfo[1]);
+
+      return Helpers.IsValueInArray(Objects.locationInclineTiles[tileMaterial], tileIndex);
+    }
+
+    return false;
+  }
+
   public bool IsInRoom(string roomName) {
     return roomName == hero.currentRoom.name;
   }
