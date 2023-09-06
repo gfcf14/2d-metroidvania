@@ -512,6 +512,11 @@ public class Hero : MonoBehaviour {
   public void PlayRunningSound() {
     string materialRunningOn = inGame.GetTileMaterial(transform.position);
 
+    // if there is no tile material, falling sound will be assumed from location
+    if (materialRunningOn == null) {
+      materialRunningOn = Helpers.GetMaterial(location);
+    }
+
     if (materialRunningOn != null) {
       AudioClip[] materialClips = Sounds.runningSounds[materialRunningOn][Objects.equipmentBaseMaterial[bodyEquipment]];
       PlaySound(materialClips[UnityEngine.Random.Range(0, materialClips.Length)]);
@@ -548,10 +553,28 @@ public class Hero : MonoBehaviour {
     bow.GetComponent<Bow>().PlaySound(projectileEquipment);
   }
 
+  public void PerformGroundFall() {
+    // when falling, y position may need to be adjusted by 0.1f to avoid null tile recognition
+    string tileMaterial = inGame.GetTileMaterial(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z));
+
+    // if there is no tile material, falling sound will be assumed from location
+    if (tileMaterial == null) {
+      tileMaterial = Helpers.GetMaterial(location);
+    }
+
+    PlayFallingSound(tileMaterial, Objects.equipmentBaseMaterial[bodyEquipment]);
+  }
+
+  public void PlayFallingSound(string fallen, string fallingOn) {
+    PlaySound(Sounds.characterFallingSounds[fallen][fallingOn]);
+  }
+
   public void GroundOnIncline() {
     isJumping = false;
     isFalling = false;
+    Debug.Log("on incline");
     isGrounded = true;
+    PerformGroundFall();
   }
 
   public bool IsOnIncline() {
@@ -1214,7 +1237,6 @@ public class Hero : MonoBehaviour {
     isJumping = true;
     // TESTING FOR PROGRAMMATIC PLAY
     // anim.Play("jumping-1", -1, 0f);
-    Debug.Log("started jumping");
     isGrounded = false;
   }
 
@@ -1252,16 +1274,16 @@ public class Hero : MonoBehaviour {
       if (otherCollider.tag == "Hero") {
         if (!isHorizontalCollision(otherCollider, collider)) {
           if (collider.tag == "Ground" && isFalling) {
-            // when falling, y position may need to be adjusted by 0.1f to avoid null tile recognition
-            PlaySound(Sounds.characterFallingSounds[inGame.GetTileMaterial(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z))][Objects.equipmentBaseMaterial[bodyEquipment]]);
+            PerformGroundFall();
           } else if  (collider.tag == "Breakable") {
             // TODO: This will fail for barrels. Prepare falling sound for barrels
-            PlaySound(Sounds.characterFallingSounds[collider.gameObject.GetComponent<Breakable>().type][Objects.equipmentBaseMaterial[bodyEquipment]]);
+            PlayFallingSound(collider.gameObject.GetComponent<Breakable>().type, Objects.equipmentBaseMaterial[bodyEquipment]);
           } else if (collider.tag == "Interactable") {
             // TODO: for now, box sounds appear to work fine. If interactables made of non-wood material are implemented, consider changing this
-            PlaySound(Sounds.characterFallingSounds["box"]["boots"]);
+            PlayFallingSound("box", "boots");
           }
 
+          Debug.Log("on collision");
           isGrounded = true;
           isFalling = false;
           isJumping = false;

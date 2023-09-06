@@ -265,4 +265,16 @@ public class Helpers {
 
     return textDisplayWidth;
   }
+
+  public static string GetMaterial(string material, string tileName = null) {
+    switch (material) {
+      case "meadows":
+        return "grass";
+      default:
+        if (tileName != null) {
+          Debug.Log("Material (" + material + ") not accounted for, using tile " + tileName);
+        }
+        return null;
+    }
+  }
 }

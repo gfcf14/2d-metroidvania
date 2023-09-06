@@ -29,16 +29,14 @@ public class InGame : MonoBehaviour {
   }
 
   public string GetGroundMaterial(string tileName) {
+    if (tileName == "" || tileName == null) {
+      return null;
+    }
+
     // gets the material given that tilebase name convension is "tiles-material_number"
     string material = tileName.Split('_')[0].Split('-')[1];
 
-    switch (material) {
-      case "meadows":
-        return "grass";
-      default:
-        Debug.Log("Material (" + material + ") not accounted for, using tile " + tileName);
-        return null;
-    }
+    return Helpers.GetMaterial(material, tileName);
   }
 
   public string GetTileMaterial(Vector3 objectPosition) {
@@ -60,7 +58,7 @@ public class InGame : MonoBehaviour {
         return GetGroundMaterial(groundTileBelowPlayer.name);
       }
     } else {
-      return GetGroundMaterial(groundTileBelowPlayer.name);
+      return GetGroundMaterial(groundTileBelowPlayer == null ? "" : groundTileBelowPlayer.name);
     }
   }
 
