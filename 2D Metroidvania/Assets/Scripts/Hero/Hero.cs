@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -672,6 +673,9 @@ public class Hero : MonoBehaviour {
         Debug.DrawRay(downwardCastOrigin, hitDownwardDirection.normalized * groundCastDistance, new Color(0.5f, 0, 0.5f));
 
         string tileMaterial = inGame.GetTileMaterial(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z));
+
+        // checks for tile name and debugs its position
+        inGame.GetTileName(transform.position);
 
         // ensure groundType only changes if tileMaterial is null, i.e. when going up/down an incline/descent
         if (tileMaterial == null) {

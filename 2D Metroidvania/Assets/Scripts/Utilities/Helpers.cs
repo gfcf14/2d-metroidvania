@@ -270,11 +270,22 @@ public class Helpers {
     switch (material) {
       case "meadows":
         return "grass";
+      case "details":
+        return "";
       default:
         if (tileName != null) {
           Debug.Log("Material (" + material + ") not accounted for, using tile " + tileName);
         }
         return null;
     }
+  }
+
+  // gets tile index based on name passed
+  public static int GetTileIndex(string tileName = null) {
+    if (tileName == null) {
+      return -1;
+    }
+
+    return int.Parse(tileName.Split('_')[1]);
   }
 }

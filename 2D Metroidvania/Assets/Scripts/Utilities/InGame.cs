@@ -39,6 +39,30 @@ public class InGame : MonoBehaviour {
     return Helpers.GetMaterial(material, tileName);
   }
 
+  public string GetTileName(Vector3 objectPosition) {
+    Vector3Int groundTileCoordinates = groundTiles.WorldToCell(objectPosition);
+    Vector3 tileCenter = groundTiles.GetCellCenterWorld(groundTileCoordinates);
+    Vector3 tileHalfSize = groundTiles.cellSize / 2;
+    Vector3Int groundTileBelowCoordinates = groundTileCoordinates;
+    TileBase groundTileBelowPlayer = groundTiles.GetTile(groundTileBelowCoordinates);
+
+    // if not found, get the tile below
+    if (groundTileBelowPlayer == null) {
+      groundTileCoordinates = groundTileCoordinates + new Vector3Int(0, -1, 0);
+      tileCenter = groundTiles.GetCellCenterWorld(groundTileCoordinates);
+      groundTileBelowCoordinates = groundTileCoordinates;
+      groundTileBelowPlayer = groundTiles.GetTile(groundTileBelowCoordinates);
+    }
+
+    // Draw lines around the boundaries of the selected tile
+    Debug.DrawLine(tileCenter + new Vector3(-tileHalfSize.x, -tileHalfSize.y), tileCenter + new Vector3(tileHalfSize.x, -tileHalfSize.y), Color.red);
+    Debug.DrawLine(tileCenter + new Vector3(tileHalfSize.x, -tileHalfSize.y), tileCenter + new Vector3(tileHalfSize.x, tileHalfSize.y), Color.red);
+    Debug.DrawLine(tileCenter + new Vector3(tileHalfSize.x, tileHalfSize.y), tileCenter + new Vector3(-tileHalfSize.x, tileHalfSize.y), Color.red);
+    Debug.DrawLine(tileCenter + new Vector3(-tileHalfSize.x, tileHalfSize.y), tileCenter + new Vector3(-tileHalfSize.x, -tileHalfSize.y), Color.red);
+
+    return groundTileBelowPlayer ? groundTileBelowPlayer.name : "";
+  }
+
   public string GetTileMaterial(Vector3 objectPosition) {
     Vector3Int groundTileCoordinates = groundTiles.WorldToCell(objectPosition);
     Vector3Int groundTileBelowCoordinates = groundTileCoordinates + new Vector3Int(0, -1, 0);
