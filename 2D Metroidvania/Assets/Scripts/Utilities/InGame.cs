@@ -55,7 +55,7 @@ public class InGame : MonoBehaviour {
       if (Helpers.IsValueInArray(Constants.detailDirt, detailTileIndex)) {
         return "dirt";
       } else {
-        return GetGroundMaterial(groundTileBelowPlayer.name);
+        return GetGroundMaterial(groundTileBelowPlayer == null ? "" : groundTileBelowPlayer.name);
       }
     } else {
       return GetGroundMaterial(groundTileBelowPlayer == null ? "" : groundTileBelowPlayer.name);

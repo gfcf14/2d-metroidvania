@@ -671,12 +671,19 @@ public class Hero : MonoBehaviour {
         Debug.DrawRay(forwardCastOrigin, hitForwardDirection.normalized * groundCastDistance, new Color(0.5f, 0, 0.5f));
         Debug.DrawRay(downwardCastOrigin, hitDownwardDirection.normalized * groundCastDistance, new Color(0.5f, 0, 0.5f));
 
-        if (hitForward.collider != null && hitDownward.collider == null) { // On an incline
-            groundType = "incline";
-        } else if (hitForward.collider == null && hitDownward.collider != null) { // On a descent
-            groundType = "descent";
-        } else { // On level ground
-            groundType = "level";
+        string tileMaterial = inGame.GetTileMaterial(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z));
+
+        // ensure groundType only changes if tileMaterial is null, i.e. when going up/down an incline/descent
+        if (tileMaterial == null) {
+          if (hitForward.collider != null && hitDownward.collider == null) { // On an incline
+              groundType = "incline";
+          } else if (hitForward.collider == null && hitDownward.collider != null) { // On a descent
+              groundType = "descent";
+          } else { // On level ground
+              groundType = "level";
+          }
+        } else {
+          groundType = "level";
         }
 
         // ensures the player can fall on an incline/descent after jumping
