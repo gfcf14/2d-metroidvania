@@ -572,7 +572,6 @@ public class Hero : MonoBehaviour {
   public void GroundOnIncline() {
     isJumping = false;
     isFalling = false;
-    Debug.Log("on incline");
     isGrounded = true;
     PerformGroundFall();
   }
@@ -795,11 +794,19 @@ public class Hero : MonoBehaviour {
 
         // if (!isGrounded && verticalSpeed < -1 && jetpackHorizontal == "") {
 
-        // ensures that if there is nothing colliding with the player and the vertical speed has changed to negative, that falling is triggered
-        Collider2D[] playerColliders = Physics2D.OverlapBoxAll(transform.position, heroDimensions, 0f);
-        if (playerColliders.Length <= 1 && verticalSpeed < 0) {
-          Fall();
-        }
+        // PLAYER FALLING ALGORITHM: checks if player collides with anything. If not, player should fall
+          // draws the collider based on the pivot plus half player height up so it is a rectangle which north and south sides start at the head and end at the feet, respectively
+          Vector2 playerColliderPosition = new Vector2(transform.position.x, transform.position.y + heroHeight / 2);
+          Collider2D[] playerColliders = Physics2D.OverlapBoxAll(playerColliderPosition, heroDimensions, 0f);
+          // draws this to be visible on Scene mode (or with gizmos) to check how it can change and affect falling strategy
+          inGame.DrawRectangle(playerColliderPosition, heroDimensions);
+
+          // if only the player collider is found, nothing else was found and player should fall
+          if (playerColliders.Length <= 1 && verticalSpeed < 0) {
+            Fall();
+          }
+        // end of PLAYER FALLING ALGORITHM
+
 
         // if (Input.GetKey(KeyCode.Keypad4) && currentWeapon == "projectile-auto") {
         //   isShootingAuto = true;
@@ -1283,7 +1290,6 @@ public class Hero : MonoBehaviour {
             PlayFallingSound("box", "boots");
           }
 
-          Debug.Log("on collision");
           isGrounded = true;
           isFalling = false;
           isJumping = false;
