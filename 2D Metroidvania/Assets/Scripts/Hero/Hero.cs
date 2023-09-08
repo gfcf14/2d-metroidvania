@@ -294,20 +294,21 @@ public class Hero : MonoBehaviour {
       return body.velocity.y;
     }
 
-    switch (groundType) {
-      case "level": {
-        return 0;
-      }
-      case "incline": {
-        return currentSpeed * inclineSlope;
-      }
-      case "descent": {
-        return currentSpeed; // * inclineSlope; // in theory the inclineSlope should be multiplied but it still makes the player float on descent
-      }
-      default: {
-        return 0;
-      }
+    if (groundType == "level") {
+      return 0;
     }
+
+    if (groundType == "incline" && !isFacingLeft) { // going up left to right
+      return currentSpeed * inclineSlope;
+    } else if (groundType == "descent" && isFacingLeft) { // going up right to left
+      return -currentSpeed * inclineSlope;
+    } else if (groundType == "incline" && isFacingLeft) { // going down right to left
+      return currentSpeed * (1 + inclineSlope);
+    } else if (groundType == "descent" && !isFacingLeft) { // going down left to right
+      return -currentSpeed * (1 + inclineSlope);
+    }
+
+    return 0;
   }
 
   // adds consumable only if it hasn't been consumed before
@@ -578,7 +579,7 @@ public class Hero : MonoBehaviour {
   }
 
   public bool IsOnIncline() {
-    return inGame.IsOnIncline(transform.position);
+    return groundType != "level";
   }
 
   // called on every frame of the game
@@ -659,41 +660,8 @@ public class Hero : MonoBehaviour {
           }
         }
 
-        // ground casts to detect if player is on a incline, descent, or level ground
-        float groundCastDistance = 0.05f;
-        Vector2 forwardCastOrigin = new Vector2(transform.position.x + (((heroWidth / 2)) * direction), transform.position.y);
-        Vector2 downwardCastOrigin = new Vector2(transform.position.x - (((heroWidth / 2)) * direction), transform.position.y);
-
-        Vector2 hitForwardDirection = transform.TransformDirection(new Vector2(direction, -1));
-        Vector2 hitDownwardDirection = transform.TransformDirection(new Vector2(0, -1));
-        RaycastHit2D hitForward = Physics2D.Raycast(forwardCastOrigin, hitForwardDirection, groundCastDistance);
-        RaycastHit2D hitDownward = Physics2D.Raycast(downwardCastOrigin, hitDownwardDirection, groundCastDistance);
-
-        Debug.DrawRay(forwardCastOrigin, hitForwardDirection.normalized * groundCastDistance, new Color(0.5f, 0, 0.5f));
-        Debug.DrawRay(downwardCastOrigin, hitDownwardDirection.normalized * groundCastDistance, new Color(0.5f, 0, 0.5f));
-
-        string tileMaterial = inGame.GetTileMaterial(new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z));
-
         // checks for tile name and debugs its position
         inGame.GetTileName(transform.position);
-
-        // ensure groundType only changes if tileMaterial is null, i.e. when going up/down an incline/descent
-        if (IsOnIncline()) {
-          if (hitForward.collider != null && hitDownward.collider == null) { // On an incline
-              groundType = "incline";
-          } else if (hitForward.collider == null && hitDownward.collider != null) { // On a descent
-              groundType = "descent";
-          } else { // On level ground
-              groundType = "level";
-          }
-        } else {
-          groundType = "level";
-        }
-
-        // ensures the player can fall on an incline/descent after jumping
-        if (IsOnIncline() && isFalling && (hitDownward.collider != null || hitForward.collider != null)) {
-          GroundOnIncline();
-        }
 
         // x axis movement
         if (!horizontalCollision && isHurt < 1) {
@@ -815,7 +783,7 @@ public class Hero : MonoBehaviour {
           int colliderCount = playerColliders.Count(col => !col.isTrigger);
 
           // if only the player collider is found, nothing else was found and player should fall
-          if (colliderCount <= 1 && verticalSpeed < 0) {
+          if (!IsOnIncline() && colliderCount <= 1 && verticalSpeed < 0) {
             Fall();
           }
         // end of PLAYER FALLING ALGORITHM
@@ -1285,6 +1253,18 @@ public class Hero : MonoBehaviour {
     weaponCollider.SetActive(true);
   }
 
+  private void OnTriggerEnter2D(Collider2D col) {
+    if (col.gameObject.tag == "Incline") {
+      groundType = col.gameObject.GetComponent<Incline>().inclineFromRight;
+    }
+  }
+
+  private void OnTriggerExit2D(Collider2D col) {
+    if (col.gameObject.tag == "Incline") {
+      groundType = "level";
+    }
+  }
+
   private void OnCollisionEnter2D(Collision2D col) {
     Collider2D collider = col.collider;
     Collider2D otherCollider = col.otherCollider;
@@ -1330,6 +1310,10 @@ public class Hero : MonoBehaviour {
           }
         }
       }
+    }
+
+    if (IsOnIncline() && isFalling) {
+      GroundOnIncline();
     }
   }
 
