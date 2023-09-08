@@ -678,7 +678,7 @@ public class Hero : MonoBehaviour {
         inGame.GetTileName(transform.position);
 
         // ensure groundType only changes if tileMaterial is null, i.e. when going up/down an incline/descent
-        if (tileMaterial == null) {
+        if (IsOnIncline()) {
           if (hitForward.collider != null && hitDownward.collider == null) { // On an incline
               groundType = "incline";
           } else if (hitForward.collider == null && hitDownward.collider != null) { // On a descent
