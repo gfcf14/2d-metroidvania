@@ -29,7 +29,7 @@ public class ActionCanvas : MonoBehaviour {
     }
 
     if (textWidth < maxTextWidth) {
-      textWidth += 2;
+      textWidth += 4;
       if (textWidth > maxTextWidth) {
         textWidth = maxTextWidth;
       }
