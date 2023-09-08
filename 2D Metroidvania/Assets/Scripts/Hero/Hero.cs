@@ -811,9 +811,11 @@ public class Hero : MonoBehaviour {
           Collider2D[] playerColliders = Physics2D.OverlapBoxAll(playerColliderPosition, heroDimensions, 0f);
           // draws this to be visible on Scene mode (or with gizmos) to check how it can change and affect falling strategy
           inGame.DrawRectangle(playerColliderPosition, heroDimensions);
+          // gets all non-trigger collider count from the intersecting ones
+          int colliderCount = playerColliders.Count(col => !col.isTrigger);
 
           // if only the player collider is found, nothing else was found and player should fall
-          if (playerColliders.Length <= 1 && verticalSpeed < 0) {
+          if (colliderCount <= 1 && verticalSpeed < 0) {
             Fall();
           }
         // end of PLAYER FALLING ALGORITHM
