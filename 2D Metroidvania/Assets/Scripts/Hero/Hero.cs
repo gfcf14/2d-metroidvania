@@ -783,7 +783,8 @@ public class Hero : MonoBehaviour {
           int colliderCount = playerColliders.Count(col => !col.isTrigger);
 
           // if only the player collider is found, nothing else was found and player should fall
-          if (!IsOnIncline() && colliderCount <= 1 && verticalSpeed < 0) {
+          // TODO: check if other attack types cause the player to lift off the ground, even but slightly, and add them here
+          if (!IsOnIncline() && !isAttackingHeavy && colliderCount <= 1 && verticalSpeed < 0) {
             Fall();
           }
         // end of PLAYER FALLING ALGORITHM
