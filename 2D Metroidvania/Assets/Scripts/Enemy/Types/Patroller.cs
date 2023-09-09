@@ -8,7 +8,7 @@ public class Patroller : MonoBehaviour {
 
   // Raycast properties
     public float forwardCastLength = 2f;
-    public float proximityCastLength = 0.5f;
+    public float playerCastLength = 0.5f;
 
   void Start() {
     enemy = GetComponent<Enemy>();
@@ -35,7 +35,7 @@ public class Patroller : MonoBehaviour {
               Vector2 edgeCastDirection = transform.TransformDirection(new Vector2(direction * 2, -1));
 
               RaycastHit2D edgeCast = Physics2D.Raycast(beginEdgeCast, edgeCastDirection, enemy.edgeCastLength);
-              Debug.DrawRay(beginEdgeCast, edgeCastDirection.normalized * enemy.edgeCastLength, Color.green);
+              Debug.DrawRay(beginEdgeCast, edgeCastDirection.normalized * enemy.edgeCastLength, Colors.raycastColors["edge"]);
 
               if (edgeCast.collider && edgeCast.collider.name == "EnemyFlipper") {
                 enemy.isFacingLeft = !enemy.isFacingLeft;
@@ -50,21 +50,21 @@ public class Patroller : MonoBehaviour {
 
             // FOUND PLAYER
               if (!enemy.playerFound) {
-                RaycastHit2D forwardCast = Physics2D.Raycast(beginForwardCast, forwardCastDirection, forwardCastLength);
-                Debug.DrawRay(beginForwardCast, forwardCastDirection.normalized * forwardCastLength, Color.red);
+                RaycastHit2D searchCast = Physics2D.Raycast(beginForwardCast, forwardCastDirection, forwardCastLength);
+                Debug.DrawRay(beginForwardCast, forwardCastDirection.normalized * forwardCastLength, Colors.raycastColors["search"]);
 
                 // PLAYER NEARBY
-                if (forwardCast && forwardCast.collider.tag == "Hero") {
+                if (searchCast && searchCast.collider.tag == "Hero") {
                   enemy.playerFound = true;
                 }
               } else {
                 Vector2 beginProximityCast = new Vector2(transform.position.x + ((enemy.enemyWidth * enemy.reach) * direction * 2), transform.position.y + enemy.enemyHeight / 2);
 
-                RaycastHit2D proximityCast = Physics2D.Raycast(beginProximityCast, forwardCastDirection, proximityCastLength);
-                Debug.DrawRay(beginProximityCast, forwardCastDirection.normalized * proximityCastLength, new Color(1, 1, 0));
+                RaycastHit2D playerCast = Physics2D.Raycast(beginProximityCast, forwardCastDirection, playerCastLength);
+                Debug.DrawRay(beginProximityCast, forwardCastDirection.normalized * playerCastLength, Colors.raycastColors["player"]);
 
                 // ATTACK
-                  if (proximityCast && proximityCast.collider.tag == "Hero") {
+                  if (playerCast && playerCast.collider.tag == "Hero") {
                     enemy.isAttacking = true;
                     enemy.body.velocity = Vector2.zero;
                   }

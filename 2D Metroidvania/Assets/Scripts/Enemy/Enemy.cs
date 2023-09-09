@@ -236,11 +236,11 @@ public class Enemy : MonoBehaviour {
       if ((gameObject.name == "Boss" && isOnCamera) || gameObject.name != "Boss") {
         // DEFENSE CAST
         int direction = isFacingLeft ? -1 : 1;
-        Vector2 defenseCast = new Vector2(transform.position.x + ((enemyWidth / 2) * reach * direction), transform.position.y + enemyHeight / 2 + 0.005f);
+        Vector2 defenseCast = new Vector2(transform.position.x + ((enemyWidth / 2) * reach * direction), transform.position.y + enemyHeight / 2 + 0.05f);
         Vector2 defenseCastDirection = transform.TransformDirection(new Vector2(1 * (direction), 0));
 
         RaycastHit2D defenseRayCast = Physics2D.Raycast(defenseCast, defenseCastDirection, reach * 2);
-        Debug.DrawRay(defenseCast, defenseCastDirection.normalized * (reach * 2), Color.blue);
+        Debug.DrawRay(defenseCast, defenseCastDirection.normalized * (reach * 2), Colors.raycastColors["defense"]);
 
         if (defenseRayCast && defenseRayCast.collider.tag == "Weapon") {
           if (level - hero.playerLevel >= 10) {

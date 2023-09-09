@@ -64,4 +64,11 @@ public class Colors {
   public static Dictionary<string, Color> heroCastColors = new Dictionary<string, Color> {
     {"chat", new Color(0, 90f/255f, 43f/255f)}
   };
+
+  public static Dictionary<string, Color> raycastColors = new Dictionary<string, Color> {
+    {"defense", new Color(0, 0, 192f/255f, 1)},
+    {"edge", new Color(0, 0, 0, 1)},
+    {"player", new Color(1, 0.5f, 0, 1)},
+    {"search", new Color(0.5f, 0.5f, 0.5f, 1)}
+  };
 }
