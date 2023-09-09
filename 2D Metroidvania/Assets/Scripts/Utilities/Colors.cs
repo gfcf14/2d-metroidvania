@@ -69,6 +69,9 @@ public class Colors {
     {"defense", new Color(0, 0, 192f/255f, 1)},
     {"edge", new Color(0, 0, 0, 1)},
     {"player", new Color(1, 0.5f, 0, 1)},
-    {"search", new Color(0.5f, 0.5f, 0.5f, 1)}
+    {"search", new Color(0.5f, 0.5f, 0.5f, 1)},
+    {"vx", new Color(0, 0, 1, 1)},
+    {"vy", new Color(1, 0, 0, 1)},
+    {"vxy", new Color(1, 0, 1, 1)}
   };
 }

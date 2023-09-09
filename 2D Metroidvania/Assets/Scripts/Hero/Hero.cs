@@ -303,9 +303,9 @@ public class Hero : MonoBehaviour {
     } else if (groundType == "descent" && isFacingLeft) { // going up right to left
       return -currentSpeed * inclineSlope;
     } else if (groundType == "incline" && isFacingLeft) { // going down right to left
-      return currentSpeed * (1 + inclineSlope);
+      return currentSpeed * (0 + inclineSlope);
     } else if (groundType == "descent" && !isFacingLeft) { // going down left to right
-      return -currentSpeed * (1 + inclineSlope);
+      return -currentSpeed * (0 + inclineSlope);
     }
 
     return 0;
@@ -584,6 +584,35 @@ public class Hero : MonoBehaviour {
 
   // called on every frame of the game
   private void Update() {
+    // draws the speeds used by the player to attempt to understand the direction taken on movement
+      // x velocity
+      Debug.DrawRay(new Vector2(transform.position.x, transform.position.y + 0.01f), Vector2.right * body.velocity.x, Colors.raycastColors["vx"]);
+
+      // y velocity
+      Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 0.01f), Vector2.up * body.velocity.y, Colors.raycastColors["vy"]);
+
+      // overall speed direction
+      Debug.DrawRay(transform.position, body.velocity, Colors.raycastColors["vxy"]);
+
+    // // PLAYER FALLING ALGORITHM: checks if player collides with anything. If not, player should fall
+    //   // draws the collider based on the pivot plus half player height up so it is a rectangle which north and south sides start at the head and end at the feet, respectively
+    //   Vector2 playerColliderPosition = new Vector2(transform.position.x, transform.position.y + heroHeight / 2);
+    //   Collider2D[] playerColliders = Physics2D.OverlapBoxAll(playerColliderPosition, heroDimensions, 0f);
+    //   // draws this to be visible on Scene mode (or with gizmos) to check how it can change and affect falling strategy
+    //   inGame.DrawRectangle(playerColliderPosition, heroDimensions);
+    //   // gets all non-trigger collider count from the intersecting ones
+    //   int colliderCount = playerColliders.Count(col => !col.isTrigger);
+
+    //   // if only the player collider is found, nothing else was found and player should fall
+    //   // TODO: check if other attack types cause the player to lift off the ground, even but slightly, and add them here
+    //   if (!IsOnIncline() && !isAttackingHeavy && colliderCount <= 1 && verticalSpeed < 0) {
+    //     Fall();
+    //   }
+    // // end of PLAYER FALLING ALGORITHM
+
+    // // checks for tile name and debugs its position
+    //     inGame.GetTileName(transform.position);
+
     if (!isAutonomous) {
       // TODO: remove key combinations as they will not be used to favor two keys pressed
       foreach (KeyCode currentKey in System.Enum.GetValues(typeof(KeyCode))) {
@@ -659,9 +688,6 @@ public class Hero : MonoBehaviour {
             shieldDropTime = 0;
           }
         }
-
-        // checks for tile name and debugs its position
-        inGame.GetTileName(transform.position);
 
         // x axis movement
         if (!horizontalCollision && isHurt < 1) {
@@ -772,22 +798,6 @@ public class Hero : MonoBehaviour {
         }
 
         // if (!isGrounded && verticalSpeed < -1 && jetpackHorizontal == "") {
-
-        // PLAYER FALLING ALGORITHM: checks if player collides with anything. If not, player should fall
-          // draws the collider based on the pivot plus half player height up so it is a rectangle which north and south sides start at the head and end at the feet, respectively
-          Vector2 playerColliderPosition = new Vector2(transform.position.x, transform.position.y + heroHeight / 2);
-          Collider2D[] playerColliders = Physics2D.OverlapBoxAll(playerColliderPosition, heroDimensions, 0f);
-          // draws this to be visible on Scene mode (or with gizmos) to check how it can change and affect falling strategy
-          inGame.DrawRectangle(playerColliderPosition, heroDimensions);
-          // gets all non-trigger collider count from the intersecting ones
-          int colliderCount = playerColliders.Count(col => !col.isTrigger);
-
-          // if only the player collider is found, nothing else was found and player should fall
-          // TODO: check if other attack types cause the player to lift off the ground, even but slightly, and add them here
-          if (!IsOnIncline() && !isAttackingHeavy && colliderCount <= 1 && verticalSpeed < 0) {
-            Fall();
-          }
-        // end of PLAYER FALLING ALGORITHM
 
 
         // if (Input.GetKey(KeyCode.Keypad4) && currentWeapon == "projectile-auto") {
