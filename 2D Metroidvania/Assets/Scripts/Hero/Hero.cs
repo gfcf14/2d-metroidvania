@@ -303,9 +303,9 @@ public class Hero : MonoBehaviour {
     } else if (groundType == "descent" && isFacingLeft) { // going up right to left
       return -currentSpeed * inclineSlope;
     } else if (groundType == "incline" && isFacingLeft) { // going down right to left
-      return currentSpeed * (0 + inclineSlope);
+      return currentSpeed * inclineSlope;
     } else if (groundType == "descent" && !isFacingLeft) { // going down left to right
-      return -currentSpeed * (0 + inclineSlope);
+      return -currentSpeed * inclineSlope;
     }
 
     return 0;
