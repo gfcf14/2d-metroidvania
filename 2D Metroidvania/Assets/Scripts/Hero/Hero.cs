@@ -1075,6 +1075,31 @@ public class Hero : MonoBehaviour {
     }
   }
 
+  void ConsumeThrowable(string key) {
+    Item throwableUsed = items.FirstOrDefault(currItem => currItem.key == key);
+    if (throwableUsed.amount == 1) {
+      items.Remove(throwableUsed);
+
+      // removes item from the equipment
+      PauseItem throwableItem = Objects.pauseItems[key];
+      if (throwableItem.type == "throwable-double") {
+        arm1Equipment = "";
+        arm2Equipment = "";
+      } else {
+        if (isThrowing == 1) {
+          arm1Equipment = "";
+        } else {
+          arm2Equipment = "";
+        }
+      }
+
+      //recalculates stats after item removal
+      UpdateStatsValues();
+    } else {
+      throwableUsed.amount--;
+    }
+  }
+
   void StartThrow() {
     string throwableType = Helpers.GetPauseItemKeyByName(Objects.pauseItems[isThrowing == 1 ? arm1Equipment : arm2Equipment].name);
 
@@ -1086,6 +1111,7 @@ public class Hero : MonoBehaviour {
 
     throwableInstance.isFacingLeft = isFacingLeft;
     throwableInstance.type = throwableType;
+    ConsumeThrowable(throwableType);
   }
 
   public void Recover() {
