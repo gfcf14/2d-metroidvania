@@ -732,7 +732,15 @@ public class Pause : MonoBehaviour {
       PauseItem otherArmEquipment = heroScript.equipmentArray[1] != "" ? Objects.pauseItems[heroScript.equipmentArray[1]] : null;
       PauseItem equippedSelected = (currentlyEquippedIndex == 2 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
 
-      int newEquippedATK1 = (selectedEquipment.effects.atk ?? 0) + (heroScript.equippedATK1 - ((equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0) + (Hero.projectileEquipment != "" ? Objects.pauseItems[Hero.projectileEquipment].effects.atk ?? 0 : 0)));
+      // gets the attack of the selected equipment (unless user is equipping the other hand with a single and currently carries a double),
+      int newEquippedATK1 = (currentlyEquippedIndex == 2 && !isEquippingDouble && equippedIsDouble ? 0 : (selectedEquipment.effects.atk ?? 0)) +
+        (heroScript.equippedATK1 - ( // plus whatever is currently equipped
+          (equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0) + // minus the item that is currently equipped
+            (Hero.projectileEquipment != "" ? Objects.pauseItems[Hero.projectileEquipment].effects.atk ?? 0 : 0) + // including if there is a projectile equipped
+            (currentlyEquippedIndex == 2 && equippedIsDouble && !isEquippingDouble ? equippedSelected.effects.atk ?? 0 : 0) // and the selected equipment if equipping the other hand with a single while currently carrying a double
+          )
+        );
+
       if (newEquippedATK1 != heroScript.equippedATK1) {
         Color equippedLabelColor = newEquippedATK1 > heroScript.equippedATK1 ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
@@ -749,7 +757,15 @@ public class Pause : MonoBehaviour {
       PauseItem otherArmEquipment = heroScript.equipmentArray[2] != "" ? Objects.pauseItems[heroScript.equipmentArray[2]] : null;
       PauseItem equippedSelected = (currentlyEquippedIndex == 1 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
 
-      int newEquippedATK2 = (selectedEquipment.effects.atk ?? 0) + (heroScript.equippedATK2 - ((equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0) + (Hero.projectileEquipment != "" ? Objects.pauseItems[Hero.projectileEquipment].effects.atk ?? 0 : 0)));
+      // gets the attack of the selected equipment (unless user is equipping the other hand with a single and currently carries a double),
+      int newEquippedATK2 = (currentlyEquippedIndex == 1 && !isEquippingDouble && equippedIsDouble ? 0 : (selectedEquipment.effects.atk ?? 0)) +
+        (heroScript.equippedATK2 - ( // plus whatever is currently equipped
+          (equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0) + // minus the item that is currently equipped
+            (Hero.projectileEquipment != "" ? Objects.pauseItems[Hero.projectileEquipment].effects.atk ?? 0 : 0) + // including if there is a projectile equipped
+            (currentlyEquippedIndex == 1 && equippedIsDouble && !isEquippingDouble ? equippedSelected.effects.atk ?? 0 : 0) // and the selected equipment if equipping the other hand with a single while currently carrying a double
+          )
+        );
+
       if (newEquippedATK2 != heroScript.equippedATK2) {
         Color equippedLabelColor = newEquippedATK2 > heroScript.equippedATK2 ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
