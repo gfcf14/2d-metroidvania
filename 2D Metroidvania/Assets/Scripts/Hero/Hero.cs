@@ -584,7 +584,9 @@ public class Hero : MonoBehaviour {
 
   // called on every frame of the game
   private void Update() {
-    // draws the speeds used by the player to attempt to understand the direction taken on movement
+    // THE DEBUG OPTIONS BELOW SHOULD IDEALLY BE TESTED INDIVIDUALLY (by commenting out all others when testing one) to avoid over saturating the window with colors
+
+    // DEBUG for VELOCITY: draws the speeds used by the player to attempt to understand the direction taken on movement
       // x velocity
       Debug.DrawRay(new Vector2(transform.position.x, transform.position.y + 0.01f), Vector2.right * body.velocity.x, Colors.raycastColors["vx"]);
 
@@ -593,25 +595,31 @@ public class Hero : MonoBehaviour {
 
       // overall speed direction
       Debug.DrawRay(transform.position, body.velocity, Colors.raycastColors["vxy"]);
+    // END of DEBUG for VELOCITY
 
-    // // PLAYER FALLING ALGORITHM: checks if player collides with anything. If not, player should fall
-    //   // draws the collider based on the pivot plus half player height up so it is a rectangle which north and south sides start at the head and end at the feet, respectively
-    //   Vector2 playerColliderPosition = new Vector2(transform.position.x, transform.position.y + heroHeight / 2);
-    //   Collider2D[] playerColliders = Physics2D.OverlapBoxAll(playerColliderPosition, heroDimensions, 0f);
-    //   // draws this to be visible on Scene mode (or with gizmos) to check how it can change and affect falling strategy
-    //   inGame.DrawRectangle(playerColliderPosition, heroDimensions);
-    //   // gets all non-trigger collider count from the intersecting ones
-    //   int colliderCount = playerColliders.Count(col => !col.isTrigger);
+    // PLAYER FALLING ALGORITHM: checks if player collides with anything. If not, player should fall
+      // draws the collider based on the pivot plus half player height up so it is a rectangle which north and south sides start at the head and end at the feet, respectively
+      Vector2 playerColliderPosition = new Vector2(transform.position.x, transform.position.y + heroHeight / 2);
+      Collider2D[] playerColliders = Physics2D.OverlapBoxAll(playerColliderPosition, heroDimensions, 0f);
 
-    //   // if only the player collider is found, nothing else was found and player should fall
-    //   // TODO: check if other attack types cause the player to lift off the ground, even but slightly, and add them here
-    //   if (!IsOnIncline() && !isAttackingHeavy && colliderCount <= 1 && verticalSpeed < 0) {
-    //     Fall();
-    //   }
-    // // end of PLAYER FALLING ALGORITHM
+      // DEBUG for FALL BOUNDS: draws this to be visible on Scene mode (or with gizmos) to check how it can change and affect falling strategy
+        // inGame.DrawRectangle(playerColliderPosition, heroDimensions);
+      // END of DEBUG for FALL BOUNDS
 
-    // // checks for tile name and debugs its position
-    //     inGame.GetTileName(transform.position);
+
+      // gets all non-trigger collider count from the intersecting ones
+      int colliderCount = playerColliders.Count(col => !col.isTrigger);
+
+      // if only the player collider is found, nothing else was found and player should fall
+      // TODO: check if other attack types cause the player to lift off the ground, even but slightly, and add them here
+      if (!IsOnIncline() && !isAttackingHeavy && colliderCount <= 1 && body.velocity.y < 0) {
+        Fall();
+      }
+    // end of PLAYER FALLING ALGORITHM
+
+    // DEBUG FOR TILE: checks for tile name and debugs its position
+        // inGame.GetTileName(transform.position);
+    // END of DEBUG FOR TILE
 
     if (!isAutonomous) {
       // TODO: remove key combinations as they will not be used to favor two keys pressed
@@ -679,8 +687,6 @@ public class Hero : MonoBehaviour {
         direction = isFacingLeft ? -1 : 1;
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
-
-        float verticalSpeed = body.velocity.y;
 
         if (shieldDropTime != 0) {
           if (Helpers.ExceedsTime(shieldDropTime, currentShieldRecoverTime)) {
