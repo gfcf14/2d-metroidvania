@@ -12,7 +12,7 @@ public class Hero : MonoBehaviour {
   [SerializeField] public List<Consumable> consumables = new List<Consumable>();
   [SerializeField] public float speed;
   [SerializeField] public string groundType = "level";
-  [SerializeField] public float inclineSlope = 0.25f;
+  [SerializeField] public float inclineSlope = 0.125f;
   [SerializeField] public float jumpHeight = 8f;
   [SerializeField] private float jetpackHeight;
   [SerializeField] public GameObject infoCanvas;
@@ -303,9 +303,9 @@ public class Hero : MonoBehaviour {
     } else if (groundType == "descent" && isFacingLeft) { // going up right to left
       return -currentSpeed * inclineSlope;
     } else if (groundType == "incline" && isFacingLeft) { // going down right to left
-      return currentSpeed * inclineSlope;
+      return currentSpeed * inclineSlope * 4;
     } else if (groundType == "descent" && !isFacingLeft) { // going down left to right
-      return -currentSpeed * inclineSlope;
+      return -currentSpeed * inclineSlope * 4;
     }
 
     return 0;
