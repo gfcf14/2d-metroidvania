@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -283,6 +282,7 @@ public class Hero : MonoBehaviour {
     items.Add(new Item("arrow-poison", 5));
     items.Add(new Item("arrow-fire", 10));
     items.Add(new Item("bomb", 99));
+    items.Add(new Item("king-bone", 16));
 
     UpdateStatsValues();
 
@@ -1109,8 +1109,22 @@ public class Hero : MonoBehaviour {
   void StartThrow() {
     string throwableType = Helpers.GetPauseItemKeyByName(Objects.pauseItems[isThrowing == 1 ? arm1Equipment : arm2Equipment].name);
 
-    float throwableX = transform.position.x + (direction * heroWidth * (throwableType == "axe" ? 0 : 1));
-    float throwableY = transform.position.y + (heroHeight * (throwableType == "axe" ? 0.5f : 0.75f));
+    float xModifier = 1;
+    if (throwableType == "axe") {
+      xModifier = isFacingLeft ? 2 : 0;
+    } else if (throwableType == "king-bone") {
+      xModifier = isFacingLeft ? 2.25f : 0.25f;
+    }
+
+    float yModifier = 0.75f;
+    if (throwableType == "axe") {
+      yModifier = 0.5f;
+    } else if (throwableType == "king-bone") {
+      yModifier = 0.625f;
+    }
+
+    float throwableX = transform.position.x + (direction * heroWidth * xModifier);
+    float throwableY = transform.position.y + (heroHeight * yModifier);
 
     GameObject throwableWeapon = Instantiate(Objects.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
     Throwable throwableInstance = throwableWeapon.transform.Find("Throwable").gameObject.GetComponent<Throwable>();

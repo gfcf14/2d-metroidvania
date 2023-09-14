@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class Throwable : MonoBehaviour {
@@ -53,6 +54,13 @@ public class Throwable : MonoBehaviour {
   }
 
   void Update() {
+    // TODO: This code pauses the game as soon as the throwable renderer has a sprite;
+    //       useful for when the start position of the throwable is tested.
+    //       remove this once the game is complete
+    // if (objectRenderer.sprite != null) {
+    //   EditorApplication.isPaused = true;
+    // }
+
     // TODO: consider updating this to keep object "alive" for some time/length after off camera
     if (!objectRenderer.isVisible) {
       DestroyThrowable();
