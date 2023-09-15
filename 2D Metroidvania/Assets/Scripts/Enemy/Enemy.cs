@@ -680,7 +680,7 @@ public class Enemy : MonoBehaviour {
   }
 
   public void ThrowWeapon(float distance) {
-    float throwableX = transform.position.x + ((isFacingLeft ? -1 : 1) * enemyWidth);
+    float throwableX = transform.position.x + ((isFacingLeft ? -2.5f : 1) * enemyWidth);
     float throwableY = transform.position.y + (enemyWidth);
 
     GameObject throwableWeapon = Instantiate(Objects.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
