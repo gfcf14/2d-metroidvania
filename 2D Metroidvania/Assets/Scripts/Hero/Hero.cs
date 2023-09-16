@@ -512,7 +512,7 @@ public class Hero : MonoBehaviour {
   }
 
   public void PlayRunningSound() {
-    string materialRunningOn = inGame.GetTileMaterial(transform.position);
+    string materialRunningOn = inGame.GetTileMaterial(new Vector3(transform.position.x + direction, transform.position.y + 0.1f, transform.position.z));
 
     // if there is no tile material, falling sound will be assumed from location
     if (materialRunningOn == null) {
