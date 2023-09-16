@@ -38,7 +38,6 @@ public class Enemy : MonoBehaviour {
 
 
     [System.NonSerialized] public int deadAnimationIncrement = 0;
-    [System.NonSerialized] private int minimumThrowDistance = 3;
     [System.NonSerialized] public int poisonAttackCounter = 1;
 
 
@@ -615,6 +614,8 @@ public class Enemy : MonoBehaviour {
     stunOnAttack = false;
     isWalking = true;
     isThrowingWeapon = false;
+    distanceToPlayer = 0;
+    maxThrowCounter = 0;
     isAttackingMelee = false;
     isDefending = false;
     playerFound = false;
@@ -626,10 +627,16 @@ public class Enemy : MonoBehaviour {
     if (level >= 20 && maxThrowCounter < (maxThrows - 1)) {
       anim.Play("throw", -1, 0f);
 
-      if (maxThrowCounter % 2 != 0) {
-        distanceToPlayer++;
+      // if (maxThrowCounter % 2 != 0) {
+      //   distanceToPlayer++;
+      // } else {
+      //   distanceToPlayer -= 2;
+      // }
+
+      if (maxThrowCounter % 2 == 0) {
+        distanceToPlayer = 1;
       } else {
-        distanceToPlayer -= 2;
+        distanceToPlayer = -1;
       }
 
       maxThrowCounter++;
@@ -680,7 +687,7 @@ public class Enemy : MonoBehaviour {
   }
 
   public void ThrowWeapon(float distance) {
-    float throwableX = transform.position.x + ((isFacingLeft ? -2.5f : 1) * enemyWidth);
+    float throwableX = transform.position.x + ((isFacingLeft ? -2.5f : 1) * enemyWidth) + (distance * ( isFacingLeft ? 1 : -1));
     float throwableY = transform.position.y + (enemyWidth);
 
     GameObject throwableWeapon = Instantiate(Objects.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
@@ -690,7 +697,6 @@ public class Enemy : MonoBehaviour {
     throwableInstance.isFacingLeft = isFacingLeft;
     // TODO: change when implementing other throwable types
     throwableInstance.type = "king-bone";
-    throwableInstance.distance = (int)distance < minimumThrowDistance ? 3 : (int)distance;
     throwableInstance.criticalRate = criticalRate;
 
     // TODO: change when implementing other throwable types

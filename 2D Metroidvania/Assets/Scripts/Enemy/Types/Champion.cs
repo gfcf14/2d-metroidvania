@@ -59,7 +59,6 @@ public class Champion : MonoBehaviour {
 
                     if (enemy.level >= 10 && !enemy.isDefending) {
                       enemy.isThrowingWeapon = true;
-                      enemy.distanceToPlayer = searchCast.distance;
                     }
                   } else {
                     if (wanderStart == 0) {

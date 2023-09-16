@@ -18,14 +18,12 @@ public class Throwable : MonoBehaviour {
   [System.NonSerialized] public bool isExploding = false;
 
   [System.NonSerialized] public int transitionIncrement = 0;
-  [System.NonSerialized] public int distance = 0;
   [System.NonSerialized] public float criticalRate = 0;
 
   [System.NonSerialized] public float bounceRotationMultiplier = 3;
   [System.NonSerialized] public float bounceX;
   [System.NonSerialized] public float bounceY;
   [System.NonSerialized] public float newAngle;
-  [System.NonSerialized] public float maxDistance;
   [System.NonSerialized] public float collideTime;
   [System.NonSerialized] public float maxEllapsedCollideTime = 1500f;
 
