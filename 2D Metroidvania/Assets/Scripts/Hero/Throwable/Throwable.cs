@@ -29,12 +29,15 @@ public class Throwable : MonoBehaviour {
 
   [System.NonSerialized] public string type;
 
+  [System.NonSerialized] public Hero hero;
+
   float initialAngle;
   float rotationAngle;
 
   private InGame inGame;
 
   void Start() {
+    hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
     anim = GetComponent<Animator>();
     objectRenderer = GetComponent<SpriteRenderer>();
     audioSource = GetComponent<AudioSource>();
@@ -72,39 +75,41 @@ public class Throwable : MonoBehaviour {
   }
 
   void LateUpdate() {
-    if (Helpers.IsValueInArray(Constants.rotatingThrowables, type) && (!hasCollided || hasCollided && mustBounce)) {
-      newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier) * (isFacingLeft ? -1 : 1) * (mustBounce ? -4 : 1);
-      transform.rotation = Quaternion.Euler(0, 0, newAngle);
+    if (hero.pauseCase == "") {
+      if (Helpers.IsValueInArray(Constants.rotatingThrowables, type) && (!hasCollided || hasCollided && mustBounce)) {
+        newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier) * (isFacingLeft ? -1 : 1) * (mustBounce ? -4 : 1);
+        transform.rotation = Quaternion.Euler(0, 0, newAngle);
 
-      if (type == "axe" && mustBounce) {
-        objectRenderer.sprite = bounceSprite;
+        if (type == "axe" && mustBounce) {
+          objectRenderer.sprite = bounceSprite;
+        }
       }
-    }
 
-    if (!Helpers.IsValueInArray(Constants.nonGroundableThrowables, type)) {
-      if (!mustBounce) {
-        if (hasCollided) {
-          float ellapsedCollideTime = (Time.time * 1000) - collideTime;
+      if (!Helpers.IsValueInArray(Constants.nonGroundableThrowables, type)) {
+        if (!mustBounce) {
+          if (hasCollided) {
+            float ellapsedCollideTime = (Time.time * 1000) - collideTime;
 
-          if (ellapsedCollideTime < maxEllapsedCollideTime) {
-            if (Helpers.IsNonBouncingThrowable(type)) {
-              objectRenderer.color = new Color(1, 1, 1, 1 - (ellapsedCollideTime / maxEllapsedCollideTime));
-            }
-          } else {
-            if (Helpers.IsNonBouncingThrowable(type)) {
-              DestroyThrowable();
+            if (ellapsedCollideTime < maxEllapsedCollideTime) {
+              if (Helpers.IsNonBouncingThrowable(type)) {
+                objectRenderer.color = new Color(1, 1, 1, 1 - (ellapsedCollideTime / maxEllapsedCollideTime));
+              }
+            } else {
+              if (Helpers.IsNonBouncingThrowable(type)) {
+                DestroyThrowable();
+              }
             }
           }
+        } else {
+          newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier) * (isFacingLeft ? -1 : 1) * (mustBounce ? -2 : 1) * (Helpers.IsValueInArray(Constants.smallThrowables, type) ? 2 : 1);
+          transform.rotation = Quaternion.Euler(0, 0, newAngle);
+          objectRenderer.sprite = bounceSprite;
         }
-      } else {
-        newAngle = initialAngle - (transitionIncrement * bounceRotationMultiplier) * (isFacingLeft ? -1 : 1) * (mustBounce ? -2 : 1) * (Helpers.IsValueInArray(Constants.smallThrowables, type) ? 2 : 1);
-        transform.rotation = Quaternion.Euler(0, 0, newAngle);
-        objectRenderer.sprite = bounceSprite;
       }
-    }
 
-    if (Helpers.IsValueInArray(Constants.rotatingThrowables, type) || mustBounce) {
-      transitionIncrement++;
+      if (Helpers.IsValueInArray(Constants.rotatingThrowables, type) || mustBounce) {
+        transitionIncrement++;
+      }
     }
   }
 
