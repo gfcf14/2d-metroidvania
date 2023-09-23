@@ -73,11 +73,8 @@ public class InGame : MonoBehaviour {
     TileBase groundTileBelowPlayer = groundTiles.GetTile(groundTileBelowCoordinates);
     TileBase detailTileBelowPlayer = detailTiles.GetTile(detailTileBelowCoordinates);
 
-    Debug.Log(detailTileBelowPlayer);
-
     if (detailTileBelowPlayer != null) {
       int detailTileIndex = int.Parse(detailTileBelowPlayer.name.Replace("tiles-details_", ""));
-      Debug.Log(detailTileIndex);
 
       if (Helpers.IsValueInArray(Constants.detailDirt, detailTileIndex)) {
         return "dirt";
