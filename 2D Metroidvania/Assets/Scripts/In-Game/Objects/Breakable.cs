@@ -115,6 +115,8 @@ public class Breakable : MonoBehaviour {
           parentThrowable.bounceY = parentTransform.position.y;
           parentThrowable.mustBounce = true;
           parentThrowable.transitionIncrement = 0;
+          // ensures that the throwables start their bounce back at the point of contact
+          col.transform.parent.parent.position = parentTransform.position;
         }
 
         parentThrowable.collideTime = Time.time * 1000;
