@@ -22,7 +22,11 @@ public class SmashWave : MonoBehaviour {
   private void OnTriggerEnter2D(Collider2D col) {
     if (col.gameObject.tag == "Hero" && !hitPlayer) {
       hitPlayer = true;
-      col.gameObject.GetComponent<Hero>().ReceiveSmashWave(damage, col.ClosestPoint(transform.position));
+      Hero heroInstance = col.gameObject.GetComponent<Hero>();
+      // ensures the hero isn't damaged after being damaged
+      if (!heroInstance.isInvulnerable) {
+        heroInstance.ReceiveSmashWave(damage, col.ClosestPoint(transform.position));
+      }
     }
   }
 

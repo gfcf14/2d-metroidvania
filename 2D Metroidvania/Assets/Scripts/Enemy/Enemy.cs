@@ -349,7 +349,10 @@ public class Enemy : MonoBehaviour {
       // isAttacking = false;
       coolDownStart = Time.time * 1000;
       if (!needsCoolDown) {
-        hero.ReceiveAttack(gameObject, col.ClosestPoint(transform.position));
+        // ensures the hero isn't damaged after being damaged
+        if (!hero.isInvulnerable) {
+          hero.ReceiveAttack(gameObject, col.ClosestPoint(transform.position));
+        }
         needsCoolDown = true;
       }
     }

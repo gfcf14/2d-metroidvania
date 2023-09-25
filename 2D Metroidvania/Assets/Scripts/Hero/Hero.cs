@@ -88,6 +88,12 @@ public class Hero : MonoBehaviour {
 
   public bool isShootingPull;
 
+  public bool isInvulnerable = false;
+  public float damageStartTime = 0;
+
+  // TODO: develop a logic to ensure this time can be influenced by level, i.e. the higher the level, the higher the recover time (the longer invulnerability lasts)
+  public float damageRecoverTime = 3000f;
+
   public bool horizontalCollision;
 
   public Vector2 heroDimensions = new Vector2(1.136886f, 2.290915f);
@@ -903,6 +909,15 @@ public class Hero : MonoBehaviour {
           }
         }
       }
+
+      // checks for invulnerability time
+      if (isInvulnerable) {
+        if (Helpers.ExceedsTime(damageStartTime, damageRecoverTime)) {
+          isInvulnerable = false;
+          // restores color so the flicker won't leave it in weird transparency
+          heroRenderer.color = Color.white;
+        }
+      }
     }
 
     // UNCOMMENT ALL THESE TO START TESTING FOR PROGRAMMATIC PLAY - use the Hero - Copy animator
@@ -1520,6 +1535,11 @@ public class Hero : MonoBehaviour {
       // TODO: consider changing the Hero colliders for damage so the connecting point is higher
       Vector2 position = damagePosition == null ? new Vector2(transform.position.x, transform.position.y + heroHeight / 2) : new Vector2(damagePosition.Value.x, damagePosition.Value.y + heroHeight / 2);
       inGame.DrawDamage(position, damage, isCritical, soundType);
+    }
+
+    if (!isInvulnerable) {
+      damageStartTime = Time.time * 1000;
+      isInvulnerable = true;
     }
 
     // TODO: for testing purposes. Remove once magic can be spent by other means

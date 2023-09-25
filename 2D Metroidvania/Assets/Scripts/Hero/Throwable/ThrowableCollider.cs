@@ -33,7 +33,11 @@ public class ThrowableCollider : MonoBehaviour {
       }
     } else if ((gameObject.tag == "EnemyWeapon" && Helpers.IsValueInArray(Constants.enemyThrowableBouncers, colliderTag)) || (gameObject.tag == "Weapon" && colliderTag == "EnemyWeapon")) {
       if (colliderTag == "Hero") {
-        GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().ReceiveThrowable(parentObject, col.ClosestPoint(transform.position));
+        Hero heroInstance = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
+        // ensures the hero isn't damaged after being damaged
+        if (!heroInstance.isInvulnerable) {
+          heroInstance.ReceiveThrowable(parentObject, col.ClosestPoint(transform.position));
+        }
       }
 
       parentThrowable.hasCollided = true;
