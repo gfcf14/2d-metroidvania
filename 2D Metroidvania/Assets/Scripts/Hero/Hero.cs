@@ -129,10 +129,10 @@ public class Hero : MonoBehaviour {
 
   // PLAYER STATS
     [System.NonSerialized] public int playerLevel = 1;
-    [System.NonSerialized] public int currentHP = 1500;
-    [System.NonSerialized] public int maxHP = 5000;
-    [System.NonSerialized] public int currentMP = 700;
-    [System.NonSerialized] public int maxMP = 2000;
+    [System.NonSerialized] public int currentHP = 100;
+    [System.NonSerialized] public int maxHP = 100;
+    [System.NonSerialized] public int currentMP = 100;
+    [System.NonSerialized] public int maxMP = 100;
     [System.NonSerialized] public string status = "good";
     [System.NonSerialized] public int exp = 80;
     [System.NonSerialized] public int next = 0;
