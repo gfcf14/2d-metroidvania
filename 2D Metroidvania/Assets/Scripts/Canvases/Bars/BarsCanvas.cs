@@ -41,7 +41,8 @@ public class BarsCanvas : MonoBehaviour {
   public void UpdateHPBar() {
     if (currentHPWidth != hero.currentHP) {
       currentHPWidth = hero.currentHP;
-      hpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(maxHPWidth > Constants.maxHPDisplayableLimit ? Constants.hpContainerMaxWidth * ((float)currentHPWidth / (float)maxHPWidth) : currentHPWidth * Constants.hpMultiplier, 27);
+      float calculatedHPDisplay = maxHPWidth > Constants.maxHPDisplayableLimit ? Constants.maxHPDisplayableLimit * ((float)currentHPWidth / (float)maxHPWidth) : currentHPWidth;
+      hpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(calculatedHPDisplay - Constants.hpAdjustDifference, 27);
 
       float healthPercentage = (float)hero.currentHP / (float)hero.maxHP;
 
@@ -70,7 +71,8 @@ public class BarsCanvas : MonoBehaviour {
   public void UpdateMPBar() {
     if (currentMPWidth != hero.currentMP) {
       currentMPWidth = hero.currentMP;
-      mpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(maxMPWidth > Constants.maxMPDisplayableLimit ? Constants.mpContainerMaxWidth * ((float)currentMPWidth / (float)maxMPWidth) : currentMPWidth * Constants.mpMultiplier, 9);
+      float calculatedMPDisplay = maxMPWidth > Constants.maxMPDisplayableLimit ? Constants.maxMPDisplayableLimit * ((float)currentMPWidth / (float)maxMPWidth) : currentMPWidth;
+      mpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(calculatedMPDisplay - Constants.mpAdjustDifference, 9);
     }
   }
 }

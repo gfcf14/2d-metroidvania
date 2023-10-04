@@ -129,10 +129,10 @@ public class Hero : MonoBehaviour {
 
   // PLAYER STATS
     [System.NonSerialized] public int playerLevel = 1;
-    [System.NonSerialized] public int currentHP = 100;
-    [System.NonSerialized] public int maxHP = 100;
-    [System.NonSerialized] public int currentMP = 100;
-    [System.NonSerialized] public int maxMP = 100;
+    [System.NonSerialized] public int currentHP = 5000;
+    [System.NonSerialized] public int maxHP = 5000;
+    [System.NonSerialized] public int currentMP = 5000;
+    [System.NonSerialized] public int maxMP = 5000;
     [System.NonSerialized] public string status = "good";
     [System.NonSerialized] public int exp = 80;
     [System.NonSerialized] public int next = 0;
@@ -1528,7 +1528,7 @@ public class Hero : MonoBehaviour {
 
     GameObject barDecrement = Instantiate(Objects.prefabs["bar-decrement"], Vector2.zero, Quaternion.identity);
     barDecrement.transform.SetParent(hpBarContainer.transform, false);
-    barDecrement.GetComponent<BarDecrement>().width = maxHP > Constants.maxHPDisplayableLimit ? (int)(Constants.hpContainerMaxWidth * ((float)damage/(float)maxHP)) : damage;
+    barDecrement.GetComponent<BarDecrement>().width = maxHP > Constants.maxHPDisplayableLimit ? (int)(Constants.maxHPDisplayableLimit * ((float)damage/(float)maxHP)) : damage;
     barDecrement.GetComponent<BarDecrement>().type = "hp";
 
     if (Settings.showDamage) {
@@ -1555,7 +1555,7 @@ public class Hero : MonoBehaviour {
 
     GameObject barDecrement = Instantiate(Objects.prefabs["bar-decrement"], Vector2.zero, Quaternion.identity);
     barDecrement.transform.SetParent(mpBarContainer.transform, false);
-    barDecrement.GetComponent<BarDecrement>().width = maxMP > Constants.maxMPDisplayableLimit ? (int)(Constants.mpContainerMaxWidth * ((float)value/(float)maxMP)) : value;
+    barDecrement.GetComponent<BarDecrement>().width = maxMP > Constants.maxMPDisplayableLimit ? (int)(Constants.maxMPDisplayableLimit * ((float)value/(float)maxMP)) : value;
     barDecrement.GetComponent<BarDecrement>().type = "mp";
   }
 

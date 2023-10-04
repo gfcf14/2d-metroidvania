@@ -322,8 +322,8 @@ public class Objects {
   };
 
   public static Dictionary<string, float> decrementBarMultipliers = new Dictionary<string, float> {
-    {"hp", Constants.hpMultiplier},
-    {"mp", Constants.mpMultiplier}
+    {"hp", Constants.hpAdjustDifference},
+    {"mp", Constants.mpAdjustDifference}
   };
 
   public static Dictionary<string, EnemyStats> enemyStats = new Dictionary<string, EnemyStats> {

@@ -16,7 +16,7 @@ public class BarDecrement : MonoBehaviour {
     } else if (type == "mp") {
       barHeight = 9;
     }
-    rect.sizeDelta = new Vector2(width * Objects.decrementBarMultipliers[type], barHeight);
+    rect.sizeDelta = new Vector2(width - Objects.decrementBarMultipliers[type], barHeight);
   }
 
   void Update() {
