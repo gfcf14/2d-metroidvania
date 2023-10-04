@@ -19,6 +19,7 @@ public class Droppable : MonoBehaviour {
   [System.NonSerialized] SpriteRenderer droppableSprite;
   [System.NonSerialized] Rigidbody2D body;
   [System.NonSerialized] Sprite spriteHolder;
+  [System.NonSerialized] PolygonCollider2D collider;
 
   private Animator anim;
   private AudioSource audioSource;
@@ -48,7 +49,7 @@ public class Droppable : MonoBehaviour {
      spriteHolder = Sprites.droppableSprites[key];
     }
 
-    PolygonCollider2D collider = gameObject.AddComponent<PolygonCollider2D>();
+    collider = gameObject.AddComponent<PolygonCollider2D>();
     collider.autoTiling = true;
 
     if (isDropped) {
@@ -93,18 +94,28 @@ public class Droppable : MonoBehaviour {
           PlaySound(Sounds.droppableFallingSounds[gameObjectTag == "Interactable" ? "interactable" : inGame.GetTileMaterial(transform.position)]);
         }
 
+        // destroys the rigid body and makes the collider a trigger so that
+        // if the player is overlapping no movement is caused (usually pushing the player up)
+        Destroy(body);
+        collider.isTrigger = true;
+
         gameObject.layer = LayerMask.NameToLayer("Dropped");
 
         if (GetComponent<Flicker>() != null) {
           timer = Time.time * 1000;
           isIdle = true;
         }
-      } else if (gameObjectTag == "Hero" && canBePicked) {
-        string itemPickSoundIndex = rarity == "" ? (Helpers.IsValueInArray(Constants.moneyItemKeys, key) ? "money" : "normal") : rarity;
-
-        inGame.PlaySound(Sounds.itemPickSounds[itemPickSoundIndex], transform.position);
-        DestroyDroppable(col.gameObject.GetComponent<Hero>());
       }
+  }
+
+  private void OnTriggerEnter2D(Collider2D col) {
+    string gameObjectTag = col.gameObject.tag;
+    if (gameObjectTag == "Hero" && canBePicked) {
+      string itemPickSoundIndex = rarity == "" ? (Helpers.IsValueInArray(Constants.moneyItemKeys, key) ? "money" : "normal") : rarity;
+
+      inGame.PlaySound(Sounds.itemPickSounds[itemPickSoundIndex], transform.position);
+      DestroyDroppable(col.gameObject.GetComponent<Hero>());
+    }
   }
 
   public void DestroyDroppable(Hero hero) {
