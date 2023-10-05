@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 
 public class Enemy : MonoBehaviour {
   // Serialized
@@ -94,6 +95,8 @@ public class Enemy : MonoBehaviour {
     [System.NonSerialized] public bool isThrowingWeapon = false;
     [System.NonSerialized] public bool isWalking;
     [System.NonSerialized] public bool stunOnAttack = false;
+
+    private int direction = 1;
 
   // Player Related Properties
     [System.NonSerialized] public bool playerFound = false;
@@ -221,6 +224,7 @@ public class Enemy : MonoBehaviour {
   }
 
   void Update() {
+    direction = isFacingLeft ? -1 : 1;
     isDying = isBurning || isDeadByBurning || isDeadByPoison;
 
     if (hero.isAutonomous && gameObject.name == "Boss") {
@@ -234,7 +238,6 @@ public class Enemy : MonoBehaviour {
     } else {
       if ((gameObject.name == "Boss" && isOnCamera) || gameObject.name != "Boss") {
         // DEFENSE CAST
-        int direction = isFacingLeft ? -1 : 1;
         Vector2 defenseCast = new Vector2(transform.position.x + ((enemyWidth / 2) * reach * direction), transform.position.y + enemyHeight / 2 + 0.05f);
         Vector2 defenseCastDirection = transform.TransformDirection(new Vector2(1 * (direction), 0));
 
@@ -680,12 +683,18 @@ public class Enemy : MonoBehaviour {
       transform.parent.Find("Bounds").gameObject.SetActive(false);
     }
 
+    // prepares origin position given custom values if found
+    Vector2 deathOrigin = new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)) +
+      ((Objects.customEnemyDeathOriginModifiers.ContainsKey(key) ?
+        Objects.customEnemyDeathOriginModifiers[key] :
+        Vector2.zero) * new Vector2(direction, 0));
+
     // instantiates the dropped item
     string[] droppableAndRarity = Helpers.GetDroppableItem(key, level, hero.luckPercentage + hero.equippedLUCK + hero.effectLCK).Split('|');
-    inGame.InstantiatePrefab("droppable", droppableAndRarity[0], droppableAndRarity[1], transform.parent.gameObject, transform, enemyRenderer);
+    inGame.InstantiatePrefab("droppable", droppableAndRarity[0], droppableAndRarity[1], transform.parent.gameObject, deathOrigin, enemyRenderer);
 
     // instantiates the explosion of the enemy
-    Instantiate(Objects.prefabs["enemy-explosion"], new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2)), Quaternion.identity);
+    Instantiate(Objects.prefabs["enemy-explosion"], deathOrigin, Quaternion.identity);
     Destroy(gameObject);
   }
 

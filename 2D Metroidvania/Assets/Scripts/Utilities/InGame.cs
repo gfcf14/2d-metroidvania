@@ -12,11 +12,11 @@ public class InGame : MonoBehaviour {
   }
   void Update() {}
 
-  public void InstantiatePrefab(string prefab, string key, string rarity, GameObject room, Transform trans, SpriteRenderer spr) {
+  public void InstantiatePrefab(string prefab, string key, string rarity, GameObject room, Vector2 position, SpriteRenderer spr) {
     // mainly so items instantiated from stacked breakables do not overlap fully
     float randomOffset = UnityEngine.Random.Range(-0.2f, 0.2f);
 
-    Vector2 itemOrigin = new Vector2(trans.position.x + randomOffset, trans.position.y + (spr.bounds.size.y / 2));
+    Vector2 itemOrigin = new Vector2(position.x + randomOffset, position.y + (spr.bounds.size.y / 2));
     GameObject droppedItem = Instantiate(Objects.prefabs[prefab], itemOrigin, Quaternion.identity);
     Droppable droppableScript = droppedItem.transform.Find("GameObject").GetComponent<Droppable>();
     droppableScript.key = key;

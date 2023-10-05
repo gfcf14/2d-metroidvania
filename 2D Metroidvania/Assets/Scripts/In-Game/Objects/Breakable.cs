@@ -102,7 +102,7 @@ public class Breakable : MonoBehaviour {
 
       string rarity = itemRarity != "" ? itemRarity : (Helpers.IsValueInArray(Constants.moneyItemKeys, item) ? "money" : "normal");
 
-      inGame.InstantiatePrefab("droppable", item, rarity, GetItemSpawnedParent(), transform, spriteRenderer);
+      inGame.InstantiatePrefab("droppable", item, rarity, GetItemSpawnedParent(), transform.position, spriteRenderer);
 
       GameObject parentObject = col.transform.parent.gameObject;
       if (parentObject.name.Contains("Throwable")) {

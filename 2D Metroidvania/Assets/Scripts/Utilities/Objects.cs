@@ -344,6 +344,10 @@ public class Objects {
     {"skeleton-king", new Vector2(1.82f, 3.21f)}
   };
 
+  public static Dictionary<string, Vector2> customEnemyDeathOriginModifiers = new Dictionary<string, Vector2> {
+    {"nymph", new Vector2(-0.7025f, 0)}
+  };
+
   public static Dictionary<string, TMP_FontAsset> fonts = new Dictionary<string, TMP_FontAsset> {
     {"levi-rebrushed", Resources.Load("Fonts/LeviRebrushed SDF") as TMP_FontAsset}
   };
