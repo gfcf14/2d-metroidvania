@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class Hero : MonoBehaviour {
   [System.NonSerialized] public bool showDebug = false;
@@ -122,6 +121,19 @@ public class Hero : MonoBehaviour {
   public string currentWeapon;
   public string NPCnearby;
   public string NPCnearbyAction;
+
+  public string jumpStartCollider = "";
+  public string jumpEndCollider = "";
+
+  float minimumOffset = 0.01f;
+  float jumpCastDistance = 0.5f;
+  float jumpEdgeCastLength = 0.2f;
+
+  float intersectionCastLength = 0;
+  Vector2 jumpEdgeStartCastPosition = Vector2.zero;
+  Vector2 jumpEdgeEndCastPosition = Vector2.zero;
+  Vector2 jumpEdgeCastDirection = Vector2.zero;
+  Vector2 intersectionDirection = new Vector2(0, -1);
 
   public bool hurtFromBehind = false;
 
@@ -243,6 +255,7 @@ public class Hero : MonoBehaviour {
     audioSource = GetComponent<AudioSource>();
     inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
 
+    intersectionCastLength = jumpCastDistance - minimumOffset;
     // currentWeapon = weapons[weaponIndex % weapons.Length];
 
     heroHeight = heroRenderer.bounds.size.y;
@@ -590,6 +603,8 @@ public class Hero : MonoBehaviour {
 
   // called on every frame of the game
   private void Update() {
+    direction = isFacingLeft ? -1 : 1;
+
     // THE DEBUG OPTIONS BELOW SHOULD IDEALLY BE TESTED INDIVIDUALLY (by commenting out all others when testing one) to avoid over saturating the window with colors
 
     // DEBUG for VELOCITY: draws the speeds used by the player to attempt to understand the direction taken on movement
@@ -626,6 +641,18 @@ public class Hero : MonoBehaviour {
     // DEBUG FOR TILE: checks for tile name and debugs its position
         // inGame.GetTileName(transform.position);
     // END of DEBUG FOR TILE
+
+    jumpEdgeStartCastPosition = new Vector2(transform.position.x + (((heroWidth / 2) - (minimumOffset * 2)) * direction), transform.position.y + minimumOffset);
+    jumpEdgeEndCastPosition = jumpEdgeStartCastPosition + new Vector2(0, jumpCastDistance);
+    jumpEdgeCastDirection = new Vector2(direction, 0);
+    RaycastHit2D jumpEdgeStartCast = Physics2D.Raycast(jumpEdgeStartCastPosition, jumpEdgeCastDirection, jumpEdgeCastLength);
+    RaycastHit2D jumpEdgeEndCast = Physics2D.Raycast(jumpEdgeEndCastPosition, jumpEdgeCastDirection, jumpEdgeCastLength);
+    // DEBUG FOR JUMP EDGE: checks for how close the player would be to the top of ground (base) when crashing on a wall while jumping/falling
+      Debug.DrawRay(jumpEdgeStartCastPosition, jumpEdgeCastDirection.normalized * jumpEdgeCastLength, Colors.raycastColors["jump"]);
+      Debug.DrawRay(jumpEdgeEndCastPosition, jumpEdgeCastDirection.normalized * jumpEdgeCastLength, Colors.raycastColors["jump"]);
+    // END of DEBUG FOR JUMP EDGE
+    jumpStartCollider = jumpEdgeStartCast.collider ? jumpEdgeStartCast.collider.name : "none";
+    jumpEndCollider = jumpEdgeEndCast.collider ? jumpEdgeEndCast.collider.name : "none";
 
     if (!isAutonomous) {
       // TODO: remove key combinations as they will not be used to favor two keys pressed
@@ -690,7 +717,6 @@ public class Hero : MonoBehaviour {
       }
 
       if (!isPaused && pauseCase == "") {
-        direction = isFacingLeft ? -1 : 1;
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
@@ -1380,6 +1406,18 @@ public class Hero : MonoBehaviour {
             horizontalCollision = false;
             ClearAirAttackSingle();
           }
+        }
+      }
+    }
+
+    if (collider.tag == "Ground") {
+      if (jumpStartCollider == "Ground" && jumpEndCollider == "none") {
+        Vector2 intersection = jumpEdgeEndCastPosition + new Vector2(jumpEdgeCastLength * direction, 0);
+        RaycastHit2D jumpEdgeIntersectionCast = Physics2D.Raycast(intersection, intersectionDirection, intersectionCastLength);
+        Debug.DrawRay(intersection, intersectionDirection.normalized * intersectionCastLength, Colors.raycastColors["jump"]);
+        if (jumpEdgeIntersectionCast.collider != null) {
+          float vPlacement = Mathf.Abs(jumpEdgeIntersectionCast.point.y - intersection.y);
+          transform.position = new Vector2(transform.position.x + heroWidth, transform.position.y + vPlacement);
         }
       }
     }
