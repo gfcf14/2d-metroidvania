@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8439590137152748092}
   - component: {fileID: 3451900686020126769}
-  - component: {fileID: 3451900686020126782}
+  - component: {fileID: 2704364065698889352}
   m_Layer: 0
   m_Name: DescentArea
   m_TagString: Incline
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inclineFromRight: descent
---- !u!60 &3451900686020126782
+--- !u!60 &2704364065698889352
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -70,12 +70,12 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 5.75, y: 3.5}
-      - {x: -2.25, y: 1.5}
-      - {x: -2.25, y: -1.5}
-      - {x: 5.75, y: 0.5}
-      - {x: 10.25, y: 0.5}
-      - {x: 10.25, y: 3.5}
+    - - {x: 9.75, y: 3.25}
+      - {x: 9.25, y: 3.25}
+      - {x: -1.55, y: 0.5}
+      - {x: -1.55, y: 0}
+      - {x: 9.25, y: 2.7}
+      - {x: 9.75, y: 2.7}
 --- !u!1 &3451900687266765882
 GameObject:
   m_ObjectHideFlags: 0
