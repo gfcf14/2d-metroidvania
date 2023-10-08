@@ -24,14 +24,15 @@ public class Hero : MonoBehaviour {
   [SerializeField] public GameObject bow;
   [SerializeField] public GameObject levelUpCanvas;
   [SerializeField] public GameObject fadeOutCanvas;
+  [SerializeField] public GameObject airEdgeCheck;
   private Rigidbody2D body;
   private Animator anim;
   private SpriteRenderer heroRenderer;
   private AudioSource audioSource;
   private InGame inGame;
 
-  private float heroHeight;
-  private float heroWidth;
+  public float heroHeight;
+  public float heroWidth;
 
   // for when player must move on their own
   public bool isAutonomous = false;
@@ -121,20 +122,8 @@ public class Hero : MonoBehaviour {
   public string currentWeapon;
   public string NPCnearby;
   public string NPCnearbyAction;
-
-  public string jumpStartCollider = "";
-  public string jumpEndCollider = "";
-
-  float minimumOffset = 0.01f;
-  float jumpCastDistance = 0.5f;
-  float jumpEdgeCastLength = 0.2f;
-
-  float intersectionCastLength = 0;
-  Vector2 jumpEdgeStartCastPosition = Vector2.zero;
-  Vector2 jumpEdgeEndCastPosition = Vector2.zero;
-  Vector2 jumpEdgeCastDirection = Vector2.zero;
-  Vector2 intersectionDirection = new Vector2(0, -1);
-
+  public string collisionDirection = "";
+  public string collisionData = "";
   public bool hurtFromBehind = false;
 
   public bool isHoldingDown = false;
@@ -255,7 +244,6 @@ public class Hero : MonoBehaviour {
     audioSource = GetComponent<AudioSource>();
     inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
 
-    intersectionCastLength = jumpCastDistance - minimumOffset;
     // currentWeapon = weapons[weaponIndex % weapons.Length];
 
     heroHeight = heroRenderer.bounds.size.y;
@@ -590,7 +578,20 @@ public class Hero : MonoBehaviour {
     PlaySound(Sounds.characterFallingSounds[fallen][fallingOn]);
   }
 
+  public void ToggleAirCheck(bool activate) {
+    if (activate) {
+      if (!airEdgeCheck.activeSelf) {
+        airEdgeCheck.SetActive(true);
+      }
+    } else {
+      if (airEdgeCheck.activeSelf) {
+        airEdgeCheck.SetActive(false);
+      }
+    }
+  }
+
   public void GroundOnIncline() {
+    ToggleAirCheck(false);
     isJumping = false;
     isFalling = false;
     isGrounded = true;
@@ -642,17 +643,6 @@ public class Hero : MonoBehaviour {
         // inGame.GetTileName(transform.position);
     // END of DEBUG FOR TILE
 
-    jumpEdgeStartCastPosition = new Vector2(transform.position.x + (((heroWidth / 2) - (minimumOffset * 2)) * direction), transform.position.y + minimumOffset);
-    jumpEdgeEndCastPosition = jumpEdgeStartCastPosition + new Vector2(0, jumpCastDistance);
-    jumpEdgeCastDirection = new Vector2(direction, 0);
-    RaycastHit2D jumpEdgeStartCast = Physics2D.Raycast(jumpEdgeStartCastPosition, jumpEdgeCastDirection, jumpEdgeCastLength);
-    RaycastHit2D jumpEdgeEndCast = Physics2D.Raycast(jumpEdgeEndCastPosition, jumpEdgeCastDirection, jumpEdgeCastLength);
-    // DEBUG FOR JUMP EDGE: checks for how close the player would be to the top of ground (base) when crashing on a wall while jumping/falling
-      Debug.DrawRay(jumpEdgeStartCastPosition, jumpEdgeCastDirection.normalized * jumpEdgeCastLength, Colors.raycastColors["jump"]);
-      Debug.DrawRay(jumpEdgeEndCastPosition, jumpEdgeCastDirection.normalized * jumpEdgeCastLength, Colors.raycastColors["jump"]);
-    // END of DEBUG FOR JUMP EDGE
-    jumpStartCollider = jumpEdgeStartCast.collider ? jumpEdgeStartCast.collider.name : "none";
-    jumpEndCollider = jumpEdgeEndCast.collider ? jumpEdgeEndCast.collider.name : "none";
 
     if (!isAutonomous) {
       // TODO: remove key combinations as they will not be used to favor two keys pressed
@@ -1303,6 +1293,8 @@ public class Hero : MonoBehaviour {
   }
 
   private void Fall() {
+    ToggleAirCheck(true);
+
     isGrounded = false;
     isFalling = true;
     // TESTING FOR PROGRAMMATIC PLAY
@@ -1311,6 +1303,8 @@ public class Hero : MonoBehaviour {
   }
 
   public void Jump(bool clearDropKick = false) {
+    ToggleAirCheck(true);
+
     if (clearDropKick) {
       isDropKicking = false;
       isFalling = false;
@@ -1363,62 +1357,98 @@ public class Hero : MonoBehaviour {
     }
   }
 
+
+// NEEDS TWEAKING FROM isFacingLeft
+  private string GetGroundCollisionDirection(Vector2 position, Vector2 closestPoint) {
+    collisionData = closestPoint + " VS " + position;
+    if (isFalling || groundType != "level") {
+      return "bottom";
+    }
+
+    if (closestPoint.y < position.y) {
+      if (closestPoint.x == position.x) {
+        return isFacingLeft ? "left" : "right";
+      }
+
+      return "top";
+    } else if (closestPoint.y >= position.y) {
+      if (closestPoint.x == position.x) {
+        return "bottom";
+      } else if (closestPoint.x < position.x) {
+        return "left";
+      } else if (closestPoint.x > position.x) {
+        return "right";
+      }
+    }
+
+    return "bottom";
+  }
+
+  public void ModifyPosition(Vector2 newPosition) {
+    transform.position = newPosition;
+  }
+
+  public void StepOver(float stepOverHeight) {
+    ModifyPosition(new Vector2(transform.position.x + (heroWidth * direction), transform.position.y + stepOverHeight));
+    ToggleAirCheck(false);
+    isGrounded = true;
+    isFalling = false;
+    isJumping = false;
+  }
+
   private void OnCollisionEnter2D(Collision2D col) {
     Collider2D collider = col.collider;
     Collider2D otherCollider = col.otherCollider;
     GameObject objectCollided = col.gameObject;
 
-    if (Helpers.IsValueInArray(Constants.landingObjects, objectCollided.tag)) {
-      if (otherCollider.tag == "Hero") {
-        if (!isHorizontalCollision(otherCollider, collider)) {
-          if (collider.tag == "Ground" && isFalling) {
-            PerformGroundFall();
-          } else if  (collider.tag == "Breakable") {
-            // TODO: This will fail for barrels. Prepare falling sound for barrels
-            PlayFallingSound(collider.gameObject.GetComponent<Breakable>().type, Objects.equipmentBaseMaterial[bodyEquipment]);
-          } else if (collider.tag == "Interactable") {
-            // TODO: for now, box sounds appear to work fine. If interactables made of non-wood material are implemented, consider changing this
-            PlayFallingSound("box", "boots");
-          }
+    collisionDirection = GetGroundCollisionDirection(transform.position, collider.ClosestPoint(transform.position));
 
-          isGrounded = true;
-          isFalling = false;
-          isJumping = false;
-          // isJetpackUp = false;
-          horizontalCollision = false;
-          isDropKicking = false;
+    if (collisionDirection == "bottom") {
+      if (Helpers.IsValueInArray(Constants.landingObjects, objectCollided.tag)) {
+        if (otherCollider.tag == "Hero") {
+          if (!isHorizontalCollision(otherCollider, collider)) {
+            if (collider.tag == "Ground" && isFalling) {
+                PerformGroundFall();
+            } else if  (collider.tag == "Breakable") {
+              // TODO: This will fail for barrels. Prepare falling sound for barrels
+              PlayFallingSound(collider.gameObject.GetComponent<Breakable>().type, Objects.equipmentBaseMaterial[bodyEquipment]);
+            } else if (collider.tag == "Interactable") {
+              // TODO: for now, box sounds appear to work fine. If interactables made of non-wood material are implemented, consider changing this
+              PlayFallingSound("box", "boots");
+            }
 
-          if (isHurt == 3) {
-            Recover();
-          }
-
-          // disable air attack animations if these haven't finished when player hits ground
-          isAirPunching = false;
-          // isAirShooting = false;
-          isAirAttackSingle = false;
-          isAirAttackHeavy = false;
-
-          weaponCollider.SetActive(false);
-        } else {
-          horizontalCollision = Helpers.IsValueInArray(Constants.nonHorizontalCollidableObjects, objectCollided.tag) ? false : true;
-
-          if (isBottomCollision(otherCollider, collider)) {
+            ToggleAirCheck(false);
+            isGrounded = true;
+            isFalling = false;
+            isJumping = false;
+            // isJetpackUp = false;
             horizontalCollision = false;
-            ClearAirAttackSingle();
+            isDropKicking = false;
+
+            if (isHurt == 3) {
+              Recover();
+            }
+
+            // disable air attack animations if these haven't finished when player hits ground
+            isAirPunching = false;
+            // isAirShooting = false;
+            isAirAttackSingle = false;
+            isAirAttackHeavy = false;
+
+            weaponCollider.SetActive(false);
+          } else {
+            horizontalCollision = Helpers.IsValueInArray(Constants.nonHorizontalCollidableObjects, objectCollided.tag) ? false : true;
+
+            if (isBottomCollision(otherCollider, collider)) {
+              horizontalCollision = false;
+              ClearAirAttackSingle();
+            }
           }
         }
       }
-    }
-
-    if (collider.tag == "Ground") {
-      if (jumpStartCollider == "Ground" && jumpEndCollider == "none") {
-        Vector2 intersection = jumpEdgeEndCastPosition + new Vector2(jumpEdgeCastLength * direction, 0);
-        RaycastHit2D jumpEdgeIntersectionCast = Physics2D.Raycast(intersection, intersectionDirection, intersectionCastLength);
-        Debug.DrawRay(intersection, intersectionDirection.normalized * intersectionCastLength, Colors.raycastColors["jump"]);
-        if (jumpEdgeIntersectionCast.collider != null) {
-          float vPlacement = Mathf.Abs(jumpEdgeIntersectionCast.point.y - intersection.y);
-          transform.position = new Vector2(transform.position.x + heroWidth, transform.position.y + vPlacement);
-        }
+    } else if (collider.tag == "Ground" && ((collisionDirection == "left" && isFacingLeft) || (collisionDirection == "right" && !isFacingLeft))) {
+      if (isJumping) {
+        airEdgeCheck.GetComponent<AirEdgeCheck>().CheckStepOver(GetComponent<Hero>(), direction * -1);
       }
     }
 
