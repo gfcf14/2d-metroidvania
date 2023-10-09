@@ -125,6 +125,8 @@ public class Hero : MonoBehaviour {
   public string NPCnearbyAction;
   public string collisionDirection = "";
   public string collisionData = "";
+
+  public string blockedDirection = "";
   public bool hurtFromBehind = false;
 
   public bool isHoldingDown = false;
@@ -597,6 +599,7 @@ public class Hero : MonoBehaviour {
     isJumping = false;
     isFalling = false;
     isGrounded = true;
+    blockedDirection = "";
     PerformGroundFall();
   }
 
@@ -717,6 +720,11 @@ public class Hero : MonoBehaviour {
             currentShieldHP = maxShieldHP;
             shieldDropTime = 0;
           }
+        }
+
+        // restricts horizontal input based on blocked direction due to bumping
+        if ((blockedDirection == "left" && horizontalInput < 0) || (blockedDirection == "right" && horizontalInput > 0)) {
+          horizontalInput = 0;
         }
 
         // x axis movement
@@ -1394,12 +1402,18 @@ public class Hero : MonoBehaviour {
     ModifyPosition(new Vector2(transform.position.x + (heroWidth * direction), transform.position.y + stepOverHeight));
     ToggleAirCheck(false);
     isGrounded = true;
+    blockedDirection = "";
     isFalling = false;
     isJumping = false;
   }
 
   // moves the player back a bit to ensure behavior is correct
   public void Bump(float bumpX = 0, float bumpY = 0) {
+    // blocks the direction bumped into to avoid continous bumping
+    if (!isFalling) {
+      isFalling = true;
+    }
+    blockedDirection = isFacingLeft ? "left" : "right";
     ModifyPosition(new Vector2(transform.position.x - bumpX * direction, transform.position.y + bumpY));
   }
 
@@ -1426,6 +1440,7 @@ public class Hero : MonoBehaviour {
 
             ToggleAirCheck(false);
             isGrounded = true;
+            blockedDirection = "";
             isFalling = false;
             isJumping = false;
             // isJetpackUp = false;
