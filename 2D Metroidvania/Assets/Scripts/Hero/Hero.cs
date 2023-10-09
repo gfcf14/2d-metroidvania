@@ -1398,6 +1398,11 @@ public class Hero : MonoBehaviour {
     isJumping = false;
   }
 
+  // moves the player back a bit to ensure behavior is correct
+  public void Bump(float bumpX = 0, float bumpY = 0) {
+    ModifyPosition(new Vector2(transform.position.x - bumpX * direction, transform.position.y + bumpY));
+  }
+
   private void OnCollisionEnter2D(Collision2D col) {
     Collider2D collider = col.collider;
     Collider2D otherCollider = col.otherCollider;
@@ -1458,6 +1463,7 @@ public class Hero : MonoBehaviour {
         if (isJumping || isFalling) {
           // TODO: implement some bump logic here to avoid having the player stick to the "wall" and fall down slowly
           Debug.Log("bump (no check)");
+          Bump(bumpX: heroWidth / 8);
         }
       }
     }

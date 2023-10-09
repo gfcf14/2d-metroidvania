@@ -42,6 +42,7 @@ public class AirEdgeCheck : MonoBehaviour {
         } else {
             // TODO: implement some bump logic here to avoid having the player stick to the "wall" and fall down slowly
             Debug.Log("bump (checked)");
+            hero.Bump(bumpX: hero.heroWidth / 8);
         }
     }
   }
