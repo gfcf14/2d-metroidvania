@@ -25,6 +25,7 @@ public class Hero : MonoBehaviour {
   [SerializeField] public GameObject levelUpCanvas;
   [SerializeField] public GameObject fadeOutCanvas;
   [SerializeField] public GameObject airEdgeCheck;
+  public AirEdgeCheck airEdgeCheckScript;
   private Rigidbody2D body;
   private Animator anim;
   private SpriteRenderer heroRenderer;
@@ -242,6 +243,7 @@ public class Hero : MonoBehaviour {
     anim = GetComponent<Animator>();
     heroRenderer = GetComponent<SpriteRenderer>();
     audioSource = GetComponent<AudioSource>();
+    airEdgeCheckScript = airEdgeCheck.GetComponent<AirEdgeCheck>();
     inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
 
     // currentWeapon = weapons[weaponIndex % weapons.Length];
@@ -1446,9 +1448,17 @@ public class Hero : MonoBehaviour {
           }
         }
       }
-    } else if (collider.tag == "Ground" && ((collisionDirection == "left" && isFacingLeft) || (collisionDirection == "right" && !isFacingLeft))) {
-      if (isJumping) {
-        airEdgeCheck.GetComponent<AirEdgeCheck>().CheckStepOver(GetComponent<Hero>(), direction * -1);
+    } else {
+      // if the player collides with a wall, only if the air edge check object is intersecting it will we check for step over
+      if (airEdgeCheckScript.IntersectsWithGround()) {
+        if (isJumping || isFalling) {
+          airEdgeCheckScript.CheckStepOver(GetComponent<Hero>(), direction * -1);
+        }
+      } else {
+        if (isJumping || isFalling) {
+          // TODO: implement some bump logic here to avoid having the player stick to the "wall" and fall down slowly
+          Debug.Log("bump (no check)");
+        }
       }
     }
 
