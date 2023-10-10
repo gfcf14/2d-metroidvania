@@ -96,7 +96,7 @@ public class Enemy : MonoBehaviour {
     [System.NonSerialized] public bool isWalking;
     [System.NonSerialized] public bool stunOnAttack = false;
 
-    private int direction = 1;
+    public int direction = 1;
 
   // Player Related Properties
     [System.NonSerialized] public bool playerFound = false;
@@ -674,7 +674,7 @@ public class Enemy : MonoBehaviour {
     }
   }
 
-  void Destroy() {
+  public void Destroy() {
     if (gameObject.name == "Boss") {
       GameObject.Find("BossStatusCanvas").SetActive(false);
     }
