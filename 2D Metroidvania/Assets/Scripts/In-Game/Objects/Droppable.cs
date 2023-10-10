@@ -19,7 +19,7 @@ public class Droppable : MonoBehaviour {
   [System.NonSerialized] SpriteRenderer droppableSprite;
   [System.NonSerialized] Rigidbody2D body;
   [System.NonSerialized] Sprite spriteHolder;
-  [System.NonSerialized] PolygonCollider2D collider;
+  [System.NonSerialized] PolygonCollider2D droppableCollider;
 
   private Animator anim;
   private AudioSource audioSource;
@@ -49,8 +49,8 @@ public class Droppable : MonoBehaviour {
      spriteHolder = Sprites.droppableSprites[key];
     }
 
-    collider = gameObject.AddComponent<PolygonCollider2D>();
-    collider.autoTiling = true;
+    droppableCollider = gameObject.AddComponent<PolygonCollider2D>();
+    droppableCollider.autoTiling = true;
 
     if (isDropped) {
       anim.Play("droppable-rise");
@@ -97,7 +97,7 @@ public class Droppable : MonoBehaviour {
         // destroys the rigid body and makes the collider a trigger so that
         // if the player is overlapping no movement is caused (usually pushing the player up)
         Destroy(body);
-        collider.isTrigger = true;
+        droppableCollider.isTrigger = true;
 
         gameObject.layer = LayerMask.NameToLayer("Dropped");
 

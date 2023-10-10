@@ -37,7 +37,7 @@ public class Patroller : MonoBehaviour {
               RaycastHit2D edgeCast = Physics2D.Raycast(beginEdgeCast, edgeCastDirection, enemy.edgeCastLength);
               Debug.DrawRay(beginEdgeCast, edgeCastDirection.normalized * enemy.edgeCastLength, Colors.raycastColors["edge"]);
 
-              if (edgeCast.collider && edgeCast.collider.name == "EnemyFlipper") {
+              if (edgeCast.collider && edgeCast.collider.name.Contains("EnemyFlipper")) {
                 enemy.isFacingLeft = !enemy.isFacingLeft;
                 if (enemy.playerFound) {
                   enemy.playerFound = false;
