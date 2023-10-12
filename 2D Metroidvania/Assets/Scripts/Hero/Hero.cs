@@ -35,6 +35,11 @@ public class Hero : MonoBehaviour {
   public float heroHeight;
   public float heroWidth;
 
+  public bool collidingTop = false;
+  public bool collidingBottom = false;
+  public bool collidingFront = false;
+  public bool collidingBack = false;
+
   // for when player must move on their own
   public bool isAutonomous = false;
   public bool mustTransitionOnAir = false;
@@ -1367,31 +1372,41 @@ public class Hero : MonoBehaviour {
     }
   }
 
-
-// NEEDS TWEAKING FROM isFacingLeft
-  private string GetGroundCollisionDirection(Vector2 position, Vector2 closestPoint) {
-    collisionData = closestPoint + " VS " + position;
-    if (isFalling || groundType != "level") {
-      return "bottom";
-    }
-
-    if (closestPoint.y < position.y) {
-      if (closestPoint.x == position.x) {
-        return isFacingLeft ? "left" : "right";
-      }
-
-      return "top";
-    } else if (closestPoint.y >= position.y) {
-      if (closestPoint.x == position.x) {
-        return "bottom";
-      } else if (closestPoint.x < position.x) {
-        return "left";
-      } else if (closestPoint.x > position.x) {
-        return "right";
+  // gets the ground collision direction based on different states of movement:
+  // - if falling, it should always be bottom collision
+  // - if jumping, it should never be bottom collision
+  //   - check front. If colliding, check step over. If it fails, bump back
+  //   - If front is not colliding, check back. If colliding, BuildCompression forward
+  // TODO: no top value is yet returned as no issues have arisen from the top. Investigate for possible scenarios
+  private string GetGroundCollisionDirection() {
+    if (!isFalling) {
+      if (isJumping) {
+        if (collidingFront) {
+          return "front";
+        } else if (collidingBack) {
+          return "back";
+        }
       }
     }
 
     return "bottom";
+  }
+
+  public void SetCollisionDirection(string direction, bool collidingValue) {
+    switch (direction) {
+      case "top":
+        collidingTop = collidingValue;
+      break;
+      case "front":
+        collidingFront = collidingValue;
+      break;
+      case "bottom":
+        collidingBottom = collidingValue;
+      break;
+      case "back":
+        collidingBack = collidingValue;
+      break;
+    }
   }
 
   public void ModifyPosition(Vector2 newPosition) {
@@ -1408,12 +1423,12 @@ public class Hero : MonoBehaviour {
   }
 
   // moves the player back a bit to ensure behavior is correct
-  public void Bump(float bumpX = 0, float bumpY = 0) {
+  public void Bump(float bumpX = 0, float bumpY = 0, string specificBlockDirection = "") {
     // blocks the direction bumped into to avoid continous bumping
     if (!isFalling) {
       isFalling = true;
     }
-    blockedDirection = isFacingLeft ? "left" : "right";
+    blockedDirection = specificBlockDirection != "" ? specificBlockDirection : (isFacingLeft ? "left" : "right");
     ModifyPosition(new Vector2(transform.position.x - bumpX * direction, transform.position.y + bumpY));
   }
 
@@ -1422,53 +1437,60 @@ public class Hero : MonoBehaviour {
     Collider2D otherCollider = col.otherCollider;
     GameObject objectCollided = col.gameObject;
 
-    collisionDirection = GetGroundCollisionDirection(transform.position, collider.ClosestPoint(transform.position));
+    collisionDirection = GetGroundCollisionDirection();
 
     if (collisionDirection == "bottom") {
-      if (Helpers.IsValueInArray(Constants.landingObjects, objectCollided.tag)) {
-        if (otherCollider.tag == "Hero") {
-          if (!isHorizontalCollision(otherCollider, collider)) {
-            if (collider.tag == "Ground" && isFalling) {
-                PerformGroundFall();
-            } else if  (collider.tag == "Breakable") {
-              // TODO: This will fail for barrels. Prepare falling sound for barrels
-              PlayFallingSound(collider.gameObject.GetComponent<Breakable>().type, Objects.equipmentBaseMaterial[bodyEquipment]);
-            } else if (collider.tag == "Interactable") {
-              // TODO: for now, box sounds appear to work fine. If interactables made of non-wood material are implemented, consider changing this
-              PlayFallingSound("box", "boots");
-            }
+      // when falling, check if there is a wall collision (i.e. either front or back collision)
+      if ((collidingFront || collidingBack) && !isGrounded) {
+        string blockDirection = collidingFront ? (isFacingLeft ? "left" : "right") : (isFacingLeft ? "right" : "left");
 
-            ToggleAirCheck(false);
-            isGrounded = true;
-            blockedDirection = "";
-            isFalling = false;
-            isJumping = false;
-            // isJetpackUp = false;
-            horizontalCollision = false;
-            isDropKicking = false;
+        Bump(bumpX: (heroWidth * direction * (blockDirection == "left" ? -1 : 1)) / 4, specificBlockDirection: blockDirection);
+      } else {
+        if (Helpers.IsValueInArray(Constants.landingObjects, objectCollided.tag)) {
+          if (otherCollider.tag == "Hero") {
+            if (!isHorizontalCollision(otherCollider, collider)) {
+              if (collider.tag == "Ground" && isFalling) {
+                  PerformGroundFall();
+              } else if  (collider.tag == "Breakable") {
+                // TODO: This will fail for barrels. Prepare falling sound for barrels
+                PlayFallingSound(collider.gameObject.GetComponent<Breakable>().type, Objects.equipmentBaseMaterial[bodyEquipment]);
+              } else if (collider.tag == "Interactable") {
+                // TODO: for now, box sounds appear to work fine. If interactables made of non-wood material are implemented, consider changing this
+                PlayFallingSound("box", "boots");
+              }
 
-            if (isHurt == 3) {
-              Recover();
-            }
-
-            // disable air attack animations if these haven't finished when player hits ground
-            isAirPunching = false;
-            // isAirShooting = false;
-            isAirAttackSingle = false;
-            isAirAttackHeavy = false;
-
-            weaponCollider.SetActive(false);
-          } else {
-            horizontalCollision = Helpers.IsValueInArray(Constants.nonHorizontalCollidableObjects, objectCollided.tag) ? false : true;
-
-            if (isBottomCollision(otherCollider, collider)) {
+              ToggleAirCheck(false);
+              isGrounded = true;
+              blockedDirection = "";
+              isFalling = false;
+              isJumping = false;
+              // isJetpackUp = false;
               horizontalCollision = false;
-              ClearAirAttackSingle();
+              isDropKicking = false;
+
+              if (isHurt == 3) {
+                Recover();
+              }
+
+              // disable air attack animations if these haven't finished when player hits ground
+              isAirPunching = false;
+              // isAirShooting = false;
+              isAirAttackSingle = false;
+              isAirAttackHeavy = false;
+
+              weaponCollider.SetActive(false);
+            } else {
+              horizontalCollision = Helpers.IsValueInArray(Constants.nonHorizontalCollidableObjects, objectCollided.tag) ? false : true;
+
+              if (isBottomCollision(otherCollider, collider)) {
+                horizontalCollision = false;
+                ClearAirAttackSingle();
+              }
             }
           }
         }
       }
-    } else {
+    } else if (collisionDirection == "front") {
       // if the player collides with a wall, only if the air edge check object is intersecting it will we check for step over
       if (airEdgeCheckScript.IntersectsWithGround()) {
         if (isJumping || isFalling) {
@@ -1476,11 +1498,11 @@ public class Hero : MonoBehaviour {
         }
       } else {
         if (isJumping || isFalling) {
-          // TODO: implement some bump logic here to avoid having the player stick to the "wall" and fall down slowly
-          Debug.Log("bump (no check)");
-          Bump(bumpX: heroWidth / 8);
+          Bump(bumpX: heroWidth / 6);
         }
       }
+    } else if (collisionDirection == "back") { // if jumping and colliding backward, a forward bump should happen
+      Bump(bumpX: -heroWidth / 6);
     }
 
     if (IsOnIncline() && isFalling) {
