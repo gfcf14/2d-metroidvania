@@ -91,7 +91,12 @@ public class Droppable : MonoBehaviour {
     string gameObjectTag = col.gameObject.tag;
       if (gameObjectTag == "Ground" || gameObjectTag == "Interactable") {
         if (inGame.IsInRoom(inGame.FindRoom(transform.parent))) {
-          PlaySound(Sounds.droppableFallingSounds[gameObjectTag == "Interactable" ? "interactable" : inGame.GetTileMaterial(transform.position)]);
+          string materialFallingOn = inGame.GetTileMaterial(transform.position);
+          if (materialFallingOn == null) {
+            // TODO: find a better way to get the location
+            materialFallingOn = Helpers.GetMaterial(GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().location);
+          }
+          PlaySound(Sounds.droppableFallingSounds[gameObjectTag == "Interactable" ? "interactable" : materialFallingOn]);
         }
 
         // destroys the rigid body and makes the collider a trigger so that
