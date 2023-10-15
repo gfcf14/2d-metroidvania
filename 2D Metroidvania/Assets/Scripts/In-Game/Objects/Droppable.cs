@@ -61,6 +61,21 @@ public class Droppable : MonoBehaviour {
   }
 
   void Update() {
+
+    // Algorithm to detect if the droppable is headed beyond a roof due to animation transition
+    if (!canBePicked) {
+      Vector2 roofCast = transform.position + new Vector3(0, droppableSprite.sprite.bounds.size.y / 2, 0);
+      Vector2 roofCastDirection = transform.TransformDirection(new Vector2(0, 1));
+
+      RaycastHit2D roofRayCast = Physics2D.Raycast(roofCast, roofCastDirection, 0.25f);
+      Debug.DrawRay(roofCast, roofCastDirection.normalized * 0.25f, Colors.raycastColors["edge"]);
+
+      if (roofRayCast && roofRayCast.collider.tag == "Ground") {
+        anim.speed = 0;
+        FinishAnim();
+      }
+    }
+
     if (flickerEffect != null) {
       if (isIdle) {
         if (Helpers.ExceedsTime(timer, maxIdleTime)) {
@@ -89,28 +104,29 @@ public class Droppable : MonoBehaviour {
 
   private void OnCollisionEnter2D(Collision2D col) {
     string gameObjectTag = col.gameObject.tag;
-      if (gameObjectTag == "Ground" || gameObjectTag == "Interactable") {
-        if (inGame.IsInRoom(inGame.FindRoom(transform.parent))) {
-          string materialFallingOn = inGame.GetTileMaterial(transform.position);
-          if (materialFallingOn == null) {
-            // TODO: find a better way to get the location
-            materialFallingOn = Helpers.GetMaterial(GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().location);
-          }
-          PlaySound(Sounds.droppableFallingSounds[gameObjectTag == "Interactable" ? "interactable" : materialFallingOn]);
+
+    if (gameObjectTag == "Ground" || gameObjectTag == "Interactable") {
+      if (inGame.IsInRoom(inGame.FindRoom(transform.parent))) {
+        string materialFallingOn = inGame.GetTileMaterial(transform.position);
+        if (materialFallingOn == null) {
+          // TODO: find a better way to get the location
+          materialFallingOn = Helpers.GetMaterial(GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().location);
         }
-
-        // destroys the rigid body and makes the collider a trigger so that
-        // if the player is overlapping no movement is caused (usually pushing the player up)
-        Destroy(body);
-        droppableCollider.isTrigger = true;
-
-        gameObject.layer = LayerMask.NameToLayer("Dropped");
-
-        if (GetComponent<Flicker>() != null) {
-          timer = Time.time * 1000;
-          isIdle = true;
-        }
+        PlaySound(Sounds.droppableFallingSounds[gameObjectTag == "Interactable" ? "interactable" : materialFallingOn]);
       }
+
+      // destroys the rigid body and makes the collider a trigger so that
+      // if the player is overlapping no movement is caused (usually pushing the player up)
+      Destroy(body);
+      droppableCollider.isTrigger = true;
+
+      gameObject.layer = LayerMask.NameToLayer("Dropped");
+
+      if (GetComponent<Flicker>() != null) {
+        timer = Time.time * 1000;
+        isIdle = true;
+      }
+    }
   }
 
   private void OnTriggerEnter2D(Collider2D col) {
