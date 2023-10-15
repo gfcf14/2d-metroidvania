@@ -87,6 +87,7 @@ public class Sounds {
   };
 
   public static Dictionary<string, AudioClip> droppableFallingSounds = new Dictionary<string, AudioClip> {
+    {"dirt", Resources.Load<AudioClip>("SFX/falling/dirt/barefoot")},
     {"grass", Resources.Load<AudioClip>("SFX/items/falling/on-grass")},
     {"interactable", Resources.Load<AudioClip>("SFX/breakables/box/falling/on-box-1")}
   };
