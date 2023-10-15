@@ -8,7 +8,7 @@ public class Hero : MonoBehaviour {
 
   [System.NonSerialized] public string pauseCase = "";
   [SerializeField] public List<Consumable> consumables = new List<Consumable>();
-  [SerializeField] public float speed;
+  [SerializeField] public float speed = 5;
   [SerializeField] public string groundType = "level";
   [SerializeField] public float inclineSlope = 0.125f;
   [SerializeField] public float jumpHeight = 8f;
@@ -983,12 +983,12 @@ public class Hero : MonoBehaviour {
     if (isAutonomous) {
       if (isGrounded) {
         isRunning = true;
-        body.velocity = new Vector2(5 * bossTransitionDirection, 0);
+        body.velocity = new Vector2(speed * bossTransitionDirection, GetGroundVerticalModifier(groundType, speed * bossTransitionDirection));
       } else {
         isFalling = true;
         anim.Play("falling-1", -1, 0f);
         if (mustTransitionOnAir) {
-          body.velocity = new Vector2(5 * bossTransitionDirection, 0);
+          body.velocity = new Vector2(speed * bossTransitionDirection, 0);
         }
       }
     } else {
