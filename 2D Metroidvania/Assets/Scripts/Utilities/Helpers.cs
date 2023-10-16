@@ -430,4 +430,12 @@ public class Helpers {
 
     return -1;
   }
+
+  public static string TwoDigits(float decimalValue) {
+    return String.Format("{0:0.00}", decimalValue);
+  }
+
+  public static string TwoDigits(float? decimalValue) {
+    return String.Format("{0:0.00}", decimalValue);
+  }
 }
