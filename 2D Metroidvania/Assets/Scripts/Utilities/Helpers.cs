@@ -154,11 +154,6 @@ public class Helpers {
     return randomOutcome <= rate;
   }
 
-  // determines the next level exp amount following the formula: f(x) = 50x^2 - 50x
-  public static int NextLevelEXP(int newLevel) {
-    return (50 * (int)Mathf.Pow(newLevel, 2)) - (50 * newLevel);
-  }
-
   public static bool ExceedsTime(float start, float limit) {
     return Time.time * 1000 > start + limit;
   }
@@ -287,5 +282,152 @@ public class Helpers {
     }
 
     return int.Parse(tileName.Split('_')[1]);
+  }
+
+  // recursive function to get exp for levels between 21 and 40
+  public static int GetEXP2140(int level) {
+    if (level == 20) {
+      return 10450;
+    }
+
+    return 200 * (level - 20) + 1000 + GetEXP2140(--level);
+  }
+
+  // recursive function to get exp for levels between 41 and 60
+  public static int GetEXP4160(int level) {
+    if (level == 40) {
+      return 92450;
+    }
+
+    return 400 * (level - 40) + 1000 + GetEXP4160(--level);
+  }
+
+  // recursive function to get exp for levels between 61 and 80
+  public static int GetEXP6180(int level) {
+    if (level == 60) {
+      return 196450;
+    }
+
+    return 600 * (level - 60) + 1000 + GetEXP6180(--level);
+  }
+
+  // recursive function to get exp for levels between 81 and 90
+  public static int GetEXP8190(int level) {
+    if (level == 80) {
+      return 342450;
+    }
+
+    return 15000 * (level - 80) + GetEXP8190(--level);
+  }
+
+  // recursive function to get exp for levels between 91 and 100
+  public static int GetEXP91100(int level) {
+    if (level == 90) {
+      return 492450;
+    }
+
+    return 20000 * (level - 90) + GetEXP91100(--level);
+  }
+
+  // determines the next level exp amount following the formula: f(x) = 50x^2 - 50x
+  public static int NextLevelEXP(int nextLevel) {
+    if (nextLevel >= 1 && nextLevel <= 20) {
+      return (25 * (int)Mathf.Pow(nextLevel, 2)) + (25 * nextLevel) - 50;
+    } else if (nextLevel >= 21 && nextLevel <= 40) {
+      return GetEXP2140(nextLevel);
+    } else if (nextLevel >= 41 && nextLevel <= 60) {
+      return GetEXP4160(nextLevel);
+    } else if (nextLevel >= 61 && nextLevel <= 80) {
+      return GetEXP6180(nextLevel);
+    } else if (nextLevel >= 81 && nextLevel <= 90) {
+      return GetEXP8190(nextLevel);
+    } else if (nextLevel >= 91 && nextLevel <= 100) {
+      return GetEXP91100(nextLevel);
+    }
+
+    return GameData.highestEXP;
+  }
+
+  public static float GetStatByLevel(string stat, int level) {
+    switch(stat) {
+      case "HP":
+      case "MP":
+        if (level == 100) {
+          return GameData.highestHP;
+        } else if (level < 20) {
+          return GameData.baseHP + (5 * (level - 1));
+        } else if (level < 50) {
+          return 200 + (10 * (level - 20));
+        } else if (level < 80) {
+          return 500 + (50 * (level - 50));
+        } else if (level < 90) {
+          return 2000 + (100 * (level - 80));
+        } else if (level >= 90) {
+          return 3000 + (200 * (level - 90));
+        }
+      break;
+      case "STR":
+        if (level == 100) {
+          return GameData.highestSTR;
+        } else if (level < 35) {
+          return GameData.baseSTR + (5 * (level - 1));
+        } else if (level < 49) {
+          return 180 + (10 * (level - 35));
+        } else if (level < 80) {
+          return 330 + (20 * (level - 49));
+        } else if (level < 90) {
+          return 950 + (45 * (level - 80));
+        } else if (level >= 90) {
+          return 1400 + (60 * (level - 90));
+        }
+      break;
+      case "STA":
+        if (level == 100) {
+          return GameData.highestSTA;
+        } else if (level < 8) {
+          return GameData.baseSTA + (5 * (level - 1));
+        } else if (level < 41) {
+          return 60 + (20 * (level - 8));
+        } else if (level < 80) {
+          return 725 + (25 * (level - 41));
+        } else if (level < 90) {
+          return 1700 + (30 * (level - 80));
+        } else if (level >= 90) {
+          return 2000 + (50 * (level - 90));
+        }
+      break;
+      case "CRI":
+        if (level == 100) {
+          return GameData.highestCRI;
+        } else if (level < 10) {
+          return GameData.baseCRI + (0.01f * (level - 1));
+        } else if (level < 20) {
+          return 0.04f + (0.02f * (level - 10));
+        } else if (level < 80) {
+          return 0.06f + (0.025f * (level - 20));
+        } else if (level < 90) {
+          return 0.21f + (0.04f * (level - 80));
+        } else if (level >= 90) {
+          return 0.25f + (0.05f * (level - 90));
+        }
+      break;
+      case "LCK":
+        if (level == 100) {
+          return GameData.highestLCK;
+        } else if (level < 20) {
+          return GameData.baseLCK + (0.0005f * (level - 1));
+        } else if (level < 50) {
+          return 0.035f + (0.002f * (level - 20));
+        } else if (level < 80) {
+          return 0.095f + (0.0025f * (level - 50));
+        } else if (level < 90) {
+          return 0.173f + (0.003f * (level - 80));
+        } else if (level >= 90) {
+          return 0.205f + (0.005f * (level - 90));
+        }
+      break;
+    }
+
+    return -1;
   }
 }

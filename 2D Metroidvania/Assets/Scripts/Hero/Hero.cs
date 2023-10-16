@@ -137,19 +137,19 @@ public class Hero : MonoBehaviour {
   public bool isHoldingDown = false;
 
   // PLAYER STATS
-    [System.NonSerialized] public int playerLevel = 1;
-    [System.NonSerialized] public int currentHP = 5000;
-    [System.NonSerialized] public int maxHP = 5000;
-    [System.NonSerialized] public int currentMP = 5000;
-    [System.NonSerialized] public int maxMP = 5000;
+    [System.NonSerialized] public int playerLevel = 100;
+    [System.NonSerialized] public int currentHP = GameData.baseHP;
+    [System.NonSerialized] public int maxHP = GameData.baseHP;
+    [System.NonSerialized] public int currentMP = GameData.baseHP;
+    [System.NonSerialized] public int maxMP = GameData.baseHP;
     [System.NonSerialized] public string status = "good";
-    [System.NonSerialized] public int exp = 80;
+    [System.NonSerialized] public int exp = 0;
     [System.NonSerialized] public int next = 0;
     [System.NonSerialized] public int gold = 650;
-    [System.NonSerialized] public int strength = 5;
-    [System.NonSerialized] public int stamina = 5;
-    [System.NonSerialized] public float luckPercentage = 0.05f;
-    [System.NonSerialized] public float criticalPercentage = 0.05f;
+    [System.NonSerialized] public int strength = GameData.baseSTR;
+    [System.NonSerialized] public int stamina = GameData.baseSTA;
+    [System.NonSerialized] public float luckPercentage = GameData.baseLCK;
+    [System.NonSerialized] public float criticalPercentage = GameData.baseCRI;
     [System.NonSerialized] public string location = "meadows";
     [System.NonSerialized] public HeroMagicResistance[] magicResistances = new HeroMagicResistance[] {
       new HeroMagicResistance() {name = "earth", frequency = 0},
@@ -186,12 +186,12 @@ public class Hero : MonoBehaviour {
 
   // PLAYER EQUIPMENT
     [System.NonSerialized] public static string bodyEquipment = "body-1";
-    [System.NonSerialized] public static string arm1Equipment = "basic-longsword";
-    [System.NonSerialized] public static string arm2Equipment = "basic-longsword";
-    [System.NonSerialized] public static string neckEquipment = "moonlight-pendant";
-    [System.NonSerialized] public static string armwear1Equipment = "silver-bracelet";
+    [System.NonSerialized] public static string arm1Equipment = "";
+    [System.NonSerialized] public static string arm2Equipment = "";
+    [System.NonSerialized] public static string neckEquipment = "";
+    [System.NonSerialized] public static string armwear1Equipment = "";
     [System.NonSerialized] public static string armwear2Equipment = "";
-    [System.NonSerialized] public static string ring1Equipment = "skull-ring";
+    [System.NonSerialized] public static string ring1Equipment = "";
     [System.NonSerialized] public static string ring2Equipment = "";
 
     [System.NonSerialized] public static string projectileEquipment = "";
@@ -299,6 +299,39 @@ public class Hero : MonoBehaviour {
     items.Add(new Item("arrow-fire", 10));
     items.Add(new Item("bomb", 99));
     items.Add(new Item("king-bone", 16));
+
+    // TODO: after implementing the load functionality, playerLevel should be updated via reading save data
+
+    SetupStatsByLevel();
+  }
+
+  public void SetupStatsByLevel() {
+    foreach (string currStat in GameData.playerStats) {
+      switch(currStat) {
+        case "HP":
+          int hpByLevel = (int)Helpers.GetStatByLevel(currStat, playerLevel);
+          currentHP = hpByLevel;
+          maxHP = hpByLevel;
+        break;
+        case "MP":
+          int mpByLevel = (int)Helpers.GetStatByLevel(currStat, playerLevel);
+          currentMP = mpByLevel;
+          maxMP = mpByLevel;
+        break;
+        case "STR":
+          strength = (int)Helpers.GetStatByLevel(currStat, playerLevel);
+        break;
+        case "STA":
+          stamina = (int)Helpers.GetStatByLevel(currStat, playerLevel);
+        break;
+        case "CRI":
+          criticalPercentage = Helpers.GetStatByLevel(currStat, playerLevel);
+        break;
+        case "LCK":
+          luckPercentage = Helpers.GetStatByLevel(currStat, playerLevel);
+        break;
+      }
+    }
 
     UpdateStatsValues();
 
