@@ -38,29 +38,39 @@ public class Sounds {
     }},
   };
 
+  public static AudioClip[] woodBreakingSounds = new AudioClip[] {
+    Resources.Load<AudioClip>("SFX/breakables/box/breaking/breaking-1"),
+    Resources.Load<AudioClip>("SFX/breakables/box/breaking/breaking-2"),
+    Resources.Load<AudioClip>("SFX/breakables/box/breaking/breaking-3"),
+  };
+
   public static Dictionary<string, AudioClip[]> breakableSounds = new Dictionary<string, AudioClip[]> {
+    {"barrel", woodBreakingSounds},
+    {"box", woodBreakingSounds}
+  };
+
+  public static Dictionary<string, AudioClip[]> woodFallingSounds = new Dictionary<string, AudioClip[]> {
+    {"barrel", new AudioClip[] {
+      Resources.Load<AudioClip>("SFX/breakables/box/falling/on-box-1"),
+      Resources.Load<AudioClip>("SFX/breakables/box/falling/on-box-2"),
+    }},
     {"box", new AudioClip[] {
-      Resources.Load<AudioClip>("SFX/breakables/box/breaking/breaking-1"),
-      Resources.Load<AudioClip>("SFX/breakables/box/breaking/breaking-2"),
-      Resources.Load<AudioClip>("SFX/breakables/box/breaking/breaking-3"),
+      Resources.Load<AudioClip>("SFX/breakables/box/falling/on-box-1"),
+      Resources.Load<AudioClip>("SFX/breakables/box/falling/on-box-2"),
+    }},
+    {"grass", new AudioClip[] {
+      Resources.Load<AudioClip>("SFX/breakables/box/falling/on-grass-1"),
+      Resources.Load<AudioClip>("SFX/breakables/box/falling/on-grass-2"),
+    }},
+    {"item", new AudioClip[] {
+      Resources.Load<AudioClip>("SFX/items/falling/on-box"),
     }}
   };
 
   // falling sounds for anything which base material is not changeable
   public static Dictionary<string, Dictionary<string, AudioClip[]>> fallingSounds = new Dictionary<string, Dictionary<string, AudioClip[]>> {
-    {"box", new Dictionary<string, AudioClip[]> {
-      {"box", new AudioClip[] {
-        Resources.Load<AudioClip>("SFX/breakables/box/falling/on-box-1"),
-        Resources.Load<AudioClip>("SFX/breakables/box/falling/on-box-2"),
-      }},
-      {"grass", new AudioClip[] {
-        Resources.Load<AudioClip>("SFX/breakables/box/falling/on-grass-1"),
-        Resources.Load<AudioClip>("SFX/breakables/box/falling/on-grass-2"),
-      }},
-      {"item", new AudioClip[] {
-        Resources.Load<AudioClip>("SFX/items/falling/on-box"),
-      }}
-    }},
+    {"barrel", woodFallingSounds},
+    {"box", woodFallingSounds},
     {"character", new Dictionary<string, AudioClip[]> {
       {"dirt", new AudioClip[] {
         Resources.Load<AudioClip>("SFX/falling/dirt/boots"),
