@@ -145,7 +145,7 @@ public class Hero : MonoBehaviour {
     [System.NonSerialized] public string status = "good";
     [System.NonSerialized] public int exp = 0;
     [System.NonSerialized] public int next = 0;
-    [System.NonSerialized] public int gold = 650;
+    [System.NonSerialized] public int gold = 500;
     [System.NonSerialized] public int strength = GameData.baseSTR;
     [System.NonSerialized] public int stamina = GameData.baseSTA;
     [System.NonSerialized] public float luckPercentage = GameData.baseLCK;
