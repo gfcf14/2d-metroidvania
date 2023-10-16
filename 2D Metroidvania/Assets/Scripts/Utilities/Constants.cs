@@ -70,6 +70,7 @@ public class Constants {
   public static int punchDamage = 5;
 
   public static int minimumDamageDealt = 5;
+  public static int maximumDamageDealt = 9999;
   public static int maxItemNameLength = 20;
   public static int maxItemDescriptionLength = 120;
   public static int maxItemCount = 999;

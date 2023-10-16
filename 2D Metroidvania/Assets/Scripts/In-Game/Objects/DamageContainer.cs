@@ -20,7 +20,7 @@ public class DamageContainer : MonoBehaviour {
     TextMeshPro textElement = transform.Find("DamageText").gameObject.GetComponent<TextMeshPro>();
     textElement.text = damage.ToString() + (isCritical ? "!" : "");
     if (isCritical) {
-      transform.Find("DamageText").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(1.31f, 0.5645f);
+      transform.Find("DamageText").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(1.5f, 0.5645f);
       textElement.font = Objects.fonts["levi-rebrushed"];
       textElement.UpdateFontAsset();
     }

@@ -594,11 +594,12 @@ public class Enemy : MonoBehaviour {
   }
 
   public void TakeDamage(int damage, Vector2? damagePosition = null, bool? isCritical = false, string soundType = "") {
-    currentHP -= damage;
+    int actualDamage = damage > Constants.maximumDamageDealt ? Constants.maximumDamageDealt : damage;
+    currentHP -= actualDamage;
 
     if (Settings.showDamage) {
       Vector2 position = damagePosition ?? new Vector2(transform.position.x, transform.position.y + (enemyHeight / 2));
-      inGame.DrawDamage(position, damage, isCritical, soundType);
+      inGame.DrawDamage(position, actualDamage, isCritical, soundType);
     }
   }
 
