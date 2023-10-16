@@ -36,12 +36,12 @@ public class Champion : MonoBehaviour {
 
               // FOUND EDGE
                 Vector2 beginEdgeCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y + enemy.enemyHeight / 4);
-                Vector2 edgeCastDirection = transform.TransformDirection(new Vector2(0, -1));
+                Vector2 edgeCastDirection = transform.TransformDirection(new Vector2(direction * 2, -1));
 
-                RaycastHit2D edgeCast = Physics2D.Raycast(beginEdgeCast, edgeCastDirection, enemy.edgeCastLength);
+                RaycastHit2D edgeCast = Physics2D.Raycast(beginEdgeCast, edgeCastDirection, enemy.edgeCastLength / 2);
                 Debug.DrawRay(beginEdgeCast, edgeCastDirection.normalized * enemy.edgeCastLength, Colors.raycastColors["edge"]);
 
-                if (edgeCast.collider.name == "EnemyFlipper") {
+                if (edgeCast.collider && edgeCast.collider.name.Contains("EnemyFlipper")) {
                   enemy.isFacingLeft = !enemy.isFacingLeft;
                   if (enemy.playerFound) {
                     enemy.playerFound = false;
