@@ -308,6 +308,8 @@ public class Hero : MonoBehaviour {
   public void SetupStatsByLevel() {
     foreach (string currStat in GameData.playerStats) {
       switch(currStat) {
+        // TODO: for HP and MP cases, value should not adjust to the result from getting stats (implies full recovery after a level up)
+        //       perform a percentage of the total value prior to assigning to ensure currentHP (or MP) is a percentage of the obtained value
         case "HP":
           int hpByLevel = (int)Helpers.GetStatByLevel(currStat, playerLevel);
           currentHP = hpByLevel;

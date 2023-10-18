@@ -1,3 +1,5 @@
+using System.Numerics;
+
 public class Constants {
   public static string preferredInput = "gamepad";
   public static string[] nonBouncingThrowables = { "lance", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet", "axe", "king-bone" };
@@ -78,10 +80,6 @@ public class Constants {
   // indicates the maximum "whole" items the items container can visualize
   public static int maxItemContainerHeight = 13;
 
-  // Both of these keep track of the widths of HP and MP bars' left and right edges
-  public static int existingHPWidth = 24;
-  public static int existingMPWidth = 16;
-
   // Marks the default mandatory additional width for the Action Canvas text container
   public static int defaultActionTextContainerWidth = 76;
   public static int actionTextContainerHeight = 75;
@@ -123,15 +121,12 @@ public class Constants {
   public static float startItemY = 375;
   public static float itemIncrementY = 60;
 
-  public static float hpBarLeft = -172.4f;
-  public static float hpBarTop = 372;
-  public static float hpAdjustDifference = 8.5f; // used to be 0.91f. keep testing
-  public static float mpBarLeft = -173.5f;
-  public static float mpBarTop = 344.6f;
-  public static float mpAdjustDifference = 7f; // used to be 0.65f. keep testing
-  public static float maxHPDisplayableLimit = 1000;
-  public static float hpContainerMaxWidth = maxHPDisplayableLimit - existingHPWidth;
+  public static float hpAdjustDifference = 15;
+  public static float mpAdjustDifference = 9;
+  public static float maxHPDisplayableLimit = 500;
 
-  public static float maxMPDisplayableLimit = 1000;
-  public static float mpContainerMaxWidth = maxMPDisplayableLimit - existingMPWidth;
+  public static float maxMPDisplayableLimit = 500;
+
+  // ensures that each HP unit (until reaching 500) displays in 2 UI units
+  public static float containerMultiplier = 2;
 }

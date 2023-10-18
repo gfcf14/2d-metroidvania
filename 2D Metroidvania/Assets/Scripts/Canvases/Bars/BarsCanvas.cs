@@ -29,9 +29,10 @@ public class BarsCanvas : MonoBehaviour {
   public void UpdateHPContainer() {
     if (maxHPWidth != hero.maxHP) {
       maxHPWidth = hero.maxHP;
-      int currentHP = maxHPWidth - Constants.existingHPWidth;
 
-      Vector2 containerDimension = new Vector2(maxHPWidth > Constants.maxHPDisplayableLimit ? Constants.hpContainerMaxWidth : currentHP, 36);
+      // obtains a dimension that is dependent on the hp value
+      Vector2 containerDimension = new Vector2((maxHPWidth > Constants.maxHPDisplayableLimit ? Constants.maxHPDisplayableLimit : maxHPWidth) * Constants.containerMultiplier, 36);
+      containerDimension.x -= Constants.hpAdjustDifference;
 
       hpBackground.GetComponent<RectTransform>().sizeDelta = containerDimension;
       hpForeground.GetComponent<RectTransform>().sizeDelta = containerDimension;
@@ -42,7 +43,9 @@ public class BarsCanvas : MonoBehaviour {
     if (currentHPWidth != hero.currentHP) {
       currentHPWidth = hero.currentHP;
       float calculatedHPDisplay = maxHPWidth > Constants.maxHPDisplayableLimit ? Constants.maxHPDisplayableLimit * ((float)currentHPWidth / (float)maxHPWidth) : currentHPWidth;
-      hpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(calculatedHPDisplay - Constants.hpAdjustDifference, 27);
+      Vector2 hpDisplayVector = new Vector2(calculatedHPDisplay, 27);
+      hpDisplayVector.x *= Constants.containerMultiplier;
+      hpBar.GetComponent<RectTransform>().sizeDelta = hpDisplayVector;
 
       float healthPercentage = (float)hero.currentHP / (float)hero.maxHP;
 
@@ -59,9 +62,10 @@ public class BarsCanvas : MonoBehaviour {
   public void UpdateMPContainer() {
     if (maxMPWidth != hero.maxMP) {
       maxMPWidth = hero.maxMP;
-      int currentMP = maxMPWidth - Constants.existingMPWidth;
 
-      Vector2 containerDimension = new Vector2(maxMPWidth > Constants.maxMPDisplayableLimit ? Constants.mpContainerMaxWidth : currentMP, 16);
+      // obtains a dimension that is dependent on the mp value
+      Vector2 containerDimension = new Vector2((maxMPWidth > Constants.maxMPDisplayableLimit ? Constants.maxMPDisplayableLimit : maxMPWidth) * Constants.containerMultiplier, 16);
+      containerDimension.x -= Constants.mpAdjustDifference;
 
       mpBackground.GetComponent<RectTransform>().sizeDelta = containerDimension;
       mpForeground.GetComponent<RectTransform>().sizeDelta = containerDimension;
@@ -72,7 +76,9 @@ public class BarsCanvas : MonoBehaviour {
     if (currentMPWidth != hero.currentMP) {
       currentMPWidth = hero.currentMP;
       float calculatedMPDisplay = maxMPWidth > Constants.maxMPDisplayableLimit ? Constants.maxMPDisplayableLimit * ((float)currentMPWidth / (float)maxMPWidth) : currentMPWidth;
-      mpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(calculatedMPDisplay - Constants.mpAdjustDifference, 9);
+      Vector2 mpDisplayVector = new Vector2(calculatedMPDisplay, 9);
+      mpDisplayVector.x *= Constants.containerMultiplier;
+      mpBar.GetComponent<RectTransform>().sizeDelta = mpDisplayVector;
     }
   }
 }
