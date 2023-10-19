@@ -13,7 +13,7 @@ public class BossBarsCanvas : MonoBehaviour {
   [System.NonSerialized] public string bossName = "";
   void Start() {
     bossLabel.GetComponent<Text>().text = bossName;
-    Vector2 containerDimension = new Vector2(Constants.maxHPDisplayableLimit, 36);
+    Vector2 containerDimension = new Vector2((Constants.maxHPDisplayableLimit * Constants.containerMultiplier), 36);
     hpBackground.GetComponent<RectTransform>().sizeDelta = containerDimension;
 
     hpForeground.GetComponent<RectTransform>().sizeDelta = containerDimension;
@@ -32,7 +32,7 @@ public class BossBarsCanvas : MonoBehaviour {
   public void UpdateHPBar() {
     if (currentHPWidth != boss.currentHP) {
       currentHPWidth = boss.currentHP;
-      hpBar.GetComponent<RectTransform>().sizeDelta = new Vector2(Constants.maxHPDisplayableLimit * ((float)currentHPWidth / (float)maxHPWidth), 27);
+      hpBar.GetComponent<RectTransform>().sizeDelta = new Vector2((Constants.maxHPDisplayableLimit * Constants.containerMultiplier) * ((float)currentHPWidth / (float)maxHPWidth), 27);
 
       float healthPercentage = (float)boss.currentHP / (float)boss.maxHP;
 
