@@ -644,6 +644,12 @@ public class Hero : MonoBehaviour {
     return groundType != "level";
   }
 
+  public void ClearInvulnerability() {
+    isInvulnerable = false;
+    // restores color so the flicker won't leave it in weird transparency
+    heroRenderer.color = Color.white;
+  }
+
   // called on every frame of the game
   private void Update() {
     direction = isFacingLeft ? -1 : 1;
@@ -976,9 +982,7 @@ public class Hero : MonoBehaviour {
       // checks for invulnerability time
       if (isInvulnerable) {
         if (Helpers.ExceedsTime(damageStartTime, damageRecoverTime)) {
-          isInvulnerable = false;
-          // restores color so the flicker won't leave it in weird transparency
-          heroRenderer.color = Color.white;
+          ClearInvulnerability();
         }
       }
     }
@@ -1142,6 +1146,7 @@ public class Hero : MonoBehaviour {
 
   void PlayerDying(bool isGrounded) {
     isDead = isGrounded ? 1 : 2;
+    ClearInvulnerability();
   }
 
   void PlayerHurt(int hurtLevel) {
