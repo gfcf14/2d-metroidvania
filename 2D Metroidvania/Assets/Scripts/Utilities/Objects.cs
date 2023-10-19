@@ -96,7 +96,7 @@ public class Objects {
     {"ice-med", new PauseItem(Sprites.itemThumbnails[54], Sprites.itemImages[54], "Ice Medicine", "Provides resistance against ice magic.", "consumable", new Effects() {duration=30, magicResistances=new MagicResistance[]{new MagicResistance(){name="Ice", type="add"}}})},
     {"light-med", new PauseItem(Sprites.itemThumbnails[55], Sprites.itemImages[55], "Light Medicine", "Provides resistance against light magic.", "consumable", new Effects() {duration=30, magicResistances=new MagicResistance[]{new MagicResistance(){name="Light", type="add"}}})},
     {"dark-med", new PauseItem(Sprites.itemThumbnails[56], Sprites.itemImages[56], "Dark Medicine", "Provides resistance against dark magic.", "consumable", new Effects() {duration=30, magicResistances=new MagicResistance[]{new MagicResistance(){name="Dark", type="add"}}})},
-    {"elixir", new PauseItem(Sprites.itemThumbnails[57], Sprites.itemImages[57], "Elixir", "Heals all health and replenishes all magic.", "", new Effects() {hpPercentage=1f, mpPercentage=1f})},
+    {"elixir", new PauseItem(Sprites.itemThumbnails[57], Sprites.itemImages[57], "Elixir", "Heals all health and replenishes all magic.", "consumable", new Effects() {hpPercentage=1f, mpPercentage=1f})},
     {"apple", new PauseItem(Sprites.itemThumbnails[58], Sprites.itemImages[58], "Apple", "Tasty red fruit found pretty much everywhere.", "food", new Effects() {hp=20})},
     {"banana", new PauseItem(Sprites.itemThumbnails[59], Sprites.itemImages[59], "Banana", "Yellow, really tasty when ripe. Goes well with bread.", "food", new Effects() {hp=20})},
     {"orange", new PauseItem(Sprites.itemThumbnails[60], Sprites.itemImages[60], "Orange", "May be sweet but also sometimes a bit bitter.", "food", new Effects() {hp=20})},
