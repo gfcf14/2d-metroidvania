@@ -301,7 +301,6 @@ public class Hero : MonoBehaviour {
     items.Add(new Item("king-bone", 16));
 
     // TODO: after implementing the load functionality, playerLevel should be updated via reading save data
-
     SetupStatsByLevel();
   }
 
@@ -1465,6 +1464,52 @@ public class Hero : MonoBehaviour {
     ModifyPosition(new Vector2(transform.position.x - bumpX * direction, transform.position.y + bumpY));
   }
 
+  private void MainCollisionLogic(Collider2D collider, Collider2D otherCollider, GameObject objectCollided) {
+    if (Helpers.IsValueInArray(Constants.landingObjects, objectCollided.tag)) {
+      if (otherCollider.tag == "Hero") {
+        if (!isHorizontalCollision(otherCollider, collider)) {
+          if (collider.tag == "Ground" && isFalling) {
+              PerformGroundFall();
+          } else if  (collider.tag == "Breakable") {
+            // TODO: This will fail for barrels. Prepare falling sound for barrels
+            PlayFallingSound(collider.gameObject.GetComponent<Breakable>().type, Objects.equipmentBaseMaterial[bodyEquipment]);
+          } else if (collider.tag == "Interactable") {
+            // TODO: for now, box sounds appear to work fine. If interactables made of non-wood material are implemented, consider changing this
+            PlayFallingSound("box", "boots");
+          }
+
+          ToggleAirCheck(false);
+          isGrounded = true;
+          blockedDirection = "";
+          isFalling = false;
+          isJumping = false;
+          // isJetpackUp = false;
+          horizontalCollision = false;
+          isDropKicking = false;
+
+          if (isHurt == 3) {
+            Recover();
+          }
+
+          // disable air attack animations if these haven't finished when player hits ground
+          isAirPunching = false;
+          // isAirShooting = false;
+          isAirAttackSingle = false;
+          isAirAttackHeavy = false;
+
+          weaponCollider.SetActive(false);
+        } else {
+          horizontalCollision = Helpers.IsValueInArray(Constants.nonHorizontalCollidableObjects, objectCollided.tag) ? false : true;
+
+          if (isBottomCollision(otherCollider, collider)) {
+            horizontalCollision = false;
+            ClearAirAttackSingle();
+          }
+        }
+      }
+    }
+  }
+
   private void OnCollisionEnter2D(Collision2D col) {
     Collider2D collider = col.collider;
     Collider2D otherCollider = col.otherCollider;
@@ -1472,70 +1517,33 @@ public class Hero : MonoBehaviour {
 
     collisionDirection = GetGroundCollisionDirection();
 
-    if (collisionDirection == "bottom") {
-      // when falling, check if there is a wall collision (i.e. either front or back collision)
-      if ((collidingFront || collidingBack) && !isGrounded) {
-        string blockDirection = collidingFront ? (isFacingLeft ? "left" : "right") : (isFacingLeft ? "right" : "left");
+    // regular bump logic should apply differently if the player is sent flying (i.e. isHurt == 3)
+    if (isHurt == 3) {
+      MainCollisionLogic(collider, otherCollider, objectCollided);
+    } else {
+      if (collisionDirection == "bottom") {
+        // when falling, check if there is a wall collision (i.e. either front or back collision)
+        if ((collidingFront || collidingBack) && !isGrounded) {
+          string blockDirection = collidingFront ? (isFacingLeft ? "left" : "right") : (isFacingLeft ? "right" : "left");
 
-        Bump(bumpX: (heroWidth * direction * (blockDirection == "left" ? -1 : 1)) / 4, specificBlockDirection: blockDirection);
-      } else {
-        if (Helpers.IsValueInArray(Constants.landingObjects, objectCollided.tag)) {
-          if (otherCollider.tag == "Hero") {
-            if (!isHorizontalCollision(otherCollider, collider)) {
-              if (collider.tag == "Ground" && isFalling) {
-                  PerformGroundFall();
-              } else if  (collider.tag == "Breakable") {
-                // TODO: This will fail for barrels. Prepare falling sound for barrels
-                PlayFallingSound(collider.gameObject.GetComponent<Breakable>().type, Objects.equipmentBaseMaterial[bodyEquipment]);
-              } else if (collider.tag == "Interactable") {
-                // TODO: for now, box sounds appear to work fine. If interactables made of non-wood material are implemented, consider changing this
-                PlayFallingSound("box", "boots");
-              }
-
-              ToggleAirCheck(false);
-              isGrounded = true;
-              blockedDirection = "";
-              isFalling = false;
-              isJumping = false;
-              // isJetpackUp = false;
-              horizontalCollision = false;
-              isDropKicking = false;
-
-              if (isHurt == 3) {
-                Recover();
-              }
-
-              // disable air attack animations if these haven't finished when player hits ground
-              isAirPunching = false;
-              // isAirShooting = false;
-              isAirAttackSingle = false;
-              isAirAttackHeavy = false;
-
-              weaponCollider.SetActive(false);
-            } else {
-              horizontalCollision = Helpers.IsValueInArray(Constants.nonHorizontalCollidableObjects, objectCollided.tag) ? false : true;
-
-              if (isBottomCollision(otherCollider, collider)) {
-                horizontalCollision = false;
-                ClearAirAttackSingle();
-              }
-            }
+          Bump(bumpX: (heroWidth * direction * (blockDirection == "left" ? -1 : 1)) / 4, specificBlockDirection: blockDirection);
+        } else {
+          MainCollisionLogic(collider, otherCollider, objectCollided);
+        }
+      } else if (collisionDirection == "front") {
+        // if the player collides with a wall, only if the air edge check object is intersecting it will we check for step over
+        if (airEdgeCheckScript.IntersectsWithGround()) {
+          if (isJumping || isFalling) {
+            airEdgeCheckScript.CheckStepOver(GetComponent<Hero>(), direction * -1);
+          }
+        } else {
+          if (isJumping || isFalling) {
+            Bump(bumpX: heroWidth / 6);
           }
         }
+      } else if (collisionDirection == "back") { // if jumping and colliding backward, a forward bump should happen
+        Bump(bumpX: -heroWidth / 6);
       }
-    } else if (collisionDirection == "front") {
-      // if the player collides with a wall, only if the air edge check object is intersecting it will we check for step over
-      if (airEdgeCheckScript.IntersectsWithGround()) {
-        if (isJumping || isFalling) {
-          airEdgeCheckScript.CheckStepOver(GetComponent<Hero>(), direction * -1);
-        }
-      } else {
-        if (isJumping || isFalling) {
-          Bump(bumpX: heroWidth / 6);
-        }
-      }
-    } else if (collisionDirection == "back") { // if jumping and colliding backward, a forward bump should happen
-      Bump(bumpX: -heroWidth / 6);
     }
 
     if (IsOnIncline() && isFalling) {
