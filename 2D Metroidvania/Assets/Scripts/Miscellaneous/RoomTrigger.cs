@@ -82,6 +82,7 @@ public class RoomTrigger : MonoBehaviour {
     Hero heroScript = hero.GetComponent<Hero>();
 
     heroScript.ClearPauseCase();
+    heroScript.isFightingBoss = true;
     heroScript.isAutonomous = true;
     hero.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 

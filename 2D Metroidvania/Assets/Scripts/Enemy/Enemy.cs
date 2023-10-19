@@ -678,6 +678,7 @@ public class Enemy : MonoBehaviour {
   public void Destroy() {
     if (gameObject.name == "Boss") {
       GameObject.Find("BossStatusCanvas").SetActive(false);
+      hero.isFightingBoss = false;
     }
 
     if (gameObject.name == "Boss") {

@@ -33,7 +33,7 @@ public class AirEdgeCheck : MonoBehaviour {
 
     // TODO: for now this assumes that if the cast collider is null, that the air edge check is intersecting a really tall wall, so bump is obligatory
     //       ensure a better check is made for when the collider is null if possible
-    if (differenceCast.collider == null) {
+    if (!hero.isFightingBoss && differenceCast.collider == null) {
       hero.Bump(bumpX: hero.heroWidth / 6);
     } else {
       if (differenceCast.collider != null && differenceCast.collider.tag == "Ground" && differenceCast.distance > 0) {
@@ -47,7 +47,9 @@ public class AirEdgeCheck : MonoBehaviour {
         } else {
             // TODO: implement some bump logic here to avoid having the player stick to the "wall" and fall down slowly
             Debug.Log("bump (checked)");
-            hero.Bump(bumpX: hero.heroWidth / 6);
+            if (!hero.isFightingBoss) {
+              hero.Bump(bumpX: hero.heroWidth / 6);
+            }
         }
       }
     }

@@ -128,10 +128,8 @@ public class Hero : MonoBehaviour {
   public string currentWeapon;
   public string NPCnearby;
   public string NPCnearbyAction;
-  public string collisionDirection = "";
-  public string collisionData = "";
-
-  public string blockedDirection = "";
+  [SerializeField] public string collisionDirection = "";
+  [SerializeField] public string blockedDirection = "";
   public bool hurtFromBehind = false;
 
   public bool isHoldingDown = false;
@@ -299,6 +297,7 @@ public class Hero : MonoBehaviour {
     items.Add(new Item("arrow-fire", 10));
     items.Add(new Item("bomb", 99));
     items.Add(new Item("king-bone", 16));
+    items.Add(new Item("elixir", 99));
 
     // TODO: after implementing the load functionality, playerLevel should be updated via reading save data
     SetupStatsByLevel();
@@ -1034,7 +1033,7 @@ public class Hero : MonoBehaviour {
         hurtCounter++;
       }
 
-      if (isHurt == 3) {
+      if (isHurt == 3 && !collidingBottom) {
         if (body.gravityScale == 1) {
           body.gravityScale = 0;
         }
@@ -1043,7 +1042,6 @@ public class Hero : MonoBehaviour {
           body.interpolation = RigidbodyInterpolation2D.Extrapolate;
         }
 
-        int index = hurtCounter;
         float xIncrement =  Constants.hurtCXTransitions[hurtCounter >= Constants.hurtCXTransitions.Length ? Constants.hurtCXTransitions.Length - 1 : hurtCounter];
         float yIncrement =  Constants.hurtCYTransitions[hurtCounter >= Constants.hurtCYTransitions.Length ? Constants.hurtCYTransitions.Length - 1 : hurtCounter];
 
@@ -1219,6 +1217,7 @@ public class Hero : MonoBehaviour {
 
   public void Recover() {
     isHurt = 0;
+    hurtCounter = 0;
     body.gravityScale = 1;
     body.interpolation = RigidbodyInterpolation2D.Interpolate;
   }
@@ -1515,6 +1514,8 @@ public class Hero : MonoBehaviour {
     }
   }
 
+  public bool isFightingBoss = false;
+
   private void OnCollisionEnter2D(Collision2D col) {
     Collider2D collider = col.collider;
     Collider2D otherCollider = col.otherCollider;
@@ -1523,14 +1524,17 @@ public class Hero : MonoBehaviour {
     collisionDirection = GetGroundCollisionDirection();
 
     // regular bump logic should apply differently if the player is sent flying (i.e. isHurt == 3)
-    if (isHurt == 3) {
+    if (isHurt == 3 || isAutonomous) {
       MainCollisionLogic(collider, otherCollider, objectCollided);
     } else {
       if (collisionDirection == "bottom") {
         // when falling, check if there is a wall collision (i.e. either front or back collision)
-        if ((collidingFront || collidingBack) && !isGrounded) {
+        // again, this logic should not apply when player is sent flying
+        if (!isFightingBoss && isHurt != 3 && ((collidingFront || collidingBack) && !isGrounded)) {
           string blockDirection = collidingFront ? (isFacingLeft ? "left" : "right") : (isFacingLeft ? "right" : "left");
 
+          // TODO: Sometimes this function gets perpetually called as player is supposed to get sent flying but remains on the ground.
+          //       Check either why player is not sent flying or how to avoid this from happening
           Bump(bumpX: (heroWidth * direction * (blockDirection == "left" ? -1 : 1)) / 4, specificBlockDirection: blockDirection);
         } else {
           MainCollisionLogic(collider, otherCollider, objectCollided);
@@ -1542,11 +1546,11 @@ public class Hero : MonoBehaviour {
             airEdgeCheckScript.CheckStepOver(GetComponent<Hero>(), direction * -1);
           }
         } else {
-          if (isJumping || isFalling) {
+          if (!isFightingBoss && (isJumping || isFalling)) {
             Bump(bumpX: heroWidth / 6);
           }
         }
-      } else if (collisionDirection == "back") { // if jumping and colliding backward, a forward bump should happen
+      } else if (!isFightingBoss && collisionDirection == "back") { // if jumping and colliding backward, a forward bump should happen
         Bump(bumpX: -heroWidth / 6);
       }
     }
