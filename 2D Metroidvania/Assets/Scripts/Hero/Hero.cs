@@ -298,6 +298,24 @@ public class Hero : MonoBehaviour {
     items.Add(new Item("bomb", 99));
     items.Add(new Item("king-bone", 16));
     items.Add(new Item("elixir", 99));
+    items.Add(new Item("theriac", 1));
+    items.Add(new Item("strawberry", 1));
+    items.Add(new Item("pineapple", 1));
+    items.Add(new Item("honeydew", 1));
+    items.Add(new Item("skull", 1));
+    items.Add(new Item("textiles", 1));
+    items.Add(new Item("amethyst", 1));
+    items.Add(new Item("ruby", 1));
+    items.Add(new Item("citrine", 1));
+    items.Add(new Item("emerald", 1));
+    items.Add(new Item("critical-flask", 1));
+    items.Add(new Item("hashish", 1));
+    items.Add(new Item("pearl", 1));
+    items.Add(new Item("mid-potion", 1));
+    items.Add(new Item("high-potion", 1));
+    items.Add(new Item("fire-med", 1));
+    items.Add(new Item("dark-med", 1));
+    items.Add(new Item("watermelon-slice", 1));
 
     // TODO: after implementing the load functionality, playerLevel should be updated via reading save data
     SetupStatsByLevel();

@@ -659,7 +659,7 @@ public class Pause : MonoBehaviour {
                 }
               }
             } else if (indexDifference == -1) { //going up
-              if (i < Constants.maxItemContainerHeight + 2) {
+              if (i <= (itemButtons.Count - Constants.maxItemContainerHeight - 1)) {
                 int movingItemLocation = (int)(Constants.startItemY - (Constants.itemIncrementY * (itemButtons.Count - Constants.maxItemContainerHeight)));
                 int selectedItemLocation = (int)(itemButtons.ElementAt(i).GetComponent<RectTransform>().anchoredPosition.y + (currentContainer.GetComponent<RectTransform>().anchoredPosition.y - ((itemButtons.Count + 1 - Constants.maxItemContainerHeight) * Constants.itemIncrementY)));
 
