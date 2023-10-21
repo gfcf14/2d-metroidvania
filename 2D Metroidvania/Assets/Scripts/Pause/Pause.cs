@@ -848,7 +848,7 @@ public class Pause : MonoBehaviour {
       Color equippedLabelColor = newEquippedCRIT > totalEquippedCRIT ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
       Text equipmentText = EquippedCRITLabel.transform.Find("Text").gameObject.GetComponent<Text>();
-      equipmentText.text = newEquippedCRIT > 0 ? Helpers.TwoDigits(newEquippedCRIT * 100) + " %" : "0 %";
+      equipmentText.text = newEquippedCRIT > 0 ? Helpers.TwoDecimalPlaces(newEquippedCRIT * 100) + " %" : "0 %";
       equipmentText.color = equippedLabelColor;
 
       EquippedCRITLabel.SetActive(true);
@@ -861,7 +861,7 @@ public class Pause : MonoBehaviour {
       Color equippedLabelColor = newEquippedLUCK > totalEquippedLUCK ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
       Text equipmentText = EquippedLUCKLabel.transform.Find("Text").gameObject.GetComponent<Text>();
-      equipmentText.text = newEquippedLUCK > 0 ? Helpers.TwoDigits(newEquippedLUCK * 100) + " %" : "0 %";
+      equipmentText.text = newEquippedLUCK > 0 ? Helpers.TwoDecimalPlaces(newEquippedLUCK * 100) + " %" : "0 %";
       equipmentText.color = equippedLabelColor;
 
       EquippedLUCKLabel.SetActive(true);
@@ -953,7 +953,7 @@ public class Pause : MonoBehaviour {
 
       if (itemEffects.hpPercentage != null) {
         effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[0];
-        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.hpPercentage >= 0 ? "+" : "") + Helpers.TwoDigits(itemEffects.hpPercentage * 100) + "%";
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.hpPercentage >= 0 ? "+" : "") + Helpers.TwoDecimalPlaces(itemEffects.hpPercentage * 100, ignoreWhenWhole: true) + "%";
         effectsList.ElementAt(effectsCounter).SetActive(true);
         effectsCounter++;
       }
@@ -967,7 +967,7 @@ public class Pause : MonoBehaviour {
 
       if (itemEffects.mpPercentage != null) {
         effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[1];
-        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.mpPercentage >= 0 ? "+" : "") + Helpers.TwoDigits(itemEffects.mpPercentage * 100) + "%";
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.mpPercentage >= 0 ? "+" : "") + Helpers.TwoDecimalPlaces(itemEffects.mpPercentage * 100, ignoreWhenWhole: true) + "%";
         effectsList.ElementAt(effectsCounter).SetActive(true);
         effectsCounter++;
       }
@@ -988,14 +988,14 @@ public class Pause : MonoBehaviour {
 
       if (itemEffects.crit != null) {
         effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[10];
-        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.crit >= 0 ? "+" : "") + Helpers.TwoDigits(itemEffects.crit * 100) + "%";
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.crit >= 0 ? "+" : "") + Helpers.TwoDecimalPlaces(itemEffects.crit * 100, ignoreWhenWhole: true) + "%";
         effectsList.ElementAt(effectsCounter).SetActive(true);
         effectsCounter++;
       }
 
       if (itemEffects.luck != null) {
         effectsList.ElementAt(effectsCounter).transform.Find("EffectIcon").GetComponent<Image>().sprite = Sprites.statsIcons[11];
-        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.luck >= 0 ? "+" : "") + Helpers.TwoDigits(itemEffects.luck * 100) + "%";
+        effectsList.ElementAt(effectsCounter).transform.Find("EffectText").GetComponent<Text>().text = (itemEffects.luck >= 0 ? "+" : "") + Helpers.TwoDecimalPlaces(itemEffects.luck * 100, ignoreWhenWhole: true) + "%";
         effectsList.ElementAt(effectsCounter).SetActive(true);
         effectsCounter++;
       }
@@ -1371,7 +1371,7 @@ public class Pause : MonoBehaviour {
 
     if (criticalPercentage != (heroScript.criticalPercentage + heroScript.equippedCRIT + heroScript.effectCRIT)) {
       criticalPercentage = heroScript.criticalPercentage + heroScript.equippedCRIT + heroScript.effectCRIT;
-      critical.GetComponent<Text>().text = Helpers.TwoDigits(criticalPercentage * 100) + " %";
+      critical.GetComponent<Text>().text = Helpers.TwoDecimalPlaces(criticalPercentage * 100) + " %";
       if (heroScript.effectCRIT > 0) {
         critical.GetComponent<Text>().color = Colors.effect;
       } else {
@@ -1381,7 +1381,7 @@ public class Pause : MonoBehaviour {
 
     if (luckPercentage != heroScript.luckPercentage + heroScript.effectLCK) {
       luckPercentage = heroScript.luckPercentage + heroScript.equippedLUCK + heroScript.effectLCK;
-      luck.GetComponent<Text>().text = Helpers.TwoDigits(luckPercentage * 100) + " %";
+      luck.GetComponent<Text>().text = Helpers.TwoDecimalPlaces(luckPercentage * 100) + " %";
       if (heroScript.effectLCK > 0) {
         luck.GetComponent<Text>().color = Colors.effect;
       } else {

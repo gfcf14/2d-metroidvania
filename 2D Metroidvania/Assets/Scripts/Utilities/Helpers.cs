@@ -431,11 +431,17 @@ public class Helpers {
     return -1;
   }
 
-  public static string TwoDigits(float decimalValue) {
+  public static string TwoDecimalPlaces(float decimalValue, bool ignoreWhenWhole = false) {
+    if (ignoreWhenWhole && (decimalValue == (int)decimalValue)) {
+      return ((int) decimalValue).ToString();
+    }
     return String.Format("{0:0.00}", decimalValue);
   }
 
-  public static string TwoDigits(float? decimalValue) {
+  public static string TwoDecimalPlaces(float? decimalValue, bool ignoreWhenWhole = false) {
+    if (ignoreWhenWhole && (decimalValue == (int)decimalValue)) {
+      return ((int) decimalValue).ToString();
+    }
     return String.Format("{0:0.00}", decimalValue);
   }
 }
