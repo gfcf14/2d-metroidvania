@@ -734,15 +734,15 @@ public class Pause : MonoBehaviour {
 
       // gets the attack of the selected equipment (unless user is equipping the other hand with a single and currently carries a double),
       int newEquippedATK1 = (currentlyEquippedIndex == 2 && !isEquippingDouble && equippedIsDouble ? 0 : (selectedEquipment.effects.atk ?? 0)) +
-        (heroScript.equippedATK1 - ( // plus whatever is currently equipped
+        (Hero.equippedATK1 - ( // plus whatever is currently equipped
           (equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0) + // minus the item that is currently equipped
             (Hero.projectileEquipment != "" ? Objects.pauseItems[Hero.projectileEquipment].effects.atk ?? 0 : 0) + // including if there is a projectile equipped
             (currentlyEquippedIndex == 2 && equippedIsDouble && !isEquippingDouble ? equippedSelected.effects.atk ?? 0 : 0) // and the selected equipment if equipping the other hand with a single while currently carrying a double
           )
         );
 
-      if (newEquippedATK1 != heroScript.equippedATK1) {
-        Color equippedLabelColor = newEquippedATK1 > heroScript.equippedATK1 ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
+      if (newEquippedATK1 != Hero.equippedATK1) {
+        Color equippedLabelColor = newEquippedATK1 > Hero.equippedATK1 ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
         Text equipmentText = EquippedATK1Label.transform.Find("Text").gameObject.GetComponent<Text>();
         equipmentText.text = newEquippedATK1 > 0 ? newEquippedATK1.ToString() : "0";
@@ -759,15 +759,15 @@ public class Pause : MonoBehaviour {
 
       // gets the attack of the selected equipment (unless user is equipping the other hand with a single and currently carries a double),
       int newEquippedATK2 = (currentlyEquippedIndex == 1 && !isEquippingDouble && equippedIsDouble ? 0 : (selectedEquipment.effects.atk ?? 0)) +
-        (heroScript.equippedATK2 - ( // plus whatever is currently equipped
+        (Hero.equippedATK2 - ( // plus whatever is currently equipped
           (equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0) + // minus the item that is currently equipped
             (Hero.projectileEquipment != "" ? Objects.pauseItems[Hero.projectileEquipment].effects.atk ?? 0 : 0) + // including if there is a projectile equipped
             (currentlyEquippedIndex == 1 && equippedIsDouble && !isEquippingDouble ? equippedSelected.effects.atk ?? 0 : 0) // and the selected equipment if equipping the other hand with a single while currently carrying a double
           )
         );
 
-      if (newEquippedATK2 != heroScript.equippedATK2) {
-        Color equippedLabelColor = newEquippedATK2 > heroScript.equippedATK2 ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
+      if (newEquippedATK2 != Hero.equippedATK2) {
+        Color equippedLabelColor = newEquippedATK2 > Hero.equippedATK2 ? Colors.pauseStatsColors["higher"] : Colors.pauseStatsColors["lower"];
 
         Text equipmentText = EquippedATK2Label.transform.Find("Text").gameObject.GetComponent<Text>();
         equipmentText.text = newEquippedATK2 > 0 ? newEquippedATK2.ToString() : "0";
@@ -1349,13 +1349,13 @@ public class Pause : MonoBehaviour {
       }
     }
 
-    if (atk1 != heroScript.equippedATK1) {
-      atk1 = heroScript.equippedATK1;
+    if (atk1 != Hero.equippedATK1) {
+      atk1 = Hero.equippedATK1;
       atk1Object.GetComponent<Text>().text = (atk1).ToString();
     }
 
-    if (atk2 != heroScript.equippedATK2) {
-      atk2 = heroScript.equippedATK2;
+    if (atk2 != Hero.equippedATK2) {
+      atk2 = Hero.equippedATK2;
       atk2Object.GetComponent<Text>().text = (atk2).ToString();
     }
 

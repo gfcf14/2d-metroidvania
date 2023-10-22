@@ -97,6 +97,8 @@ public class Enemy : MonoBehaviour {
 
     public int direction = 1;
 
+    bool mustTakeDamage = true;
+
   // Player Related Properties
     [System.NonSerialized] public bool playerFound = false;
     [System.NonSerialized] public Hero hero;
@@ -367,6 +369,19 @@ public class Enemy : MonoBehaviour {
     CheckAttackToPlayer(col.collider);
   }
 
+  public void DamageCalculation(Collider2D col, int specificDamage, string damageSoundType, string weaponType = "", bool isCritical = false) {
+    int damage = def - ((specificDamage + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
+
+    if ((weaponType == "throwable" || weaponType == "throwable-double") || !(isDefending && !attackedFromBehind)) {
+      TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical, damageSoundType);
+      if (!(weaponType == "throwable" || weaponType == "throwable-double")) {
+        TurnWhenAttackedFromBehind();
+      }
+    } else {
+      mustTakeDamage = false;
+    }
+  }
+
   public void Trigger(Collider2D col) {
     CheckAttackToPlayer(col);
     string colliderTag = col.gameObject.tag;
@@ -374,51 +389,27 @@ public class Enemy : MonoBehaviour {
     if (colliderTag == "Weapon" && !hero.isParrying) {
       float currentX = transform.position.x;
       float enemyX = col.transform.position.x;
-      bool mustTakeDamage = true;
       bool willBurn = false;
-      bool isCritical = false;
+      bool isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT + hero.effectCRIT);;
       string currentWeapon = "";
+      int currentEquippedATK = 0;
 
       attackedFromBehind = (currentX < enemyX && isFacingLeft) || (currentX > enemyX && !isFacingLeft);
 
       if (hero.isKicking || hero.isDropKicking && !isDefending) {
-        isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT + hero.effectCRIT);
-        int damage = def - ((Constants.kickDamage + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
-
-        if (!(isDefending && !attackedFromBehind)) {
-          TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical, "kick");
-          TurnWhenAttackedFromBehind();
-        } else {
-          mustTakeDamage = false;
-        }
+        DamageCalculation(col, Constants.kickDamage, "kick", "", isCritical);
       } else {
         currentWeapon = hero.armUsed == 1 ? Hero.arm1Equipment : Hero.arm2Equipment;
+        currentEquippedATK = hero.armUsed == 1 ? Hero.equippedATK1 : Hero.equippedATK2;
 
         if (currentWeapon == "" && !isDefending) {
-          isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT + hero.effectCRIT);
-          int damage = def - ((Constants.punchDamage + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
-
-          if (!(isDefending && !attackedFromBehind)) {
-            TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical, "punch");
-            TurnWhenAttackedFromBehind();
-          } else {
-            mustTakeDamage = false;
-          }
+          DamageCalculation(col, Constants.punchDamage, "punch", "", isCritical);
         } else {
           string weaponType = Objects.pauseItems[currentWeapon].type;
 
           if (weaponType == "single" || weaponType == "double" && !isDefending) {
-            string weaponWielded = weaponSpriteRenderer.sprite.name.Split('_')[0];
-            isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT + hero.effectCRIT);
-            int damage = def - ((Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
-
-            if (!(isDefending && !attackedFromBehind)) {
-              // TODO: might need to adjust to different types other than swords
-              TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical, "sword");
-              TurnWhenAttackedFromBehind();
-            } else {
-              mustTakeDamage = false;
-            }
+            // TODO: might need to adjust to different types other than swords
+            DamageCalculation(col, currentEquippedATK, "sword", weaponType, isCritical);
           } else if (weaponType == "throwable" || weaponType == "throwable-double") {
             GameObject parentObject = col.transform.parent.gameObject;
             Throwable parentThrowable = parentObject.GetComponent<Throwable>();
@@ -428,11 +419,7 @@ public class Enemy : MonoBehaviour {
 
             if (mustTakeDamage) {
               string throwableSoundType = Helpers.GetThrowableSoundType(currentWeapon);
-
-              isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT + hero.effectCRIT);
-              int damage = def - ((Helpers.GetDamage(weaponWielded) + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
-              TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical, throwableSoundType);
-
+              DamageCalculation(col, currentEquippedATK, throwableSoundType, weaponType, isCritical);
               Transform parentTransform = parentObject.GetComponent<Transform>();
 
               if(Helpers.IsNonBouncingThrowable(weaponWielded)) {
@@ -462,7 +449,6 @@ public class Enemy : MonoBehaviour {
             willBurn = parentArrow.type == "arrow-fire" && !Helpers.IsFireResistant(elementResistances) && currentHP <= Constants.arrowExplosionDamage;
 
             if (mustTakeDamage) {
-              isCritical = Helpers.IsCritical(hero.criticalPercentage + hero.equippedCRIT + hero.effectCRIT);
               int damage = (def * (isDefending ? 2 : 1)) - ((Helpers.GetDamage(arrowUsed) + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
 
               // do not play standard damage sound if the arrow used is a fire arrow

@@ -135,7 +135,7 @@ public class Hero : MonoBehaviour {
   public bool isHoldingDown = false;
 
   // PLAYER STATS
-    [System.NonSerialized] public int playerLevel = 10;
+    [System.NonSerialized] public int playerLevel = 1;
     [System.NonSerialized] public int currentHP = GameData.baseHP;
     [System.NonSerialized] public int maxHP = GameData.baseHP;
     [System.NonSerialized] public int currentMP = GameData.baseHP;
@@ -201,8 +201,8 @@ public class Hero : MonoBehaviour {
     [System.NonSerialized] public float equippedSTA = 0f;
     [System.NonSerialized] public float equippedLUCK = 0f;
     [System.NonSerialized] public float equippedCRIT = 0f;
-    [System.NonSerialized] public int equippedATK1 = 0;
-    [System.NonSerialized] public int equippedATK2 = 0;
+    [System.NonSerialized] public static int equippedATK1 = 0;
+    [System.NonSerialized] public static int equippedATK2 = 0;
     [System.NonSerialized] public int equippedDEF1 = 0;
     [System.NonSerialized] public int equippedDEF2 = 0;
 

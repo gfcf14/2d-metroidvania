@@ -446,11 +446,15 @@ public class Helpers {
   }
 
   public static int GetStatsOnEnemyLevel(int stat, int level) {
-    return stat * level * 2;
+    return stat * level;
+    // TODO: consider how the stats would be decided for higher levels, but for low levels this formula is too much
+    // return stat * level * 2;
   }
 
   public static float GetStatsOnEnemyLevel(float stat, int level) {
-    return stat * level * 2;
+    return stat * level;
+    // TODO: consider how the stats would be decided for higher levels, but for low levels this formula is too much
+    // return stat * level * 2;
   }
 
   public static int GetEnemyEXP(int heroLevel, int enemyLevel, int baseExp) {
