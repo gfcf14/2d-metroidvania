@@ -444,4 +444,34 @@ public class Helpers {
     }
     return String.Format("{0:0.00}", decimalValue);
   }
+
+  public static int GetStatsOnEnemyLevel(int stat, int level) {
+    return stat * level * 2;
+  }
+
+  public static float GetStatsOnEnemyLevel(float stat, int level) {
+    return stat * level * 2;
+  }
+
+  public static int GetEnemyEXP(int heroLevel, int enemyLevel, int baseExp) {
+    int equalLevelExp = (int)(baseExp * GameData.enemyEXPValues[(int)Mathf.Floor(heroLevel / 10)]);
+
+    if (heroLevel == enemyLevel) {
+      return equalLevelExp;
+    }
+
+    if (heroLevel > enemyLevel) {
+      if (heroLevel - enemyLevel >= 5) {
+        return 5;
+      } else {
+        return (int)(equalLevelExp * ((5 - (heroLevel - enemyLevel)) / 5));
+      }
+    } else { // heroLevel < enemyLevel
+      if (enemyLevel - heroLevel >= 5) {
+        return equalLevelExp * 2;
+      } else {
+        return (int)(2 * equalLevelExp * ((enemyLevel - heroLevel) / 5));
+      }
+    }
+  }
 }

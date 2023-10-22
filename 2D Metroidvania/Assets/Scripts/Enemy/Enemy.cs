@@ -9,6 +9,11 @@ public class Enemy : MonoBehaviour {
     [SerializeField] public string key;
     [SerializeField] public string summonKey;
     [SerializeField] public int level;
+    [SerializeField] public int currentHP;
+    [SerializeField] public int maxHP;
+    [SerializeField] public int atk;
+    [SerializeField] public int def;
+    [SerializeField] public float criticalRate;
     [SerializeField] public bool isOnCamera = false;
 
   // Components
@@ -52,21 +57,15 @@ public class Enemy : MonoBehaviour {
 
 
     [System.NonSerialized] public float burningDuration = 3000;
-    [System.NonSerialized] public float criticalRate;
     [System.NonSerialized] public float distanceToPlayer;
     [System.NonSerialized] public float poisonAttackInterval = 600;
     [System.NonSerialized] public float poisonEffectDuration = 50;
     [System.NonSerialized] public float reach;
     [System.NonSerialized] public float speed;
 
-
-    [System.NonSerialized] public int atk;
     [System.NonSerialized] public int attacksReceived = 0;
     [System.NonSerialized] public int attackRetaliationCounter = 3;
-    [System.NonSerialized] public int currentHP;
-    [System.NonSerialized] public int def;
     [System.NonSerialized] public int exp;
-    [System.NonSerialized] public int maxHP;
     [System.NonSerialized] public int maxPoisonAttacks = 3;
     [System.NonSerialized] public int maxThrows = 3;
     [System.NonSerialized] public int maxThrowCounter = 0;
@@ -132,11 +131,13 @@ public class Enemy : MonoBehaviour {
     type = enemyStats.type;
     baseMaterial = enemyStats.baseMaterial;
     normalAttackType = enemyStats.normalAttackType;
-    atk = enemyStats.atk;
-    def = enemyStats.def;
-    currentHP = enemyStats.hp;
-    maxHP = enemyStats.hp;
-    criticalRate = enemyStats.crit;
+
+    atk = Helpers.GetStatsOnEnemyLevel(enemyStats.atk, level);
+    def = Helpers.GetStatsOnEnemyLevel(enemyStats.def, level);
+    currentHP = Helpers.GetStatsOnEnemyLevel(enemyStats.hp, level);
+    maxHP = Helpers.GetStatsOnEnemyLevel(enemyStats.hp, level);
+    criticalRate = Helpers.GetStatsOnEnemyLevel(enemyStats.crit, level);
+
     exp = enemyStats.exp;
     speed = enemyStats.speed;
     reach = enemyStats.reach;
@@ -201,7 +202,8 @@ public class Enemy : MonoBehaviour {
 
   void awardExp() {
     gaveExp = true;
-    hero.exp += exp;
+    int expToAward = Helpers.GetEnemyEXP(heroLevel: hero.playerLevel, enemyLevel: level, baseExp: exp);
+    hero.exp += expToAward;
     hero.CheckLevel();
   }
 

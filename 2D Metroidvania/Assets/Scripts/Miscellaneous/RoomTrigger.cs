@@ -18,7 +18,12 @@ public class RoomTrigger : MonoBehaviour {
 
           GameObject enemySpawned = Instantiate(Objects.prefabs["enemy"], new Vector3(child.transform.position.x, child.transform.position.y, 0), Quaternion.identity);
           enemySpawned.transform.SetParent(transform);
-          enemySpawned.GetComponent<Enemy>().key = spawnerKey != "" ? spawnerKey : Constants.meadowEnemies[UnityEngine.Random.Range(0, Constants.meadowEnemies.Length)];
+          Enemy enemyScript = enemySpawned.GetComponent<Enemy>();
+          enemyScript.key = spawnerKey != "" ? spawnerKey : Constants.meadowEnemies[UnityEngine.Random.Range(0, Constants.meadowEnemies.Length)];
+
+          // TODO: implement a better way to assign level values
+          enemyScript.level = 1;
+
         } else if (child.tag == "Enemy" && child.name == "Boss") {
           child.gameObject.GetComponent<Enemy>().isOnCamera = true;
         }

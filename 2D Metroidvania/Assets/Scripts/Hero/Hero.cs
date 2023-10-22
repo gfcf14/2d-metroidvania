@@ -135,7 +135,7 @@ public class Hero : MonoBehaviour {
   public bool isHoldingDown = false;
 
   // PLAYER STATS
-    [System.NonSerialized] public int playerLevel = 1;
+    [System.NonSerialized] public int playerLevel = 10;
     [System.NonSerialized] public int currentHP = GameData.baseHP;
     [System.NonSerialized] public int maxHP = GameData.baseHP;
     [System.NonSerialized] public int currentMP = GameData.baseHP;
