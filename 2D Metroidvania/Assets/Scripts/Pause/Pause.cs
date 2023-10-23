@@ -933,7 +933,7 @@ public class Pause : MonoBehaviour {
     HideEffectsObjects();
     currentItemButtonIndex = index;
 
-    PauseItem currentPauseItem = Objects.pauseItems[heroScript.items.ElementAt(currentItemButtonIndex).key];
+    PauseItem currentPauseItem = Objects.pauseItems[heroScript.items[index].key];
     itemName.GetComponent<Text>().text = currentPauseItem.name.ToUpper();
     itemImage.GetComponent<Image>().sprite = currentPauseItem.image;
     itemDescription.GetComponent<Text>().text = currentPauseItem.description;
@@ -1055,6 +1055,8 @@ public class Pause : MonoBehaviour {
         itemEffectsTimeLabel.GetComponent<Text>().text = itemEffects.duration + " " + (itemEffects.duration == 1 ? "sec" : "secs");
         itemEffectsTimeLabel.SetActive(true);
       }
+
+      itemEffectsPanel.SetActive(true);
     } else {
       itemEffectsPanel.SetActive(false);
     }
