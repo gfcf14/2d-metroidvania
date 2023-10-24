@@ -194,4 +194,9 @@ public class Sounds {
   public static Dictionary<string, AudioClip> loops = new Dictionary<string, AudioClip> {
     {"arrow-burn", Resources.Load<AudioClip>("SFX/loops/arrow-burn")},
   };
+
+  public static Dictionary<string, AudioClip> introSounds = new Dictionary<string, AudioClip> {
+    {"last", Resources.Load<AudioClip>("SFX/intro/last")},
+    {"suspense", Resources.Load<AudioClip>("SFX/intro/suspense")}
+  };
 }
