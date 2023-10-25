@@ -6,6 +6,7 @@ public class Rosolis : MonoBehaviour {
   IntroCanvas introCanvas;
   Animator anim;
   private float waitTime = 2.2f;
+  private bool hasSkipped = false;
 
   void Start() {
     introCanvas = transform.parent.gameObject.GetComponent<IntroCanvas>();
@@ -16,8 +17,16 @@ public class Rosolis : MonoBehaviour {
 
   void Update() {}
 
+  public void AccelerateTransition() {
+    StartFade();
+    TransitionToTitle();
+    hasSkipped = true;
+  }
+
   public void TransitionToTitle() {
-    StartCoroutine(WaitBeforeTransition());
+    if (!hasSkipped) {
+      StartCoroutine(WaitBeforeTransition());
+    }
   }
 
   IEnumerator WaitBeforeTransition() {
@@ -31,6 +40,8 @@ public class Rosolis : MonoBehaviour {
   }
 
   public void StartFade() {
-    introCanvas.FadeToWhite();
+    if (!hasSkipped) {
+      introCanvas.FadeToWhite();
+    }
   }
 }

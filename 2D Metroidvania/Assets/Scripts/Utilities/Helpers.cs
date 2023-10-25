@@ -78,6 +78,10 @@ public class Helpers {
     return Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.JoystickButton0);
   }
 
+  public static bool IsStartKeyDown() {
+    return Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.JoystickButton9);
+  }
+
   public static bool IsForbiddenToRemap(string keyCode) {
     return IsValueInArray(Constants.forbiddenKeys, keyCode) || keyCode.Contains("Mouse") || keyCode.Contains("Button9");
   }

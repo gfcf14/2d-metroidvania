@@ -10,6 +10,7 @@ public class IntroCanvas : MonoBehaviour {
   [System.NonSerialized] AudioSource audioSource;
 
   private AudioClip[] audioClips = new AudioClip[2];
+  private bool hasSkipped = false;
 
   void Start() {
     background.GetComponent<Image>().color = Color.black;
@@ -24,7 +25,34 @@ public class IntroCanvas : MonoBehaviour {
     PlaySequential();
   }
 
-  void Update() {}
+  void Update() {
+    if (!hasSkipped && Helpers.IsStartKeyDown()) {
+      hasSkipped = true;
+      StopCurrentSound();
+      PlayNextSound();
+      Skip();
+    }
+  }
+
+  public void StopCurrentSound() {
+    if (audioSource.isPlaying) {
+      audioSource.Stop();
+    }
+  }
+
+  public void PlayNextSound() {
+    if (audioSource.clip != null) {
+      int currentIndex = System.Array.IndexOf(audioClips, audioSource.clip);
+      if (currentIndex < audioClips.Length - 1) {
+        audioSource.clip = audioClips[currentIndex + 1];
+        audioSource.Play();
+      }
+    }
+  }
+
+  public void Skip() {
+    transform.Find("Rosolis").gameObject.GetComponent<Rosolis>().AccelerateTransition();
+  }
 
   public void FadeToWhite() {
     faderAnimator.speed = 1;
@@ -36,11 +64,13 @@ public class IntroCanvas : MonoBehaviour {
 
   IEnumerator PlaySequentially() {
     foreach (AudioClip clip in audioClips) {
-      audioSource.clip = clip;
-      audioSource.Play();
+      if (!hasSkipped) {
+        audioSource.clip = clip;
+        audioSource.Play();
 
-      // Wait for the clip to finish playing
-      yield return new WaitForSeconds(clip.length);
+        // Wait for the clip to finish playing
+        yield return new WaitForSeconds(clip.length);
+      }
     }
   }
 }
