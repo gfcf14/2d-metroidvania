@@ -1,4 +1,5 @@
 public class GameData {
+  public static string introText = "Legend tells that the blossoming of the Rosolis flower heralds a period of unparalleled victory, followed by everlasting peace...";
   public static string[] playerStats = { "HP", "MP", "STR", "STA", "CRI", "LCK" };
 
   public static int baseHP = 100;

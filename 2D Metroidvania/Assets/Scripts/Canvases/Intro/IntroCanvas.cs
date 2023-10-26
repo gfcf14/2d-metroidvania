@@ -52,6 +52,7 @@ public class IntroCanvas : MonoBehaviour {
 
   public void Skip() {
     transform.Find("Rosolis").gameObject.GetComponent<Rosolis>().AccelerateTransition();
+    transform.Find("Text").gameObject.GetComponent<IntroText>().ShowCompleteText();
   }
 
   public void FadeToWhite() {

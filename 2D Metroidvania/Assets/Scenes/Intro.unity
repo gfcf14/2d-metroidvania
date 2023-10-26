@@ -533,6 +533,7 @@ GameObject:
   - component: {fileID: 1734861200}
   - component: {fileID: 1734861203}
   - component: {fileID: 1734861202}
+  - component: {fileID: 1734861201}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -559,6 +560,19 @@ RectTransform:
   m_AnchoredPosition: {x: 1.5575, y: -373.6007}
   m_SizeDelta: {x: 1816.3508, y: 111.9633}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1734861201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734861199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6360ac9698e69ac45870ce1e3b92e0cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textSpeed: 0.05
 --- !u!114 &1734861202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,8 +606,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Legend tells that the blossoming of the Rosolis flower heralds a period
-    of unparalleled victory, followed by everlasting peace...
+  m_Text: 
 --- !u!222 &1734861203
 CanvasRenderer:
   m_ObjectHideFlags: 0
