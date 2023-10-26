@@ -12,6 +12,14 @@ public class InGame : MonoBehaviour {
   }
   void Update() {}
 
+  public void SetPauseCase(string pauseCase) {
+    hero.SetPauseCase(pauseCase);
+  }
+
+  public void ClearPauseCase() {
+    hero.ClearPauseCase();
+  }
+
   public void InstantiatePrefab(string prefab, string key, string rarity, GameObject room, Vector2 position, SpriteRenderer spr) {
     // mainly so items instantiated from stacked breakables do not overlap fully
     float randomOffset = UnityEngine.Random.Range(-0.2f, 0.2f);
