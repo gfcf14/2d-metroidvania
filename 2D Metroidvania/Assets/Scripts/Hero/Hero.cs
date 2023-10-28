@@ -1709,6 +1709,12 @@ public class Hero : MonoBehaviour {
   }
 
   public void TakeDamage(int damage, Vector2? damagePosition = null, bool? isCritical = false, string soundType = "") {
+    // if the damage received is greater or equal than the current HP, the display width must be the current HP
+    int damageToDisplay = damage;
+    if (damage >= currentHP) {
+      damageToDisplay = currentHP;
+    }
+
     currentHP -= damage;
 
     if (currentHP < 0) {
@@ -1716,8 +1722,9 @@ public class Hero : MonoBehaviour {
     }
 
     GameObject barDecrement = Instantiate(Objects.prefabs["bar-decrement"], Vector2.zero, Quaternion.identity);
+    int damageWidth = (maxHP > Constants.maxHPDisplayableLimit ? (int)(Constants.maxHPDisplayableLimit * ((float)damageToDisplay/(float)maxHP)) : damageToDisplay) * Constants.containerMultiplier + (int)Constants.hpAdjustDifference;
     barDecrement.transform.SetParent(hpBarContainer.transform, false);
-    barDecrement.GetComponent<BarDecrement>().width = maxHP > Constants.maxHPDisplayableLimit ? (int)(Constants.maxHPDisplayableLimit * ((float)damage/(float)maxHP)) : damage;
+    barDecrement.GetComponent<BarDecrement>().width = damageWidth;
     barDecrement.GetComponent<BarDecrement>().type = "hp";
 
     if (Settings.showDamage) {
@@ -1736,6 +1743,12 @@ public class Hero : MonoBehaviour {
   }
 
   public void SpendMagic(int value) {
+    // if the value spent is greater than or equal to the current MP, the display width must be the current MP
+    int mpSpentToDisplay = value;
+    if (value >= currentMP) {
+      mpSpentToDisplay = currentMP;
+    }
+
     currentMP -= value;
 
     if (currentMP < 0) {
@@ -1743,8 +1756,9 @@ public class Hero : MonoBehaviour {
     }
 
     GameObject barDecrement = Instantiate(Objects.prefabs["bar-decrement"], Vector2.zero, Quaternion.identity);
+    int mpSpentWidth = (maxMP > Constants.maxMPDisplayableLimit ? (int)(Constants.maxMPDisplayableLimit * ((float)mpSpentToDisplay/(float)maxMP)) : mpSpentToDisplay) * Constants.containerMultiplier + (int)Constants.mpAdjustDifference;
     barDecrement.transform.SetParent(mpBarContainer.transform, false);
-    barDecrement.GetComponent<BarDecrement>().width = maxMP > Constants.maxMPDisplayableLimit ? (int)(Constants.maxMPDisplayableLimit * ((float)value/(float)maxMP)) : value;
+    barDecrement.GetComponent<BarDecrement>().width = mpSpentWidth;
     barDecrement.GetComponent<BarDecrement>().type = "mp";
   }
 

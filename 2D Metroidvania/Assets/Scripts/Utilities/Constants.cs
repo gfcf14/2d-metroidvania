@@ -128,5 +128,5 @@ public class Constants {
   public static float maxMPDisplayableLimit = 500;
 
   // ensures that each HP unit (until reaching 500) displays in 2 UI units
-  public static float containerMultiplier = 2;
+  public static int containerMultiplier = 2;
 }
