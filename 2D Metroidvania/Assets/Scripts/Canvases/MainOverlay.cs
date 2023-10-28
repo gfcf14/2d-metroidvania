@@ -22,5 +22,6 @@ public class MainOverlay : MonoBehaviour {
 
   public void OverlayStandBy() {
     anim.speed = 0;
+    anim.enabled = false;
   }
 }

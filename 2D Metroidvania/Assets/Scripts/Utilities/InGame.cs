@@ -1,14 +1,17 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class InGame : MonoBehaviour {
   private Tilemap groundTiles;
   private Tilemap detailTiles;
   private Hero hero;
+  private GameObject mainOverlay;
   void Start() {
     groundTiles = GameObject.Find("Ground").GetComponent<Tilemap>();
     detailTiles = GameObject.Find("Detail").GetComponent<Tilemap>();
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
+    mainOverlay = GameObject.Find("MainOverlay");
   }
   void Update() {}
 
@@ -18,6 +21,10 @@ public class InGame : MonoBehaviour {
 
   public void ClearPauseCase() {
     hero.ClearPauseCase();
+  }
+
+  public void Cover() {
+    mainOverlay.GetComponent<Image>().color = new Color(0, 0, 0, 1);
   }
 
   public void InstantiatePrefab(string prefab, string key, string rarity, GameObject room, Vector2 position, SpriteRenderer spr) {

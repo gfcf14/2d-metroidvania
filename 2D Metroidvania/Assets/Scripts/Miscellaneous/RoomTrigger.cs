@@ -22,7 +22,7 @@ public class RoomTrigger : MonoBehaviour {
           enemyScript.key = spawnerKey != "" ? spawnerKey : Constants.meadowEnemies[UnityEngine.Random.Range(0, Constants.meadowEnemies.Length)];
 
           // TODO: implement a better way to assign level values
-          enemyScript.level = 1;
+          enemyScript.level = 50;
 
         } else if (child.tag == "Enemy" && child.name == "Boss") {
           child.gameObject.GetComponent<Enemy>().isOnCamera = true;
