@@ -472,7 +472,7 @@ public class Helpers {
       if (heroLevel - enemyLevel >= 5) {
         return 5;
       } else {
-        return (int)(equalLevelExp * ((5 - (heroLevel - enemyLevel)) / 5));
+        return (int)(equalLevelExp * ((5 - (heroLevel - enemyLevel)) / 5f));
       }
     } else { // heroLevel < enemyLevel
       if (enemyLevel - heroLevel >= 5) {
