@@ -39,7 +39,7 @@ public class ActionCanvas : MonoBehaviour {
     }
 
     if (textContainerWidth < maxTextContainerWidth) {
-      textContainerWidth += 2;
+      textContainerWidth += 4;
       if (textContainerWidth > maxTextContainerWidth) {
         textContainerWidth = maxTextContainerWidth;
       }
