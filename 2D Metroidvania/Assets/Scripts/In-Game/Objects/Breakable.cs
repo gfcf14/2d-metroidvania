@@ -144,7 +144,14 @@ public class Breakable : MonoBehaviour {
         PlaySound(Helpers.GetRandomClipFromGroup(breakableClips));
       break;
       case "Ground":
-        AudioClip[] groundClips = Sounds.fallingSounds[type][inGame.GetTileMaterial(transform.position)];
+        string materialFallingOn = inGame.GetTileMaterial(transform.position);
+
+        // if there is no tile material, falling sound will be assumed from location
+        if (materialFallingOn == null) {
+          // TODO: find a better way to get the location
+          materialFallingOn = Helpers.GetMaterial(GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().location);
+        }
+        AudioClip[] groundClips = Sounds.fallingSounds[type][materialFallingOn];
         PlaySound(Helpers.GetRandomClipFromGroup(groundClips));
       break;
       case "Item":
