@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class InGame : MonoBehaviour {
   private Tilemap groundTiles;
   private Tilemap detailTiles;
-  private Hero hero;
+  public Hero hero;
   private GameObject mainOverlay;
   void Start() {
     groundTiles = GameObject.Find("Ground").GetComponent<Tilemap>();

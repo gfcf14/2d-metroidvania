@@ -6,7 +6,7 @@ using UnityEngine;
 public class Hero : MonoBehaviour {
   [System.NonSerialized] public bool showDebug = false;
 
-  [System.NonSerialized] public string pauseCase = "";
+  [System.NonSerialized] public string pauseCase = "intro";
   [SerializeField] public List<Consumable> consumables = new List<Consumable>();
   [SerializeField] public float speed = 5;
   [SerializeField] public string groundType = "level";

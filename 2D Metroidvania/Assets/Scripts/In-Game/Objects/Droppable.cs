@@ -99,7 +99,9 @@ public class Droppable : MonoBehaviour {
   }
 
   public void PlaySound(AudioClip droppableSound) {
-    audioSource.PlayOneShot(droppableSound);
+    if (inGame.hero.pauseCase == "") {
+      audioSource.PlayOneShot(droppableSound);
+    }
   }
 
   private void OnCollisionEnter2D(Collision2D col) {
