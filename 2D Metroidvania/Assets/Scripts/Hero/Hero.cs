@@ -1853,6 +1853,8 @@ public class Hero : MonoBehaviour {
   // TODO: player and/or NPC should change their current sprite to the appropriate emotion sprite
   public void OpenChat() {
     string npcKey = Helpers.PascalToKebab(NPCnearby);
+    NPC currentNPC = GameObject.Find(NPCnearby).GetComponent<NPC>();
+    currentNPC.DecideFlip(transform.position);
     ChatCanvas chatCanvasScript = chatCanvas.GetComponent<ChatCanvas>();
 
     chatCanvasScript.chatLines = GetChatLines(npcKey, npcNodes[npcKey]);
