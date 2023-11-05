@@ -5,15 +5,26 @@ using UnityEngine.UI;
 public class InGame : MonoBehaviour {
   private Tilemap groundTiles;
   private Tilemap detailTiles;
-  public Hero hero;
   private GameObject mainOverlay;
+  private AudioSource soundtrack;
+
+  public Hero hero;
+
   void Start() {
     groundTiles = GameObject.Find("Ground").GetComponent<Tilemap>();
     detailTiles = GameObject.Find("Detail").GetComponent<Tilemap>();
-    hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
     mainOverlay = GameObject.Find("MainOverlay");
+    soundtrack = GetComponent<AudioSource>();
+    soundtrack.loop = true;
+
+    hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
   }
   void Update() {}
+
+  public void PlaySoundtrack(string key) {
+    soundtrack.clip = Sounds.soundtracks[key];
+    soundtrack.Play();
+  }
 
   public void SetPauseCase(string pauseCase) {
     hero.SetPauseCase(pauseCase);

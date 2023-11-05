@@ -199,4 +199,8 @@ public class Sounds {
     {"last", Resources.Load<AudioClip>("SFX/intro/last")},
     {"suspense", Resources.Load<AudioClip>("SFX/intro/suspense")}
   };
+
+  public static Dictionary<string, AudioClip> soundtracks = new Dictionary<string, AudioClip> {
+    {"meadows", Resources.Load<AudioClip>("OST/meadows-1")}
+  };
 }

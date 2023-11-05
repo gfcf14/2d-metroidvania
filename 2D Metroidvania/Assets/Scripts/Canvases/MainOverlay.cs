@@ -24,4 +24,9 @@ public class MainOverlay : MonoBehaviour {
     anim.speed = 0;
     anim.enabled = false;
   }
+
+  public void PlaySoundtrack() {
+    // TODO: find a way to get location
+    inGame.PlaySoundtrack("meadows");
+  }
 }
