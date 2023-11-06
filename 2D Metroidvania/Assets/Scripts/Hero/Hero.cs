@@ -980,6 +980,7 @@ public class Hero : MonoBehaviour {
       // }
 
       if (Helpers.IsPauseKeyUp() && pauseCase == "") {
+        inGame.ToggleSoundtrack(isPaused);
         isPaused = !isPaused;
         Helpers.TogglePause(isPaused, pauseCanvas);
       }

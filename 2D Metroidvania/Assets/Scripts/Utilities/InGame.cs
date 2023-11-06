@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -9,6 +10,8 @@ public class InGame : MonoBehaviour {
   private AudioSource soundtrack;
 
   public Hero hero;
+  private float fadeDuration = 0.25f;
+  private float pausedTime = 0f; // Stores the paused time position
 
   void Start() {
     groundTiles = GameObject.Find("Ground").GetComponent<Tilemap>();
@@ -24,6 +27,48 @@ public class InGame : MonoBehaviour {
   public void PlaySoundtrack(string key) {
     soundtrack.clip = Sounds.soundtracks[key];
     soundtrack.Play();
+  }
+
+  public void ToggleSoundtrack(bool isPaused) {
+    if (isPaused) {
+      StartFadeIn();
+    } else {
+      pausedTime = soundtrack.time;
+      StartFadeOutAndPause();
+    }
+  }
+
+  public void StartFadeOutAndPause() {
+    StartCoroutine(FadeOutAndPause());
+  }
+
+  public void StartFadeIn() {
+    StartCoroutine(FadeIn());
+  }
+
+  private IEnumerator FadeOutAndPause() {
+    float startVolume = soundtrack.volume;
+
+    while (soundtrack.volume > 0f) {
+      soundtrack.volume -= startVolume * Time.unscaledDeltaTime / fadeDuration;
+      yield return null;
+    }
+
+    soundtrack.Stop();
+    soundtrack.volume = startVolume;
+  }
+
+  private IEnumerator FadeIn() {
+    soundtrack.time = pausedTime;
+    soundtrack.volume = 0;
+    soundtrack.Play();
+
+    while (soundtrack.volume < 1f) {
+      soundtrack.volume += Time.unscaledDeltaTime / fadeDuration;
+      yield return null;
+    }
+
+    soundtrack.volume = 1;
   }
 
   public void SetPauseCase(string pauseCase) {
