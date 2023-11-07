@@ -18,6 +18,7 @@ public class InGame : MonoBehaviour {
     detailTiles = GameObject.Find("Detail").GetComponent<Tilemap>();
     mainOverlay = GameObject.Find("MainOverlay");
     soundtrack = GetComponent<AudioSource>();
+    soundtrack.volume = Settings.maxSoundtrackVolume;
     soundtrack.loop = true;
 
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
@@ -63,12 +64,12 @@ public class InGame : MonoBehaviour {
     soundtrack.volume = 0;
     soundtrack.Play();
 
-    while (soundtrack.volume < 1f) {
+    while (soundtrack.volume < Settings.maxSoundtrackVolume) {
       soundtrack.volume += Time.unscaledDeltaTime / fadeDuration;
       yield return null;
     }
 
-    soundtrack.volume = 1;
+    soundtrack.volume = Settings.maxSoundtrackVolume;
   }
 
   public void SetPauseCase(string pauseCase) {
