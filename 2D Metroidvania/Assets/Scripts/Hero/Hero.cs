@@ -1782,6 +1782,7 @@ public class Hero : MonoBehaviour {
 
   public void CheckLevel() {
     if (exp >= next) {
+      inGame.ToggleSoundtrack(isPaused: false);
       LevelUp();
     }
   }
@@ -1805,9 +1806,13 @@ public class Hero : MonoBehaviour {
     Time.timeScale = 0;
   }
 
-  public void ClearPauseCase() {
+  public void ClearPauseCase(bool resumeSoundtrack = false) {
     pauseCase = "";
     Time.timeScale = 1;
+
+    if (resumeSoundtrack) {
+      inGame.ToggleSoundtrack(isPaused: true);
+    }
   }
 
   public void SetNPCAction(string action) {

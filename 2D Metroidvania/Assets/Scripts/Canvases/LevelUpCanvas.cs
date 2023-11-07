@@ -13,7 +13,7 @@ public class LevelUpCanvas : MonoBehaviour {
 
   IEnumerator DisplayLevelUp() {
     yield return new WaitForSecondsRealtime(displaySeconds);
-    GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().ClearPauseCase();
+    GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().ClearPauseCase(resumeSoundtrack: true);
     gameObject.SetActive(false);
   }
 }
