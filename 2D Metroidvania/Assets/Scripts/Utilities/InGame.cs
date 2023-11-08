@@ -11,7 +11,8 @@ public class InGame : MonoBehaviour {
 
   public Hero hero;
   private float fadeDuration = 0.25f;
-  private float pausedTime = 0f; // Stores the paused time position
+  private float soundtrackPausedTime = 0f; // Stores the soundtrack paused time position
+  private float miniBossTrackPausedTime = 0f;
 
   void Start() {
     groundTiles = GameObject.Find("Ground").GetComponent<Tilemap>();
@@ -34,7 +35,13 @@ public class InGame : MonoBehaviour {
     if (isPaused) {
       StartFadeIn();
     } else {
-      pausedTime = soundtrack.time;
+
+      if (hero.isFightingBoss) {
+        miniBossTrackPausedTime = soundtrack.time;
+      } else {
+        soundtrackPausedTime = soundtrack.time;
+      }
+
       StartFadeOutAndPause();
     }
   }
@@ -60,7 +67,7 @@ public class InGame : MonoBehaviour {
   }
 
   private IEnumerator FadeIn() {
-    soundtrack.time = pausedTime;
+    soundtrack.time = hero.isFightingBoss ? miniBossTrackPausedTime : soundtrackPausedTime;
     soundtrack.volume = 0;
     soundtrack.Play();
 

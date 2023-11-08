@@ -201,6 +201,7 @@ public class Sounds {
   };
 
   public static Dictionary<string, AudioClip> soundtracks = new Dictionary<string, AudioClip> {
-    {"meadows", Resources.Load<AudioClip>("OST/meadows-1")}
+    {"meadows", Resources.Load<AudioClip>("OST/meadows-1")},
+    {"miniboss", Resources.Load<AudioClip>("OST/miniboss-1")}
   };
 }

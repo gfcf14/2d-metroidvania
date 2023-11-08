@@ -5,11 +5,19 @@ using UnityEngine;
 public class RoomTrigger : MonoBehaviour {
   [SerializeField] GameObject virtualCam;
 
+  private GameObject hero;
+  private Hero heroScript;
+  private InGame inGame;
+
+  void Start() {
+    hero = GameObject.FindGameObjectWithTag("Hero");
+    heroScript = hero.GetComponent<Hero>();
+    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+  }
+
   private void OnTriggerEnter2D(Collider2D col) {
-    GameObject hero = GameObject.FindGameObjectWithTag("Hero");
     if (col.CompareTag("RoomTraverser")) {
       virtualCam.SetActive(true);
-      Hero heroScript = hero.GetComponent<Hero>();
 
       heroScript.currentRoom = gameObject;
       foreach(Transform child in gameObject.transform) {
@@ -45,7 +53,7 @@ public class RoomTrigger : MonoBehaviour {
 
           heroScript.SetPauseCase("boss-room-entry");
           heroScript.bossTransitionDirection = (int)(heroBody.velocity.x / Math.Abs(heroBody.velocity.x));
-          StartCoroutine(PauseRoomWhileOnBossEntry(hero));
+          StartCoroutine(PauseRoomWhileOnBossEntry());
         }
       }
     }
@@ -73,18 +81,17 @@ public class RoomTrigger : MonoBehaviour {
     }
 
     if (col.gameObject.name == "ProximityCheck") {
-      Hero hero = GameObject.FindGameObjectWithTag("Hero").gameObject.GetComponent<Hero>();
-      if (hero.isAutonomous && hero.mustTransitionOnAir) {
-        hero.mustTransitionOnAir = false;
+      if (heroScript.isAutonomous && heroScript.mustTransitionOnAir) {
+        heroScript.mustTransitionOnAir = false;
         hero.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
       }
     }
   }
 
-  IEnumerator PauseRoomWhileOnBossEntry(GameObject hero) {
-    yield return new WaitForSecondsRealtime(3);
+  IEnumerator PauseRoomWhileOnBossEntry() {
+    inGame.ToggleSoundtrack(isPaused: false);
 
-    Hero heroScript = hero.GetComponent<Hero>();
+    yield return new WaitForSecondsRealtime(3);
 
     heroScript.ClearPauseCase();
     heroScript.isFightingBoss = true;

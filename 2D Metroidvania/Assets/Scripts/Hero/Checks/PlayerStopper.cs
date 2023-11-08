@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class PlayerStopper : MonoBehaviour {
   [SerializeField] GameObject bossStatusCanvas;
+
+  private InGame inGame;
   void Start() {
+    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+
     GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
   }
 
@@ -28,6 +32,9 @@ public class PlayerStopper : MonoBehaviour {
         bossStatusCanvas.GetComponent<BossBarsCanvas>().boss = roomBoss;
         bossStatusCanvas.GetComponent<BossBarsCanvas>().bossName = roomBoss.enemyName;
         bossStatusCanvas.SetActive(true);
+
+        // starts playing the miniboss soundtrack
+        inGame.PlaySoundtrack("miniboss");
       }
     }
   }
