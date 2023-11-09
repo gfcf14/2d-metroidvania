@@ -186,6 +186,11 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject checkboxShowItemInfo;
   [Space(10)]
 
+  // Sounds
+  [Header("Sounds")]
+  [SerializeField] GameObject checkboxPlaySFX;
+  [SerializeField] GameObject checkboxPlaySoundtrack;
+
   // miscellaneous
   [Header("Miscellaneous")]
   [SerializeField] GameObject preferredInputObject;
@@ -270,6 +275,11 @@ public class Pause : MonoBehaviour {
   [System.NonSerialized] bool showDamage = false;
   // tracks if item info should show
   [System.NonSerialized] bool showItemInfo = false;
+
+  // tracks if sfx should play
+  [System.NonSerialized] bool playSFX = false;
+  // tracks if soundtrack should play
+  [System.NonSerialized] bool playSoundtrack = false;
 
   // plays sounds
   private AudioSource audioSource;
@@ -1548,6 +1558,26 @@ public class Pause : MonoBehaviour {
         checkboxShowItemInfo.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["checkbox-unchecked"];
       }
     }
+
+    if (playSFX != Settings.playSFX) {
+      playSFX = Settings.playSFX;
+
+      if (playSFX) {
+        checkboxPlaySFX.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["checkbox-checked"];
+      } else {
+        checkboxPlaySFX.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["checkbox-unchecked"];
+      }
+    }
+
+    if (playSoundtrack != Settings.playSoundtrack) {
+      playSoundtrack = Settings.playSoundtrack;
+
+      if (playSoundtrack) {
+        checkboxPlaySoundtrack.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["checkbox-checked"];
+      } else {
+        checkboxPlaySoundtrack.transform.Find("Checkmark").gameObject.GetComponent<Image>().sprite = Sprites.uiElements["checkbox-unchecked"];
+      }
+    }
   }
 
   void UpdateMagicResistances() {
@@ -1845,5 +1875,13 @@ public class Pause : MonoBehaviour {
 
   public void PlayMenuSound(string sound) {
     audioSource.PlayOneShot(Sounds.menuSounds[sound]);
+  }
+
+  public void ToggleSFXPlay() {
+    Settings.playSFX = !playSFX;
+  }
+
+  public void ToggleSoundtrackPlay() {
+    Settings.playSoundtrack = !playSoundtrack;
   }
 }
