@@ -135,8 +135,8 @@ public class Hero : MonoBehaviour {
   public bool isHoldingDown = false;
 
   // PLAYER STATS
-    [System.NonSerialized] public int playerLevel = 20;
-    [System.NonSerialized] public int currentHP = GameData.baseHP;
+    [System.NonSerialized] public int playerLevel = 1;
+    [System.NonSerialized] public int currentHP = 5; //GameData.baseHP;
     [System.NonSerialized] public int maxHP = GameData.baseHP;
     [System.NonSerialized] public int currentMP = GameData.baseHP;
     [System.NonSerialized] public int maxMP = GameData.baseHP;
@@ -1799,6 +1799,7 @@ public class Hero : MonoBehaviour {
   public void PlayerDeath() {
     SetPauseCase("death");
     fadeOutCanvas.SetActive(true);
+    inGame.StartFadeOutAndPause();
   }
 
   public void SetPauseCase(string newPauseCase) {
