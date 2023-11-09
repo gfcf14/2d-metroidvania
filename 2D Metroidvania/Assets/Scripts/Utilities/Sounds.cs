@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -204,4 +203,6 @@ public class Sounds {
     {"meadows", Resources.Load<AudioClip>("OST/meadows-1")},
     {"miniboss", Resources.Load<AudioClip>("OST/miniboss-1")}
   };
+
+  public static AudioClip gameOverSound = Resources.Load<AudioClip>("SFX/gameover/game-over");
 }
