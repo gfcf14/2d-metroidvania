@@ -89,7 +89,7 @@ public class RoomTrigger : MonoBehaviour {
   }
 
   IEnumerator PauseRoomWhileOnBossEntry() {
-    inGame.ToggleSoundtrack(isPaused: false);
+    inGame.ToggleSoundtrack(isPaused: false, restart: true);
 
     yield return new WaitForSecondsRealtime(3);
 

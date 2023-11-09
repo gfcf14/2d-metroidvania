@@ -665,11 +665,6 @@ public class Enemy : MonoBehaviour {
 
   public void Destroy() {
     if (gameObject.name == "Boss") {
-      GameObject.Find("BossStatusCanvas").SetActive(false);
-      hero.isFightingBoss = false;
-    }
-
-    if (gameObject.name == "Boss") {
       transform.parent.Find("Bounds").gameObject.SetActive(false);
     }
 
@@ -685,6 +680,15 @@ public class Enemy : MonoBehaviour {
 
     // instantiates the explosion of the enemy
     Instantiate(Objects.prefabs["enemy-explosion"], deathOrigin, Quaternion.identity);
+
+    if (gameObject.name == "Boss") {
+      GameObject.Find("BossStatusCanvas").SetActive(false);
+      hero.isFightingBoss = false;
+
+      // TODO: figure out how to use location
+      inGame.SwitchFromMiniBossTrack("meadows");
+    }
+
     Destroy(gameObject);
   }
 

@@ -11,8 +11,8 @@ public class InGame : MonoBehaviour {
 
   public Hero hero;
   private float fadeDuration = 0.25f;
-  private float soundtrackPausedTime = 0f; // Stores the soundtrack paused time position
-  private float miniBossTrackPausedTime = 0f;
+  [SerializeField] float soundtrackPausedTime = 0f; // Stores the soundtrack paused time position
+  [SerializeField] float miniBossTrackPausedTime = 0f; // Stores the min boss track paused time position
 
   void Start() {
     groundTiles = GameObject.Find("Ground").GetComponent<Tilemap>();
@@ -31,15 +31,26 @@ public class InGame : MonoBehaviour {
     soundtrack.Play();
   }
 
-  public void ToggleSoundtrack(bool isPaused) {
-    if (isPaused) {
-      StartFadeIn();
-    } else {
+  public void SwitchFromMiniBossTrack(string key) {
+    soundtrack.Stop();
+    soundtrack.clip = Sounds.soundtracks[key];
+    StartCoroutine(FadeIn(wait: true));
+    miniBossTrackPausedTime = 0;
+  }
 
+  public void ToggleSoundtrack(bool isPaused, bool restart = false, bool wait = false) {
+    if (isPaused) {
+      StartFadeIn(wait);
+    } else {
       if (hero.isFightingBoss) {
         miniBossTrackPausedTime = soundtrack.time;
       } else {
         soundtrackPausedTime = soundtrack.time;
+      }
+
+      // ensures that, when switching soundtracks, the new soundtrack starts from the beginning
+      if (restart) {
+        soundtrack.time = 0f;
       }
 
       StartFadeOutAndPause();
@@ -50,8 +61,8 @@ public class InGame : MonoBehaviour {
     StartCoroutine(FadeOutAndPause());
   }
 
-  public void StartFadeIn() {
-    StartCoroutine(FadeIn());
+  public void StartFadeIn(bool wait = false) {
+    StartCoroutine(FadeIn(wait));
   }
 
   private IEnumerator FadeOutAndPause() {
@@ -66,7 +77,11 @@ public class InGame : MonoBehaviour {
     soundtrack.volume = startVolume;
   }
 
-  private IEnumerator FadeIn() {
+  private IEnumerator FadeIn(bool wait = false) {
+    if (wait) {
+      yield return new WaitForSeconds(1);
+    }
+
     soundtrack.time = hero.isFightingBoss ? miniBossTrackPausedTime : soundtrackPausedTime;
     soundtrack.volume = 0;
     soundtrack.Play();

@@ -135,7 +135,7 @@ public class Hero : MonoBehaviour {
   public bool isHoldingDown = false;
 
   // PLAYER STATS
-    [System.NonSerialized] public int playerLevel = 1;
+    [System.NonSerialized] public int playerLevel = 20;
     [System.NonSerialized] public int currentHP = GameData.baseHP;
     [System.NonSerialized] public int maxHP = GameData.baseHP;
     [System.NonSerialized] public int currentMP = GameData.baseHP;
@@ -1806,12 +1806,12 @@ public class Hero : MonoBehaviour {
     Time.timeScale = 0;
   }
 
-  public void ClearPauseCase(bool resumeSoundtrack = false) {
+  public void ClearPauseCase(bool resumeSoundtrack = false, bool waitIfLevelingUp = false) {
     pauseCase = "";
     Time.timeScale = 1;
 
     if (resumeSoundtrack) {
-      inGame.ToggleSoundtrack(isPaused: true);
+      inGame.ToggleSoundtrack(isPaused: true, restart: false, wait: waitIfLevelingUp);
     }
   }
 
