@@ -17,6 +17,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject controlsCanvas;
   [SerializeField] GameObject preferredInputCanvas;
   [SerializeField] GameObject inGameElementsCanvas;
+  [SerializeField] GameObject soundsCanvas;
   [SerializeField] GameObject quitCanvas;
   [SerializeField] GameObject titleCanvas;
   [Space(10)]
@@ -41,6 +42,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject preferredInputFirstSelected;
   [SerializeField] GameObject inGameElementsButton;
   [SerializeField] GameObject inGameElementsFirstSelected;
+  [SerializeField] GameObject soundsFirstSelected;
   [SerializeField] GameObject quitButton;
   [SerializeField] GameObject quitFirstSelected;
   [Space(10)]
@@ -337,6 +339,7 @@ public class Pause : MonoBehaviour {
     controlsCanvas.SetActive(false);
     preferredInputCanvas.SetActive(false);
     inGameElementsCanvas.SetActive(false);
+    soundsCanvas.SetActive(false);
     quitCanvas.SetActive(false);
     mainCanvas.SetActive(true);
     gameObject.SetActive(false);
@@ -1112,6 +1115,14 @@ public class Pause : MonoBehaviour {
     Helpers.FocusUIElement(inGameElementsFirstSelected);
   }
 
+  public void ShowSoundsCanvas() {
+    canvasStatus = "options_sounds";
+    optionsCanvas.SetActive(false);
+    soundsCanvas.SetActive(true);
+
+    Helpers.FocusUIElement(soundsFirstSelected);
+  }
+
   public void ShowQuitCanvas() {
     canvasStatus = "quit";
     mainCanvas.SetActive(false);
@@ -1170,6 +1181,14 @@ public class Pause : MonoBehaviour {
     Helpers.FocusUIElement(inGameElementsButton);
   }
 
+  public void GoBackToOptionsFromSounds() {
+    canvasStatus = "options";
+    soundsCanvas.SetActive(false);
+    optionsCanvas.SetActive(true);
+
+    Helpers.FocusUIElement(inGameElementsButton);
+  }
+
   public void GoBackToMainFromQuit() {
     canvasStatus = "main";
     quitCanvas.SetActive(false);
@@ -1211,6 +1230,9 @@ public class Pause : MonoBehaviour {
       break;
       case "options_show-in-game-elements":
         GoBackToOptionsFromShowInGameElements();
+      break;
+      case "options_sounds":
+        GoBackToOptionsFromSounds();
       break;
       case "quit":
         GoBackToMainFromQuit();
