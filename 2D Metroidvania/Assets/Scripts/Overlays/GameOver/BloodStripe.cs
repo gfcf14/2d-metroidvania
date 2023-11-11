@@ -14,6 +14,9 @@ public class BloodStripe : MonoBehaviour {
 
   public void ShowGameOverText() {
     gameOverText.SetActive(true);
-    audioSource.Play();
+
+    if (Settings.playSFX) {
+      audioSource.Play();
+    }
   }
 }

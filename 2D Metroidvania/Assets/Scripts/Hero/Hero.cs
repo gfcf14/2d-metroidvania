@@ -135,7 +135,7 @@ public class Hero : MonoBehaviour {
   public bool isHoldingDown = false;
 
   // PLAYER STATS
-    [System.NonSerialized] public int playerLevel = 1;
+    [System.NonSerialized] public int playerLevel = 30;
     [System.NonSerialized] public int currentHP = GameData.baseHP;
     [System.NonSerialized] public int maxHP = GameData.baseHP;
     [System.NonSerialized] public int currentMP = GameData.baseHP;
@@ -573,7 +573,9 @@ public class Hero : MonoBehaviour {
   }
 
   public void PlaySound(AudioClip sound) {
-    audioSource.PlayOneShot(sound);
+    if (Settings.playSFX) {
+      audioSource.PlayOneShot(sound);
+    }
   }
 
   public void PlayRunningSound() {

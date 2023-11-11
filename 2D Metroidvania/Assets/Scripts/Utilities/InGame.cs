@@ -28,7 +28,10 @@ public class InGame : MonoBehaviour {
 
   public void PlaySoundtrack(string key) {
     soundtrack.clip = Sounds.soundtracks[key];
-    soundtrack.Play();
+
+    if (Settings.playSoundtrack) {
+      soundtrack.Play();
+    }
   }
 
   public void SwitchFromMiniBossTrack(string key) {
@@ -42,10 +45,12 @@ public class InGame : MonoBehaviour {
     if (isPaused) {
       StartFadeIn(wait);
     } else {
-      if (hero.isFightingBoss) {
-        miniBossTrackPausedTime = soundtrack.time;
-      } else {
-        soundtrackPausedTime = soundtrack.time;
+      if (soundtrack.isPlaying) { // must check if soundtrack is playing; when not playing, time is 0 thus choosing to mute backgrounds would "reset" soundtrack position
+        if (hero.isFightingBoss) {
+          miniBossTrackPausedTime = soundtrack.time;
+        } else {
+          soundtrackPausedTime = soundtrack.time;
+        }
       }
 
       // ensures that, when switching soundtracks, the new soundtrack starts from the beginning
@@ -84,7 +89,9 @@ public class InGame : MonoBehaviour {
 
     soundtrack.time = hero.isFightingBoss ? miniBossTrackPausedTime : soundtrackPausedTime;
     soundtrack.volume = 0;
-    soundtrack.Play();
+    if (Settings.playSoundtrack) {
+      soundtrack.Play();
+    }
 
     while (soundtrack.volume < Settings.maxSoundtrackVolume) {
       soundtrack.volume += Time.unscaledDeltaTime / fadeDuration;

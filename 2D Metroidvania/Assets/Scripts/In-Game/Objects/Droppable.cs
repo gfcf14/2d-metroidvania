@@ -99,7 +99,7 @@ public class Droppable : MonoBehaviour {
   }
 
   public void PlaySound(AudioClip droppableSound) {
-    if (inGame.hero.pauseCase == "") {
+    if (inGame.hero.pauseCase == "" && Settings.playSFX) {
       audioSource.PlayOneShot(droppableSound);
     }
   }

@@ -1896,7 +1896,9 @@ public class Pause : MonoBehaviour {
   }
 
   public void PlayMenuSound(string sound) {
-    audioSource.PlayOneShot(Sounds.menuSounds[sound]);
+    if (Settings.playSFX) {
+      audioSource.PlayOneShot(Sounds.menuSounds[sound]);
+    }
   }
 
   public void ToggleSFXPlay() {

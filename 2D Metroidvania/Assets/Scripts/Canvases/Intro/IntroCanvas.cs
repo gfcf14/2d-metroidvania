@@ -45,7 +45,10 @@ public class IntroCanvas : MonoBehaviour {
       int currentIndex = System.Array.IndexOf(audioClips, audioSource.clip);
       if (currentIndex < audioClips.Length - 1) {
         audioSource.clip = audioClips[currentIndex + 1];
-        audioSource.Play();
+
+        if (Settings.playSFX) {
+          audioSource.Play();
+        }
       }
     }
   }
@@ -67,7 +70,10 @@ public class IntroCanvas : MonoBehaviour {
     foreach (AudioClip clip in audioClips) {
       if (!hasSkipped) {
         audioSource.clip = clip;
-        audioSource.Play();
+
+        if (Settings.playSFX) {
+          audioSource.Play();
+        }
 
         // Wait for the clip to finish playing
         yield return new WaitForSeconds(clip.length);

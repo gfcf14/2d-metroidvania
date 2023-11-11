@@ -38,7 +38,9 @@ public class Interactable : MonoBehaviour {
   }
 
   public void PlaySound() {
-    audioSource.PlayOneShot(Sounds.chestSounds[chest.type]);
+    if (Settings.playSFX) {
+      audioSource.PlayOneShot(Sounds.chestSounds[chest.type]);
+    }
   }
 
   public void releaseTreasure() {

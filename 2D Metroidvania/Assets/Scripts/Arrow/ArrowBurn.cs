@@ -40,7 +40,7 @@ public class ArrowBurn : MonoBehaviour {
   }
 
   public void PlayBurnSound() {
-    if (!audioSource.isPlaying) {
+    if (!audioSource.isPlaying && Settings.playSFX) {
       audioSource.clip = Sounds.loops["arrow-burn"];
       audioSource.Play();
     }

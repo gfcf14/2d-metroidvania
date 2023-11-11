@@ -11,6 +11,8 @@ public class Bow : MonoBehaviour {
   void Update() {}
 
   public void PlaySound(string projectileEquipment) {
-    audioSource.PlayOneShot(Sounds.attackSounds["bow"]);
+    if (Settings.playSFX) {
+      audioSource.PlayOneShot(Sounds.attackSounds["bow"]);
+    }
   }
 }

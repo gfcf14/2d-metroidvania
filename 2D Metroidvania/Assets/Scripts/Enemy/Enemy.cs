@@ -210,7 +210,9 @@ public class Enemy : MonoBehaviour {
   }
 
   public void PlaySound(AudioClip sound) {
-    audioSource.PlayOneShot(sound);
+    if (Settings.playSFX) {
+      audioSource.PlayOneShot(sound);
+    }
   }
 
   // TODO: consider if enemies should constantly be making sound (e.g. walking)
@@ -224,7 +226,9 @@ public class Enemy : MonoBehaviour {
   }
 
   public void PlayAttackSound() {
-    audioSource.PlayOneShot(Sounds.attackSounds[normalAttackType]);
+    if (Settings.playSFX) {
+      audioSource.PlayOneShot(Sounds.attackSounds[normalAttackType]);
+    }
   }
 
   void Update() {
@@ -706,7 +710,9 @@ public class Enemy : MonoBehaviour {
     throwableInstance.criticalRate = criticalRate;
 
     // TODO: change when implementing other throwable types
-    audioSource.PlayOneShot(Sounds.attackSounds["throwable-double-large"]);
+    if (Settings.playSFX) {
+      audioSource.PlayOneShot(Sounds.attackSounds["throwable-double-large"]);
+    }
 
     Transform throwableCollider = throwableObject.transform.Find("ThrowableCollider");
     throwableCollider.eulerAngles = Vector3.zero;

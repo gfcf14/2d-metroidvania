@@ -165,14 +165,16 @@ public class Breakable : MonoBehaviour {
   }
 
   public void PlaySound(AudioClip breakableSound) {
-    // lower volume to aggregate to 1 depending on the breakable siblings
-    float audioVolume = 1 / BreakableCount();
-    audioSource.volume = audioVolume;
+    if (Settings.playSFX) {
+      // lower volume to aggregate to 1 depending on the breakable siblings
+      float audioVolume = 1 / BreakableCount();
+      audioSource.volume = audioVolume;
 
-    soundLength = breakableSound.length;
+      soundLength = breakableSound.length;
 
-    audioSource.PlayOneShot(breakableSound);
-    StartCoroutine(ActionAfterSound());
+      audioSource.PlayOneShot(breakableSound);
+      StartCoroutine(ActionAfterSound());
+    }
   }
 
   IEnumerator ActionAfterSound() {

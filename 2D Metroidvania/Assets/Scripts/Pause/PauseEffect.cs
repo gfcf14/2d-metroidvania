@@ -12,6 +12,8 @@ public class PauseEffect : MonoBehaviour {
   }
 
   public void PlaySound() {
-    audioSource.PlayOneShot(Sounds.menuSounds["use"]);
+    if (Settings.playSFX) {
+      audioSource.PlayOneShot(Sounds.menuSounds["use"]);
+    }
   }
 }

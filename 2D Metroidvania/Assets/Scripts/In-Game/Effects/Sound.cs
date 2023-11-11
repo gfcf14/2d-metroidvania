@@ -9,9 +9,11 @@ public class Sound : MonoBehaviour {
   void Update() {}
 
   public void PlaySound(AudioClip clip) {
-    audioSource = GetComponent<AudioSource>();
-    audioSource.PlayOneShot(clip);
-    StartCoroutine(WaitForSoundFinish());
+    if (Settings.playSFX) {
+      audioSource = GetComponent<AudioSource>();
+      audioSource.PlayOneShot(clip);
+      StartCoroutine(WaitForSoundFinish());
+    }
   }
 
   IEnumerator WaitForSoundFinish() {
