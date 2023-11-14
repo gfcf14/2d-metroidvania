@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -49,5 +50,11 @@ public class TitleCanvas : MonoBehaviour {
     #endif
 
     Application.Quit();
+  }
+
+  public void PlayMenuSound(string sound) {
+    if (Settings.playSFX) {
+      audioSource.PlayOneShot(Sounds.menuSounds[sound]);
+    }
   }
 }

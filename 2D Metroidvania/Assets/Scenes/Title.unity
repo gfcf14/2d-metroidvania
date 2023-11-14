@@ -286,6 +286,7 @@ GameObject:
   - component: {fileID: 241491550}
   - component: {fileID: 241491549}
   - component: {fileID: 241491552}
+  - component: {fileID: 241491553}
   m_Layer: 5
   m_Name: ButtonQuit
   m_TagString: Untagged
@@ -425,6 +426,35 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &241491553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241491547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 595146669}
+          m_TargetAssemblyTypeName: TitleCanvas, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: move
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &497329996
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +489,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 124.885, y: -29}
+  m_AnchoredPosition: {x: 139.88501, y: -29}
   m_SizeDelta: {x: 165.77, y: 58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &497329998
@@ -736,6 +766,7 @@ GameObject:
   - component: {fileID: 606064129}
   - component: {fileID: 606064128}
   - component: {fileID: 606064131}
+  - component: {fileID: 606064132}
   m_Layer: 5
   m_Name: ButtonStart
   m_TagString: Untagged
@@ -875,6 +906,35 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &606064132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606064126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 595146669}
+          m_TargetAssemblyTypeName: TitleCanvas, Assembly-CSharp
+          m_MethodName: PlayMenuSound
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: move
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1152993977
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,7 +972,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 103.885, y: -97.95758}
+  m_AnchoredPosition: {x: 103.885, y: -98.18414}
   m_SizeDelta: {x: 207.77, y: 58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1152993979
@@ -1013,7 +1073,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 124.88625, y: -28.999985}
+  m_AnchoredPosition: {x: 138.9445, y: -28.999985}
   m_SizeDelta: {x: 163.889, y: 58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1701985003
