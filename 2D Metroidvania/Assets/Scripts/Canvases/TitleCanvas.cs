@@ -7,11 +7,13 @@ public class TitleCanvas : MonoBehaviour {
   [SerializeField] GameObject buttonsPanel;
   [SerializeField] GameObject pressPrompt;
   [SerializeField] GameObject buttonsFirstSelected;
+  [SerializeField] GameObject overlay;
   [SerializeField] EventSystem eventSystem;
   [SerializeField] AudioSource audioSource;
 
   void Start() {
     audioSource = GetComponent<AudioSource>();
+    overlay = transform.Find("Overlay").gameObject;
   }
 
   void Update() {
@@ -41,6 +43,10 @@ public class TitleCanvas : MonoBehaviour {
   }
 
   public void GameStart() {
+    overlay.SetActive(true);
+  }
+
+  public void TransitionToWorld() {
     SceneManager.LoadScene("GameWorld");
   }
 
