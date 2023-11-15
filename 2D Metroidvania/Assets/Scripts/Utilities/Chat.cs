@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 
 public class Chat {
+  public static Condition blankCondition = new Condition() {
+    conditionCheck = "",
+    conditionValue = ""
+  };
+
   public static Dictionary<string, Dictionary<string, ChatNode>> chatNodes = new Dictionary<string, Dictionary<string, ChatNode>> {
     {"peasant-girl", new Dictionary<string, ChatNode> {
       {"", new ChatNode() {
-        nodeCondition = new Condition() {
-          conditionCheck = "",
-          conditionValue = ""
-        },
+        nodeCondition = blankCondition,
         nodeLines = new ChatLine[] {
           new ChatLine() {
             character = "peasant-girl",
@@ -43,10 +45,7 @@ public class Chat {
         fallbackNode = "no-pay-dialogue"
       }},
       {"no-pay-dialogue", new ChatNode() {
-        nodeCondition = new Condition() {
-          conditionCheck = "",
-          conditionValue = ""
-        },
+        nodeCondition = blankCondition,
         nodeLines = new ChatLine[] {
           new ChatLine() {
             character = "peasant-girl",
@@ -171,10 +170,7 @@ public class Chat {
         fallbackNode = "ask-draco-shield"
       }},
       {"ask-draco-shield", new ChatNode() {
-        nodeCondition = new Condition() {
-          conditionCheck = "",
-          conditionValue = ""
-        },
+        nodeCondition = blankCondition,
         nodeLines = new ChatLine[] {
           new ChatLine() {
             character = "peasant-girl",
