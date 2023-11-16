@@ -317,20 +317,12 @@ public class Helpers {
 
   // recursive function to get exp for levels between 81 and 90
   public static int GetEXP8190(int level) {
-    if (level == 80) {
-      return 342450;
-    }
-
-    return 15000 * (level - 80) + GetEXP8190(--level);
+    return 15000 * (level - 80) + 342450;
   }
 
   // recursive function to get exp for levels between 91 and 100
   public static int GetEXP91100(int level) {
-    if (level == 90) {
-      return 492450;
-    }
-
-    return 20000 * (level - 90) + GetEXP91100(--level);
+    return 20000 * (level - 90) + 492450;
   }
 
   // determines the next level exp amount following the formula: f(x) = 50x^2 - 50x
