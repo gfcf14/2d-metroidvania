@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -11,9 +11,11 @@ public class TitleCanvas : MonoBehaviour {
   [SerializeField] EventSystem eventSystem;
   [SerializeField] AudioSource audioSource;
 
+  [System.NonSerialized] AudioClip startSound;
   void Start() {
     audioSource = GetComponent<AudioSource>();
     overlay = transform.Find("Overlay").gameObject;
+    startSound = Sounds.impactSounds["sword"]["critical"];
   }
 
   void Update() {
@@ -43,6 +45,13 @@ public class TitleCanvas : MonoBehaviour {
   }
 
   public void GameStart() {
+    audioSource.PlayOneShot(startSound);
+    StartCoroutine(WaitForStartSoundFinish());
+  }
+
+  IEnumerator WaitForStartSoundFinish() {
+    yield return new WaitForSeconds(startSound.length);
+
     overlay.SetActive(true);
   }
 
