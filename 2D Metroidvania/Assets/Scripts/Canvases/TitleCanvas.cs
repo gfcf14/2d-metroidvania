@@ -71,6 +71,13 @@ public class TitleCanvas : MonoBehaviour {
 
   public void Quit() {
     PlayPressedAnimation();
+    PlayMenuSound("select");
+    StartCoroutine(QuitGame());
+  }
+
+  IEnumerator QuitGame() {
+    yield return new WaitForSeconds(1);
+
     #if UNITY_EDITOR
       UnityEditor.EditorApplication.isPlaying = false;
     #endif
