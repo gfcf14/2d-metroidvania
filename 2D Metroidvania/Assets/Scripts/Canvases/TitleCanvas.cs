@@ -44,7 +44,17 @@ public class TitleCanvas : MonoBehaviour {
     }
   }
 
+  public void StopSelectedAnimation() {
+    eventSystem.currentSelectedGameObject.GetComponent<Animator>().speed = 0;
+  }
+
+  public void PlayPressedAnimation() {
+    eventSystem.currentSelectedGameObject.GetComponent<Animator>().Play("Pressed");
+    StopSelectedAnimation();
+  }
+
   public void GameStart() {
+    PlayPressedAnimation();
     audioSource.PlayOneShot(startSound);
     StartCoroutine(WaitForStartSoundFinish());
   }
@@ -60,6 +70,7 @@ public class TitleCanvas : MonoBehaviour {
   }
 
   public void Quit() {
+    PlayPressedAnimation();
     #if UNITY_EDITOR
       UnityEditor.EditorApplication.isPlaying = false;
     #endif
