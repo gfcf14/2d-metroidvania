@@ -18,6 +18,12 @@ public class TitleCanvas : MonoBehaviour {
     startSound = Sounds.impactSounds["sword"]["critical"];
   }
 
+  public void PlaySound(AudioClip clip) {
+    if (Settings.playSFX) {
+      audioSource.PlayOneShot(clip);
+    }
+  }
+
   void Update() {
     if (Input.anyKeyDown) {
       string currentKey = "";
@@ -33,9 +39,7 @@ public class TitleCanvas : MonoBehaviour {
 
       // only proceed with showing the title menu if the key pressed is not a mouse key and if it isn't active
       if (!currentKey.Contains("Mouse") && !buttonsPanel.activeSelf) {
-        if (Settings.playSFX) {
-          audioSource.PlayOneShot(Sounds.menuSounds["select"]);
-        }
+        PlayMenuSound("select");
 
         pressPrompt.SetActive(false);
         buttonsPanel.SetActive(true);
@@ -55,7 +59,7 @@ public class TitleCanvas : MonoBehaviour {
 
   public void GameStart() {
     PlayPressedAnimation();
-    audioSource.PlayOneShot(startSound);
+    PlaySound(startSound);
     StartCoroutine(WaitForStartSoundFinish());
   }
 
@@ -86,8 +90,6 @@ public class TitleCanvas : MonoBehaviour {
   }
 
   public void PlayMenuSound(string sound) {
-    if (Settings.playSFX) {
-      audioSource.PlayOneShot(Sounds.menuSounds[sound]);
-    }
+    PlaySound(Sounds.menuSounds[sound]);
   }
 }
