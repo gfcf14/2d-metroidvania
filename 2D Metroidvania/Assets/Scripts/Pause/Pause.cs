@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -355,8 +356,22 @@ public class Pause : MonoBehaviour {
     Time.timeScale = 1;
   }
 
+  // uses the main overlay to cover the game on game over
+  public void Cover() {
+    GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().Cover();
+  }
+
   public void ReturnToTitle() {
-    HideCanvases();
+    StartCoroutine(WaitToTransition());
+  }
+
+  // waits in real time (since this would be done while timescale is 0 (paused) for a bit then transitions to title)
+  IEnumerator WaitToTransition() {
+    float start = Time.realtimeSinceStartup;
+    while (Time.realtimeSinceStartup < start + 3f) {
+      yield return null;
+    }
+
     SceneManager.LoadScene("Title");
   }
 
