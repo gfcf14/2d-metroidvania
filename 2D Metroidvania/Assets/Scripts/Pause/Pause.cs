@@ -14,6 +14,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject itemsCanvas;
   [SerializeField] GameObject equipmentCanvas;
   [SerializeField] GameObject projectileCanvas;
+  [SerializeField] GameObject mapCanvas;
   [SerializeField] GameObject optionsCanvas;
   [SerializeField] GameObject controlsCanvas;
   [SerializeField] GameObject preferredInputCanvas;
@@ -35,6 +36,8 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject itemsButton;
   [SerializeField] GameObject equipmentButton;
   [SerializeField] GameObject equipmentFirstSelected;
+
+  [SerializeField] GameObject mapButton;
   [SerializeField] GameObject optionsButton;
   [SerializeField] GameObject optionsFirstSelected;
   [SerializeField] GameObject controlsButton;
@@ -336,6 +339,7 @@ public class Pause : MonoBehaviour {
     equipmentCanvas.SetActive(false);
     equipmentContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
     projectileCanvas.SetActive(false);
+    mapCanvas.SetActive(false);
     optionsCanvas.SetActive(false);
     controlsCanvas.SetActive(false);
     preferredInputCanvas.SetActive(false);
@@ -1098,6 +1102,15 @@ public class Pause : MonoBehaviour {
     Helpers.FocusUIElement(equipmentFirstSelected);
   }
 
+  public void ShowMapCanvas() {
+    canvasStatus = "map";
+    mainCanvas.SetActive(false);
+    mapCanvas.SetActive(true);
+
+    // TODO: when implementing, ensure to show buttons equivalent to each area, and activate the one currently in
+    Helpers.FocusUIElement(optionsFirstSelected);
+  }
+
   public void ShowOptionsCanvas() {
     canvasStatus = "options";
     mainCanvas.SetActive(false);
@@ -1162,6 +1175,14 @@ public class Pause : MonoBehaviour {
     mainCanvas.SetActive(true);
 
     Helpers.FocusUIElement(equipmentButton);
+  }
+
+  public void GoBackToMainFromMap() {
+    canvasStatus = "main";
+    mapCanvas.SetActive(false);
+    mainCanvas.SetActive(true);
+
+    Helpers.FocusUIElement(mapButton);
   }
 
   public void GoBackToMainFromOptions() {
@@ -1230,6 +1251,9 @@ public class Pause : MonoBehaviour {
       break;
       case "equipment_select_projectile":
         CancelProjectileSelection();
+      break;
+      case "map":
+        GoBackToMainFromMap();
       break;
       case "options":
         GoBackToMainFromOptions();
