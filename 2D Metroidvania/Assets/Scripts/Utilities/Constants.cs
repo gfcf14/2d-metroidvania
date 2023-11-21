@@ -127,6 +127,8 @@ public class Constants {
 
   public static float maxMPDisplayableLimit = 500;
 
+  public static float minimumSoundPlayElapsedTime = 0.5f;
+
   // ensures that each HP unit (until reaching 500) displays in 2 UI units
   public static int containerMultiplier = 2;
 }

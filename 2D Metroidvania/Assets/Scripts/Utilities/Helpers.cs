@@ -474,4 +474,10 @@ public class Helpers {
       }
     }
   }
+
+  public static bool IsPastPlayElapsedTime(InGame inGame) {
+    float elapsedTime =  Time.realtimeSinceStartup - inGame.mainOverlay.GetComponent<MainOverlay>().timeOnFade;
+
+    return elapsedTime > Constants.minimumSoundPlayElapsedTime;
+  }
 }

@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class InGame : MonoBehaviour {
   private Tilemap groundTiles;
   private Tilemap detailTiles;
-  private GameObject mainOverlay;
   private AudioSource soundtrack;
-
-  public Hero hero;
   private float fadeDuration = 0.25f;
+
   [SerializeField] float soundtrackPausedTime = 0f; // Stores the soundtrack paused time position
   [SerializeField] float miniBossTrackPausedTime = 0f; // Stores the min boss track paused time position
+
+  public Hero hero;
+  public GameObject mainOverlay;
 
   void Start() {
     groundTiles = GameObject.Find("Ground").GetComponent<Tilemap>();

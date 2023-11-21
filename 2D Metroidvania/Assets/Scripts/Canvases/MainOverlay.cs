@@ -4,6 +4,8 @@ public class MainOverlay : MonoBehaviour {
   private Animator anim;
   private InGame inGame;
 
+  public float timeOnFade = 0;
+
   void Start() {
     anim = GetComponent<Animator>();
     inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
@@ -18,6 +20,7 @@ public class MainOverlay : MonoBehaviour {
 
   public void ProceedWhenFading() {
     inGame.ClearPauseCase();
+    timeOnFade = Time.realtimeSinceStartup;
   }
 
   public void OverlayStandBy() {
