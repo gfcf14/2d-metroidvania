@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,14 +8,14 @@ public class ActionCanvas : MonoBehaviour {
   [SerializeField] GameObject actionTextContainer;
   [SerializeField] public string text = "";
   [SerializeField] public string icon = "";
+
+  private RectTransform actionTextRect;
+  private RectTransform actionTextContainerRect;
+  private Text textComponent;
+
   private string currentPreferredInput = "";
-
-  private int textWidth = 0;
-  private int textContainerWidth = 0;
-
-  private int maxTextWidth = 0;
-  private int maxTextContainerWidth = 0;
   void Start() {
+    SetComponents();
     SetIcon();
   }
 
@@ -27,33 +28,71 @@ public class ActionCanvas : MonoBehaviour {
       )) {
         SetIcon();
     }
+  }
 
-    if (textWidth < maxTextWidth) {
-      textWidth += 4;
-      if (textWidth > maxTextWidth) {
-        textWidth = maxTextWidth;
-      }
+  IEnumerator ChangeWidthOverTime(RectTransform rectTransform, int targetWidth, float duration) {
+    float elapsedTime = 0f;
+    float initialWidth = rectTransform.sizeDelta.x;
 
-      SetObjectWidth(actionText, textWidth, Constants.actionTextHeight);
-      SetText(text, textWidth);
+    while (elapsedTime < duration) {
+      elapsedTime += Time.deltaTime;
+      float t = Mathf.Clamp01(elapsedTime / duration);
+      float newWidth = Mathf.Lerp(initialWidth, targetWidth, t);
+      rectTransform.sizeDelta = new Vector2(newWidth, rectTransform.sizeDelta.y);
+      yield return null;
     }
 
-    if (textContainerWidth < maxTextContainerWidth) {
-      textContainerWidth += 4;
-      if (textContainerWidth > maxTextContainerWidth) {
-        textContainerWidth = maxTextContainerWidth;
-      }
+    // Ensure final width is set precisely
+    rectTransform.sizeDelta = new Vector2(targetWidth, rectTransform.sizeDelta.y);
+  }
 
-      SetObjectWidth(actionTextContainer, textContainerWidth, Constants.actionTextContainerHeight);
+  public void ChangeTextContainerWidthOverTime(RectTransform rectTransform, int targetWidth, float duration) {
+    StartCoroutine(ChangeWidthOverTime(rectTransform, targetWidth, duration));
+  }
+
+  IEnumerator ChangeTextOverTime(Text textComponent, string text, float duration) {
+    float elapsedTime = 0f;
+
+    while (elapsedTime < duration) {
+      elapsedTime += Time.deltaTime;
+
+      float currentTextWidth = actionTextRect.sizeDelta.x;
+      SetText(textComponent, text, (int)currentTextWidth);
+      yield return null;
     }
+
+    textComponent.text = text;
+  }
+
+  public void SetActionText(Text textComponent, string text, float duration) {
+    StartCoroutine(ChangeTextOverTime(textComponent, text, duration));
   }
 
   public void SetSpecs(string action) {
+    if (!actionTextRect || !actionTextContainerRect || !textComponent) {
+      SetComponents();
+    }
+
     text = action.ToUpper();
-    textWidth = 0;
-    textContainerWidth = 0;
-    maxTextWidth = Helpers.GetTextDisplayWidth(text);
-    maxTextContainerWidth = maxTextWidth + Constants.defaultActionTextContainerWidth;
+    int textWidth = Helpers.GetTextDisplayWidth(text);
+    int textContainerWidth = textWidth + Constants.defaultActionTextContainerWidth;
+
+    ChangeTextContainerWidthOverTime(actionTextRect, textWidth, 0.3f);
+    SetActionText(textComponent, text, 0.3f);
+    ChangeTextContainerWidthOverTime(actionTextContainerRect, textContainerWidth, 0.3f);
+  }
+
+  public void ClearSpecs() {
+    text = "";
+    actionTextRect.sizeDelta = new Vector2(0, actionTextRect.sizeDelta.y);
+    actionTextContainerRect.sizeDelta = new Vector2(0, actionTextContainerRect.sizeDelta.y);
+    textComponent.text = "";
+  }
+
+  public void SetComponents() {
+    actionTextRect = actionText.GetComponent<RectTransform>();
+    actionTextContainerRect = actionTextContainer.GetComponent<RectTransform>();
+    textComponent = actionText.GetComponent<Text>();
   }
 
   public void SetIcon() {
@@ -68,7 +107,7 @@ public class ActionCanvas : MonoBehaviour {
   }
 
   // sets only as much text as the available width allows
-  public void SetText(string text, int width) {
+  public void SetText(Text textComponent, string text, int width) {
     int accumulatedWidth = 0;
     int truncateIndex = text.Length;
 
@@ -80,6 +119,6 @@ public class ActionCanvas : MonoBehaviour {
       }
     }
 
-    actionText.GetComponent<Text>().text = text.Substring(0, truncateIndex);
+    textComponent.text = text.Substring(0, truncateIndex);
   }
 }

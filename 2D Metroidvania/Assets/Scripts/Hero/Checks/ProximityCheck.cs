@@ -24,9 +24,9 @@ public class ProximityCheck : MonoBehaviour {
       heroScript.NPCnearby = col.gameObject.name;
 
       if (npcFound.actionAvailable != "") {
+        heroScript.actionCanvas.SetActive(true);
         heroScript.SetNPCAction(npcFound.actionAvailable);
         heroScript.NPCnearbyAction = npcFound.actionAvailable;
-        heroScript.actionCanvas.SetActive(true);
       }
     }
   }
@@ -36,6 +36,7 @@ public class ProximityCheck : MonoBehaviour {
 
     if (colTag == "NPC") {
       heroScript.actionCanvas.SetActive(false);
+      heroScript.actionCanvas.GetComponent<ActionCanvas>().ClearSpecs();
       heroScript.NPCnearby = "";
       heroScript.NPCnearbyAction = "";
     }
