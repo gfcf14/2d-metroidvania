@@ -102,9 +102,6 @@ public class ActionCanvas : MonoBehaviour {
     buttonImage.GetComponent<Image>().sprite = Sprites.keycodeSprites[icon];
   }
 
-  public void SetObjectWidth(GameObject UIElement, int width, int height) {
-    UIElement.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
-  }
 
   // sets only as much text as the available width allows
   public void SetText(Text textComponent, string text, int width) {

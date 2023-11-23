@@ -16,6 +16,8 @@ public class ChatCanvas : MonoBehaviour {
   private Text characterComponent;
   private Text textComponent;
 
+  private Hero hero;
+
   void Chat() {
     SetCharacter(chatLines[lineIndex].character);
     SetEmotion(chatLines[lineIndex].character, chatLines[lineIndex].emotion);
@@ -25,6 +27,7 @@ public class ChatCanvas : MonoBehaviour {
   void Start() {
     characterComponent = characterObject.GetComponent<Text>();
     textComponent = textObject.GetComponent<Text>();
+    hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
 
     StartChat();
   }
@@ -159,10 +162,10 @@ public class ChatCanvas : MonoBehaviour {
   // Finishes the chat, but only sets the next node if the player left, otherwise a line could potentially not be read by player
   public void FinishChat(bool playerLeft = false) {
     if (!playerLeft) {
-      GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().UpdateChatNode(startingNPC, nextNode);
+      hero.UpdateChatNode(startingNPC, nextNode);
     }
 
     SetEmotion(startingNPC, "default");
-    gameObject.SetActive(false);
+    hero.CloseChat();
   }
 }

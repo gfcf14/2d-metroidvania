@@ -26,6 +26,7 @@ public class Hero : MonoBehaviour {
   [SerializeField] public GameObject fadeOutCanvas;
   [SerializeField] public GameObject airEdgeCheck;
   public AirEdgeCheck airEdgeCheckScript;
+  public ProximityCheck proximityCheckScript;
   private Rigidbody2D body;
   private Animator anim;
   private SpriteRenderer heroRenderer;
@@ -95,6 +96,8 @@ public class Hero : MonoBehaviour {
   public bool isShootingPull;
 
   public bool isInvulnerable = false;
+
+  public bool isOnChat = false;
   public float damageStartTime = 0;
 
   // TODO: develop a logic to ensure this time can be influenced by level, i.e. the higher the level, the higher the recover time (the longer invulnerability lasts)
@@ -249,6 +252,7 @@ public class Hero : MonoBehaviour {
     heroRenderer = GetComponent<SpriteRenderer>();
     audioSource = GetComponent<AudioSource>();
     airEdgeCheckScript = airEdgeCheck.GetComponent<AirEdgeCheck>();
+    proximityCheckScript = transform.FindChild("ProximityCheck").GetComponent<ProximityCheck>();
     inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
 
     // currentWeapon = weapons[weaponIndex % weapons.Length];
@@ -1870,13 +1874,21 @@ public class Hero : MonoBehaviour {
     chatCanvasScript.startingNPC = npcKey;
     chatCanvasScript.nextNode = Chat.chatNodes[npcKey][npcNodes[npcKey]].nextNode;
 
+    // closes the action canvas when the chat canvas activates
+    actionCanvas.SetActive(false);
+    // resets the action canvas so when the chat closes and it should show again, it won't show at full width
+    actionCanvas.GetComponent<ActionCanvas>().ClearSpecs();
+
     chatCanvas.SetActive(true);
+    isOnChat = true;
     chatCanvasScript.StartChat();
   }
 
   // TODO: other properties, such as changing the emotion sprites, should be done inside below
   public void CloseChat() {
     chatCanvas.SetActive(false);
+    isOnChat = false;
+    proximityCheckScript.DecideActionShow();
   }
 
   public void UpdateChatNode(string npcKey, string newNodeKey) {

@@ -16,18 +16,22 @@ public class ProximityCheck : MonoBehaviour {
     }
   }
 
+  private void SetNPCAction(NPC npc) {
+    if (npc.actionAvailable != "") {
+      if (!heroScript.isOnChat) {
+        heroScript.actionCanvas.SetActive(true);
+      }
+      heroScript.SetNPCAction(npc.actionAvailable);
+      heroScript.NPCnearbyAction = npc.actionAvailable;
+    }
+  }
+
   private void OnTriggerEnter2D(Collider2D col) {
     string colTag = col.gameObject.tag;
 
     if (colTag == "NPC") {
-      NPC npcFound = col.gameObject.GetComponent<NPC>();
       heroScript.NPCnearby = col.gameObject.name;
-
-      if (npcFound.actionAvailable != "") {
-        heroScript.actionCanvas.SetActive(true);
-        heroScript.SetNPCAction(npcFound.actionAvailable);
-        heroScript.NPCnearbyAction = npcFound.actionAvailable;
-      }
+      SetNPCAction(col.gameObject.GetComponent<NPC>());
     }
   }
 
@@ -39,6 +43,31 @@ public class ProximityCheck : MonoBehaviour {
       heroScript.actionCanvas.GetComponent<ActionCanvas>().ClearSpecs();
       heroScript.NPCnearby = "";
       heroScript.NPCnearbyAction = "";
+    }
+  }
+
+  // gets the first gameobject the proximity check overlaps with
+  public GameObject OverlapsWith(string tag) {
+    BoxCollider2D proximityCollider = GetComponent<BoxCollider2D>();
+
+    Bounds bounds = proximityCollider.bounds;
+
+    Collider2D[] colliders = Physics2D.OverlapBoxAll(bounds.center, bounds.size, 0f);
+    foreach (Collider2D col in colliders) {
+      if (col.CompareTag(tag)) {
+        return col.gameObject;
+      }
+    }
+
+    return null;
+  }
+
+  public void DecideActionShow() {
+    GameObject overlappedObject = OverlapsWith("NPC");
+
+    if (overlappedObject != null) {
+      heroScript.NPCnearby = overlappedObject.name;
+      SetNPCAction(overlappedObject.GetComponent<NPC>());
     }
   }
 }
