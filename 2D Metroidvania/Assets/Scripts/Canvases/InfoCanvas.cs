@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class InfoCanvas : MonoBehaviour {
   [SerializeField] GameObject textObject;
+  [SerializeField] GameObject layoutObject;
   [SerializeField] GameObject infoContainerObject;
 
   [SerializeField] GameObject enemyHPContainer;
@@ -12,7 +13,11 @@ public class InfoCanvas : MonoBehaviour {
   [System.NonSerialized] float maxDisplayTime = 2000;
   [System.NonSerialized] public float startTime = 0;
 
-  void Start() {}
+  private HorizontalLayoutGroup infoLayout;
+
+  void Start() {
+    infoLayout = layoutObject.GetComponent<HorizontalLayoutGroup>();
+  }
 
   void Update() {
     if (Helpers.ExceedsTime(startTime, maxDisplayTime)) {
@@ -45,5 +50,17 @@ public class InfoCanvas : MonoBehaviour {
       enemyHPForeground.GetComponent<RectTransform>().sizeDelta = new Vector2(enemyHPBackgroundWidth * ((float)enemyHealth.current / (float)enemyHealth.maximum), 10);
       enemyHPContainer.SetActive(true);
     }
+  }
+
+  public void AlignRight() {
+    RectOffset newPadding = infoLayout.padding;
+    newPadding.right = (int)(infoContainerObject.GetComponent<RectTransform>().sizeDelta.x) + Constants.infoCanvasRightAlignOffset;
+    infoLayout.padding = newPadding;
+
+    infoLayout.childAlignment = TextAnchor.LowerRight;
+  }
+
+  public void AlignLeft() {
+    infoLayout.childAlignment = TextAnchor.LowerLeft;
   }
 }

@@ -131,4 +131,6 @@ public class Constants {
 
   // ensures that each HP unit (until reaching 500) displays in 2 UI units
   public static int containerMultiplier = 2;
+
+  public static int infoCanvasRightAlignOffset = 30;
 }

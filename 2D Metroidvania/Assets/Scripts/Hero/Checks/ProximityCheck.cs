@@ -20,6 +20,10 @@ public class ProximityCheck : MonoBehaviour {
     if (npc.actionAvailable != "") {
       if (!heroScript.isOnChat) {
         heroScript.actionCanvas.SetActive(true);
+
+        if (heroScript.infoCanvas.activeSelf) {
+          heroScript.infoCanvas.GetComponent<InfoCanvas>().AlignRight();
+        }
       }
       heroScript.SetNPCAction(npc.actionAvailable);
       heroScript.NPCnearbyAction = npc.actionAvailable;
@@ -40,6 +44,11 @@ public class ProximityCheck : MonoBehaviour {
 
     if (colTag == "NPC") {
       heroScript.actionCanvas.SetActive(false);
+
+      if (heroScript.infoCanvas.activeSelf) {
+        heroScript.infoCanvas.GetComponent<InfoCanvas>().AlignLeft();
+      }
+
       heroScript.actionCanvas.GetComponent<ActionCanvas>().ClearSpecs();
       heroScript.NPCnearby = "";
       heroScript.NPCnearbyAction = "";
