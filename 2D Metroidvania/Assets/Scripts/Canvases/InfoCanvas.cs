@@ -13,10 +13,18 @@ public class InfoCanvas : MonoBehaviour {
   [System.NonSerialized] float maxDisplayTime = 2000;
   [System.NonSerialized] public float startTime = 0;
 
+  private Hero heroScript;
   private HorizontalLayoutGroup infoLayout;
+  private RectTransform infoRect;
 
   void Start() {
+    SetComponents();
+  }
+
+  public void SetComponents() {
     infoLayout = layoutObject.GetComponent<HorizontalLayoutGroup>();
+    infoRect = infoContainerObject.GetComponent<RectTransform>();
+    heroScript = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
   }
 
   void Update() {
@@ -27,6 +35,10 @@ public class InfoCanvas : MonoBehaviour {
   }
 
   public void Display(string text, EnemyHealth enemyHealth = null) {
+    if (!heroScript) {
+      SetComponents();
+    }
+
     int textAndContainerWidth = 0;
 
     foreach(char currCharacter in text) {
@@ -37,8 +49,13 @@ public class InfoCanvas : MonoBehaviour {
     enemyHPContainer.SetActive(false);
 
     textObject.GetComponent<RectTransform>().sizeDelta = new Vector2(textAndContainerWidth, 37.9686f);
-    infoContainerObject.GetComponent<RectTransform>().sizeDelta = new Vector2(textAndContainerWidth, 128);
+    infoRect.sizeDelta = new Vector2(textAndContainerWidth, 128);
     textObject.GetComponent<Text>().text = text;
+
+    // immediately align right if the action canvas is already visible
+    if (heroScript.actionCanvas.activeSelf) {
+      AlignRight();
+    }
 
     gameObject.SetActive(true);
     startTime = Time.time * 1000;
@@ -54,7 +71,7 @@ public class InfoCanvas : MonoBehaviour {
 
   public void AlignRight() {
     RectOffset newPadding = infoLayout.padding;
-    newPadding.right = (int)(infoContainerObject.GetComponent<RectTransform>().sizeDelta.x) + Constants.infoCanvasRightAlignOffset;
+    newPadding.right = (int)(infoRect.sizeDelta.x) + Constants.infoCanvasRightAlignOffset;
     infoLayout.padding = newPadding;
 
     infoLayout.childAlignment = TextAnchor.LowerRight;
