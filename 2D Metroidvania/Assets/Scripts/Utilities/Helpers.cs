@@ -396,15 +396,15 @@ public class Helpers {
         if (level == 100) {
           return GameData.highestCRI;
         } else if (level < 10) {
-          return GameData.baseCRI + (0.01f * (level - 1));
+          return GameData.baseCRI + (0.001f * (level - 1));
         } else if (level < 20) {
-          return 0.04f + (0.02f * (level - 10));
-        } else if (level < 80) {
-          return 0.06f + (0.025f * (level - 20));
+          return 0.04f + (0.002f * (level - 10));
+        } else if (level < 81) {
+          return 0.06f + (0.0025f * (level - 20));
         } else if (level < 90) {
-          return 0.21f + (0.04f * (level - 80));
+          return 0.214f + (0.004f * (level - 81));
         } else if (level >= 90) {
-          return 0.25f + (0.05f * (level - 90));
+          return 0.25f + (0.005f * (level - 90));
         }
       break;
       case "LCK":
