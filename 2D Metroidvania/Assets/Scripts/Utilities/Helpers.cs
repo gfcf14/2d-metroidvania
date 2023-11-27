@@ -417,9 +417,9 @@ public class Helpers {
         } else if (level < 80) {
           return 0.095f + (0.0025f * (level - 50));
         } else if (level < 90) {
-          return 0.173f + (0.003f * (level - 80));
+          return 0.173f + (0.003f * (level - 81));
         } else if (level >= 90) {
-          return 0.205f + (0.005f * (level - 90));
+          return 0.205f + (0.005f * (level - 91));
         }
       break;
     }
