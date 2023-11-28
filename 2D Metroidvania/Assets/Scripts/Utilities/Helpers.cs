@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Helpers {
   public static int GetDamage(string weaponWielded) {
-	  return Damages.weaponDamages[weaponWielded].damage;
+    return (int)Objects.pauseItems[weaponWielded].effects.atk;
   }
 
   public static bool IsNonBouncingThrowable(string type) {

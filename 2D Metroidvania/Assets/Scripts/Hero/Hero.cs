@@ -1600,7 +1600,7 @@ public class Hero : MonoBehaviour {
       FlipPlayer(true);
     }
 
-    int throwableDamage = Damages.weaponDamages[throwableType].damage;
+    int throwableDamage = Helpers.GetDamage(throwableType);
 
     if (mustTakeDamage) {
       int damage = (stamina + (int)equippedSTA + (int)effectSTA) - (throwableDamage * (isCritical ? 2 : 1));
