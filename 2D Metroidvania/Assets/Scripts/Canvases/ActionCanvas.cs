@@ -50,18 +50,23 @@ public class ActionCanvas : MonoBehaviour {
     StartCoroutine(ChangeWidthOverTime(rectTransform, targetWidth, duration));
   }
 
-  IEnumerator ChangeTextOverTime(Text textComponent, string text, float duration) {
+  IEnumerator ChangeTextOverTime(Text textComponent, string fullText, float duration) {
     float elapsedTime = 0f;
+    int textLength = fullText.Length;
+    string displayedText = "";
 
-    while (elapsedTime < duration) {
+    while (elapsedTime < duration && displayedText.Length < textLength) {
+      float progress = elapsedTime / duration;
+      int charactersToShow = Mathf.FloorToInt(progress * textLength);
+      displayedText = GetPartialText(fullText, charactersToShow, actionTextRect.sizeDelta.x);
+
+      textComponent.text = displayedText;
       elapsedTime += Time.deltaTime;
 
-      float currentTextWidth = actionTextRect.sizeDelta.x;
-      SetText(textComponent, text, (int)currentTextWidth);
       yield return null;
     }
 
-    textComponent.text = text;
+    textComponent.text = fullText; // Ensure the full text is displayed at the end
   }
 
   public void SetActionText(Text textComponent, string text, float duration) {
@@ -102,20 +107,18 @@ public class ActionCanvas : MonoBehaviour {
     buttonImage.GetComponent<Image>().sprite = Sprites.keycodeSprites[icon];
   }
 
-
-  // sets only as much text as the available width allows
-  public void SetText(Text textComponent, string text, int width) {
+  string GetPartialText(string fullText, int charactersToShow, float maxWidth) {
     int accumulatedWidth = 0;
-    int truncateIndex = text.Length;
+    int truncateIndex = Mathf.Min(charactersToShow, fullText.Length);
 
-    for (int i = 0; i < text.Length; i++) {
-      accumulatedWidth += Helpers.GetCharacterDisplayWidth(text[i]);
-      if (accumulatedWidth > width) {
+    for (int i = 0; i < truncateIndex; i++) {
+      accumulatedWidth += Helpers.GetCharacterDisplayWidth(fullText[i]);
+      if (accumulatedWidth > maxWidth) {
         truncateIndex = i;
         break;
       }
     }
 
-    textComponent.text = text.Substring(0, truncateIndex);
+    return fullText.Substring(0, truncateIndex);
   }
 }
