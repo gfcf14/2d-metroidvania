@@ -1824,7 +1824,7 @@ public class Hero : MonoBehaviour {
 
   public void SetNPCAction(string action) {
     ActionCanvas actionCanvasScript = actionCanvas.GetComponent<ActionCanvas>();
-    actionCanvasScript.SetSpecs(action);
+    actionCanvasScript.SetAction(action);
   }
 
   public bool SatisfiesCondition(Condition nodeCondition) {
@@ -1881,7 +1881,7 @@ public class Hero : MonoBehaviour {
     infoCanvas.GetComponent<InfoCanvas>().AlignLeft();
 
     // resets the action canvas so when the chat closes and it should show again, it won't show at full width
-    actionCanvas.GetComponent<ActionCanvas>().ClearSpecs();
+    actionCanvas.GetComponent<ActionCanvas>().ClearAction();
 
     chatCanvas.SetActive(true);
     isOnChat = true;

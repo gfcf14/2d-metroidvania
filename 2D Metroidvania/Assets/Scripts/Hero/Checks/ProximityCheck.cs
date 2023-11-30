@@ -49,7 +49,7 @@ public class ProximityCheck : MonoBehaviour {
         heroScript.infoCanvas.GetComponent<InfoCanvas>().AlignLeft();
       }
 
-      heroScript.actionCanvas.GetComponent<ActionCanvas>().ClearSpecs();
+      heroScript.actionCanvas.GetComponent<ActionCanvas>().ClearAction();
       heroScript.NPCnearby = "";
       heroScript.NPCnearbyAction = "";
     }
