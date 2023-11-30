@@ -187,8 +187,8 @@ public class Hero : MonoBehaviour {
 
   // PLAYER EQUIPMENT
     [System.NonSerialized] public static string bodyEquipment = "body-1";
-    [System.NonSerialized] public static string arm1Equipment = "basic-longsword";
-    [System.NonSerialized] public static string arm2Equipment = "basic-longsword";
+    [System.NonSerialized] public static string arm1Equipment = "";
+    [System.NonSerialized] public static string arm2Equipment = "";
     [System.NonSerialized] public static string neckEquipment = "";
     [System.NonSerialized] public static string armwear1Equipment = "";
     [System.NonSerialized] public static string armwear2Equipment = "";
@@ -267,59 +267,86 @@ public class Hero : MonoBehaviour {
 
     arrowAnchor = transform.Find("ArrowAnchor").gameObject;
 
-    //test items
-    items.Add(new Item("luck-flask", 1));
-    items.Add(new Item("lightning-med", 1));
-    items.Add(new Item("strength-flask", 1));
-    items.Add(new Item("stamina-flask", 1));
-    items.Add(new Item("magic-vial", 1));
-    items.Add(new Item("potion", 1));
-    items.Add(new Item("chicken-drumstick", 5));
-    items.Add(new Item("basic-shield", 2));
-    items.Add(new Item("basic-sword", 1));
-    items.Add(new Item("basic-longsword", 1));
-    items.Add(new Item("love-necklace", 1));
-    // items.Add(new Item("solomon-ring", 1));
-    items.Add(new Item("ra-ring", 1));
-    items.Add(new Item("skull-ring", 1));
-    items.Add(new Item("gold-bracelet", 1));
-    items.Add(new Item("silver-bracelet", 1));
-    items.Add(new Item("rabbit-paw", 1));
-    items.Add(new Item("moonlight-pendant", 1));
-    items.Add(new Item("rainbow-bracer", 1));
-    items.Add(new Item("body-1", 1));
-    items.Add(new Item("lance", 3));
-    items.Add(new Item("axe", 2));
-    items.Add(new Item("hatchet", 14));
-    items.Add(new Item("shuriken-6", 23));
-    items.Add(new Item("shuriken-4", 50));
-    items.Add(new Item("knife", 3));
-    items.Add(new Item("kunai", 37));
-    items.Add(new Item("bow", 1));
-    items.Add(new Item("arrow-standard", 21));
-    items.Add(new Item("arrow-poison", 5));
-    items.Add(new Item("arrow-fire", 10));
-    items.Add(new Item("bomb", 99));
-    items.Add(new Item("king-bone", 16));
-    items.Add(new Item("elixir", 99));
-    items.Add(new Item("theriac", 1));
-    items.Add(new Item("strawberry", 1));
-    items.Add(new Item("pineapple", 1));
-    items.Add(new Item("honeydew", 1));
-    items.Add(new Item("skull", 1));
-    items.Add(new Item("textiles", 1));
-    items.Add(new Item("amethyst", 1));
-    items.Add(new Item("ruby", 1));
-    items.Add(new Item("citrine", 1));
-    items.Add(new Item("emerald", 1));
-    items.Add(new Item("critical-flask", 1));
-    items.Add(new Item("hashish", 1));
-    items.Add(new Item("pearl", 1));
-    items.Add(new Item("mid-potion", 1));
-    items.Add(new Item("high-potion", 1));
-    items.Add(new Item("fire-med", 1));
-    items.Add(new Item("dark-med", 1));
-    items.Add(new Item("watermelon-slice", 1));
+    //test items and equipment
+    #if UNITY_EDITOR
+      items.Add(new Item("luck-flask", 1));
+      items.Add(new Item("lightning-med", 1));
+      items.Add(new Item("strength-flask", 1));
+      items.Add(new Item("stamina-flask", 1));
+      items.Add(new Item("magic-vial", 1));
+      items.Add(new Item("potion", 1));
+      items.Add(new Item("chicken-drumstick", 5));
+      items.Add(new Item("basic-shield", 2));
+      items.Add(new Item("basic-sword", 1));
+      items.Add(new Item("basic-longsword", 1));
+      items.Add(new Item("love-necklace", 1));
+      // items.Add(new Item("solomon-ring", 1));
+      items.Add(new Item("ra-ring", 1));
+      items.Add(new Item("skull-ring", 1));
+      items.Add(new Item("gold-bracelet", 1));
+      items.Add(new Item("silver-bracelet", 1));
+      items.Add(new Item("rabbit-paw", 1));
+      items.Add(new Item("moonlight-pendant", 1));
+      items.Add(new Item("rainbow-bracer", 1));
+      items.Add(new Item("body-1", 1));
+      items.Add(new Item("lance", 3));
+      items.Add(new Item("axe", 2));
+      items.Add(new Item("hatchet", 14));
+      items.Add(new Item("shuriken-6", 23));
+      items.Add(new Item("shuriken-4", 50));
+      items.Add(new Item("knife", 3));
+      items.Add(new Item("kunai", 37));
+      items.Add(new Item("bow", 1));
+      items.Add(new Item("arrow-standard", 21));
+      items.Add(new Item("arrow-poison", 5));
+      items.Add(new Item("arrow-fire", 10));
+      items.Add(new Item("bomb", 99));
+      items.Add(new Item("king-bone", 16));
+      items.Add(new Item("elixir", 99));
+      items.Add(new Item("theriac", 1));
+      items.Add(new Item("strawberry", 1));
+      items.Add(new Item("pineapple", 1));
+      items.Add(new Item("honeydew", 1));
+      items.Add(new Item("skull", 1));
+      items.Add(new Item("textiles", 1));
+      items.Add(new Item("amethyst", 1));
+      items.Add(new Item("ruby", 1));
+      items.Add(new Item("citrine", 1));
+      items.Add(new Item("emerald", 1));
+      items.Add(new Item("critical-flask", 1));
+      items.Add(new Item("hashish", 1));
+      items.Add(new Item("pearl", 1));
+      items.Add(new Item("mid-potion", 1));
+      items.Add(new Item("high-potion", 1));
+      items.Add(new Item("fire-med", 1));
+      items.Add(new Item("dark-med", 1));
+      items.Add(new Item("watermelon-slice", 1));
+
+      bodyEquipment = "body-1";
+      arm1Equipment = "basic-longsword";
+      arm2Equipment = "basic-longsword";
+    #else
+      items.Add(new Item("arrow-fire", 25));
+      items.Add(new Item("arrow-poison", 25));
+      items.Add(new Item("arrow-standard", 25));
+      items.Add(new Item("axe", 25));
+      items.Add(new Item("basic-shield", 1));
+      items.Add(new Item("basic-sword", 1));
+      items.Add(new Item("body-1", 1));
+      items.Add(new Item("bomb", 25));
+      items.Add(new Item("bow", 1));
+      items.Add(new Item("chicken-drumstick", 2));
+      items.Add(new Item("hatchet", 25));
+      items.Add(new Item("king-bone", 25));
+      items.Add(new Item("knife", 25));
+      items.Add(new Item("kunai", 25));
+      items.Add(new Item("lance", 25));
+      items.Add(new Item("potion", 25));
+      items.Add(new Item("shuriken-4", 25));
+      items.Add(new Item("shuriken-6", 25));
+
+      items.Add(new Item("darklord-sword", 1));
+    #endif
 
     // TODO: after implementing the load functionality, playerLevel should be updated via reading save data
     SetupStatsByLevel();
