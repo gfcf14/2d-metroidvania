@@ -439,8 +439,12 @@ public class Hero : MonoBehaviour {
     equippedDEF1 = arm1Equipment != "" ? Objects.pauseItems[arm1Equipment].effects.def != null ? (int)Objects.pauseItems[arm1Equipment].effects.def : 0 : 0;
     equippedDEF2 = arm2Equipment != "" ? Objects.pauseItems[arm2Equipment].effects.def != null ? (int)Objects.pauseItems[arm2Equipment].effects.def : 0 : 0;
 
-    equippedSTR = equippedSTR - equippedATK1 - equippedATK2 + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk * 2 ?? 0 : 0);
-    equippedSTA = equippedSTA - equippedDEF1 - equippedDEF2 + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk * 2 ?? 0 : 0);
+    // TODO: consider the reason ATKs are subtracted from STR, and DEFs are subtracted from STA. It's possible neither is relevant any longer
+    // equippedSTR = equippedSTR - equippedATK1 - equippedATK2 + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk * 2 ?? 0 : 0);
+    // equippedSTA = equippedSTA - equippedDEF1 - equippedDEF2 + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk * 2 ?? 0 : 0);
+
+    equippedSTR = equippedSTR + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk * 2 ?? 0 : 0);
+    equippedSTA = equippedSTA + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk * 2 ?? 0 : 0);
 
     UpdateMagicResistances();
   }
