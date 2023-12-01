@@ -323,8 +323,6 @@ public class Hero : MonoBehaviour {
       items.Add(new Item("watermelon-slice", 1));
 
       bodyEquipment = "body-1";
-      arm1Equipment = "basic-longsword";
-      arm2Equipment = "basic-longsword";
     #else
       items.Add(new Item("arrow-fire", 25));
       items.Add(new Item("arrow-poison", 25));
