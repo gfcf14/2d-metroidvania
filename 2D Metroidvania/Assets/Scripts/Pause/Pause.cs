@@ -355,6 +355,7 @@ public class Pause : MonoBehaviour {
       currentEquipmentItems.Clear();
     }
     canvasStatus = "";
+    HideEquipmentLabels();
     HideCanvases();
     Helpers.FocusUIElement(null);
     Time.timeScale = 1;
