@@ -84,9 +84,9 @@ public class TitleCanvas : MonoBehaviour {
 
     #if UNITY_EDITOR
       UnityEditor.EditorApplication.isPlaying = false;
+    #else
+      Application.Quit();
     #endif
-
-    Application.Quit();
   }
 
   public void PlayMenuSound(string sound) {
