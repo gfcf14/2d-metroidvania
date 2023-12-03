@@ -14,7 +14,6 @@ public class InGame : MonoBehaviour {
 
   public Hero hero;
   public GameObject mainOverlay;
-  [SerializeField] GameObject mainCamera;
 
   void Start() {
     SetComponents();
@@ -56,7 +55,7 @@ public class InGame : MonoBehaviour {
         col.gameObject.SetActive(true);
         Transform camParentTransform = col.gameObject.transform.parent;
         // TODO: this assumes we'll always start the game in a room with default dimensions (16 x 9). Consider how to do this for rooms with non-default dimensions if needed
-        mainCamera.transform.position = new Vector3(camParentTransform.position.x + (Constants.defaultRoomWidth / 2), camParentTransform.position.y - (Constants.defaultRoomHeight / 2), -10);
+        Camera.main.transform.position = new Vector3(camParentTransform.position.x + (Constants.defaultRoomWidth / 2), camParentTransform.position.y - (Constants.defaultRoomHeight / 2), -10);
         break;
       }
     }
