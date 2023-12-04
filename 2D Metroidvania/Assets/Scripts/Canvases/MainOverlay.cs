@@ -16,7 +16,6 @@ public class MainOverlay : MonoBehaviour {
   public void PauseUntilFading() {
     anim.speed = 1;
     inGame.SetPauseCase("fading-in");
-    inGame.ActivateCurrentCam();
   }
 
   public void ProceedWhenFading() {
