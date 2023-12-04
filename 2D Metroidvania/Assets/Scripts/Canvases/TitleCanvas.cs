@@ -55,6 +55,8 @@ public class TitleCanvas : MonoBehaviour {
   public void PlayPressedAnimation() {
     eventSystem.currentSelectedGameObject.GetComponent<Animator>().Play("Pressed");
     StopSelectedAnimation();
+    // nullifies selection to avoid moving after selecting
+    eventSystem.SetSelectedGameObject(null, new BaseEventData(eventSystem));
   }
 
   public void GameStart() {
