@@ -84,10 +84,14 @@ public class TitleCanvas : MonoBehaviour {
   IEnumerator QuitGame() {
     yield return new WaitForSeconds(1);
 
+    // perform specific quit for windows, mac, and linux
+    #if UNITY_STANDALONE
+      Application.Quit();
+    #endif
+
+    // perform specific quit for editor
     #if UNITY_EDITOR
       UnityEditor.EditorApplication.isPlaying = false;
-    #else
-      Application.Quit();
     #endif
   }
 
