@@ -17,6 +17,9 @@ public class GameData {
   public static float baseLCK = 0.025f;
   public static float highestLCK = 0.25f;
 
+  public static float mainCameraX = -66;
+  public static float mainCameraY = 12.5f;
+
   public static int highestEXP = 999999999;
 
   public static float[] enemyEXPValues = {1, 2, 4, 5, 10, 20, 25, 30, 37.5f, 45, 50};
