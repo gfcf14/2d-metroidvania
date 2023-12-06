@@ -20,6 +20,9 @@ public class GameData {
   public static float mainCameraX = -66;
   public static float mainCameraY = 12.5f;
 
+  public static float playerX = -65;
+  public static float playerY = 10;
+
   public static int highestEXP = 999999999;
 
   public static float[] enemyEXPValues = {1, 2, 4, 5, 10, 20, 25, 30, 37.5f, 45, 50};

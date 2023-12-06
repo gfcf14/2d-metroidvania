@@ -247,6 +247,9 @@ public class Hero : MonoBehaviour {
 
   // called when script is loaded
   private void Start() {
+    // sets the player position
+    transform.position = new Vector2(GameData.playerX, GameData.playerY);
+
     body = GetComponent<Rigidbody2D>();
     anim = GetComponent<Animator>();
     heroRenderer = GetComponent<SpriteRenderer>();
