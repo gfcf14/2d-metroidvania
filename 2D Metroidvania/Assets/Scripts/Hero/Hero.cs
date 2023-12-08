@@ -247,8 +247,10 @@ public class Hero : MonoBehaviour {
 
   // called when script is loaded
   private void Start() {
-    // sets the player position
-    transform.position = new Vector2(GameData.playerX, GameData.playerY);
+    #if !UNITY_EDITOR
+      // sets the player position when not in the editor
+      transform.position = new Vector2(GameData.playerX, GameData.playerY);
+    #endif
 
     body = GetComponent<Rigidbody2D>();
     anim = GetComponent<Animator>();
