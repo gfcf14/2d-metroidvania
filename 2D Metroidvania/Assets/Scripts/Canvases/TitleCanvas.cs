@@ -16,6 +16,9 @@ public class TitleCanvas : MonoBehaviour {
     audioSource = GetComponent<AudioSource>();
     overlay = transform.Find("Overlay").gameObject;
     startSound = Sounds.impactSounds["sword"]["critical"];
+
+    // starts time in case it was stopped (such as moving from pause to title)
+    Time.timeScale = 1;
   }
 
   public void PlaySound(AudioClip clip) {
