@@ -45,7 +45,8 @@ public class Weapon : MonoBehaviour {
 
   public void PlaySound(string type, string key = "") {
     if (Settings.playSFX) {
-      audioSource.PlayOneShot(Sounds.attackSounds[type.Contains("throwable") ? GetThrowableSound(type, key) : type]);
+      string soundKey = type.Contains("throwable") ? GetThrowableSound(type, key) : type;
+      audioSource.PlayOneShot(Sounds.attackSounds[soundKey]);
     }
   }
 }

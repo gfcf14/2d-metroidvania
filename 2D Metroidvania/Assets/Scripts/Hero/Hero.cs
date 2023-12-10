@@ -274,6 +274,7 @@ public class Hero : MonoBehaviour {
 
     //test items and equipment
     #if UNITY_EDITOR
+      items.Add(new Item("coconut", 10));
       items.Add(new Item("luck-flask", 1));
       items.Add(new Item("lightning-med", 1));
       items.Add(new Item("strength-flask", 1));
@@ -1135,6 +1136,7 @@ public class Hero : MonoBehaviour {
             break;
             case "throwable":
             case "throwable-double":
+            case "throwable-food":
               isThrowing = armUsed;
               anim.SetTrigger("isThrowing");
             break;
@@ -1244,6 +1246,7 @@ public class Hero : MonoBehaviour {
 
   void StartThrow() {
     string throwableType = Helpers.GetPauseItemKeyByName(Objects.pauseItems[isThrowing == 1 ? arm1Equipment : arm2Equipment].name);
+    Debug.Log(throwableType);
 
     float xModifier = 1;
     if (throwableType == "axe") {

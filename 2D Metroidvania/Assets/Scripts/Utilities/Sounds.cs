@@ -108,6 +108,7 @@ public class Sounds {
     {"double", Resources.Load<AudioClip>("SFX/weapons/double/sword")},
     {"single", Resources.Load<AudioClip>("SFX/weapons/single/sword")},
     {"throwable-small", Resources.Load<AudioClip>("SFX/weapons/throwable/small")},
+    {"throwable-food-middle", Resources.Load<AudioClip>("SFX/weapons/throwable/middle")},
     {"throwable-middle", Resources.Load<AudioClip>("SFX/weapons/throwable/middle")},
     {"throwable-double-large", Resources.Load<AudioClip>("SFX/weapons/throwable-double/large")},
     {"punch", Resources.Load<AudioClip>("SFX/unequipped/punch")},

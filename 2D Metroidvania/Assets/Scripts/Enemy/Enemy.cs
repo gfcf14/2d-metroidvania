@@ -375,7 +375,7 @@ public class Enemy : MonoBehaviour {
   public void DamageCalculation(Collider2D col, int specificDamage, string damageSoundType, string weaponType = "", bool isCritical = false) {
     int damage = def - ((specificDamage + hero.strength + (int)hero.equippedSTR + (int)hero.effectSTR) * (isCritical ? 2 : 1));
 
-    if ((weaponType == "throwable" || weaponType == "throwable-double") || !(isDefending && !attackedFromBehind)) {
+    if (Helpers.IsValueInArray(Constants.throwableTypes, weaponType) || !(isDefending && !attackedFromBehind)) {
       TakeDamage(damage < 0 ? Math.Abs(damage) : Constants.minimumDamageDealt, col.ClosestPoint(transform.position), isCritical, damageSoundType);
       if (!(weaponType == "throwable" || weaponType == "throwable-double")) {
         TurnWhenAttackedFromBehind();
@@ -413,7 +413,7 @@ public class Enemy : MonoBehaviour {
           if (weaponType == "single" || weaponType == "double" && !isDefending) {
             // TODO: might need to adjust to different types other than swords
             DamageCalculation(col, currentEquippedATK, "sword", weaponType, isCritical);
-          } else if (weaponType == "throwable" || weaponType == "throwable-double") {
+          } else if (Helpers.IsValueInArray(Constants.throwableTypes, weaponType)) {
             GameObject parentObject = col.transform.parent.gameObject;
             Throwable parentThrowable = parentObject.GetComponent<Throwable>();
             string weaponWielded = parentThrowable.type;

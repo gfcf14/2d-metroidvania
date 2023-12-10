@@ -2,13 +2,15 @@ using System.Numerics;
 
 public class Constants {
   public static string preferredInput = "gamepad";
-  public static string[] nonBouncingThrowables = { "lance", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet", "axe", "king-bone" };
+  public static string[] nonBouncingThrowables = { "lance", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet", "axe", "king-bone", "coconut" };
   public static string[] smallRotatingThrowables = { "shuriken-4", "shuriken-6", "hatchet" };
   public static string[] forbiddenKeys = {"Escape", "KeypadEnter", "Return", "W", "A", "S", "D", "UpArrow", "DownArrow", "RightArrow", "LeftArrow"};
   public static string[] usableItemTypes = {"consumable", "food", "throwable-food"};
 
   public static string[] bodyEquipmentTypes = {"body"};
-  public static string[] armEquipmentTypes = {"double", "single", "defense", "throwable-double", "throwable", "bow"};
+  public static string[] armEquipmentTypes = {"double", "single", "defense", "throwable-double", "throwable", "bow", "throwable-food"};
+
+  public static string[] throwableTypes = {"throwable", "throwable-double", "throwable-food"};
   public static string[] neckEquipmentTypes = {"neck"};
   public static string[] armwearEquipmentTypes = {"armwear"};
   public static string[] ringEquipmentTypes = {"ring"};
