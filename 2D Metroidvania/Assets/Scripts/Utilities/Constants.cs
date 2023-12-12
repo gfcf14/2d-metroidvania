@@ -2,7 +2,7 @@ using System.Numerics;
 
 public class Constants {
   public static string preferredInput = "gamepad";
-  public static string[] nonBouncingThrowables = { "lance", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet", "axe", "king-bone", "coconut", "honeydew" };
+  public static string[] nonBouncingThrowables = { "lance", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet", "axe", "king-bone", "coconut", "honeydew", "watermelon" };
   public static string[] smallRotatingThrowables = { "shuriken-4", "shuriken-6", "hatchet" };
   public static string[] forbiddenKeys = {"Escape", "KeypadEnter", "Return", "W", "A", "S", "D", "UpArrow", "DownArrow", "RightArrow", "LeftArrow"};
   public static string[] usableItemTypes = {"consumable", "food", "throwable-food"};

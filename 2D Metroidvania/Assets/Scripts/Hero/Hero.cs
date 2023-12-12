@@ -274,6 +274,7 @@ public class Hero : MonoBehaviour {
 
     //test items and equipment
     #if UNITY_EDITOR
+      items.Add(new Item("watermelon", 10));
       items.Add(new Item("honeydew", 10));
       items.Add(new Item("coconut", 10));
       items.Add(new Item("luck-flask", 1));
