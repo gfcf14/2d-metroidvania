@@ -706,6 +706,12 @@ public class Hero : MonoBehaviour {
     heroRenderer.color = Color.white;
   }
 
+  public void ResumeGame() {
+    inGame.ToggleSoundtrack(isPaused);
+    isPaused = !isPaused;
+    Helpers.TogglePause(isPaused, pauseCanvas);
+  }
+
   // called on every frame of the game
   private void Update() {
     direction = isFacingLeft ? -1 : 1;
@@ -1019,17 +1025,14 @@ public class Hero : MonoBehaviour {
       // }
 
       if (Helpers.IsPauseKeyUp() && pauseCase == "") {
-        inGame.ToggleSoundtrack(isPaused);
-        isPaused = !isPaused;
-        Helpers.TogglePause(isPaused, pauseCanvas);
+        ResumeGame();
       }
 
       if (Helpers.IsBackKeyDown() && isPaused) {
         // do not perform "BACK" if a key is being mapped
         if (Pause.canvasStatus != "mapping") {
           if (Pause.canvasStatus == "main") {
-            isPaused = !isPaused;
-            Helpers.TogglePause(isPaused, pauseCanvas);
+            ResumeGame();
           } else {
             pauseCanvas.GetComponent<Pause>().PerformBack();
           }
