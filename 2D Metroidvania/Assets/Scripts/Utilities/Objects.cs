@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Objects {
   public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject> {
@@ -147,6 +148,10 @@ public class Objects {
 
     // Example of having everything
     // {"chicken-drumstick", new PauseItem(Sprites.itemThumbnails[3], Sprites.itemImages[3], "Chicken Drumstick", "From range-free raised fowl.", "food", new Effects() {hp = 99, mp=99, statusHeal=new string[]{"Poison", "Curse", "Drain"}, atk=-99, def=99, crit=0.5f, luck=-0.2f, magicResistances=new MagicResistance[]{new MagicResistance(){name="Earth", type="add"}, new MagicResistance(){name="Air", type="add"}, new MagicResistance(){name="Water", type="add"}, new MagicResistance(){name="Fire", type="add"}, new MagicResistance(){name="Lightning", type="remove"}, new MagicResistance(){name="Ice", type="remove"}, new MagicResistance(){name="Light", type="remove"}, new MagicResistance(){name="Dark", type="remove"}}})}
+  };
+
+  public static Dictionary<string, FragmentOutcome> itemFragments = new Dictionary<string, FragmentOutcome> {
+    {"watermelon", new FragmentOutcome(){key="watermelon-slice", count=8}}
   };
 
   // To get item probabilities, order them with the highest probability item first, then descending. the next item's probability has to be its inteded probability PLUS the previous ones

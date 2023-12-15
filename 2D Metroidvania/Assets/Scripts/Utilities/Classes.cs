@@ -152,3 +152,8 @@ public class ChatNode {
   public string nextNode;
   public string fallbackNode;
 }
+
+public class FragmentOutcome {
+  public string key;
+  public int count;
+}

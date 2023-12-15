@@ -368,6 +368,15 @@ public class Enemy : MonoBehaviour {
     }
   }
 
+  public void InstantiateFragments(FragmentOutcome fragmentOutcome, Vector2 collisionOrigin) {
+    List<int> randomList = Helpers.Shuffle(Helpers.GenerateNumberList(fragmentOutcome.count));
+
+    foreach (int offsetIndex in randomList) {
+      Vector2 fragmentPositionOffset = Constants.fragmentPositions[offsetIndex];
+      inGame.InstantiatePrefab("droppable", fragmentOutcome.key, "normal", transform.parent.gameObject, collisionOrigin + fragmentPositionOffset, enemyRenderer);
+    }
+  }
+
   public void Collision(Collision2D col) {
     CheckAttackToPlayer(col.collider);
   }
@@ -432,9 +441,14 @@ public class Enemy : MonoBehaviour {
                 parentThrowable.transitionIncrement = 0;
               }
 
-              parentThrowable.collideTime = Time.time * 1000;
-              parentThrowable.hasCollided = true;
-              parentThrowable.maxEllapsedCollideTime = 1000f;
+              if (Helpers.IsValueInArray(Constants.fragmentableThrowables, weaponWielded)) {
+                InstantiateFragments(Objects.itemFragments[weaponWielded], col.ClosestPoint(transform.position));
+                parentThrowable.DestroyThrowable();
+              } else {
+                parentThrowable.collideTime = Time.time * 1000;
+                parentThrowable.hasCollided = true;
+                parentThrowable.maxEllapsedCollideTime = 1000f;
+              }
 
               parentThrowable.transitionIncrement = 0;
 

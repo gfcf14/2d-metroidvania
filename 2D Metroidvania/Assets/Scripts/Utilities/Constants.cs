@@ -1,7 +1,8 @@
-using System.Numerics;
+using UnityEngine;
 
 public class Constants {
   public static string preferredInput = "gamepad";
+  public static string[] fragmentableThrowables = { "watermelon" };
   public static string[] nonBouncingThrowables = { "lance", "knife", "kunai", "shuriken-4", "shuriken-6", "hatchet", "axe", "king-bone", "coconut", "honeydew", "watermelon" };
   public static string[] smallRotatingThrowables = { "shuriken-4", "shuriken-6", "hatchet" };
   public static string[] forbiddenKeys = {"Escape", "KeypadEnter", "Return", "W", "A", "S", "D", "UpArrow", "DownArrow", "RightArrow", "LeftArrow"};
@@ -138,4 +139,9 @@ public class Constants {
   public static int containerMultiplier = 2;
 
   public static int infoCanvasRightAlignOffset = 30;
+
+  public static float fragmentOffset = 0.1f;
+  public static Vector2[] fragmentPositions = { new Vector2(-fragmentOffset, fragmentOffset), new Vector2(0, fragmentOffset), new Vector2(fragmentOffset, fragmentOffset),
+                                                new Vector2(-fragmentOffset, 0),              new Vector2(0, 0),              new Vector2(fragmentOffset, 0),
+                                                new Vector2(-fragmentOffset, -fragmentOffset), new Vector2(0, -fragmentOffset), new Vector2(fragmentOffset, -fragmentOffset)};
 }
