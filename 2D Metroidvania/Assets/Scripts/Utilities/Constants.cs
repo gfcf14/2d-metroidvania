@@ -61,6 +61,7 @@ public class Constants {
   public static string[] highLevelPotions = {"high-potion", "magic-bottle"};
   public static string[] recalculatableItemKeys = {"goblin-high-item4", "goblin-knives", "goblin-mid-item4", "high-food", "high-potions", "low-bracelets", "low-food", "low-money", "low-pendants", "low-potions", "mid-food", "mid-money", "mid-potions"};
   public static string[] moneyItemKeys = {"money-50", "money-100", "money-200", "money-500", "money-1000", "money-2000", "money-5000"};
+  public static string[] rotateDirections = {"west", "east"};
 
   // TODO: consider if this will be used again in the future. If not, delete
   // public static string[] patrollerStates = {"attack", "burning", "death", "death-by-burning", "death-by-poison", "stunned", "stunned-on-attack", "walk"};

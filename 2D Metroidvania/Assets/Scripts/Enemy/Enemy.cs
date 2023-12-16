@@ -373,7 +373,14 @@ public class Enemy : MonoBehaviour {
 
     foreach (int offsetIndex in randomList) {
       Vector2 fragmentPositionOffset = Constants.fragmentPositions[offsetIndex];
-      inGame.InstantiatePrefab("droppable", fragmentOutcome.key, "normal", transform.parent.gameObject, collisionOrigin + fragmentPositionOffset, enemyRenderer);
+      string rotateDirection = Constants.rotateDirections[UnityEngine.Random.Range(0, 1)];
+      if (fragmentPositionOffset.x < 0) {
+        rotateDirection = "west";
+      } else if (fragmentPositionOffset.x > 0) {
+        rotateDirection = "east";
+      }
+
+      inGame.InstantiatePrefab("droppable", fragmentOutcome.key, "normal", transform.parent.gameObject, collisionOrigin + fragmentPositionOffset, enemyRenderer, shouldRotate: true, rotateDirection);
     }
   }
 

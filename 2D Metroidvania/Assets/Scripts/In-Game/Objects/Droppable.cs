@@ -4,6 +4,8 @@ public class Droppable : MonoBehaviour {
   [SerializeField] public string key;
   [SerializeField] public string rarity;
   [SerializeField] public GameObject room;
+  [SerializeField] public bool shouldRotate;
+  [SerializeField] public string rotateDirection;
 
   [SerializeField] public bool canBePicked = false;
   [SerializeField] public bool isDropping = false;
@@ -53,7 +55,11 @@ public class Droppable : MonoBehaviour {
     droppableCollider.autoTiling = true;
 
     if (isDropped) {
-      anim.Play("droppable-rise");
+      if (shouldRotate) {
+        anim.Play("droppable-rotate-" + rotateDirection + "-" + UnityEngine.Random.Range(1, 3));
+      } else {
+        anim.Play("droppable-rise");
+      }
     } else {
       FinishAnim();
       // GetComponent<SpriteRenderer>().sprite = null;
@@ -123,6 +129,10 @@ public class Droppable : MonoBehaviour {
       droppableCollider.isTrigger = true;
 
       gameObject.layer = LayerMask.NameToLayer("Dropped");
+
+      if (shouldRotate) {
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+      }
 
       if (GetComponent<Flicker>() != null) {
         timer = Time.time * 1000;
