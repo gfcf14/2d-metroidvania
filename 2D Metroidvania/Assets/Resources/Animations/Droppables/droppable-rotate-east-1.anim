@@ -28,7 +28,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 0, y: 0, z: 720}
+        value: {x: 0, y: 0, z: -360}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -54,12 +54,12 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1
-        value: {x: 7.5, y: -8, z: 0}
-        inSlope: {x: 0, y: -46.139576, z: 0}
-        outSlope: {x: 0, y: -46.139576, z: 0}
+        value: {x: 3, y: -6, z: 0}
+        inSlope: {x: 0, y: -36.900642, z: 0}
+        outSlope: {x: 0, y: -36.900642, z: 0}
         tangentMode: 0
         weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.09579569, z: 0.33333334}
+        inWeight: {x: 0.33333334, y: 0.05789447, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -140,7 +140,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 7.5
+        value: 3
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -168,12 +168,12 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: -8
-        inSlope: -46.139576
-        outSlope: -46.139576
+        value: -6
+        inSlope: -36.900642
+        outSlope: -36.900642
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.09579569
+        inWeight: 0.05789447
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -280,7 +280,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 720
+        value: -360
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -327,4 +327,11 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 1
+    functionName: FinishAnim
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

@@ -114,6 +114,11 @@ public class Droppable : MonoBehaviour {
     string gameObjectTag = col.gameObject.tag;
 
     if (gameObjectTag == "Ground" || gameObjectTag == "Interactable") {
+      if (shouldRotate) {
+        Vector2 collisionPoint = col.collider.ClosestPoint(transform.position);
+        FinishRotatableAnim(hasCollided: true, collisionPoint.x, collisionPoint.y);
+      }
+
       if (inGame.IsInRoom(inGame.FindRoom(transform.parent))) {
         string materialFallingOn = inGame.GetTileMaterial(transform.position);
         if (materialFallingOn == null) {
@@ -129,10 +134,6 @@ public class Droppable : MonoBehaviour {
       droppableCollider.isTrigger = true;
 
       gameObject.layer = LayerMask.NameToLayer("Dropped");
-
-      if (shouldRotate) {
-        transform.rotation = Quaternion.Euler(0, 0, 0);
-      }
 
       if (GetComponent<Flicker>() != null) {
         timer = Time.time * 1000;
@@ -173,9 +174,26 @@ public class Droppable : MonoBehaviour {
   }
 
   public void FinishAnim() {
+    if (shouldRotate) {
+      FinishRotatableAnim();
+    } else {
+      canBePicked = true;
+      anim.enabled = false;
+      body = gameObject.AddComponent<Rigidbody2D>();
+      body.freezeRotation = true;
+    }
+  }
+
+  public void FinishRotatableAnim(bool hasCollided = false, float contactX = 0, float contactY = 0) {
+    Destroy(GetComponent<Animator>());
+    transform.rotation = Quaternion.Euler(0, 0, 0);
     canBePicked = true;
-    anim.enabled = false;
-    body = gameObject.AddComponent<Rigidbody2D>();
-    body.freezeRotation = true;
+
+    if (hasCollided) {
+      transform.position = new Vector2((float)contactX, (float)contactY + Objects.fragmentOffsets[key]);
+    } else {
+      body = gameObject.AddComponent<Rigidbody2D>();
+      body.freezeRotation = true;
+    }
   }
 }

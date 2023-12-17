@@ -154,6 +154,10 @@ public class Objects {
     {"watermelon", new FragmentOutcome(){key="watermelon-slice", count=8}}
   };
 
+  public static Dictionary<string, float> fragmentOffsets = new Dictionary<string, float> {
+    {"watermelon-slice", 0.5f}
+  };
+
   // To get item probabilities, order them with the highest probability item first, then descending. the next item's probability has to be its inteded probability PLUS the previous ones
   // Example: if 4 items (A, B, C, D) can be dropped, and A drops 80% of the time, B does so 10%, C does so 6% and D does so 4%, then A's probability is 0.8, B is 0.9, C is 0.96, and D is 1
   public static Dictionary<string, Dictionary<string, ProbabilityItem[]>> enemyDroppables = new Dictionary<string, Dictionary<string, ProbabilityItem[]>> {
