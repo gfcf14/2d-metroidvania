@@ -124,7 +124,7 @@ public class Hero : MonoBehaviour {
   private string userInput = "";
   private float timeoutTime = 0.0f;
 
-  private int direction = 1;
+  public int direction = 1;
 
   public int weaponIndex = 0;
 
@@ -1934,5 +1934,9 @@ public class Hero : MonoBehaviour {
 
   public void UpdateChatNode(string npcKey, string newNodeKey) {
     npcNodes[npcKey] = newNodeKey;
+  }
+
+  public void InstantiateLoss(Vector2 lossPosition, string prefabKey) {
+    Instantiate(Objects.prefabs[prefabKey], lossPosition, Quaternion.identity);
   }
 }

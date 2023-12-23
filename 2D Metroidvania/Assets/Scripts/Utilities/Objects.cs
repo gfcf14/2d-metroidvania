@@ -20,6 +20,8 @@ public class Objects {
     {"enemy-spawner", Resources.Load("Prefabs/EnemySpawner") as GameObject},
     {"enemy-explosion", Resources.Load("Prefabs/EnemyExplosion") as GameObject},
     {"item-button", Resources.Load("Prefabs/ItemButton") as GameObject},
+    {"item-loss", Resources.Load("Prefabs/ItemLoss") as GameObject},
+    {"money-loss", Resources.Load("Prefabs/MoneyLoss") as GameObject},
     {"pierce", Resources.Load("Prefabs/Pierce") as GameObject},
     {"smash-wave", Resources.Load("Prefabs/SmashWave") as GameObject},
     {"sound", Resources.Load("Prefabs/Sound") as GameObject},

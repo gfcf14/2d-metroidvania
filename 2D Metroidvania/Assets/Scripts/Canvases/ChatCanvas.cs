@@ -103,8 +103,12 @@ public class ChatCanvas : MonoBehaviour {
   }
 
   void TakeItem(Hero heroScript, string itemKey) {
+    Vector2 lossPosition = new Vector2((heroScript.transform.position.x + (heroScript.heroWidth / 2)) * heroScript.direction, heroScript.transform.position.y + heroScript.heroHeight);
+
     if (itemKey.Contains("money")) { // if there is money involved, remove from the gold value
       heroScript.gold -= Objects.moneyItems[itemKey].increment;
+
+      heroScript.InstantiateLoss(lossPosition, "money-loss");
     } else { // if there is no money involved, remove from the hero item list
       Item currItem = Helpers.GetItemFromList(heroScript.items, itemKey);
 
@@ -113,6 +117,8 @@ public class ChatCanvas : MonoBehaviour {
       } else { // otherwise, remove it from the item list
         heroScript.RemoveItem(Helpers.GetItemIndex(heroScript.items, itemKey));
       }
+
+      heroScript.InstantiateLoss(lossPosition, "item-loss");
     }
   }
 
