@@ -1936,7 +1936,14 @@ public class Hero : MonoBehaviour {
     npcNodes[npcKey] = newNodeKey;
   }
 
-  public void InstantiateLoss(Vector2 lossPosition, string prefabKey) {
-    Instantiate(Objects.prefabs[prefabKey], lossPosition, Quaternion.identity);
+  public void InstantiateLoss(Vector2 lossPosition, string prefabKey, bool isItem, string multiplierText, Sprite itemLossImage) {
+    GameObject lossObject = Instantiate(Objects.prefabs[prefabKey], lossPosition, Quaternion.identity);
+    ItemLoss itemLossScript = lossObject.GetComponent<ItemLoss>();
+    itemLossScript.multiplierText = multiplierText;
+    itemLossScript.isItem = isItem;
+
+    if (isItem) {
+      itemLossScript.itemLossImage = itemLossImage;
+    }
   }
 }
