@@ -124,7 +124,7 @@ public class Hero : MonoBehaviour {
   private string userInput = "";
   private float timeoutTime = 0.0f;
 
-  public int direction = 1;
+  private int direction = 1;
 
   public int weaponIndex = 0;
 
@@ -1936,7 +1936,9 @@ public class Hero : MonoBehaviour {
     npcNodes[npcKey] = newNodeKey;
   }
 
-  public void InstantiateLoss(Vector2 lossPosition, string prefabKey, bool isItem, string multiplierText, Sprite itemLossImage) {
+  public void InstantiateLoss(string prefabKey, bool isItem, string multiplierText, Sprite itemLossImage) {
+    Vector2 lossPosition = new Vector2(transform.position.x + ((heroWidth / 2) * direction), transform.position.y + heroHeight);
+
     GameObject lossObject = Instantiate(Objects.prefabs[prefabKey], lossPosition, Quaternion.identity);
     ItemLoss itemLossScript = lossObject.GetComponent<ItemLoss>();
     itemLossScript.multiplierText = multiplierText;

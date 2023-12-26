@@ -103,13 +103,11 @@ public class ChatCanvas : MonoBehaviour {
   }
 
   void TakeItem(Hero heroScript, string itemKey) {
-    Vector2 lossPosition = new Vector2((heroScript.transform.position.x + (heroScript.heroWidth / 2)) * heroScript.direction, heroScript.transform.position.y + heroScript.heroHeight);
-
     if (itemKey.Contains("money")) { // if there is money involved, remove from the gold value
       string moneyValue = itemKey.Split('-')[1];
       heroScript.gold -= int.Parse(moneyValue);
 
-      heroScript.InstantiateLoss(lossPosition, "money-loss", isItem: false, moneyValue, null);
+      heroScript.InstantiateLoss("money-loss", isItem: false, moneyValue, null);
     } else { // if there is no money involved, remove from the hero item list
       Item currItem = Helpers.GetItemFromList(heroScript.items, itemKey);
 
@@ -120,7 +118,7 @@ public class ChatCanvas : MonoBehaviour {
       }
 
       // TODO: if at some point the player has to give more than 2 of the same item, the multiplier text should reflect this
-      heroScript.InstantiateLoss(lossPosition, "item-loss", isItem: true, "", Objects.pauseItems[itemKey].thumbnail);
+      heroScript.InstantiateLoss("item-loss", isItem: true, "", Objects.pauseItems[itemKey].thumbnail);
     }
   }
 
