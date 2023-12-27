@@ -142,6 +142,10 @@ public class Constants {
   public static int infoCanvasRightAlignOffset = 30;
 
   public static float fragmentOffset = 0.1f;
+
+  public static float itemLossHeight = 0.6f;
+  public static float itemLossWidth = 3.6f;
+
   public static Vector2[] fragmentPositions = { new Vector2(-fragmentOffset, fragmentOffset), new Vector2(0, fragmentOffset), new Vector2(fragmentOffset, fragmentOffset),
                                                 new Vector2(-fragmentOffset, 0),              new Vector2(0, 0),              new Vector2(fragmentOffset, 0),
                                                 new Vector2(-fragmentOffset, -fragmentOffset), new Vector2(0, -fragmentOffset), new Vector2(fragmentOffset, -fragmentOffset)};

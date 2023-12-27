@@ -1937,12 +1937,13 @@ public class Hero : MonoBehaviour {
   }
 
   public void InstantiateLoss(string prefabKey, bool isItem, string multiplierText, Sprite itemLossImage) {
-    Vector2 lossPosition = new Vector2(transform.position.x + ((heroWidth / 2) * direction), transform.position.y + heroHeight);
+    Vector2 lossPosition = new Vector2(transform.position.x + (((heroWidth / 2) + (Constants.itemLossWidth / 2)) * direction), transform.position.y + heroHeight);
 
     GameObject lossObject = Instantiate(Objects.prefabs[prefabKey], lossPosition, Quaternion.identity);
     ItemLoss itemLossScript = lossObject.GetComponent<ItemLoss>();
     itemLossScript.multiplierText = multiplierText;
     itemLossScript.isItem = isItem;
+    itemLossScript.alignRight = isFacingLeft;
 
     if (isItem) {
       itemLossScript.itemLossImage = itemLossImage;
