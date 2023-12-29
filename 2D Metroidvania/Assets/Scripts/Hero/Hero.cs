@@ -350,6 +350,9 @@ public class Hero : MonoBehaviour {
       items.Add(new Item("potion", 25));
       items.Add(new Item("shuriken-4", 25));
       items.Add(new Item("shuriken-6", 25));
+      items.Add(new Item("watermelon", 10));
+      items.Add(new Item("honeydew", 10));
+      items.Add(new Item("coconut", 10));
 
       items.Add(new Item("darklord-sword", 1));
     #endif
@@ -1915,7 +1918,9 @@ public class Hero : MonoBehaviour {
     actionCanvas.SetActive(false);
 
     // if the info canvas is active, then it should return to its left alignment
-    infoCanvas.GetComponent<InfoCanvas>().AlignLeft();
+    if (infoCanvas.activeSelf) {
+      infoCanvas.GetComponent<InfoCanvas>().AlignLeft();
+    }
 
     // resets the action canvas so when the chat closes and it should show again, it won't show at full width
     actionCanvas.GetComponent<ActionCanvas>().ClearAction();
