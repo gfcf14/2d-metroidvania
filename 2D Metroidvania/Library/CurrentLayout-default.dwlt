@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2560
     height: 1357.3334
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Tile Palette
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,10 +119,10 @@ MonoBehaviour:
     y: 30
     width: 2560
     height: 1307
-  m_MinSize: {x: 921, y: 492}
+  m_MinSize: {x: 1081, y: 492}
   m_MaxSize: {x: 16006, y: 14042}
   vertical: 0
-  controlID: 113
+  controlID: 201
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
     y: 0
     width: 2113
     height: 1307
-  m_MinSize: {x: 645, y: 492}
+  m_MinSize: {x: 805, y: 492}
   m_MaxSize: {x: 12005, y: 14042}
   vertical: 1
   controlID: 114
@@ -170,7 +170,7 @@ MonoBehaviour:
     y: 0
     width: 2113
     height: 756
-  m_MinSize: {x: 645, y: 221}
+  m_MinSize: {x: 805, y: 221}
   m_MaxSize: {x: 12005, y: 4021}
   vertical: 0
   controlID: 115
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: SceneView
+  m_Name: SpriteEditorWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -219,14 +219,14 @@ MonoBehaviour:
     y: 0
     width: 683
     height: 756
-  m_MinSize: {x: 202, y: 221}
+  m_MinSize: {x: 362, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 15}
+  m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 15}
   - {fileID: 16}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -426,9 +426,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 36800000
+      m_SelectedIDs: a0700000
       m_LastClickedID: 0
-      m_ExpandedIDs: 3afbffff
+      m_ExpandedIDs: a4efffff3afbffff9c470000c24d0000045c0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -479,7 +479,7 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
   m_WindowGUID: cc27987af1a868c49b0894db9c0f5429
-  m_Gizmos: 0
+  m_Gizmos: 1
   m_OverrideSceneCullingMask: 6917529027641081856
   m_SceneIsLit: 0
   m_SceneLighting: 1
@@ -488,9 +488,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -68.600235, y: 9.778932, z: -0.6686906}
+    m_Target: {x: -33.234837, y: -7.123251, z: -756.8338}
     speed: 2
-    m_Value: {x: -68.600235, y: 9.778932, z: -0.6686906}
+    m_Value: {x: -32.495636, y: -5.8724804, z: -756.63806}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -541,9 +541,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 8.052268
+    m_Target: 51.918667
     speed: 2
-    m_Value: 8.052268
+    m_Value: 54.365097
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -596,8 +596,8 @@ MonoBehaviour:
   m_ShowAlpha: 0
   m_MipLevel: 0
   m_Zoom: 1.5742105
-  m_ScrollPosition: {x: 0, y: 0}
-  m_SelectedObject: {fileID: 2800000, guid: 633e5d614ff9c7b4a82689bf7b1a2a4d, type: 3}
+  m_ScrollPosition: {x: -11.114934, y: 27.230232}
+  m_SelectedObject: {fileID: 0}
   m_SelectedSpriteRectGUID: b7086fb6ca5294630800000000000000
   m_LastUsedModuleTypeName: UnityEditor.U2D.Sprites.SpriteFrameModule
 --- !u!114 &17
@@ -682,9 +682,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 26750000
-    m_LastClickedID: 29990
-    m_ExpandedIDs: 00000000c6740000c8740000ca740000cc740000ce740000d0740000d2740000d4740000d6740000d8740000da740000dc740000de740000e0740000e27400009c80000000ca9a3b
+    m_SelectedIDs: 587d0000
+    m_LastClickedID: 32088
+    m_ExpandedIDs: 00000000587600005a7600005c7600005e76000060760000627600006476000066760000687600006a7600006c7600006e7600007076000072760000747600003c7d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -712,7 +712,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c6740000c8740000ca740000cc740000ce740000d0740000d2740000d4740000d6740000d8740000da740000dc740000de740000e0740000e2740000
+    m_ExpandedIDs: 00000000587600005a7600005c7600005e76000060760000627600006476000066760000687600006a7600006c7600006e760000707600007276000074760000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
