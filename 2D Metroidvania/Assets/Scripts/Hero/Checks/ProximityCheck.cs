@@ -16,18 +16,27 @@ public class ProximityCheck : MonoBehaviour {
     }
   }
 
+  private void ActivateActionCanvas() {
+    heroScript.actionCanvas.SetActive(true);
+
+    if (heroScript.infoCanvas.activeSelf) {
+      heroScript.infoCanvas.GetComponent<InfoCanvas>().AlignRight();
+    }
+  }
+
   private void SetNPCAction(NPC npc) {
     if (npc.actionAvailable != "") {
       if (!heroScript.isOnChat) {
-        heroScript.actionCanvas.SetActive(true);
-
-        if (heroScript.infoCanvas.activeSelf) {
-          heroScript.infoCanvas.GetComponent<InfoCanvas>().AlignRight();
-        }
+        ActivateActionCanvas();
       }
-      heroScript.SetNPCAction(npc.actionAvailable);
+      heroScript.SetAction(npc.actionAvailable);
       heroScript.NPCnearbyAction = npc.actionAvailable;
     }
+  }
+
+  private void SetObjectAction(string action) {
+    ActivateActionCanvas();
+    heroScript.SetAction(action);
   }
 
   private void OnTriggerEnter2D(Collider2D col) {
@@ -36,22 +45,29 @@ public class ProximityCheck : MonoBehaviour {
     if (colTag == "NPC") {
       heroScript.NPCnearby = col.gameObject.name;
       SetNPCAction(col.gameObject.GetComponent<NPC>());
+    } else if (colTag == "Portal") {
+      SetObjectAction("enter");
     }
   }
 
   private void OnTriggerExit2D(Collider2D col) {
     string colTag = col.gameObject.tag;
 
-    if (colTag == "NPC") {
+    if (colTag == "NPC" || colTag == "Portal") {
       heroScript.actionCanvas.SetActive(false);
 
       if (heroScript.infoCanvas.activeSelf) {
         heroScript.infoCanvas.GetComponent<InfoCanvas>().AlignLeft();
       }
 
-      heroScript.actionCanvas.GetComponent<ActionCanvas>().ClearAction();
-      heroScript.NPCnearby = "";
-      heroScript.NPCnearbyAction = "";
+      if (heroScript.actionCanvas.activeSelf) {
+        heroScript.actionCanvas.GetComponent<ActionCanvas>().ClearAction();
+      }
+
+      if (colTag == "NPC") {
+        heroScript.NPCnearby = "";
+        heroScript.NPCnearbyAction = "";
+      }
     }
   }
 

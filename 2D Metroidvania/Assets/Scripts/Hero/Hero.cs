@@ -1862,7 +1862,7 @@ public class Hero : MonoBehaviour {
     }
   }
 
-  public void SetNPCAction(string action) {
+  public void SetAction(string action) {
     ActionCanvas actionCanvasScript = actionCanvas.GetComponent<ActionCanvas>();
     actionCanvasScript.SetAction(action);
   }
