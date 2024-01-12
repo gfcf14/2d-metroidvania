@@ -129,6 +129,8 @@ public class Hero : MonoBehaviour {
   public int weaponIndex = 0;
 
   public string currentWeapon;
+
+  public GameObject nearbyGameObject;
   public string NPCnearby;
   public string NPCnearbyAction;
   [SerializeField] public string collisionDirection = "";
@@ -715,6 +717,10 @@ public class Hero : MonoBehaviour {
     Helpers.TogglePause(isPaused, pauseCanvas);
   }
 
+  public void TransportViaPortal(Vector2 transportLocation) {
+    transform.position = transportLocation;
+  }
+
   // called on every frame of the game
   private void Update() {
     direction = isFacingLeft ? -1 : 1;
@@ -919,8 +925,14 @@ public class Hero : MonoBehaviour {
           if (chatCanvas.activeSelf) {
             // CloseChat();
           } else {
-            if (NPCnearbyAction == "chat") {
-              OpenChat();
+            if (nearbyGameObject) {
+              if (nearbyGameObject.tag == "Portal") {
+                TransportViaPortal(nearbyGameObject.GetComponent<Portal>().transportLocation);
+              }
+            } else {
+              if (NPCnearbyAction == "chat") {
+                OpenChat();
+              }
             }
           }
         }

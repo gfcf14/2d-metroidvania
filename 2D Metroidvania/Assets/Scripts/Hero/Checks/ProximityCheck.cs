@@ -41,6 +41,7 @@ public class ProximityCheck : MonoBehaviour {
 
   private void OnTriggerEnter2D(Collider2D col) {
     string colTag = col.gameObject.tag;
+    heroScript.nearbyGameObject = col.gameObject;
 
     if (colTag == "NPC") {
       heroScript.NPCnearby = col.gameObject.name;
@@ -52,6 +53,7 @@ public class ProximityCheck : MonoBehaviour {
 
   private void OnTriggerExit2D(Collider2D col) {
     string colTag = col.gameObject.tag;
+    heroScript.nearbyGameObject = null;
 
     if (colTag == "NPC" || colTag == "Portal") {
       heroScript.actionCanvas.SetActive(false);
