@@ -41,34 +41,45 @@ public class ProximityCheck : MonoBehaviour {
 
   private void OnTriggerEnter2D(Collider2D col) {
     string colTag = col.gameObject.tag;
-    heroScript.nearbyGameObject = col.gameObject;
 
     if (colTag == "NPC") {
       heroScript.NPCnearby = col.gameObject.name;
       SetNPCAction(col.gameObject.GetComponent<NPC>());
     } else if (colTag == "Portal") {
-      SetObjectAction("enter");
+      heroScript.nearbyGameObject = col.gameObject;
+
+      string portalType = col.gameObject.GetComponent<Portal>().portalType;
+      SetObjectAction(portalType == "entrance" ? "enter" : portalType);
     }
   }
 
   private void OnTriggerExit2D(Collider2D col) {
     string colTag = col.gameObject.tag;
-    heroScript.nearbyGameObject = null;
 
-    if (colTag == "NPC" || colTag == "Portal") {
+    if (colTag == "NPC") {
       heroScript.actionCanvas.SetActive(false);
 
       if (heroScript.infoCanvas.activeSelf) {
         heroScript.infoCanvas.GetComponent<InfoCanvas>().AlignLeft();
       }
 
-      if (heroScript.actionCanvas.activeSelf) {
-        heroScript.actionCanvas.GetComponent<ActionCanvas>().ClearAction();
-      }
+      heroScript.actionCanvas.GetComponent<ActionCanvas>().ClearAction();
+      heroScript.NPCnearby = "";
+      heroScript.NPCnearbyAction = "";
+    } else if (colTag == "Portal") {
+      // when entering a building, action should not hide immediately as it should change to
+      // reflect the action from the portal the player appears in, hence the action canvas
+      // should only hide on a trigger exit as the player moves away from the trigger, not
+      // when transported by it
+      if (heroScript.nearbyGameObject.name == col.gameObject.name) {
+        heroScript.nearbyGameObject = null;
+        heroScript.actionCanvas.SetActive(false);
 
-      if (colTag == "NPC") {
-        heroScript.NPCnearby = "";
-        heroScript.NPCnearbyAction = "";
+        if (heroScript.infoCanvas.activeSelf) {
+          heroScript.infoCanvas.GetComponent<InfoCanvas>().AlignLeft();
+        }
+
+        heroScript.actionCanvas.GetComponent<ActionCanvas>().ClearAction();
       }
     }
   }

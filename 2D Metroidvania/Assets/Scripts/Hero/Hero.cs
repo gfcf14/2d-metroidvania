@@ -718,6 +718,7 @@ public class Hero : MonoBehaviour {
   }
 
   public void TransportViaPortal(Vector2 transportLocation) {
+    actionCanvas.SetActive(false);
     transform.position = transportLocation;
   }
 
