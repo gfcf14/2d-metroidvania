@@ -39,6 +39,18 @@ public class ProximityCheck : MonoBehaviour {
     heroScript.SetAction(action);
   }
 
+  // clears the current action when moving away from an interactable object
+  void ClearActionOnExit() {
+    heroScript.actionCanvas.SetActive(false);
+
+    // if the info canvas is active, ensure it shows on the left of the screen
+    if (heroScript.infoCanvas.activeSelf) {
+      heroScript.infoCanvas.GetComponent<InfoCanvas>().AlignLeft();
+    }
+
+    heroScript.actionCanvas.GetComponent<ActionCanvas>().ClearAction();
+  }
+
   private void OnTriggerEnter2D(Collider2D col) {
     string colTag = col.gameObject.tag;
 
@@ -57,13 +69,7 @@ public class ProximityCheck : MonoBehaviour {
     string colTag = col.gameObject.tag;
 
     if (colTag == "NPC") {
-      heroScript.actionCanvas.SetActive(false);
-
-      if (heroScript.infoCanvas.activeSelf) {
-        heroScript.infoCanvas.GetComponent<InfoCanvas>().AlignLeft();
-      }
-
-      heroScript.actionCanvas.GetComponent<ActionCanvas>().ClearAction();
+      ClearActionOnExit();
       heroScript.NPCnearby = "";
       heroScript.NPCnearbyAction = "";
     } else if (colTag == "Portal") {
@@ -73,13 +79,7 @@ public class ProximityCheck : MonoBehaviour {
       // when transported by it
       if (heroScript.nearbyGameObject.name == col.gameObject.name) {
         heroScript.nearbyGameObject = null;
-        heroScript.actionCanvas.SetActive(false);
-
-        if (heroScript.infoCanvas.activeSelf) {
-          heroScript.infoCanvas.GetComponent<InfoCanvas>().AlignLeft();
-        }
-
-        heroScript.actionCanvas.GetComponent<ActionCanvas>().ClearAction();
+        ClearActionOnExit();
       }
     }
   }
