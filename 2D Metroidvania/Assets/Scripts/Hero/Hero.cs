@@ -130,7 +130,7 @@ public class Hero : MonoBehaviour {
 
   public string currentWeapon;
 
-  public GameObject nearbyGameObject;
+  public GameObject nearbyInteractableObject;
   public string NPCnearby;
   public string NPCnearbyAction;
   [SerializeField] public string collisionDirection = "";
@@ -926,9 +926,9 @@ public class Hero : MonoBehaviour {
           if (chatCanvas.activeSelf) {
             // CloseChat();
           } else {
-            if (nearbyGameObject) {
-              if (nearbyGameObject.tag == "Portal") {
-                TransportViaPortal(nearbyGameObject.GetComponent<Portal>().transportLocation);
+            if (nearbyInteractableObject) {
+              if (nearbyInteractableObject.tag == "Portal") {
+                TransportViaPortal(nearbyInteractableObject.GetComponent<Portal>().transportLocation);
               }
             } else {
               if (NPCnearbyAction == "chat") {

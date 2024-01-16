@@ -58,7 +58,7 @@ public class ProximityCheck : MonoBehaviour {
       heroScript.NPCnearby = col.gameObject.name;
       SetNPCAction(col.gameObject.GetComponent<NPC>());
     } else if (colTag == "Portal") {
-      heroScript.nearbyGameObject = col.gameObject;
+      heroScript.nearbyInteractableObject = col.gameObject;
 
       string portalType = col.gameObject.GetComponent<Portal>().portalType;
       SetObjectAction(portalType == "entrance" ? "enter" : portalType);
@@ -77,8 +77,8 @@ public class ProximityCheck : MonoBehaviour {
       // reflect the action from the portal the player appears in, hence the action canvas
       // should only hide on a trigger exit as the player moves away from the trigger, not
       // when transported by it
-      if (heroScript.nearbyGameObject.name == col.gameObject.name) {
-        heroScript.nearbyGameObject = null;
+      if (heroScript.nearbyInteractableObject.name == col.gameObject.name) {
+        heroScript.nearbyInteractableObject = null;
         ClearActionOnExit();
       }
     }
