@@ -21,11 +21,11 @@ public class Constants {
   public static string[] shields = {"basic-shield"};
   public static string[] itemContainerStates = {"items", "equipment_select"};
   public static string[] stackableBreakables = {"barrel", "box"};
-  public static string[] landingObjects = {"Breakable", "Ground", "Interactable"};
+  public static string[] landingObjects = {"Breakable", "Floor", "Interactable"};
   public static string[] nonHorizontalCollidableObjects= {"Breakable", "Interactable"};
   public static string[] enemyNonColliderNames = {"Enemy", "EnemyCollider", "Grounder"};
   public static string[] enemyThrowableBouncers = {"Hero", "Shield", "Weapon"};
-  public static string[] proximityCheckNonColliderTags = {"Breakable", "Enemy", "Ground", "Interactable", "Item"};
+  public static string[] proximityCheckNonColliderTags = {"Breakable", "Enemy", "Floor", "Interactable", "Item"};
   public static string[] droppableNonColliderNames = {"ProximityCheck", "ChestOpener", "Grounder"};
   public static string[] droppableNonColliderTags = {"Enemy", "Hero"};
 

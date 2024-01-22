@@ -19,7 +19,7 @@ public class ThrowableCollider : MonoBehaviour {
     GameObject parentObject = transform.parent.gameObject;
     Throwable parentThrowable = parentObject.GetComponent<Throwable>();
 
-    if (colliderTag == "Ground") {
+    if (colliderTag == "Floor") {
       if (!Helpers.IsValueInArray(Constants.nonGroundableThrowables, parentThrowable.type)) {
         parentThrowable.hasCollided = true;
         parentThrowable.collideTime = Time.time * 1000;

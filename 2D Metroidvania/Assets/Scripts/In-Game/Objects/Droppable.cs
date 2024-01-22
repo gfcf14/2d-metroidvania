@@ -76,7 +76,7 @@ public class Droppable : MonoBehaviour {
       RaycastHit2D roofRayCast = Physics2D.Raycast(roofCast, roofCastDirection, 0.25f);
       Debug.DrawRay(roofCast, roofCastDirection.normalized * 0.25f, Colors.raycastColors["edge"]);
 
-      if (roofRayCast && roofRayCast.collider.tag == "Ground") {
+      if (roofRayCast && roofRayCast.collider.tag == "Floor") {
         anim.speed = 0;
         FinishAnim();
       }
@@ -113,7 +113,7 @@ public class Droppable : MonoBehaviour {
   private void OnCollisionEnter2D(Collision2D col) {
     string gameObjectTag = col.gameObject.tag;
 
-    if (gameObjectTag == "Ground" || gameObjectTag == "Interactable") {
+    if (gameObjectTag == "Floor" || gameObjectTag == "Interactable") {
       if (shouldRotate) {
         Vector2 collisionPoint = col.collider.ClosestPoint(transform.position);
         FinishRotatableAnim(hasCollided: true, collisionPoint.x, collisionPoint.y);

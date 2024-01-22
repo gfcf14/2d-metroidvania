@@ -29,7 +29,7 @@ public class Patroller : MonoBehaviour {
               }
 
             // There's floor forward
-            // if (!diagonalForwardCast && diagonalForwardCast.collider.tag == "Ground") {
+            // if (!diagonalForwardCast && diagonalForwardCast.collider.tag == "Floor") {
             // FOUND EDGE
               Vector2 beginEdgeCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y);
               Vector2 edgeCastDirection = transform.TransformDirection(new Vector2(direction * 2, -1));

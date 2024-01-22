@@ -55,7 +55,7 @@ public class Breakable : MonoBehaviour {
 
     foreach(Collider2D currentCollider in colliders) {
       if (currentCollider != breakableCollider) {
-        if (currentCollider.gameObject.name == "Ground" || transform.position.y > currentCollider.gameObject.transform.position.y) {
+        if (currentCollider.gameObject.name == "Floor" || transform.position.y > currentCollider.gameObject.transform.position.y) {
           return true;
         }
       }
@@ -143,7 +143,7 @@ public class Breakable : MonoBehaviour {
         AudioClip[] breakableClips = Sounds.fallingSounds[type][objectUnder.GetComponent<Breakable>().type];
         PlaySound(Helpers.GetRandomClipFromGroup(breakableClips));
       break;
-      case "Ground":
+      case "Floor":
         string materialFallingOn = inGame.GetTileMaterial(transform.position);
 
         // if there is no tile material, falling sound will be assumed from location

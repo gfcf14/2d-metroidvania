@@ -20,7 +20,7 @@ public class InGame : MonoBehaviour {
   }
 
   public void SetComponents() {
-    groundTiles = GameObject.Find("Ground").GetComponent<Tilemap>();
+    groundTiles = GameObject.Find("Floor").GetComponent<Tilemap>();
     detailTiles = GameObject.Find("Detail").GetComponent<Tilemap>();
     mainOverlay = GameObject.Find("MainOverlay");
     soundtrack = GetComponent<AudioSource>();

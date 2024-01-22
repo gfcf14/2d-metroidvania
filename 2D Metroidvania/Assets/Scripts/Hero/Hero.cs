@@ -1550,7 +1550,7 @@ public class Hero : MonoBehaviour {
     if (Helpers.IsValueInArray(Constants.landingObjects, objectCollided.tag)) {
       if (otherCollider.tag == "Hero") {
         if (!isHorizontalCollision(otherCollider, collider)) {
-          if (collider.tag == "Ground" && isFalling) {
+          if (collider.tag == "Floor" && isFalling) {
               PerformGroundFall();
           } else if  (collider.tag == "Breakable") {
             // TODO: This will fail for barrels. Prepare falling sound for barrels

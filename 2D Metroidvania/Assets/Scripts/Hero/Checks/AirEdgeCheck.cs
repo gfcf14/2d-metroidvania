@@ -16,7 +16,7 @@ public class AirEdgeCheck : MonoBehaviour {
     Collider2D[] colliders = Physics2D.OverlapBoxAll(airEdgeCheckCollider.bounds.center, airEdgeCheckCollider.bounds.size, 0f);
 
     foreach (Collider2D col in colliders) {
-      if (col.CompareTag("Ground")) {
+      if (col.CompareTag("Floor")) {
         return true;
       }
     }
@@ -36,7 +36,7 @@ public class AirEdgeCheck : MonoBehaviour {
     if (!hero.isFightingBoss && differenceCast.collider == null) {
       hero.Bump(bumpX: hero.heroWidth / 6);
     } else {
-      if (differenceCast.collider != null && differenceCast.collider.tag == "Ground" && differenceCast.distance > 0) {
+      if (differenceCast.collider != null && differenceCast.collider.tag == "Floor" && differenceCast.distance > 0) {
         float yDistance = Mathf.Abs(differenceCast.point.y - rayOrigin.y);
 
         // if there is a gap, then we can have the player step over

@@ -30,7 +30,7 @@ public class EnemyCollider : MonoBehaviour {
         enemy.Trigger(col);
       }
     } else {
-      if (col.tag == "Ground" && enemy.diesFlying) {
+      if (col.tag == "Floor" && enemy.diesFlying) {
         // if already dying, destroy on ground (wall) contact to avoid droppable spawn past wall (when enemy dies flying)
         enemy.anim.speed = 0;
         // move enemy a bit to the opposite direction to ensure droppable won't stick to the wall

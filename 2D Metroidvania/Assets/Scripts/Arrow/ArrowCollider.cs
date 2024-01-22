@@ -14,7 +14,7 @@ public class ArrowCollider : MonoBehaviour {
   private void OnTriggerEnter2D(Collider2D col) {
     string colliderTag = col.gameObject.tag;
 
-    if (colliderTag == "Ground") {
+    if (colliderTag == "Floor") {
       if (!parentArrow.hasCollided) {
         parentArrow.hasCollided = true;
         parentArrow.collideTime = Time.time * 1000;
