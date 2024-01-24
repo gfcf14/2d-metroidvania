@@ -44,6 +44,12 @@ TextureImporter:
   - first:
       213: -1368846534060370671
     second: tiles-meadows-walls_13
+  - first:
+      213: -2541258500319767431
+    second: tiles-meadows-walls_14
+  - first:
+      213: 5649106509911015160
+    second: tiles-meadows-walls_15
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -259,9 +265,9 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -3, y: 0}
+      - - {x: -6, y: -10}
         - {x: -6, y: 10}
-        - {x: -6, y: -10}
+        - {x: -3, y: 0}
       tessellationDetail: 0
       bones: []
       spriteID: b012f064181dfae60800000000000000
@@ -283,7 +289,7 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: 3, y: 0}
+      - - {x: 3, y: 1}
         - {x: 6, y: 10}
         - {x: 6, y: -10}
       tessellationDetail: 0
@@ -356,8 +362,10 @@ TextureImporter:
       outline: []
       physicsShape:
       - - {x: 1, y: 4}
-        - {x: 1, y: 10}
         - {x: 4, y: 7}
+        - {x: 1, y: 10}
+        - {x: 10, y: 10}
+        - {x: 10, y: 4}
       tessellationDetail: 0
       bones: []
       spriteID: 091c453ddf7489e80800000000000000
@@ -379,8 +387,10 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -4, y: 7}
+      - - {x: -10, y: 4}
+        - {x: -10, y: 10}
         - {x: -1, y: 10}
+        - {x: -4, y: 7}
         - {x: -1, y: 4}
       tessellationDetail: 0
       bones: []
@@ -392,6 +402,54 @@ TextureImporter:
       weights: []
     - serializedVersion: 2
       name: tiles-meadows-walls_10
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 40
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 1, y: 4}
+        - {x: 1, y: 10}
+        - {x: 4, y: 7}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53545dac2572b8000800000000000000
+      internalID: 39168258306557237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-meadows-walls_11
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 40
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -4, y: 7}
+        - {x: -1, y: 10}
+        - {x: -1, y: 4}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66e6b225df0e263d0800000000000000
+      internalID: -3214759805379187098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles-meadows-walls_12
       rect:
         serializedVersion: 2
         x: 20
@@ -408,14 +466,14 @@ TextureImporter:
         - {x: -7, y: 7}
       tessellationDetail: 0
       bones: []
-      spriteID: 53545dac2572b8000800000000000000
-      internalID: 39168258306557237
+      spriteID: b5039de7f6dd18580800000000000000
+      internalID: -8826530323730190245
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tiles-meadows-walls_11
+      name: tiles-meadows-walls_13
       rect:
         serializedVersion: 2
         x: 40
@@ -434,14 +492,14 @@ TextureImporter:
         - {x: 10, y: 4}
       tessellationDetail: 0
       bones: []
-      spriteID: 66e6b225df0e263d0800000000000000
-      internalID: -3214759805379187098
+      spriteID: 1159e496451e00de0800000000000000
+      internalID: -1368846534060370671
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tiles-meadows-walls_12
+      name: tiles-meadows-walls_14
       rect:
         serializedVersion: 2
         x: 60
@@ -460,14 +518,14 @@ TextureImporter:
         - {x: 10, y: 4}
       tessellationDetail: 0
       bones: []
-      spriteID: b5039de7f6dd18580800000000000000
-      internalID: -8826530323730190245
+      spriteID: 9749ffdabd2abbcd0800000000000000
+      internalID: -2541258500319767431
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tiles-meadows-walls_13
+      name: tiles-meadows-walls_15
       rect:
         serializedVersion: 2
         x: 80
@@ -484,8 +542,8 @@ TextureImporter:
         - {x: 10, y: 4}
       tessellationDetail: 0
       bones: []
-      spriteID: 1159e496451e00de0800000000000000
-      internalID: -1368846534060370671
+      spriteID: 8feb795c078a56e40800000000000000
+      internalID: 5649106509911015160
       vertices: []
       indices: 
       edges: []
