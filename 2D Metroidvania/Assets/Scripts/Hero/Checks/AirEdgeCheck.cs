@@ -16,7 +16,7 @@ public class AirEdgeCheck : MonoBehaviour {
     Collider2D[] colliders = Physics2D.OverlapBoxAll(airEdgeCheckCollider.bounds.center, airEdgeCheckCollider.bounds.size, 0f);
 
     foreach (Collider2D col in colliders) {
-      if (col.CompareTag("Floor")) {
+      if (col.CompareTag("Wall")) {
         return true;
       }
     }

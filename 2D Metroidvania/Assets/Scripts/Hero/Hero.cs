@@ -1601,21 +1601,13 @@ public class Hero : MonoBehaviour {
 
     collisionDirection = GetGroundCollisionDirection();
 
-    // regular bump logic should apply differently if the player is sent flying (i.e. isHurt == 3)
-    if (isHurt == 3 || isAutonomous) {
-      MainCollisionLogic(collider, otherCollider, objectCollided);
-    } else {
+    if (collider.tag == "Wall") {
       if (collisionDirection == "bottom") {
         // when falling, check if there is a wall collision (i.e. either front or back collision)
         // again, this logic should not apply when player is sent flying
-        if (!isFightingBoss && isHurt != 3 && ((collidingFront || collidingBack) && !isGrounded)) {
+        if (isHurt != 3 && ((collidingFront || collidingBack) && !isGrounded)) {
           string blockDirection = collidingFront ? (isFacingLeft ? "left" : "right") : (isFacingLeft ? "right" : "left");
-
-          // TODO: Sometimes this function gets perpetually called as player is supposed to get sent flying but remains on the ground.
-          //       Check either why player is not sent flying or how to avoid this from happening
           Bump(bumpX: (heroWidth * direction * (blockDirection == "left" ? -1 : 1)) / 4, specificBlockDirection: blockDirection);
-        } else {
-          MainCollisionLogic(collider, otherCollider, objectCollided);
         }
       } else if (collisionDirection == "front") {
         // if the player collides with a wall, only if the air edge check object is intersecting it will we check for step over
@@ -1624,14 +1616,16 @@ public class Hero : MonoBehaviour {
             airEdgeCheckScript.CheckStepOver(GetComponent<Hero>(), direction * -1);
           }
         } else {
-          if (!isFightingBoss && (isJumping || isFalling)) {
+          if (isJumping || isFalling) {
             Bump(bumpX: heroWidth / 6);
           }
         }
-      } else if (!isFightingBoss && collisionDirection == "back") { // if jumping and colliding backward, a forward bump should happen
+      } else if (collisionDirection == "back") { // if jumping and colliding backward, a forward bump should happen
         Bump(bumpX: -heroWidth / 6);
       }
     }
+
+    MainCollisionLogic(collider, otherCollider, objectCollided);
 
     if (IsOnIncline() && isFalling) {
       GroundOnIncline();
