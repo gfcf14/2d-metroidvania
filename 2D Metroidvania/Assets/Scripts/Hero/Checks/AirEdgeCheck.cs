@@ -12,7 +12,7 @@ public class AirEdgeCheck : MonoBehaviour {
   }
   void Update() {}
 
-  public bool IntersectsWithGround() {
+  public bool IntersectsWithWalls() {
     Collider2D[] colliders = Physics2D.OverlapBoxAll(airEdgeCheckCollider.bounds.center, airEdgeCheckCollider.bounds.size, 0f);
 
     foreach (Collider2D col in colliders) {

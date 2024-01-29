@@ -124,7 +124,7 @@ public class Hero : MonoBehaviour {
   private string userInput = "";
   private float timeoutTime = 0.0f;
 
-  private int direction = 1;
+  public int direction = 1;
 
   public int weaponIndex = 0;
 
@@ -140,7 +140,7 @@ public class Hero : MonoBehaviour {
   public bool isHoldingDown = false;
 
   // PLAYER STATS
-    [System.NonSerialized] public int playerLevel = 1;
+    [System.NonSerialized] public int playerLevel = 10;
     [System.NonSerialized] public int currentHP = GameData.baseHP;
     [System.NonSerialized] public int maxHP = GameData.baseHP;
     [System.NonSerialized] public int currentMP = GameData.baseHP;
@@ -1122,6 +1122,7 @@ public class Hero : MonoBehaviour {
         float xIncrement =  Constants.hurtCXTransitions[hurtCounter >= Constants.hurtCXTransitions.Length ? Constants.hurtCXTransitions.Length - 1 : hurtCounter];
         float yIncrement =  Constants.hurtCYTransitions[hurtCounter >= Constants.hurtCYTransitions.Length ? Constants.hurtCYTransitions.Length - 1 : hurtCounter];
 
+        // TODO: weird position change happens here! ensure to check what causes it
         transform.position = new Vector2(currentXPosition + (xIncrement * direction * (hurtFromBehind ? -1 : 1)), currentYPosition + yIncrement);
 
         hurtCounter++;
@@ -1600,30 +1601,6 @@ public class Hero : MonoBehaviour {
     GameObject objectCollided = col.gameObject;
 
     collisionDirection = GetGroundCollisionDirection();
-
-    if (collider.tag == "Wall") {
-      if (collisionDirection == "bottom") {
-        // when falling, check if there is a wall collision (i.e. either front or back collision)
-        // again, this logic should not apply when player is sent flying
-        if (isHurt != 3 && ((collidingFront || collidingBack) && !isGrounded)) {
-          string blockDirection = collidingFront ? (isFacingLeft ? "left" : "right") : (isFacingLeft ? "right" : "left");
-          Bump(bumpX: (heroWidth * direction * (blockDirection == "left" ? -1 : 1)) / 4, specificBlockDirection: blockDirection);
-        }
-      } else if (collisionDirection == "front") {
-        // if the player collides with a wall, only if the air edge check object is intersecting it will we check for step over
-        if (airEdgeCheckScript.IntersectsWithGround()) {
-          if (isJumping || isFalling) {
-            airEdgeCheckScript.CheckStepOver(GetComponent<Hero>(), direction * -1);
-          }
-        } else {
-          if (isJumping || isFalling) {
-            Bump(bumpX: heroWidth / 6);
-          }
-        }
-      } else if (collisionDirection == "back") { // if jumping and colliding backward, a forward bump should happen
-        Bump(bumpX: -heroWidth / 6);
-      }
-    }
 
     MainCollisionLogic(collider, otherCollider, objectCollided);
 
