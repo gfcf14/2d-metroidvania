@@ -33,8 +33,8 @@ public class AirEdgeCheck : MonoBehaviour {
 
     // TODO: for now this assumes that if the cast collider is null, that the air edge check is intersecting a really tall wall, so bump is obligatory
     //       ensure a better check is made for when the collider is null if possible
-    if (!hero.isFightingBoss && differenceCast.collider == null) {
-      hero.Bump(bumpX: hero.heroWidth / 6);
+    if (differenceCast.collider == null) {
+      hero.Bump(bumpX: (hero.heroWidth * direction) / 4);
     } else {
       if (differenceCast.collider != null && differenceCast.collider.tag == "Floor" && differenceCast.distance > 0) {
         float yDistance = Mathf.Abs(differenceCast.point.y - rayOrigin.y);
@@ -45,11 +45,9 @@ public class AirEdgeCheck : MonoBehaviour {
             hero.StepOver(stepOverHeight);
             Debug.Log("step over");
         } else {
-            // TODO: implement some bump logic here to avoid having the player stick to the "wall" and fall down slowly
-            Debug.Log("bump (checked)");
-            if (!hero.isFightingBoss) {
-              hero.Bump(bumpX: hero.heroWidth / 6);
-            }
+          // TODO: implement some bump logic here to avoid having the player stick to the "wall" and fall down slowly
+          Debug.Log("bump (checked)");
+          hero.Bump(bumpX: (hero.heroWidth * direction) / 4);
         }
       }
     }
