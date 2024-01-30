@@ -39,10 +39,12 @@ public class InGame : MonoBehaviour {
     }
   }
 
-  public void SwitchFromMiniBossTrack(string key) {
+  public void SwitchFromMiniBossTrack(string key, bool bossCausingLevelup) {
     soundtrack.Stop();
     soundtrack.clip = Sounds.soundtracks[key];
-    StartCoroutine(FadeIn(wait: true));
+    if (!bossCausingLevelup) {
+      StartCoroutine(FadeIn(wait: true));
+    }
     miniBossTrackPausedTime = 0;
   }
 

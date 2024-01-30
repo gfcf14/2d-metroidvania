@@ -97,6 +97,7 @@ public class Enemy : MonoBehaviour {
     public int direction = 1;
 
     bool mustTakeDamage = true;
+    bool bossCausingLevelUp = false;
 
   // Player Related Properties
     [System.NonSerialized] public bool playerFound = false;
@@ -205,6 +206,7 @@ public class Enemy : MonoBehaviour {
     gaveExp = true;
     int expToAward = Helpers.GetEnemyEXP(heroLevel: hero.playerLevel, enemyLevel: level, baseExp: exp);
     hero.exp += expToAward;
+    bossCausingLevelUp = hero.exp >= hero.next;
     hero.CheckLevel();
   }
 
@@ -710,7 +712,7 @@ public class Enemy : MonoBehaviour {
       hero.isFightingBoss = false;
 
       // TODO: figure out how to use location
-      inGame.SwitchFromMiniBossTrack("meadows");
+      inGame.SwitchFromMiniBossTrack("meadows", bossCausingLevelUp);
     }
 
     Destroy(gameObject);
