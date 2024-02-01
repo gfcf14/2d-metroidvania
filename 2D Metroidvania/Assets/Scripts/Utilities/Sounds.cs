@@ -35,6 +35,16 @@ public class Sounds {
         Resources.Load<AudioClip>("SFX/running/grass/boots-5"),
       }}
     }},
+    {"tile", new Dictionary<string, AudioClip[]> {
+      // TODO: consider if at any time barefoot tile sound effects will be needed
+      {"boots", new AudioClip[] {
+        Resources.Load<AudioClip>("SFX/running/tile/boots-1"),
+        Resources.Load<AudioClip>("SFX/running/tile/boots-2"),
+        Resources.Load<AudioClip>("SFX/running/tile/boots-3"),
+        Resources.Load<AudioClip>("SFX/running/tile/boots-4"),
+        Resources.Load<AudioClip>("SFX/running/tile/boots-5"),
+      }}
+    }},
   };
 
   public static AudioClip[] woodBreakingSounds = new AudioClip[] {
@@ -84,15 +94,18 @@ public class Sounds {
   };
 
   public static Dictionary<string, Dictionary<string, AudioClip>> characterFallingSounds = new Dictionary<string, Dictionary<string, AudioClip>> {
+    {"box", new Dictionary<string, AudioClip> {
+      {"boots", Resources.Load<AudioClip>("SFX/falling/breakables/box/boots")}
+    }},
     {"dirt", new Dictionary<string, AudioClip> {
       {"boots", Resources.Load<AudioClip>("SFX/falling/dirt/boots")}
     }},
     {"grass", new Dictionary<string, AudioClip> {
       {"boots", Resources.Load<AudioClip>("SFX/falling/grass/boots")}
     }},
-    {"box", new Dictionary<string, AudioClip> {
-      {"boots", Resources.Load<AudioClip>("SFX/falling/breakables/box/boots")}
-    }},
+    {"tile", new Dictionary<string, AudioClip> {
+      {"boots", Resources.Load<AudioClip>("SFX/falling/tile/boots")}
+    }}
   };
 
   public static Dictionary<string, AudioClip> droppableFallingSounds = new Dictionary<string, AudioClip> {

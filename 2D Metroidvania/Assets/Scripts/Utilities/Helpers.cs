@@ -271,6 +271,8 @@ public class Helpers {
         return "grass";
       case "details":
         return "";
+      case "house":
+        return "tile";
       default:
         if (tileName != null) {
           Debug.Log("Material (" + material + ") not accounted for, using tile " + tileName);
