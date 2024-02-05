@@ -153,6 +153,10 @@ public class Sounds {
       {"normal", Resources.Load<AudioClip>("SFX/hitting/normal/throwable-double-large")},
       {"critical", Resources.Load<AudioClip>("SFX/hitting/critical/throwable-double-large")}
     }},
+    {"throwable-fruit", new Dictionary<string, AudioClip> {
+      {"normal", Resources.Load<AudioClip>("SFX/hitting/normal/throwable-fruit")},
+      {"critical", Resources.Load<AudioClip>("SFX/hitting/critical/throwable-fruit")}
+    }},
     {"arrow", new Dictionary<string, AudioClip> {
       {"normal", Resources.Load<AudioClip>("SFX/hitting/normal/arrow")},
       {"critical", Resources.Load<AudioClip>("SFX/hitting/critical/arrow")}

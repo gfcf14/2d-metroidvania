@@ -242,6 +242,11 @@ public class Helpers {
       return "throwable-double-large";
     }
 
+    // TODO: expand if and when more throwable foods (particularly that are not fruit) are added
+    if (throwableItem.type == "throwable-food") {
+      return "throwable-fruit";
+    }
+
     return "throwable-" + (Helpers.IsValueInArray(Constants.smallThrowables, itemType) ? "small" : "middle");
   }
 
