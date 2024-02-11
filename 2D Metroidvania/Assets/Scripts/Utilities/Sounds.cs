@@ -3,6 +3,15 @@ using UnityEngine;
 
 public class Sounds {
   public static Dictionary<string, Dictionary<string, AudioClip[]>> runningSounds = new Dictionary<string, Dictionary<string, AudioClip[]>> {
+    {"bentgrass", new Dictionary<string, AudioClip[]> {
+      {"boots", new AudioClip[] {
+        Resources.Load<AudioClip>("SFX/running/bentgrass/boots-1"),
+        Resources.Load<AudioClip>("SFX/running/bentgrass/boots-2"),
+        Resources.Load<AudioClip>("SFX/running/bentgrass/boots-3"),
+        Resources.Load<AudioClip>("SFX/running/bentgrass/boots-4"),
+        Resources.Load<AudioClip>("SFX/running/bentgrass/boots-5"),
+      }}
+    }},
     {"dirt", new Dictionary<string, AudioClip[]> {
       {"barefoot", new AudioClip[] {
         Resources.Load<AudioClip>("SFX/running/dirt/barefoot-1"),
