@@ -41,7 +41,7 @@ public class Objects {
 
   // initialize constructable PauseItem objects by: new PauseItem(thumbnail, image, name, description, type, effects)
   public static Dictionary<string, PauseItem> pauseItems = new Dictionary<string, PauseItem> {
-    {"basic-longsword", new PauseItem(Sprites.itemThumbnails[0], Sprites.itemImages[0], "Basic Longsword", "Useful two-handed weapon.", "double", new Effects() {atk=40})},
+    {"basic-longsword", new PauseItem(Sprites.itemThumbnails[0], Sprites.itemImages[0], "Basic Longsword", "Useful two-handed weapon.", "double", new Effects() {atk=400})},
     {"basic-sword", new PauseItem(Sprites.itemThumbnails[1], Sprites.itemImages[1], "Basic Sword", "Standard adventurer's sword.", "single", new Effects() {atk=20})},
     {"basic-shield", new PauseItem(Sprites.itemThumbnails[2], Sprites.itemImages[2], "Basic Shield", "Can also be used to start a campfire.", "defense", new Effects() {def=10})},
     {"chicken-drumstick", new PauseItem(Sprites.itemThumbnails[3], Sprites.itemImages[3], "Chicken Drumstick", "From range-free raised fowl.", "food", new Effects() {hp = 20})},

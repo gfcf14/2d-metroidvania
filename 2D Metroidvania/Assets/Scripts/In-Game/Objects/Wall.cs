@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -30,7 +28,11 @@ public class Wall : MonoBehaviour {
       } else {
         if (hero.isJumping || hero.isFalling) {
           Debug.Log("bump from front");
-          hero.Bump(bumpX: (hero.heroWidth * hero.direction) / 4);
+          // when bumping, finish the jump animation to ensure the player doesn't bump upward
+          hero.isJumping = false;
+          hero.isFalling = true;
+          hero.body.velocity = Vector2.zero;
+          hero.Bump(bumpX: (hero.heroWidth * -hero.direction) / 4, specificBlockDirection: hero.isFacingLeft ? "left" : "right");
         }
       }
     } else if (colName == "DirectionCheck-Back" && !hero.isGrounded) { // implies a hero back collision with wall
