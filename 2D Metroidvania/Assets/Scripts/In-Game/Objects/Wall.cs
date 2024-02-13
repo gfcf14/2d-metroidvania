@@ -29,15 +29,14 @@ public class Wall : MonoBehaviour {
         if (hero.isJumping || hero.isFalling) {
           Debug.Log("bump from front");
           // when bumping, finish the jump animation to ensure the player doesn't bump upward
-          hero.isJumping = false;
-          hero.isFalling = true;
-          hero.body.velocity = Vector2.zero;
-          hero.Bump(bumpX: (hero.heroWidth * -hero.direction) / 4, specificBlockDirection: hero.isFacingLeft ? "left" : "right");
+          hero.FinishActionFromWallBump();
         }
       }
     } else if (colName == "DirectionCheck-Back" && !hero.isGrounded) { // implies a hero back collision with wall
       Debug.Log("bump from back");
       hero.Bump(bumpX: (-hero.heroWidth * hero.direction) / 4, 0, specificBlockDirection: hero.isFacingLeft ? "right" : "left");
+    } else if (colName == "WeaponCollider" && hero.isDropKicking) {
+      hero.FinishActionFromWallBump();
     } else {
       Debug.Log("wall collided with " + colName);
     }

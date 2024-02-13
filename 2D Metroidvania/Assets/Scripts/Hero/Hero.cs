@@ -1937,4 +1937,12 @@ public class Hero : MonoBehaviour {
       itemLossScript.itemLossImage = itemLossImage;
     }
   }
+
+  public void FinishActionFromWallBump() {
+    isJumping = false;
+    isDropKicking = false;
+    isFalling = true;
+    body.velocity = Vector2.zero;
+    Bump(bumpX: (heroWidth * -direction) / 4, specificBlockDirection: isFacingLeft ? "left" : "right");
+  }
 }
