@@ -58,10 +58,12 @@ public class ProximityCheck : MonoBehaviour {
       heroScript.NPCnearby = col.gameObject.name;
       SetNPCAction(col.gameObject.GetComponent<NPC>());
     } else if (colTag == "Portal") {
-      heroScript.nearbyInteractableObject = col.gameObject;
+      if (!heroScript.isFightingBoss) {
+        heroScript.nearbyInteractableObject = col.gameObject;
 
-      string portalType = col.gameObject.GetComponent<Portal>().portalType;
-      SetObjectAction(portalType == "entrance" ? "enter" : portalType);
+        string portalType = col.gameObject.GetComponent<Portal>().portalType;
+        SetObjectAction(portalType == "entrance" ? "enter" : portalType);
+      }
     }
   }
 
