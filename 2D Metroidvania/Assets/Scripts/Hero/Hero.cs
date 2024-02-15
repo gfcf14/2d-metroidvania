@@ -79,6 +79,9 @@ public class Hero : MonoBehaviour {
   public bool isAirAttackHeavy;
 
   public bool isKicking;
+
+  // should set to true once the player learns to drop kick
+  public bool canDropKick = false;
   public bool isDropKicking;
 
   public bool isPunching;
@@ -888,7 +891,7 @@ public class Hero : MonoBehaviour {
               Jump();
             }
           } else {
-            if (isHoldingDown && isJumping && !isFalling) {
+            if (isHoldingDown && isJumping && !isFalling && canDropKick) {
               DropKick();
             }
           }
