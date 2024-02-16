@@ -78,6 +78,8 @@ public class Hero : MonoBehaviour {
   public bool isAirAttackSingle;
   public bool isAirAttackHeavy;
 
+  // should set to true once the player learns to kick
+  public bool canKick = false;
   public bool isKicking;
 
   // should set to true once the player learns to drop kick
@@ -882,7 +884,7 @@ public class Hero : MonoBehaviour {
         if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
           if (isGrounded) {
             if (isHoldingDown) {
-              if (!isRunning && !isKicking) {
+              if (!isRunning && !isKicking && canKick) {
                 isKicking = true;
                 anim.SetTrigger("isKicking");
                 weaponCollider.SetActive(true);
