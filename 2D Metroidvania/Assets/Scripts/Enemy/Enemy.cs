@@ -6,6 +6,7 @@ using System.Linq;
 public class Enemy : MonoBehaviour {
   // Serialized
     [SerializeField] public string key;
+    [SerializeField] public string specificDrop;
     [SerializeField] public string summonKey;
     [SerializeField] public int level;
     [SerializeField] public int currentHP;
@@ -701,7 +702,7 @@ public class Enemy : MonoBehaviour {
         Vector2.zero) * new Vector2(direction, 0));
 
     // instantiates the dropped item
-    string[] droppableAndRarity = Helpers.GetDroppableItem(key, level, hero.luckPercentage + hero.equippedLUCK + hero.effectLCK).Split('|');
+    string[] droppableAndRarity = (specificDrop == "" ? Helpers.GetDroppableItem(key, level, hero.luckPercentage + hero.equippedLUCK + hero.effectLCK) : "" + specificDrop + "|rare").Split('|');
     inGame.InstantiatePrefab("droppable", droppableAndRarity[0], droppableAndRarity[1], transform.parent.gameObject, deathOrigin, enemyRenderer);
 
     // instantiates the explosion of the enemy

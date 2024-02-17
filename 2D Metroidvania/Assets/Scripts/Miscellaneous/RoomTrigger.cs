@@ -22,12 +22,18 @@ public class RoomTrigger : MonoBehaviour {
       heroScript.currentRoom = gameObject;
       foreach(Transform child in gameObject.transform) {
         if (child.tag == "EnemySpawner") {
-          string spawnerKey = child.gameObject.GetComponent<EnemySpawner>().enemyKey;
+          EnemySpawner enemySpawner = child.gameObject.GetComponent<EnemySpawner>();
+          string spawnerKey = enemySpawner.enemyKey;
+          string specificDrop = enemySpawner.specificDrop;
 
           GameObject enemySpawned = Instantiate(Objects.prefabs["enemy"], new Vector3(child.transform.position.x, child.transform.position.y, 0), Quaternion.identity);
           enemySpawned.transform.SetParent(transform);
           Enemy enemyScript = enemySpawned.GetComponent<Enemy>();
           enemyScript.key = spawnerKey != "" ? spawnerKey : Constants.meadowEnemies[UnityEngine.Random.Range(0, Constants.meadowEnemies.Length)];
+
+          if (specificDrop != "") {
+            enemyScript.specificDrop = specificDrop;
+          }
 
           // TODO: implement a better way to assign level values
           enemyScript.level = 1;
