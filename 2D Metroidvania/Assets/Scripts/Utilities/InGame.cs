@@ -120,7 +120,7 @@ public class InGame : MonoBehaviour {
     mainOverlay.GetComponent<Image>().color = new Color(0, 0, 0, 1);
   }
 
-  public void InstantiatePrefab(string prefab, string key, string rarity, GameObject room, Vector2 position, SpriteRenderer spr, bool shouldRotate = false, string rotateDirection = "") {
+  public void InstantiatePrefab(string prefab, string key, string rarity, GameObject room, Vector2 position, SpriteRenderer spr, bool shouldRotate = false, string rotateDirection = "", GameObject spawnedFrom = null) {
     // mainly so items instantiated from stacked breakables do not overlap fully
     float randomOffset = UnityEngine.Random.Range(-0.2f, 0.2f);
 
@@ -134,6 +134,10 @@ public class InGame : MonoBehaviour {
     if (shouldRotate) {
       droppableScript.shouldRotate = shouldRotate;
       droppableScript.rotateDirection = rotateDirection;
+    }
+    // provides the game object from which the enemy that instantiated the item spawned from, to manipulate it as needed after picking the item
+    if (spawnedFrom) {
+      droppableScript.spawnedFrom = spawnedFrom;
     }
 
     // adds flicker effect

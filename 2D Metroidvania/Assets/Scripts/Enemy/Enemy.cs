@@ -104,6 +104,7 @@ public class Enemy : MonoBehaviour {
     [System.NonSerialized] public bool playerFound = false;
     [System.NonSerialized] public Hero hero;
     [System.NonSerialized] SpriteRenderer weaponSpriteRenderer;
+    [SerializeField] public GameObject spawnedFrom;
 
   void Start() {
     body = GetComponent<Rigidbody2D>();
@@ -703,7 +704,7 @@ public class Enemy : MonoBehaviour {
 
     // instantiates the dropped item
     string[] droppableAndRarity = (specificDrop == "" ? Helpers.GetDroppableItem(key, level, hero.luckPercentage + hero.equippedLUCK + hero.effectLCK) : "" + specificDrop + "|rare").Split('|');
-    inGame.InstantiatePrefab("droppable", droppableAndRarity[0], droppableAndRarity[1], transform.parent.gameObject, deathOrigin, enemyRenderer);
+    inGame.InstantiatePrefab("droppable", droppableAndRarity[0], droppableAndRarity[1], transform.parent.gameObject, deathOrigin, enemyRenderer, false, "", spawnedFrom);
 
     // instantiates the explosion of the enemy
     Instantiate(Objects.prefabs["enemy-explosion"], deathOrigin, Quaternion.identity);

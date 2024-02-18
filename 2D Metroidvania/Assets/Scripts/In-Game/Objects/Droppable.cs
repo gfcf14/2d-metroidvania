@@ -22,6 +22,7 @@ public class Droppable : MonoBehaviour {
   [System.NonSerialized] Rigidbody2D body;
   [System.NonSerialized] Sprite spriteHolder;
   [System.NonSerialized] PolygonCollider2D droppableCollider;
+  [SerializeField] public GameObject spawnedFrom;
 
   private Animator anim;
   private AudioSource audioSource;
@@ -168,6 +169,11 @@ public class Droppable : MonoBehaviour {
     if (Settings.showItemInfo) {
       bool displayMoney = key.Contains("money");
       hero.infoCanvas.GetComponent<InfoCanvas>().Display(displayMoney ? moneyItem.text : Objects.pauseItems[key].name);
+    }
+
+    // interaction with enemy spawner happens here if provided
+    if (spawnedFrom) {
+      spawnedFrom.GetComponent<EnemySpawner>().specificDrop = "";
     }
 
     Destroy(transform.parent.gameObject);

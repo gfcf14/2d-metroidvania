@@ -33,6 +33,7 @@ public class RoomTrigger : MonoBehaviour {
 
           if (specificDrop != "") {
             enemyScript.specificDrop = specificDrop;
+            enemyScript.spawnedFrom = child.gameObject;
           }
 
           // TODO: implement a better way to assign level values
