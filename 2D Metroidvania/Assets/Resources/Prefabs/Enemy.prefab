@@ -157,9 +157,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: 
+  specificDrop: 
   summonKey: 
   level: 1
+  currentHP: 0
+  maxHP: 0
+  atk: 0
+  def: 0
+  criticalRate: 0
   isOnCamera: 0
+  direction: 1
+  spawnedFrom: {fileID: 0}
 --- !u!82 &-6301873832209955664
 AudioSource:
   m_ObjectHideFlags: 0
