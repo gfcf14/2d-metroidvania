@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5441866141893687778}
   - component: {fileID: 5441866141893687779}
   - component: {fileID: 5441866141893687804}
+  - component: {fileID: 371570328027176620}
   m_Layer: 2
   m_Name: EnemySpawner
   m_TagString: EnemySpawner
@@ -96,3 +97,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyKey: skeleton
+  specificDrop: 
+--- !u!114 &371570328027176620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5441866141893687777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdc95917518884b4e8d5c74eed111ac6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
