@@ -1116,7 +1116,7 @@ public class Hero : MonoBehaviour {
         hurtCounter++;
       }
 
-      if (isHurt == 3 && !collidingBottom) {
+      if (isHurt == 3 && currentHP > 0) {
         if (body.gravityScale == 1) {
           body.gravityScale = 0;
         }
@@ -1737,11 +1737,12 @@ public class Hero : MonoBehaviour {
   public void ReceiveSmashWave(int damage, Vector2? damagePosition = null) {
     int damageReceived = (stamina + (int)equippedSTA) - damage;
     int actualDamage = damageReceived < 0 ? Math.Abs(damageReceived) : Constants.minimumDamageDealt;
+    TakeDamage(actualDamage, damagePosition);
     if (currentHP > actualDamage) {
-      TakeDamage(actualDamage, damagePosition);
       PlayerHurt(3);
     } else {
-      PlayerDying(false);
+      // TODO: change to false once the dead-2 animation is implemented
+      PlayerDying(isGrounded: true);
     }
   }
 
