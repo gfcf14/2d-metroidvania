@@ -815,15 +815,23 @@ public class Hero : MonoBehaviour {
 
           // Debug.Log(currentKey.ToString());
 
-          if (isPaused && Pause.currentlyMapping != "") {
-            if (((currentKey.ToString()).Contains("JoystickButton") && Input.GetJoystickNames()[0] != "") || !(currentKey.ToString()).Contains("Joystick")) {
-              if (canMap) {
-                if (!Helpers.IsForbiddenToRemap(currentKey.ToString())) {
-                  pauseCanvas.GetComponent<Pause>().FinishMapping(currentKey.ToString());
-                  canMap = false;
+          if (isPaused) {
+            if (!currentKey.ToString().Contains("Mouse")) {
+              Debug.Log("Key pressed while pausing: " + currentKey);
+
+              // perform recognition to menu movement and selection here
+            }
+
+            if (Pause.currentlyMapping != "") {
+              if (((currentKey.ToString()).Contains("JoystickButton") && Input.GetJoystickNames()[0] != "") || !(currentKey.ToString()).Contains("Joystick")) {
+                if (canMap) {
+                  if (!Helpers.IsForbiddenToRemap(currentKey.ToString())) {
+                    pauseCanvas.GetComponent<Pause>().FinishMapping(currentKey.ToString());
+                    canMap = false;
+                  }
+                } else {
+                  canMap = true;
                 }
-              } else {
-                canMap = true;
               }
             }
           }
