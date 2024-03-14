@@ -242,6 +242,8 @@ public class Hero : MonoBehaviour {
 
   // tracks the left stick input so it shows only once
   private bool leftStickInputProcessed = false;
+  // tracks a gamepad directional input so it only shows once
+  // private bool gamepadDirectionalInputProcessed = false;
 
   public bool isPaused;
   [SerializeField] GameObject pauseCanvas;
@@ -780,6 +782,8 @@ public class Hero : MonoBehaviour {
       Gamepad gamepad = Gamepad.current;
       if (isPaused && gamepad != null) {
           Vector2 leftStick = gamepad.leftStick.ReadValue();
+          horizontalInput = Input.GetAxis("Horizontal");
+          verticalInput = Input.GetAxis("Vertical");
 
           if (!leftStickInputProcessed && (leftStick.x != 0 || leftStick.y != 0)) {
             Debug.Log("Left stick value: x=" + leftStick.x + ", y=" + leftStick.y);
@@ -787,8 +791,17 @@ public class Hero : MonoBehaviour {
             // perform recognition to menu movement and selection here
 
             leftStickInputProcessed = true;
-          } else if (leftStickInputProcessed && leftStick.x == 0 && leftStick.y == 0) {
+          // TODO: figure out the way to use the commented out else ifs and the uncommented one exactly once
+          // } else if (!gamepadDirectionalInputProcessed && (horizontalInput != 0 || verticalInput != 0)) {
+          //   Debug.Log("USB gamepad value: x=" + horizontalInput + ", y=" + verticalInput);
+
+          //   // perform recognition to menu movement and selection here
+
+          //   gamepadDirectionalInputProcessed = true;
+          } else if (leftStickInputProcessed && (leftStick.x == 0 && leftStick.y == 0)) {
             leftStickInputProcessed = false;
+          // } else if (gamepadDirectionalInputProcessed && (horizontalInput == 0 || verticalInput == 0)) {
+          //   gamepadDirectionalInputProcessed = false;
           }
       }
 
