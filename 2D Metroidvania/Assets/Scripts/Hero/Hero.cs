@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Hero : MonoBehaviour {
   [System.NonSerialized] public bool showDebug = false;
@@ -238,6 +239,9 @@ public class Hero : MonoBehaviour {
   private GameObject arrowAnchor;
   private Arrow arrowScript;
   private GameObject arrowMask;
+
+  // tracks the left stick input so it shows only once
+  private bool leftStickInputProcessed = false;
 
   public bool isPaused;
   [SerializeField] GameObject pauseCanvas;
@@ -771,6 +775,23 @@ public class Hero : MonoBehaviour {
 
 
     if (!isAutonomous) {
+
+      // Recognizes a gamepad Left Stick while on pause
+      Gamepad gamepad = Gamepad.current;
+      if (isPaused && gamepad != null) {
+          Vector2 leftStick = gamepad.leftStick.ReadValue();
+
+          if (!leftStickInputProcessed && (leftStick.x != 0 || leftStick.y != 0)) {
+            Debug.Log("Left stick value: x=" + leftStick.x + ", y=" + leftStick.y);
+
+            // perform recognition to menu movement and selection here
+
+            leftStickInputProcessed = true;
+          } else if (leftStickInputProcessed && leftStick.x == 0 && leftStick.y == 0) {
+            leftStickInputProcessed = false;
+          }
+      }
+
       // TODO: remove key combinations as they will not be used to favor two keys pressed
       foreach (KeyCode currentKey in System.Enum.GetValues(typeof(KeyCode))) {
         if(Input.GetKeyUp(currentKey)) {
