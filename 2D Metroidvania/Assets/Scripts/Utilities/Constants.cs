@@ -146,6 +146,8 @@ public class Constants {
   public static float itemLossHeight = 0.6f;
   public static float itemLossWidth = 3.6f;
 
+  public static float inputThreshold = 0.01575f;
+
   public static Vector2[] fragmentPositions = { new Vector2(-fragmentOffset, fragmentOffset), new Vector2(0, fragmentOffset), new Vector2(fragmentOffset, fragmentOffset),
                                                 new Vector2(-fragmentOffset, 0),              new Vector2(0, 0),              new Vector2(fragmentOffset, 0),
                                                 new Vector2(-fragmentOffset, -fragmentOffset), new Vector2(0, -fragmentOffset), new Vector2(fragmentOffset, -fragmentOffset)};

@@ -512,4 +512,12 @@ public class Helpers {
 
     return list;
   }
+
+  public static bool IsBeyondOrUnderRange(float val, float limit) {
+    return val > limit || val < -limit;
+  }
+
+  public static bool IsWithinRange(float val, float limit) {
+    return val < limit && val > -limit;
+  }
 }

@@ -243,7 +243,7 @@ public class Hero : MonoBehaviour {
   // tracks the left stick input so it shows only once
   private bool leftStickInputProcessed = false;
   // tracks a gamepad directional input so it only shows once
-  // private bool gamepadDirectionalInputProcessed = false;
+  private bool gamepadDirectionalInputProcessed = false;
 
   public bool isPaused;
   [SerializeField] GameObject pauseCanvas;
@@ -780,10 +780,9 @@ public class Hero : MonoBehaviour {
 
       // Recognizes a gamepad Left Stick while on pause
       Gamepad gamepad = Gamepad.current;
-      if (isPaused && gamepad != null) {
+      if (isPaused) {
+        if (gamepad != null) {
           Vector2 leftStick = gamepad.leftStick.ReadValue();
-          horizontalInput = Input.GetAxis("Horizontal");
-          verticalInput = Input.GetAxis("Vertical");
 
           if (!leftStickInputProcessed && (leftStick.x != 0 || leftStick.y != 0)) {
             Debug.Log("Left stick value: x=" + leftStick.x + ", y=" + leftStick.y);
@@ -791,18 +790,29 @@ public class Hero : MonoBehaviour {
             // perform recognition to menu movement and selection here
 
             leftStickInputProcessed = true;
-          // TODO: figure out the way to use the commented out else ifs and the uncommented one exactly once
-          // } else if (!gamepadDirectionalInputProcessed && (horizontalInput != 0 || verticalInput != 0)) {
-          //   Debug.Log("USB gamepad value: x=" + horizontalInput + ", y=" + verticalInput);
-
-          //   // perform recognition to menu movement and selection here
-
-          //   gamepadDirectionalInputProcessed = true;
-          } else if (leftStickInputProcessed && (leftStick.x == 0 && leftStick.y == 0)) {
+          } else if (leftStickInputProcessed && leftStick.x == 0 && leftStick.y == 0) {
             leftStickInputProcessed = false;
-          // } else if (gamepadDirectionalInputProcessed && (horizontalInput == 0 || verticalInput == 0)) {
-          //   gamepadDirectionalInputProcessed = false;
           }
+        } else {
+          // TODO: This logic is not fully reliable for USB gamepads as it triggers several times. Investigate how to simplify it further
+          float pauseHInput = Input.GetAxis("Horizontal");
+          float pauseVInput = Input.GetAxis("Vertical");
+          // Debug.Log("Gamepad input: (" + pauseHInput + ", " + pauseVInput + ")");
+
+          bool goodHInput = Helpers.IsBeyondOrUnderRange(pauseHInput, Constants.inputThreshold);
+          bool goodVInput = Helpers.IsBeyondOrUnderRange(pauseVInput, Constants.inputThreshold);
+          if (goodHInput || goodVInput) {
+            if (!gamepadDirectionalInputProcessed && goodHInput || goodVInput) {
+              Debug.Log("USB gamepad value: x=" + pauseHInput + ", y=" + pauseVInput);
+
+              // perform recognition to menu movement and selection here
+
+              gamepadDirectionalInputProcessed = true;
+            } else if (gamepadDirectionalInputProcessed && Helpers.IsWithinRange(pauseHInput, Constants.inputThreshold) || Helpers.IsWithinRange(pauseVInput, Constants.inputThreshold)) {
+              gamepadDirectionalInputProcessed = false;
+            }
+          }
+        }
       }
 
       // TODO: remove key combinations as they will not be used to favor two keys pressed
@@ -886,7 +896,7 @@ public class Hero : MonoBehaviour {
         }
 
         // restricts horizontal input based on blocked direction due to bumping
-        if ((blockedDirection == "left" && horizontalInput < 0) || (blockedDirection == "right" && horizontalInput > 0)) {
+        if ((blockedDirection == "left" && horizontalInput < -Constants.inputThreshold) || (blockedDirection == "right" && horizontalInput > Constants.inputThreshold)) {
           horizontalInput = 0;
         }
 
@@ -1080,7 +1090,8 @@ public class Hero : MonoBehaviour {
       // }
 
       if (pauseCase == "") { // only update isRunning if it's not paused in any way
-        isRunning = horizontalInput != 0 && !isJumping && !isFalling && !isAttackingSingle; // && !isJetpackUp;
+        isRunning = Helpers.IsBeyondOrUnderRange(horizontalInput, Constants.inputThreshold) && !isJumping && !isFalling && !isAttackingSingle; // && !isJetpackUp;
+        // Debug.Log("horizontalInput: " + horizontalInput + ", isJumping: " + isJumping + ", isFalling: " + isFalling + ", isAttackingSingle: " + isAttackingSingle);
       }
 
       // TESTING FOR PROGRAMMATIC PLAY
