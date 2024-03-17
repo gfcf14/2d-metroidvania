@@ -794,23 +794,26 @@ public class Hero : MonoBehaviour {
             leftStickInputProcessed = false;
           }
         } else {
-          // TODO: This logic is not fully reliable for USB gamepads as it triggers several times. Investigate how to simplify it further
+          // Check for directional input from the USB gamepad
           float pauseHInput = Input.GetAxis("Horizontal");
           float pauseVInput = Input.GetAxis("Vertical");
-          // Debug.Log("Gamepad input: (" + pauseHInput + ", " + pauseVInput + ")");
 
           bool goodHInput = Helpers.IsBeyondOrUnderRange(pauseHInput, Constants.inputThreshold);
           bool goodVInput = Helpers.IsBeyondOrUnderRange(pauseVInput, Constants.inputThreshold);
-          if (goodHInput || goodVInput) {
-            if (!gamepadDirectionalInputProcessed && goodHInput || goodVInput) {
+
+          // Only process directional input if it meets the sensitivity threshold
+          if ((goodHInput || goodVInput) && !gamepadDirectionalInputProcessed) {
               Debug.Log("USB gamepad value: x=" + pauseHInput + ", y=" + pauseVInput);
 
-              // perform recognition to menu movement and selection here
+              // Perform recognition to menu movement and selection here
 
+              // Set flag to indicate that input has been processed for this frame
               gamepadDirectionalInputProcessed = true;
-            } else if (gamepadDirectionalInputProcessed && Helpers.IsWithinRange(pauseHInput, Constants.inputThreshold) || Helpers.IsWithinRange(pauseVInput, Constants.inputThreshold)) {
+          }
+
+          // Reset the flag if the directional input returns to neutral position
+          if (Helpers.IsWithinRange(pauseHInput, Constants.inputThreshold) && Helpers.IsWithinRange(pauseVInput, Constants.inputThreshold)) {
               gamepadDirectionalInputProcessed = false;
-            }
           }
         }
       }
