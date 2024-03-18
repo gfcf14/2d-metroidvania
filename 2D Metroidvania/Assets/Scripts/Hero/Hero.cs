@@ -780,6 +780,8 @@ public class Hero : MonoBehaviour {
 
       // Recognizes a gamepad Left Stick while on pause
       Gamepad gamepad = Gamepad.current;
+
+      // TODO: consider making a check for different controller types (xbox, playstation)
       if (isPaused) {
         if (gamepad != null) {
           Vector2 leftStick = gamepad.leftStick.ReadValue();
@@ -864,9 +866,10 @@ public class Hero : MonoBehaviour {
 
           if (isPaused) {
             if (!currentKey.ToString().Contains("Mouse")) {
-              Debug.Log("Key pressed while pausing: " + currentKey);
-
-              // perform recognition to menu movement and selection here
+              string keyType = Helpers.DeterminePauseKeyType(currentKey.ToString());
+              if (keyType != "") {
+                pauseCanvas.GetComponent<Pause>().RegisterKeyPress(type: keyType);
+              }
             }
 
             if (Pause.currentlyMapping != "") {
