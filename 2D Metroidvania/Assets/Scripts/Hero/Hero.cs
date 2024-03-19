@@ -240,11 +240,6 @@ public class Hero : MonoBehaviour {
   private Arrow arrowScript;
   private GameObject arrowMask;
 
-  // tracks the left stick input so it shows only once
-  private bool leftStickInputProcessed = false;
-  // tracks a gamepad directional input so it only shows once
-  private bool gamepadDirectionalInputProcessed = false;
-
   public bool isPaused;
   [SerializeField] GameObject pauseCanvas;
 
@@ -777,49 +772,6 @@ public class Hero : MonoBehaviour {
 
 
     if (!isAutonomous) {
-
-      // Recognizes a gamepad Left Stick while on pause
-      Gamepad gamepad = Gamepad.current;
-
-      // TODO: consider making a check for different controller types (xbox, playstation)
-      if (isPaused) {
-        if (gamepad != null) {
-          Vector2 leftStick = gamepad.leftStick.ReadValue();
-
-          if (!leftStickInputProcessed && (leftStick.x != 0 || leftStick.y != 0)) {
-            Debug.Log("Left stick value: x=" + leftStick.x + ", y=" + leftStick.y);
-
-            // perform recognition to menu movement and selection here
-
-            leftStickInputProcessed = true;
-          } else if (leftStickInputProcessed && leftStick.x == 0 && leftStick.y == 0) {
-            leftStickInputProcessed = false;
-          }
-        } else {
-          // Check for directional input from the USB gamepad
-          float pauseHInput = Input.GetAxis("Horizontal");
-          float pauseVInput = Input.GetAxis("Vertical");
-
-          bool goodHInput = Helpers.IsBeyondOrUnderRange(pauseHInput, Constants.inputThreshold);
-          bool goodVInput = Helpers.IsBeyondOrUnderRange(pauseVInput, Constants.inputThreshold);
-
-          // Only process directional input if it meets the sensitivity threshold
-          if ((goodHInput || goodVInput) && !gamepadDirectionalInputProcessed) {
-              Debug.Log("USB gamepad value: x=" + pauseHInput + ", y=" + pauseVInput);
-
-              // Perform recognition to menu movement and selection here
-
-              // Set flag to indicate that input has been processed for this frame
-              gamepadDirectionalInputProcessed = true;
-          }
-
-          // Reset the flag if the directional input returns to neutral position
-          if (Helpers.IsWithinRange(pauseHInput, Constants.inputThreshold) && Helpers.IsWithinRange(pauseVInput, Constants.inputThreshold)) {
-              gamepadDirectionalInputProcessed = false;
-          }
-        }
-      }
-
       // TODO: remove key combinations as they will not be used to favor two keys pressed
       foreach (KeyCode currentKey in System.Enum.GetValues(typeof(KeyCode))) {
         if(Input.GetKeyUp(currentKey)) {
@@ -865,13 +817,6 @@ public class Hero : MonoBehaviour {
           // Debug.Log(currentKey.ToString());
 
           if (isPaused) {
-            if (!currentKey.ToString().Contains("Mouse")) {
-              string keyType = Helpers.DeterminePauseKeyType(currentKey.ToString());
-              if (keyType != "") {
-                pauseCanvas.GetComponent<Pause>().RegisterKeyPress(type: keyType);
-              }
-            }
-
             if (Pause.currentlyMapping != "") {
               if (((currentKey.ToString()).Contains("JoystickButton") && Input.GetJoystickNames()[0] != "") || !(currentKey.ToString()).Contains("Joystick")) {
                 if (canMap) {

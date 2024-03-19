@@ -1948,11 +1948,4 @@ public class Pause : MonoBehaviour {
   public void ToggleSoundtrackPlay() {
     Settings.playSoundtrack = !playSoundtrack;
   }
-
-  public void RegisterKeyPress(string type) {
-    Debug.Log("type pressed: " + type);
-
-    // perform a canvasStatus check to decide what sound to play. Consider:
-      // if on specific status enter is select sound, but in others it should be the attention sound
-  }
 }

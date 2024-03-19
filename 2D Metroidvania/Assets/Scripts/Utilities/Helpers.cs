@@ -90,28 +90,6 @@ public class Helpers {
     return keyCode.Contains("Joystick");
   }
 
-  public static string DeterminePauseKeyType(string type) {
-    switch(type) {
-      case "UpArrow":
-      case "W": {
-        return "up";
-      }
-      case "DownArrow":
-      case "S": {
-        return "down";
-      }
-      case "Return":
-      case "KeypadEnter": {
-        return "select";
-      }
-      case "Backspace": {
-        return "back";
-      }
-    }
-
-    return "";
-  }
-
   public static void FocusUIElement(GameObject element) {
     Pause.eventSystem.SetSelectedGameObject(element, new BaseEventData(Pause.eventSystem));
   }
