@@ -1132,11 +1132,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void ShowOptionsCanvas() {
+    canPlayDeselect = false;
     canvasStatus = "options";
     mainCanvas.SetActive(false);
     optionsCanvas.SetActive(true);
 
     Helpers.FocusUIElement(optionsFirstSelected);
+    previouslyFocusedButton = optionsFirstSelected;
+    canPlayDeselect = true;
   }
 
   public void ShowControlsCanvas() {
@@ -1215,11 +1218,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToMainFromOptions() {
+    canPlayDeselect = false;
     canvasStatus = "main";
     optionsCanvas.SetActive(false);
     mainCanvas.SetActive(true);
 
     Helpers.FocusUIElement(optionsButton);
+    previouslyFocusedButton = optionsButton;
+    canPlayDeselect = true;
   }
 
   public void GoBackToOptionsFromControls() {
