@@ -533,6 +533,7 @@ public class Pause : MonoBehaviour {
   }
 
   public void SelectProjectileOnNewItemKey(string itemKey) {
+    canPlayDeselect = false;
     string[] itemProjectiles = Objects.itemProjectiles[itemKey];
     string[] heroItemsList = heroScript.items.Select(item => item.key).ToArray();
     int currProjectileButtonIndex = 0;
@@ -581,6 +582,8 @@ public class Pause : MonoBehaviour {
       }
 
       Helpers.FocusUIElement(projectileButtonList[0]);
+      previouslyFocusedButton = projectileButtonList[0];
+      canPlayDeselect = true;
 
     } else { // if not more than one, there can only be 1 type, so use that type
       EquipProjectile(0);
@@ -690,10 +693,13 @@ public class Pause : MonoBehaviour {
   }
 
   public void CancelProjectileSelection() {
+    canPlayDeselect = false;
     canvasStatus = "equipment_select";
     projectileCanvas.SetActive(false);
     ClearProjectileButtons();
     Helpers.FocusUIElement(itemButtons[currentItemButtonIndex]);
+    previouslyFocusedButton = itemButtons[currentItemButtonIndex];
+    canPlayDeselect = true;
   }
 
   void UpdateItemView() {
