@@ -1165,11 +1165,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void ShowInGameElementsCanvas() {
+    canPlayDeselect = false;
     canvasStatus = "options_show-in-game-elements";
     optionsCanvas.SetActive(false);
     inGameElementsCanvas.SetActive(true);
 
     Helpers.FocusUIElement(inGameElementsFirstSelected);
+    previouslyFocusedButton = inGameElementsFirstSelected;
+    canPlayDeselect = true;
   }
 
   public void ShowSoundsCanvas() {
@@ -1257,11 +1260,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToOptionsFromShowInGameElements() {
+    canPlayDeselect = false;
     canvasStatus = "options";
     inGameElementsCanvas.SetActive(false);
     optionsCanvas.SetActive(true);
 
     Helpers.FocusUIElement(inGameElementsButton);
+    previouslyFocusedButton = inGameElementsButton;
+    canPlayDeselect = true;
   }
 
   public void GoBackToOptionsFromSounds() {
@@ -1985,18 +1991,27 @@ public class Pause : MonoBehaviour {
   }
 
   public void ShowStatuses() {
+    canPlayDeselect = false;
     Settings.showInGameStatuses = true;
     Helpers.FocusUIElement(radioStatusStandard);
+    previouslyFocusedButton = radioStatusStandard;
+    canPlayDeselect = true;
   }
 
   public void SetStandardStatus() {
+    canPlayDeselect = false;
     Settings.statusType = "standard";
     Helpers.FocusUIElement(radioShowStatuses);
+    previouslyFocusedButton = radioShowStatuses;
+    canPlayDeselect = true;
   }
 
   public void SetMinifiedStatus() {
+    canPlayDeselect = false;
     Settings.statusType = "minified";
     Helpers.FocusUIElement(radioShowStatuses);
+    previouslyFocusedButton = radioShowStatuses;
+    canPlayDeselect = true;
   }
 
   public void ToggleDamage() {
