@@ -46,6 +46,8 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject preferredInputFirstSelected;
   [SerializeField] GameObject inGameElementsButton;
   [SerializeField] GameObject inGameElementsFirstSelected;
+
+  [SerializeField] GameObject soundsButton;
   [SerializeField] GameObject soundsFirstSelected;
   [SerializeField] GameObject quitButton;
   [SerializeField] GameObject quitFirstSelected;
@@ -1176,11 +1178,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void ShowSoundsCanvas() {
+    canPlayDeselect = false;
     canvasStatus = "options_sounds";
     optionsCanvas.SetActive(false);
     soundsCanvas.SetActive(true);
 
     Helpers.FocusUIElement(soundsFirstSelected);
+    previouslyFocusedButton = soundsFirstSelected;
+    canPlayDeselect = true;
   }
 
   public void ShowQuitCanvas() {
@@ -1271,11 +1276,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToOptionsFromSounds() {
+    canPlayDeselect = false;
     canvasStatus = "options";
     soundsCanvas.SetActive(false);
     optionsCanvas.SetActive(true);
 
-    Helpers.FocusUIElement(inGameElementsButton);
+    Helpers.FocusUIElement(soundsButton);
+    previouslyFocusedButton = soundsButton;
+    canPlayDeselect = true;
   }
 
   public void GoBackToMainFromQuit() {
