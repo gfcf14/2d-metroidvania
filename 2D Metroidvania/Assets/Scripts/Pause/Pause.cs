@@ -1143,11 +1143,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void ShowControlsCanvas() {
+    canPlayDeselect = false;
     canvasStatus = "options_controls";
     optionsCanvas.SetActive(false);
     controlsCanvas.SetActive(true);
 
     Helpers.FocusUIElement(controlsFirstSelected);
+    previouslyFocusedButton = controlsFirstSelected;
+    canPlayDeselect = true;
   }
 
   public void ShowPreferredInputCanvas() {
@@ -1229,11 +1232,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToOptionsFromControls() {
+    canPlayDeselect = false;
     canvasStatus = "options";
     controlsCanvas.SetActive(false);
     optionsCanvas.SetActive(true);
 
     Helpers.FocusUIElement(controlsButton);
+    previouslyFocusedButton = controlsButton;
+    canPlayDeselect = true;
   }
 
   public void GoBackToOptionsFromPreferredInput() {
@@ -1747,6 +1753,7 @@ public class Pause : MonoBehaviour {
   }
 
   public void AwaitInput(String key) {
+    canPlayDeselect = false;
     canvasStatus = "mapping";
     Helpers.FocusUIElement(null);
 
@@ -1798,6 +1805,7 @@ public class Pause : MonoBehaviour {
 
         jumpAwaitLabel.SetActive(false);
         Helpers.FocusUIElement(jumpButton);
+        previouslyFocusedButton = jumpButton;
         break;
       case "atk1":
         if (Helpers.IsGamepadKey(keyCode)) {
@@ -1824,6 +1832,7 @@ public class Pause : MonoBehaviour {
 
         atk1AwaitLabel.SetActive(false);
         Helpers.FocusUIElement(atk1Button);
+        previouslyFocusedButton = atk1Button;
         break;
       case "atk2":
         if (Helpers.IsGamepadKey(keyCode)) {
@@ -1850,6 +1859,7 @@ public class Pause : MonoBehaviour {
 
         atk2AwaitLabel.SetActive(false);
         Helpers.FocusUIElement(atk2Button);
+        previouslyFocusedButton = atk2Button;
         break;
       case "action":
         if (Helpers.IsGamepadKey(keyCode)) {
@@ -1876,6 +1886,7 @@ public class Pause : MonoBehaviour {
 
         actionAwaitLabel.SetActive(false);
         Helpers.FocusUIElement(actionButton);
+        previouslyFocusedButton = actionButton;
         break;
       default:
         Debug.Log("unknown map case: " + currentlyMapping);
@@ -1884,14 +1895,18 @@ public class Pause : MonoBehaviour {
 
     currentlyMapping = "";
     canvasStatus = "options_controls";
+    canPlayDeselect = true;
   }
 
   public void ProceedToReset() {
+    canPlayDeselect = false;
     PlayMenuSound("attention");
 
     canvasStatus = "options_controls_reset";
     resetRectangle.SetActive(true);
     Helpers.FocusUIElement(resetYes);
+    previouslyFocusedButton = resetYes;
+    canPlayDeselect = true;
   }
 
   public void ResetMapping() {
@@ -1909,9 +1924,12 @@ public class Pause : MonoBehaviour {
   }
 
   public void CancelReset() {
+    canPlayDeselect = false;
     canvasStatus = "options_controls";
     resetRectangle.SetActive(false);
     Helpers.FocusUIElement(resetButton);
+    previouslyFocusedButton = resetButton;
+    canPlayDeselect = true;
   }
 
   public void PopulateEquipmentContainer(string equipmentType) {
