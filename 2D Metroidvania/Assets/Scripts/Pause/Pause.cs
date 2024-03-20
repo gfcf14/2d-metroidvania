@@ -509,10 +509,13 @@ public class Pause : MonoBehaviour {
   }
 
   public void ProceedToUse() {
+    canPlayDeselect = false;
     PlayMenuSound("attention");
 
     canvasStatus = "items_use";
     Helpers.FocusUIElement(itemUseYes);
+    previouslyFocusedButton = itemUseYes;
+    canPlayDeselect = true;
   }
 
   public void Equip() {
@@ -601,6 +604,7 @@ public class Pause : MonoBehaviour {
   }
 
   public void UseItem() {
+    canPlayDeselect = false;
     Item heroItem = heroScript.items.ElementAt(currentItemButtonIndex);
     PauseItem currentPauseItem = Objects.pauseItems[heroItem.key];
 
@@ -653,19 +657,26 @@ public class Pause : MonoBehaviour {
         heroScript.ConsumeItem(heroItem.key);
         itemButtons.ElementAt(0).transform.Find("Amount").gameObject.GetComponent<Text>().text = (heroItem.amount).ToString();
         Helpers.FocusUIElement(itemButtons.ElementAt(currentItemButtonIndex));
+        previouslyFocusedButton = itemButtons.ElementAt(currentItemButtonIndex);
       } else {
         heroScript.RemoveItem(currentItemButtonIndex);
         ClearItems(itemsContainer);
         PopulateItemsContainer(heroScript.items, itemsContainer);
         Helpers.FocusUIElement(itemButtons.ElementAt(0));
+        previouslyFocusedButton = itemButtons.ElementAt(0);
         SetItemInfo(0);
       }
     }
+    canPlayDeselect = true;
   }
 
   public void CancelItemUse() {
+    canPlayDeselect = false;
     canvasStatus = "items";
-    Helpers.FocusUIElement(itemButtons.ElementAt(currentItemButtonIndex));
+    GameObject itemToUse = itemButtons.ElementAt(currentItemButtonIndex);
+    Helpers.FocusUIElement(itemToUse);
+    previouslyFocusedButton = itemToUse;
+    canPlayDeselect = true;
   }
 
   public void CancelEquipmentSelection() {
