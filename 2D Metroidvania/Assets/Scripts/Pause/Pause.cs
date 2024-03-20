@@ -290,6 +290,9 @@ public class Pause : MonoBehaviour {
   // plays sounds
   private AudioSource audioSource;
 
+  private bool canPlayDeselect = false;
+  private GameObject previouslyFocusedButton = null;
+
   void Start() {
     heroScript = hero.GetComponent<Hero>();
     audioSource = GetComponent<AudioSource>();
@@ -323,6 +326,7 @@ public class Pause : MonoBehaviour {
   }
 
   void Update() {
+    CheckEventChange();
     CheckIfGamepad();
     UpdateControls();
     UpdatePreferredInput();
@@ -355,6 +359,7 @@ public class Pause : MonoBehaviour {
       currentEquipmentItems.Clear();
     }
     canvasStatus = "";
+    canPlayDeselect = false;
     HideEquipmentLabels();
     HideCanvases();
     Helpers.FocusUIElement(null);
@@ -383,9 +388,12 @@ public class Pause : MonoBehaviour {
   void SelectItemsButton() {
     canvasStatus = "main";
     Helpers.FocusUIElement(pauseFirstSelected);
+    previouslyFocusedButton  = pauseFirstSelected;
+    canPlayDeselect = true;
   }
 
   public void ShowItemsCanvas() {
+    canPlayDeselect = false;
     canvasStatus = "items";
     mainCanvas.SetActive(false);
     itemsCanvas.SetActive(true);
@@ -393,6 +401,8 @@ public class Pause : MonoBehaviour {
     ClearItems(itemsContainer);
     PopulateItemsContainer(heroScript.items, itemsContainer);
     Helpers.FocusUIElement(itemButtons.ElementAt(0));
+    previouslyFocusedButton = itemButtons.ElementAt(0);
+    canPlayDeselect = true;
     SetItemInfo(0);
   }
 
@@ -1161,12 +1171,15 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToMainFromItems() {
+    canPlayDeselect = false;
     canvasStatus = "main";
     itemUseRectangle.SetActive(false);
     itemsCanvas.SetActive(false);
     mainCanvas.SetActive(true);
 
     Helpers.FocusUIElement(itemsButton);
+    previouslyFocusedButton = itemsButton;
+    canPlayDeselect = true;
   }
 
   public void GoBackToMainFromEquipment() {
@@ -1285,6 +1298,17 @@ public class Pause : MonoBehaviour {
 
   public void QuitGame() {
     GetComponent<Animator>().Play("pause-return-title");
+  }
+
+  void CheckEventChange() {
+    if (canPlayDeselect) {
+      GameObject currentlyFocusedButton = eventSystem.currentSelectedGameObject;
+
+      if (currentlyFocusedButton != previouslyFocusedButton) {
+        Debug.Log("play deselect sound");
+        previouslyFocusedButton = currentlyFocusedButton;
+      }
+    }
   }
 
   void CheckIfGamepad() {
