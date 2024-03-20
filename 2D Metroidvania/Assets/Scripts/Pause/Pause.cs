@@ -667,10 +667,13 @@ public class Pause : MonoBehaviour {
   }
 
   public void CancelEquipmentSelection() {
+    canPlayDeselect = false;
     HideEquipmentLabels();
     canvasStatus = "equipment";
     Helpers.FocusUIElement(previouslySelectedEquipmentButton);
+    previouslyFocusedButton = previouslySelectedEquipmentButton;
     previouslySelectedEquipmentButton = null;
+    canPlayDeselect = true;
   }
 
   public void CancelProjectileSelection() {
@@ -1106,11 +1109,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void ShowEquipmentCanvas() {
+    canPlayDeselect = false;
     canvasStatus = "equipment";
     mainCanvas.SetActive(false);
     equipmentCanvas.SetActive(true);
 
     Helpers.FocusUIElement(equipmentFirstSelected);
+    previouslyFocusedButton = equipmentFirstSelected;
+    canPlayDeselect = true;
   }
 
   public void ShowMapCanvas() {
@@ -1183,12 +1189,15 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToMainFromEquipment() {
+    canPlayDeselect = false;
     currentEquipmentItems.Clear();
     canvasStatus = "main";
     equipmentCanvas.SetActive(false);
     mainCanvas.SetActive(true);
 
     Helpers.FocusUIElement(equipmentButton);
+    previouslyFocusedButton = equipmentButton;
+    canPlayDeselect = true;
   }
 
   public void GoBackToMainFromMap() {
@@ -1924,10 +1933,13 @@ public class Pause : MonoBehaviour {
 
   public void SelectEquipment(int selectedIndex) {
     if (currentEquipmentItems.Count > 0) {
+      canPlayDeselect = false;
       canvasStatus = "equipment_select";
       currentlyEquippedIndex = selectedIndex;
       previouslySelectedEquipmentButton = eventSystem.currentSelectedGameObject;
       Helpers.FocusUIElement(itemButtons.ElementAt(0));
+      previouslyFocusedButton = itemButtons.ElementAt(0);
+      canPlayDeselect = true;
       SetEquipmentProspect(0);
     }
   }
