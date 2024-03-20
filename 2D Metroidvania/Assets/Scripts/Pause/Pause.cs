@@ -1120,12 +1120,15 @@ public class Pause : MonoBehaviour {
   }
 
   public void ShowMapCanvas() {
+    canPlayDeselect = false;
     canvasStatus = "map";
     mainCanvas.SetActive(false);
     mapCanvas.SetActive(true);
 
     // TODO: when implementing, ensure to show buttons equivalent to each area, and activate the one currently in
     Helpers.FocusUIElement(optionsFirstSelected);
+    previouslyFocusedButton = optionsFirstSelected;
+    canPlayDeselect = true;
   }
 
   public void ShowOptionsCanvas() {
@@ -1201,11 +1204,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToMainFromMap() {
+    canPlayDeselect = false;
     canvasStatus = "main";
     mapCanvas.SetActive(false);
     mainCanvas.SetActive(true);
 
     Helpers.FocusUIElement(mapButton);
+    previouslyFocusedButton = mapButton;
+    canPlayDeselect = true;
   }
 
   public void GoBackToMainFromOptions() {
