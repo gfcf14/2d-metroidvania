@@ -1154,11 +1154,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void ShowPreferredInputCanvas() {
+    canPlayDeselect = false;
     canvasStatus = "options_preferred-input";
     optionsCanvas.SetActive(false);
     preferredInputCanvas.SetActive(true);
 
     Helpers.FocusUIElement(preferredInputFirstSelected);
+    previouslyFocusedButton = preferredInputFirstSelected;
+    canPlayDeselect = true;
   }
 
   public void ShowInGameElementsCanvas() {
@@ -1243,11 +1246,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToOptionsFromPreferredInput() {
+    canPlayDeselect = false;
     canvasStatus = "options";
     preferredInputCanvas.SetActive(false);
     optionsCanvas.SetActive(true);
 
     Helpers.FocusUIElement(preferredInputButton);
+    previouslyFocusedButton = preferredInputButton;
+    canPlayDeselect = true;
   }
 
   public void GoBackToOptionsFromShowInGameElements() {
