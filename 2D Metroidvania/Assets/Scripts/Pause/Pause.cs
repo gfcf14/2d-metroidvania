@@ -1206,11 +1206,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void ShowQuitCanvas() {
+    canPlayDeselect = false;
     canvasStatus = "quit";
     mainCanvas.SetActive(false);
     quitCanvas.SetActive(true);
 
     Helpers.FocusUIElement(quitFirstSelected);
+    previouslyFocusedButton = quitFirstSelected;
+    canPlayDeselect = true;
   }
 
   public void GoBackToMainFromItems() {
@@ -1304,11 +1307,14 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToMainFromQuit() {
+    canPlayDeselect = false;
     canvasStatus = "main";
     quitCanvas.SetActive(false);
     mainCanvas.SetActive(true);
 
     Helpers.FocusUIElement(quitButton);
+    previouslyFocusedButton = quitButton;
+    canPlayDeselect = true;
   }
 
   public void PerformBack() {
