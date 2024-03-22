@@ -520,4 +520,8 @@ public class Helpers {
   public static bool IsWithinRange(float val, float limit) {
     return val < limit && val > -limit;
   }
+
+  public static bool RequiresProjectile(string itemType) {
+    return Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, itemType);
+  }
 }

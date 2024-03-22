@@ -446,7 +446,9 @@ public class Pause : MonoBehaviour {
             EventTrigger.Entry submitEntry = new EventTrigger.Entry();
             submitEntry.eventID = EventTriggerType.Submit;
             submitEntry.callback.AddListener((data) => {
-              PlayMenuSound("select");
+              if (!Helpers.RequiresProjectile(currentPauseItem.type)) {
+                PlayMenuSound("select");
+              }
             });
 
             eventTrigger.triggers.Add(submitEntry);
@@ -523,7 +525,7 @@ public class Pause : MonoBehaviour {
     string newItemType = Objects.pauseItems[newItemKey].type;
 
     // if item to equip is among those that require a projectile to use (i.e. bow that requires arrows), then open a canvas that would allow equipment for this projectile
-    if (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, newItemType)) {
+    if (Helpers.RequiresProjectile(newItemType)) {
       SelectProjectileOnNewItemKey(newItemKey);
     } else { // if not, item would be immediately equipped
       Hero.projectileEquipment = "";
@@ -776,7 +778,6 @@ public class Pause : MonoBehaviour {
   }
 
   void SetEquipmentProspect(int index) {
-    PlayMenuSound("move");
     HideEquipmentLabels();
 
     currentItemButtonIndex = index;
@@ -994,7 +995,6 @@ public class Pause : MonoBehaviour {
   }
 
   void SetItemInfo(int index) {
-    PlayMenuSound("move");
     HideEffectsObjects();
     currentItemButtonIndex = index;
 
@@ -1375,7 +1375,7 @@ public class Pause : MonoBehaviour {
       GameObject currentlyFocusedButton = eventSystem.currentSelectedGameObject;
 
       if (currentlyFocusedButton != previouslyFocusedButton) {
-        Debug.Log("play deselect sound");
+        PlayMenuSound("move");
         previouslyFocusedButton = currentlyFocusedButton;
       }
     }
