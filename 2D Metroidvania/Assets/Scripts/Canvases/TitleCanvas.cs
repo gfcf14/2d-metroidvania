@@ -12,6 +12,9 @@ public class TitleCanvas : MonoBehaviour {
   [SerializeField] AudioSource audioSource;
 
   [System.NonSerialized] AudioClip startSound;
+
+  private bool canPlayDeselect = false;
+  GameObject previouslyFocusedButton = null;
   void Start() {
     audioSource = GetComponent<AudioSource>();
     overlay = transform.Find("Overlay").gameObject;
@@ -27,7 +30,20 @@ public class TitleCanvas : MonoBehaviour {
     }
   }
 
+  void CheckEventChange() {
+    if (canPlayDeselect) {
+      GameObject currentlyFocusedButton = eventSystem.currentSelectedGameObject;
+
+      if (currentlyFocusedButton != previouslyFocusedButton) {
+        PlayMenuSound("move");
+        previouslyFocusedButton = currentlyFocusedButton;
+      }
+    }
+  }
+
   void Update() {
+    CheckEventChange();
+
     if (Input.anyKeyDown) {
       string currentKey = "";
       // Iterate through all possible keys
@@ -47,6 +63,8 @@ public class TitleCanvas : MonoBehaviour {
         pressPrompt.SetActive(false);
         buttonsPanel.SetActive(true);
         eventSystem.SetSelectedGameObject(buttonsFirstSelected, new BaseEventData(eventSystem));
+        previouslyFocusedButton = buttonsFirstSelected;
+        canPlayDeselect = true;
       }
     }
   }
@@ -63,6 +81,7 @@ public class TitleCanvas : MonoBehaviour {
   }
 
   public void GameStart() {
+    canPlayDeselect = false;
     PlayPressedAnimation();
     PlaySound(startSound);
     StartCoroutine(WaitForStartSoundFinish());
@@ -79,6 +98,7 @@ public class TitleCanvas : MonoBehaviour {
   }
 
   public void Quit() {
+    canPlayDeselect = false;
     PlayPressedAnimation();
     PlayMenuSound("select");
     StartCoroutine(QuitGame());
