@@ -266,7 +266,7 @@ public class Hero : MonoBehaviour {
     audioSource = GetComponent<AudioSource>();
     airEdgeCheckScript = airEdgeCheck.GetComponent<AirEdgeCheck>();
     proximityCheckScript = transform.Find("ProximityCheck").GetComponent<ProximityCheck>();
-    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+    inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
 
     // currentWeapon = weapons[weaponIndex % weapons.Length];
 

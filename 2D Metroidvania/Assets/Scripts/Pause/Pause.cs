@@ -370,7 +370,7 @@ public class Pause : MonoBehaviour {
 
   // uses the main overlay to cover the game on game over
   public void Cover() {
-    GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().Cover();
+    GameObject.Find("InGame").gameObject.GetComponent<InGame>().Cover();
   }
 
   public void ReturnToTitle() {

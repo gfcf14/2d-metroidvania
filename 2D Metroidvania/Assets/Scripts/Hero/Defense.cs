@@ -7,7 +7,7 @@ public class Defense : MonoBehaviour {
 
   void Start() {
     transform.localScale = new Vector3(isFacingLeft ? -1 : 1, 1, 1);
-    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+    inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
   }
   void Update() {}
 

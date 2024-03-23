@@ -5,7 +5,7 @@ public class PlayerStopper : MonoBehaviour {
 
   private InGame inGame;
   void Start() {
-    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+    inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
   }
 
   void Update() {}

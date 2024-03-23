@@ -8,7 +8,7 @@ public class MainOverlay : MonoBehaviour {
 
   void Start() {
     anim = GetComponent<Animator>();
-    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+    inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
   }
 
   void Update() {}

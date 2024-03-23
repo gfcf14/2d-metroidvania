@@ -54,13 +54,13 @@ public class ThrowableCollider : MonoBehaviour {
 
         // plays a weapon clash sound when enemy throwables collide with the player weapon
         if (colliderTag == "Weapon") {
-          GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().PlaySound(Sounds.blockSounds["basic"], transform.position);
+          GameObject.Find("InGame").gameObject.GetComponent<InGame>().PlaySound(Sounds.blockSounds["basic"], transform.position);
         }
       }
 
       // plays a weapon clash sound when two opposing throwables collide
       if (colliderTag == "EnemyWeapon") {
-        GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>().PlaySound(Sounds.blockSounds["basic"], transform.position);
+        GameObject.Find("InGame").gameObject.GetComponent<InGame>().PlaySound(Sounds.blockSounds["basic"], transform.position);
       }
     }
   }

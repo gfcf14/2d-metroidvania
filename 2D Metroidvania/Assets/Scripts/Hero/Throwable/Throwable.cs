@@ -41,7 +41,7 @@ public class Throwable : MonoBehaviour {
     anim = GetComponent<Animator>();
     objectRenderer = GetComponent<SpriteRenderer>();
     audioSource = GetComponent<AudioSource>();
-    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+    inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
     throwableCollider = transform.Find("ThrowableCollider").gameObject;
 
     // TODO: remove extra component once bomb sprites are modified to include spark in them

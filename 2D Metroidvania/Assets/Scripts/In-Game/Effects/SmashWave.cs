@@ -10,7 +10,7 @@ public class SmashWave : MonoBehaviour {
   private InGame inGame;
   void Start() {
     GetComponent<SpriteRenderer>().size = new Vector2(width, width * 0.8f);
-    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+    inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
   }
 
   void Update() {}

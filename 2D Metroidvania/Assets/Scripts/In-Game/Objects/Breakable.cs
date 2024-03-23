@@ -25,7 +25,7 @@ public class Breakable : MonoBehaviour {
     spriteRenderer = GetComponent<SpriteRenderer>();
     breakableCollider = GetComponent<BoxCollider2D>();
     audioSource = GetComponent<AudioSource>();
-    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+    inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
     spriteRenderer.sprite = Sprites.breakableSprites[type];
 
     if (type == "vase") {

@@ -16,7 +16,7 @@ public class Interactable : MonoBehaviour {
     anim = GetComponent<Animator>();
     chest = GetComponent<Chest>();
     spriteRenderer = GetComponent<SpriteRenderer>();
-    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+    inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
     audioSource = GetComponent<AudioSource>();
 
     if (!isFacingLeft) {

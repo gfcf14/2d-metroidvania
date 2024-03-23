@@ -12,7 +12,7 @@ public class RoomTrigger : MonoBehaviour {
   void Start() {
     hero = GameObject.FindGameObjectWithTag("Hero");
     heroScript = hero.GetComponent<Hero>();
-    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+    inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
   }
 
   private void OnTriggerEnter2D(Collider2D col) {

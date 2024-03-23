@@ -110,7 +110,7 @@ public class Enemy : MonoBehaviour {
     body = GetComponent<Rigidbody2D>();
     anim = GetComponent<Animator>();
     enemyRenderer = GetComponent<SpriteRenderer>();
-    inGame = GameObject.Find("UnityHelpers").gameObject.GetComponent<InGame>();
+    inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
     audioSource = GetComponent<AudioSource>();
     enemyHeight = enemyRenderer.bounds.size.y;
     enemyWidth = enemyRenderer.bounds.size.x;
@@ -178,7 +178,7 @@ public class Enemy : MonoBehaviour {
       // if no such object (same type and key) was found, instantiate a new copy and assign clips based on key to states
       if (!animatorAlreadyExists) {
         AnimatorOverrideController aoc = new AnimatorOverrideController(Instantiate(Objects.animationControllers[type]));
-        AnimatorOverrideController resourceAoc = new AnimatorOverrideController(GameObject.Find("UnityHelpers").gameObject.GetComponent<Animator>().runtimeAnimatorController);
+        AnimatorOverrideController resourceAoc = new AnimatorOverrideController(GameObject.Find("InGame").gameObject.GetComponent<Animator>().runtimeAnimatorController);
 
         var anims = new List<KeyValuePair<AnimationClip, AnimationClip>>();
         foreach (AnimationClip a in aoc.animationClips) {
