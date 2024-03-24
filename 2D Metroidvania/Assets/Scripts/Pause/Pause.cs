@@ -202,6 +202,7 @@ public class Pause : MonoBehaviour {
   // miscellaneous
   [Header("Miscellaneous")]
   [SerializeField] GameObject preferredInputObject;
+  [SerializeField] GameObject timeObject;
   [SerializeField] public static EventSystem eventSystem;
   [Space(10)]
 
@@ -295,6 +296,8 @@ public class Pause : MonoBehaviour {
   private bool canPlayDeselect = false;
   private GameObject previouslyFocusedButton = null;
 
+  [SerializeField] int currentGameTime = 0;
+
   void Start() {
     heroScript = hero.GetComponent<Hero>();
     audioSource = GetComponent<AudioSource>();
@@ -385,6 +388,16 @@ public class Pause : MonoBehaviour {
     }
 
     SceneManager.LoadScene("Title");
+  }
+
+  public void GetTime() {
+    // TODO: prior to modulus, add saved time once implemented
+    currentGameTime = (int) (Time.time % Constants.maxDayLength);
+
+    // TODO: with currentGameTime now tracking the time, come up with a function to convert time to XX:XX AM/PM
+    string currentTimeText = currentGameTime.ToString();
+
+    timeObject.GetComponent<Text>().text = currentTimeText;
   }
 
   void SelectItemsButton() {
