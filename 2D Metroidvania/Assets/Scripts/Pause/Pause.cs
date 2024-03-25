@@ -391,11 +391,11 @@ public class Pause : MonoBehaviour {
   }
 
   public void GetTime() {
-    // TODO: prior to modulus, add saved time once implemented
-    currentGameTime = (int) (Time.time % Constants.maxDayLength);
+    // TODO: add saved time in place of initial game time when data is loaded
+    currentGameTime = (int) ((Time.time + GameData.initialGameTime) % Constants.maxDayLength);
 
     // TODO: with currentGameTime now tracking the time, come up with a function to convert time to XX:XX AM/PM
-    string currentTimeText = currentGameTime.ToString();
+    string currentTimeText = Helpers.GetGameTime(currentGameTime);
 
     timeObject.GetComponent<Text>().text = currentTimeText;
   }

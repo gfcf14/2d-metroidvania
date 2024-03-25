@@ -11,6 +11,8 @@ public class GameData {
   public static int baseSTA = 25;
   public static int highestSTA = 2500;
 
+  public static int initialGameTime = 720;
+
   public static float baseCRI = 0.03f;
   public static float highestCRI = 0.3f;
 

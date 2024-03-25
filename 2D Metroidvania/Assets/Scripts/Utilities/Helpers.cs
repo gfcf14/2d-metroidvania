@@ -524,4 +524,23 @@ public class Helpers {
   public static bool RequiresProjectile(string itemType) {
     return Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, itemType);
   }
+
+  public static string GetGameTime(int currentTime) {
+    int hourLength = 60;
+    int noon = 12;
+
+    int hours = currentTime / hourLength;
+    int minutes = currentTime % hourLength;
+    string meridiem = hours < noon ? "AM" : "PM";
+
+    if (hours > noon) {
+      hours = hours - noon;
+    }
+
+    if (hours == 0) {
+      hours = 12;
+    }
+
+    return hours + ":" + (minutes < 10 ? "0" : "") + minutes + " " + meridiem;
+  }
 }
