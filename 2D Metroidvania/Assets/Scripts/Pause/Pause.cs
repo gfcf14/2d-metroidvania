@@ -1151,6 +1151,10 @@ public class Pause : MonoBehaviour {
     canPlayDeselect = true;
   }
 
+  public void ShowRelicsCanvas() {
+    Debug.Log("To be implemented");
+  }
+
   public void ShowMapCanvas() {
     canPlayDeselect = false;
     canvasStatus = "map";
