@@ -11,6 +11,9 @@ public class Sprites {
   public static Sprite[] equipmentButtonIcons = Resources.LoadAll<Sprite>("Pause/equipment-icons");
   public static Sprite[] statsIcons = Resources.LoadAll<Sprite>("Pause/stats-icons");
   public static Sprite[] droppableImages = Resources.LoadAll<Sprite>("Spritesheets/droppables");
+  public static Sprite[] relicImages = Resources.LoadAll<Sprite>("Spritesheets/relics");
+  public static Sprite[] relicItemThumbnails = Resources.LoadAll<Sprite>("Pause/Relics/thumbnails");
+  public static Sprite[] relicItemImages = Resources.LoadAll<Sprite>("Pause/Relics/images");
   public static Sprite[] moneyImages = Resources.LoadAll<Sprite>("Spritesheets/money");
 
   public static Sprite[] breakableBoxes = Resources.LoadAll<Sprite>("Spritesheets/box");
