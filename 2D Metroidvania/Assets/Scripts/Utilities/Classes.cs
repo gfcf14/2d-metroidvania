@@ -48,6 +48,11 @@ public class Effects {
   public MagicResistance[] magicResistances;
 }
 
+public class RelicEffect {
+  public string type;
+  public string value;
+}
+
 public class PauseItem {
   public Sprite thumbnail;
   public Sprite image;
@@ -80,6 +85,33 @@ public class PauseItem {
   }
 
   // TODO: add values to increase player stats (atk, def, two-handed, etc.)
+}
+
+public class RelicItem {
+  public Sprite thumbnail;
+  public Sprite image;
+  public string name;
+  public string description;
+  public RelicEffect effect;
+
+  public RelicItem(Sprite thumbnail, Sprite image, string name, string description, RelicEffect effect) {
+    this.thumbnail = thumbnail;
+    this.image = image;
+
+    if (name.Length > Constants.maxItemNameLength) {
+      throw new Exception("An item name (\"" + name + "\") must not exceed " + Constants.maxItemNameLength + " characters");
+    } else {
+      this.name = name;
+    }
+
+    if (description.Length > Constants.maxItemDescriptionLength) {
+      throw new Exception("An item description (\"" + description + "\") must not exceed " + Constants.maxItemDescriptionLength + " characters");
+    } else {
+      this.description = description;
+    }
+
+    this.effect = effect;
+  }
 }
 
 public class CompositePauseImage {
