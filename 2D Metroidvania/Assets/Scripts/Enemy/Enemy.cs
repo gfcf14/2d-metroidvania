@@ -428,7 +428,7 @@ public class Enemy : MonoBehaviour {
         if (currentWeapon == "" && !isDefending) {
           DamageCalculation(col, Constants.punchDamage, "punch", "", isCritical);
         } else {
-          string weaponType = Objects.pauseItems[currentWeapon].type;
+          string weaponType = Objects.regularItems[currentWeapon].type;
 
           if (weaponType == "single" || weaponType == "double" && !isDefending) {
             // TODO: might need to adjust to different types other than swords

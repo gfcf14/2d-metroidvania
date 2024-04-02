@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Helpers {
   public static int GetDamage(string weaponWielded) {
-    return (int)Objects.pauseItems[weaponWielded].effects.atk;
+    return (int)Objects.regularItems[weaponWielded].effects.atk;
   }
 
   public static bool IsNonBouncingThrowable(string type) {
@@ -99,7 +99,7 @@ public class Helpers {
     List<Item> specificItems = new List<Item>();
 
     foreach (Item currItem in itemsList) {
-      if (IsValueInArray(includedTypes, Objects.pauseItems[currItem.key].type)) {
+      if (IsValueInArray(includedTypes, Objects.regularItems[currItem.key].type)) {
         specificItems.Add(currItem);
       }
     }
@@ -122,8 +122,8 @@ public class Helpers {
     return itemList.FindIndex(currItem => currItem.key == key);
   }
 
-  public static string GetPauseItemKeyByName(string name) {
-    return Objects.pauseItems.FirstOrDefault(currEntry => currEntry.Value.name == name).Key;
+  public static string GetRegularItemKeyByName(string name) {
+    return Objects.regularItems.FirstOrDefault(currEntry => currEntry.Value.name == name).Key;
   }
 
   public static bool IsValueInArray(string[] arr, string val) {
@@ -235,7 +235,7 @@ public class Helpers {
       return "";
     }
 
-    PauseItem throwableItem = Objects.pauseItems[itemType];
+    RegularItem throwableItem = Objects.regularItems[itemType];
 
     // TODO: account for throwable-double items which do not slash (e.g. king-bone)
     if (throwableItem.type == "throwable-double") {

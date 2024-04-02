@@ -436,7 +436,7 @@ public class Pause : MonoBehaviour {
     foreach (Item currentItem in itemsList) {
       string currentKey = currentItem.key;
       int currentAmount = currentItem.amount;
-      PauseItem currentPauseItem = Objects.pauseItems[currentKey];
+      RegularItem currentRegularItem = Objects.regularItems[currentKey];
 
       int itemUsageFrequency = Helpers.ValueFrequencyInArray(heroScript.equipmentArray, currentKey);
 
@@ -446,8 +446,8 @@ public class Pause : MonoBehaviour {
         currentItemButton.transform.SetParent(parentContainer.transform);
         currentItemButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Constants.startItemY + (itemButtons.Count * Constants.itemIncrementY * -1));
         currentItemButton.transform.localScale = Vector3.one;
-        currentItemButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = currentPauseItem.thumbnail;
-        currentItemButton.transform.Find("Text").gameObject.GetComponent<Text>().text = currentPauseItem.name;
+        currentItemButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = currentRegularItem.thumbnail;
+        currentItemButton.transform.Find("Text").gameObject.GetComponent<Text>().text = currentRegularItem.name;
 
         currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = (canvasStatus == "equipment" ? currentAmount - (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) ? 0 : itemUsageFrequency) : currentAmount).ToString();
 
@@ -459,7 +459,7 @@ public class Pause : MonoBehaviour {
             EventTrigger.Entry submitEntry = new EventTrigger.Entry();
             submitEntry.eventID = EventTriggerType.Submit;
             submitEntry.callback.AddListener((data) => {
-              if (!Helpers.RequiresProjectile(currentPauseItem.type)) {
+              if (!Helpers.RequiresProjectile(currentRegularItem.type)) {
                 PlayMenuSound("select");
               }
             });
@@ -470,7 +470,7 @@ public class Pause : MonoBehaviour {
 
 
         itemButtons.Add(currentItemButton);
-        itemTypes.Add(currentPauseItem.type);
+        itemTypes.Add(currentRegularItem.type);
       } else {
         if (itemUsageFrequency >= currentAmount) {
           itemsToRemove.Add(currentKey);
@@ -535,7 +535,7 @@ public class Pause : MonoBehaviour {
 
   public void Equip() {
     string newItemKey = currentEquipmentItems.ElementAt(currentItemButtonIndex).key;
-    string newItemType = Objects.pauseItems[newItemKey].type;
+    string newItemType = Objects.regularItems[newItemKey].type;
 
     // if item to equip is among those that require a projectile to use (i.e. bow that requires arrows), then open a canvas that would allow equipment for this projectile
     if (Helpers.RequiresProjectile(newItemType)) {
@@ -558,7 +558,7 @@ public class Pause : MonoBehaviour {
 
     foreach(string currentPossibleProjectile in itemProjectiles) {
       if (Helpers.IsValueInArray(heroItemsList, currentPossibleProjectile)) {
-        PauseItem availableProjectileItem = Objects.pauseItems[currentPossibleProjectile];
+        RegularItem availableProjectileItem = Objects.regularItems[currentPossibleProjectile];
         Transform projectileButton = projectileButtonList[currProjectileButtonIndex].transform;
 
         projectileButton.Find("ProjectileImage").GetComponent<Image>().sprite = availableProjectileItem.thumbnail;
@@ -624,12 +624,12 @@ public class Pause : MonoBehaviour {
   public void UseItem() {
     canPlayDeselect = false;
     Item heroItem = heroScript.items.ElementAt(currentItemButtonIndex);
-    PauseItem currentPauseItem = Objects.pauseItems[heroItem.key];
+    RegularItem currentRegularItem = Objects.regularItems[heroItem.key];
 
     canvasStatus = "items";
 
-    if (currentPauseItem.effects != null) {
-      Effects itemEffects = currentPauseItem.effects;
+    if (currentRegularItem.effects != null) {
+      Effects itemEffects = currentRegularItem.effects;
 
       if (itemEffects.duration == null) {
         if (itemEffects.hp != null) {
@@ -796,9 +796,9 @@ public class Pause : MonoBehaviour {
     currentItemButtonIndex = index;
 
     // grab current selected based on index
-    PauseItem selectedEquipment = Objects.pauseItems[currentEquipmentItems.ElementAt(currentItemButtonIndex).key];
+    RegularItem selectedEquipment = Objects.regularItems[currentEquipmentItems.ElementAt(currentItemButtonIndex).key];
     // grab current equipped
-    PauseItem currentEquipment = heroScript.equipmentArray[currentlyEquippedIndex] != "" ? Objects.pauseItems[heroScript.equipmentArray[currentlyEquippedIndex]] : null;
+    RegularItem currentEquipment = heroScript.equipmentArray[currentlyEquippedIndex] != "" ? Objects.regularItems[heroScript.equipmentArray[currentlyEquippedIndex]] : null;
 
     // check if the selected equipment is a double handed item
     bool isEquippingDouble = Helpers.IsValueInArray(Constants.doubleHandedWeaponTypes, selectedEquipment.type);
@@ -808,14 +808,14 @@ public class Pause : MonoBehaviour {
 
     // Check ATK1
     if (currentlyEquippedIndex == 1 || (currentlyEquippedIndex == 2 && (isEquippingDouble || equippedIsDouble))) {
-      PauseItem otherArmEquipment = heroScript.equipmentArray[1] != "" ? Objects.pauseItems[heroScript.equipmentArray[1]] : null;
-      PauseItem equippedSelected = (currentlyEquippedIndex == 2 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
+      RegularItem otherArmEquipment = heroScript.equipmentArray[1] != "" ? Objects.regularItems[heroScript.equipmentArray[1]] : null;
+      RegularItem equippedSelected = (currentlyEquippedIndex == 2 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
 
       // gets the attack of the selected equipment (unless user is equipping the other hand with a single and currently carries a double),
       int newEquippedATK1 = (currentlyEquippedIndex == 2 && !isEquippingDouble && equippedIsDouble ? 0 : (selectedEquipment.effects.atk ?? 0)) +
         (Hero.equippedATK1 - ( // plus whatever is currently equipped
           (equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0) + // minus the item that is currently equipped
-            (Hero.projectileEquipment != "" ? Objects.pauseItems[Hero.projectileEquipment].effects.atk ?? 0 : 0) + // including if there is a projectile equipped
+            (Hero.projectileEquipment != "" ? Objects.regularItems[Hero.projectileEquipment].effects.atk ?? 0 : 0) + // including if there is a projectile equipped
             (currentlyEquippedIndex == 2 && equippedIsDouble && !isEquippingDouble ? equippedSelected.effects.atk ?? 0 : 0) // and the selected equipment if equipping the other hand with a single while currently carrying a double
           )
         );
@@ -833,14 +833,14 @@ public class Pause : MonoBehaviour {
 
     // Check ATK2
     if (currentlyEquippedIndex == 2 || (currentlyEquippedIndex == 1 && (isEquippingDouble || equippedIsDouble))) {
-      PauseItem otherArmEquipment = heroScript.equipmentArray[2] != "" ? Objects.pauseItems[heroScript.equipmentArray[2]] : null;
-      PauseItem equippedSelected = (currentlyEquippedIndex == 1 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
+      RegularItem otherArmEquipment = heroScript.equipmentArray[2] != "" ? Objects.regularItems[heroScript.equipmentArray[2]] : null;
+      RegularItem equippedSelected = (currentlyEquippedIndex == 1 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
 
       // gets the attack of the selected equipment (unless user is equipping the other hand with a single and currently carries a double),
       int newEquippedATK2 = (currentlyEquippedIndex == 1 && !isEquippingDouble && equippedIsDouble ? 0 : (selectedEquipment.effects.atk ?? 0)) +
         (Hero.equippedATK2 - ( // plus whatever is currently equipped
           (equippedSelected != null ? equippedSelected.effects.atk ?? 0 : 0) + // minus the item that is currently equipped
-            (Hero.projectileEquipment != "" ? Objects.pauseItems[Hero.projectileEquipment].effects.atk ?? 0 : 0) + // including if there is a projectile equipped
+            (Hero.projectileEquipment != "" ? Objects.regularItems[Hero.projectileEquipment].effects.atk ?? 0 : 0) + // including if there is a projectile equipped
             (currentlyEquippedIndex == 1 && equippedIsDouble && !isEquippingDouble ? equippedSelected.effects.atk ?? 0 : 0) // and the selected equipment if equipping the other hand with a single while currently carrying a double
           )
         );
@@ -858,8 +858,8 @@ public class Pause : MonoBehaviour {
 
     // Check DEF1
     if (currentlyEquippedIndex == 1 || (currentlyEquippedIndex == 2 && (isEquippingDouble))) {
-      PauseItem otherArmEquipment = heroScript.equipmentArray[1] != "" ? Objects.pauseItems[heroScript.equipmentArray[1]] : null;
-      PauseItem equippedSelected = (currentlyEquippedIndex == 2 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
+      RegularItem otherArmEquipment = heroScript.equipmentArray[1] != "" ? Objects.regularItems[heroScript.equipmentArray[1]] : null;
+      RegularItem equippedSelected = (currentlyEquippedIndex == 2 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
 
       int newEquippedDEF1 = (selectedEquipment.effects.def ?? 0) + (heroScript.equippedDEF1 - (equippedSelected != null ? equippedSelected.effects.def ?? 0 : 0));
       if (newEquippedDEF1 != heroScript.equippedDEF1) {
@@ -875,8 +875,8 @@ public class Pause : MonoBehaviour {
 
     // Check DEF2
     if (currentlyEquippedIndex == 2 || (currentlyEquippedIndex == 1 && isEquippingDouble)) {
-      PauseItem otherArmEquipment = heroScript.equipmentArray[2] != "" ? Objects.pauseItems[heroScript.equipmentArray[2]] : null;
-      PauseItem equippedSelected = (currentlyEquippedIndex == 1 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
+      RegularItem otherArmEquipment = heroScript.equipmentArray[2] != "" ? Objects.regularItems[heroScript.equipmentArray[2]] : null;
+      RegularItem equippedSelected = (currentlyEquippedIndex == 1 && (isEquippingDouble || equippedIsDouble)) ? otherArmEquipment : currentEquipment;
 
       int newEquippedDEF2 = (selectedEquipment.effects.def ?? 0) + (heroScript.equippedDEF2 - (equippedSelected != null ? equippedSelected.effects.def ?? 0 : 0));
       if (newEquippedDEF2 != heroScript.equippedDEF2) {
@@ -1011,14 +1011,14 @@ public class Pause : MonoBehaviour {
     HideEffectsObjects();
     currentItemButtonIndex = index;
 
-    PauseItem currentPauseItem = Objects.pauseItems[heroScript.items[index].key];
-    itemName.GetComponent<Text>().text = currentPauseItem.name.ToUpper();
-    itemImage.GetComponent<Image>().sprite = currentPauseItem.image;
-    itemDescription.GetComponent<Text>().text = currentPauseItem.description;
-    itemUseRectangle.SetActive(Helpers.IsUsableItem(currentPauseItem.type));
+    RegularItem currentRegularItem = Objects.regularItems[heroScript.items[index].key];
+    itemName.GetComponent<Text>().text = currentRegularItem.name.ToUpper();
+    itemImage.GetComponent<Image>().sprite = currentRegularItem.image;
+    itemDescription.GetComponent<Text>().text = currentRegularItem.description;
+    itemUseRectangle.SetActive(Helpers.IsUsableItem(currentRegularItem.type));
 
-    if (currentPauseItem.effects != null) {
-      Effects itemEffects = currentPauseItem.effects;
+    if (currentRegularItem.effects != null) {
+      Effects itemEffects = currentRegularItem.effects;
 
       int effectsCounter = 0;
 
@@ -1588,8 +1588,8 @@ public class Pause : MonoBehaviour {
         bodyButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["body"];
         bodyButton.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
       } else {
-        bodyButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[bodyEquipmentKey].thumbnail;
-        bodyButton.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[bodyEquipmentKey].name;
+        bodyButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.regularItems[bodyEquipmentKey].thumbnail;
+        bodyButton.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.regularItems[bodyEquipmentKey].name;
       }
     }
 
@@ -1600,8 +1600,8 @@ public class Pause : MonoBehaviour {
         arm1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["arm1"];
         arm1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
       } else {
-        arm1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Hero.projectileEquipment == "" ? Objects.pauseItems[arm1EquipmentKey].thumbnail : Objects.compositePauseImages[arm1EquipmentKey + "-with-" + Hero.projectileEquipment].thumbnail;
-        arm1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Hero.projectileEquipment == "" ? Objects.pauseItems[arm1EquipmentKey].name : Objects.compositePauseImages[arm1EquipmentKey + "-with-" + Hero.projectileEquipment].name;
+        arm1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Hero.projectileEquipment == "" ? Objects.regularItems[arm1EquipmentKey].thumbnail : Objects.compositePauseImages[arm1EquipmentKey + "-with-" + Hero.projectileEquipment].thumbnail;
+        arm1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Hero.projectileEquipment == "" ? Objects.regularItems[arm1EquipmentKey].name : Objects.compositePauseImages[arm1EquipmentKey + "-with-" + Hero.projectileEquipment].name;
       }
     }
 
@@ -1612,8 +1612,8 @@ public class Pause : MonoBehaviour {
         arm2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["arm2"];
         arm2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
       } else {
-        arm2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Hero.projectileEquipment == "" ? Objects.pauseItems[arm2EquipmentKey].thumbnail : Objects.compositePauseImages[arm2EquipmentKey + "-with-" + Hero.projectileEquipment].thumbnail;
-        arm2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Hero.projectileEquipment == "" ? Objects.pauseItems[arm2EquipmentKey].name : Objects.compositePauseImages[arm2EquipmentKey + "-with-" + Hero.projectileEquipment].name;
+        arm2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Hero.projectileEquipment == "" ? Objects.regularItems[arm2EquipmentKey].thumbnail : Objects.compositePauseImages[arm2EquipmentKey + "-with-" + Hero.projectileEquipment].thumbnail;
+        arm2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Hero.projectileEquipment == "" ? Objects.regularItems[arm2EquipmentKey].name : Objects.compositePauseImages[arm2EquipmentKey + "-with-" + Hero.projectileEquipment].name;
       }
     }
 
@@ -1624,8 +1624,8 @@ public class Pause : MonoBehaviour {
         neckButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["neck"];
         neckButton.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
       } else {
-        neckButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[neckEquipmentKey].thumbnail;
-        neckButton.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[neckEquipmentKey].name;
+        neckButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.regularItems[neckEquipmentKey].thumbnail;
+        neckButton.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.regularItems[neckEquipmentKey].name;
       }
     }
 
@@ -1636,8 +1636,8 @@ public class Pause : MonoBehaviour {
         armwear1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["armwear1"];
         armwear1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
       } else {
-        armwear1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[armwear1EquipmentKey].thumbnail;
-        armwear1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[armwear1EquipmentKey].name;
+        armwear1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.regularItems[armwear1EquipmentKey].thumbnail;
+        armwear1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.regularItems[armwear1EquipmentKey].name;
       }
     }
 
@@ -1648,8 +1648,8 @@ public class Pause : MonoBehaviour {
         armwear2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["armwear2"];
         armwear2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
       } else {
-        armwear2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[armwear2EquipmentKey].thumbnail;
-        armwear2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[armwear2EquipmentKey].name;
+        armwear2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.regularItems[armwear2EquipmentKey].thumbnail;
+        armwear2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.regularItems[armwear2EquipmentKey].name;
       }
     }
 
@@ -1660,8 +1660,8 @@ public class Pause : MonoBehaviour {
         ring1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["ring1"];
         ring1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
       } else {
-        ring1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[ring1EquipmentKey].thumbnail;
-        ring1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[ring1EquipmentKey].name;
+        ring1Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.regularItems[ring1EquipmentKey].thumbnail;
+        ring1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.regularItems[ring1EquipmentKey].name;
       }
     }
 
@@ -1672,8 +1672,8 @@ public class Pause : MonoBehaviour {
         ring2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Sprites.equipmentIcons["ring2"];
         ring2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = "None";
       } else {
-        ring2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.pauseItems[ring2EquipmentKey].thumbnail;
-        ring2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.pauseItems[ring2EquipmentKey].name;
+        ring2Button.transform.Find("Image").gameObject.GetComponent<Image>().sprite = Objects.regularItems[ring2EquipmentKey].thumbnail;
+        ring2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = Objects.regularItems[ring2EquipmentKey].name;
       }
     }
   }

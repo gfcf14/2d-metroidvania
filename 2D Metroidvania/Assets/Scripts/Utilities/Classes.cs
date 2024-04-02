@@ -53,7 +53,7 @@ public class RelicEffect {
   public string value;
 }
 
-public class PauseItem {
+public class RegularItem {
   public Sprite thumbnail;
   public Sprite image;
   public string name;
@@ -61,7 +61,7 @@ public class PauseItem {
   public string type;
   public Effects effects;
 
-  public PauseItem(Sprite thumbnail, Sprite image, string name, string description, string type, Effects effects = null) {
+  public RegularItem(Sprite thumbnail, Sprite image, string name, string description, string type, Effects effects = null) {
     this.thumbnail = thumbnail;
     this.image = image;
 

@@ -436,7 +436,7 @@ public class Hero : MonoBehaviour {
   }
 
   public void UpdateEffectValues(string key, bool add) {
-    PauseItem effectItem = Objects.pauseItems[key];
+    RegularItem effectItem = Objects.regularItems[key];
     int multiplier = add ? 1 : -1;
 
     effectSTR += (float)(effectItem.effects.atk ?? 0) * multiplier;
@@ -451,13 +451,13 @@ public class Hero : MonoBehaviour {
     equippedLUCK = PrepareEquippedStat("luck");
     equippedCRIT = PrepareEquippedStat("crit");
 
-    equippedATK1 = (arm1Equipment != "" ? Objects.pauseItems[arm1Equipment].effects.atk != null ? (int)Objects.pauseItems[arm1Equipment].effects.atk : 0 : 0) + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk ?? 0 : 0);
-    equippedATK2 = (arm2Equipment != "" ? Objects.pauseItems[arm2Equipment].effects.atk != null ? (int)Objects.pauseItems[arm2Equipment].effects.atk : 0 : 0)  + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk ?? 0 : 0);
-    equippedDEF1 = arm1Equipment != "" ? Objects.pauseItems[arm1Equipment].effects.def != null ? (int)Objects.pauseItems[arm1Equipment].effects.def : 0 : 0;
-    equippedDEF2 = arm2Equipment != "" ? Objects.pauseItems[arm2Equipment].effects.def != null ? (int)Objects.pauseItems[arm2Equipment].effects.def : 0 : 0;
+    equippedATK1 = (arm1Equipment != "" ? Objects.regularItems[arm1Equipment].effects.atk != null ? (int)Objects.regularItems[arm1Equipment].effects.atk : 0 : 0) + (projectileEquipment != "" ? Objects.regularItems[projectileEquipment].effects.atk ?? 0 : 0);
+    equippedATK2 = (arm2Equipment != "" ? Objects.regularItems[arm2Equipment].effects.atk != null ? (int)Objects.regularItems[arm2Equipment].effects.atk : 0 : 0)  + (projectileEquipment != "" ? Objects.regularItems[projectileEquipment].effects.atk ?? 0 : 0);
+    equippedDEF1 = arm1Equipment != "" ? Objects.regularItems[arm1Equipment].effects.def != null ? (int)Objects.regularItems[arm1Equipment].effects.def : 0 : 0;
+    equippedDEF2 = arm2Equipment != "" ? Objects.regularItems[arm2Equipment].effects.def != null ? (int)Objects.regularItems[arm2Equipment].effects.def : 0 : 0;
 
-    equippedSTR = equippedSTR - (arm1Equipment == "" ? 0 : equippedATK1) - (arm2Equipment == "" ? 0 : equippedATK2) + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk * 2 ?? 0 : 0);
-    equippedSTA = equippedSTA - (arm1Equipment == "" ? 0 : equippedDEF1) - (arm2Equipment == "" ? 0 : equippedDEF2) + (projectileEquipment != "" ? Objects.pauseItems[projectileEquipment].effects.atk * 2 ?? 0 : 0);
+    equippedSTR = equippedSTR - (arm1Equipment == "" ? 0 : equippedATK1) - (arm2Equipment == "" ? 0 : equippedATK2) + (projectileEquipment != "" ? Objects.regularItems[projectileEquipment].effects.atk * 2 ?? 0 : 0);
+    equippedSTA = equippedSTA - (arm1Equipment == "" ? 0 : equippedDEF1) - (arm2Equipment == "" ? 0 : equippedDEF2) + (projectileEquipment != "" ? Objects.regularItems[projectileEquipment].effects.atk * 2 ?? 0 : 0);
 
     UpdateMagicResistances();
   }
@@ -468,7 +468,7 @@ public class Hero : MonoBehaviour {
     int i = 0;
     foreach (string currentEquipment in equipmentArray) {
       if (currentEquipment != "") {
-        Effects currentEffects = Objects.pauseItems[currentEquipment].effects;
+        Effects currentEffects = Objects.regularItems[currentEquipment].effects;
         if (currentEffects.GetType().GetField(effect).GetValue(currentEffects) != null) {
           totalStat += float.Parse(currentEffects.GetType().GetField(effect).GetValue(currentEffects).ToString());
         }
@@ -488,10 +488,10 @@ public class Hero : MonoBehaviour {
 
     foreach (string currentEquipment in equipmentArray) {
       if (currentEquipment != "") {
-        PauseItem currentPauseItem = Objects.pauseItems[currentEquipment];
+        RegularItem currentRegularItem = Objects.regularItems[currentEquipment];
 
-        if (currentPauseItem.effects.magicResistances != null) {
-          foreach (MagicResistance currMagicResistance in currentPauseItem.effects.magicResistances) {
+        if (currentRegularItem.effects.magicResistances != null) {
+          foreach (MagicResistance currMagicResistance in currentRegularItem.effects.magicResistances) {
             magicResistances[magicResistanceTypeIndex[currMagicResistance.name]].frequency += currMagicResistance.type == "add" ? 1 : -1;
           }
         }
@@ -505,10 +505,10 @@ public class Hero : MonoBehaviour {
     }
 
     foreach (Consumable currentConsumable in consumables) {
-      PauseItem currentPauseItem = Objects.pauseItems[currentConsumable.key];
+      RegularItem currentRegularItem = Objects.regularItems[currentConsumable.key];
 
-      if (currentPauseItem.effects.magicResistances != null) {
-        foreach (MagicResistance currMagicResistance in currentPauseItem.effects.magicResistances) {
+      if (currentRegularItem.effects.magicResistances != null) {
+        foreach (MagicResistance currMagicResistance in currentRegularItem.effects.magicResistances) {
           effectMagicResistances[magicResistanceTypeIndex[currMagicResistance.name]].frequency += currMagicResistance.type == "add" ? 1 : -1;
         }
       }
@@ -516,7 +516,7 @@ public class Hero : MonoBehaviour {
   }
 
   public void EquipItem(string newItem, int itemIndex) {
-    string newItemType = Objects.pauseItems[newItem].type;
+    string newItemType = Objects.regularItems[newItem].type;
     switch (itemIndex) {
       case 0:
         bodyEquipment = newItem;
@@ -528,7 +528,7 @@ public class Hero : MonoBehaviour {
           arm2Equipment = newItem;
         } else {
           if (arm2Equipment != "") {
-            string arm2Type = Objects.pauseItems[arm2Equipment].type;
+            string arm2Type = Objects.regularItems[arm2Equipment].type;
 
             if (Helpers.IsValueInArray(Constants.doubleHandedWeaponTypes, arm2Type)) {
               arm2Equipment = "";
@@ -543,7 +543,7 @@ public class Hero : MonoBehaviour {
           arm1Equipment = newItem;
         } else {
           if (arm1Equipment != "") {
-            string arm1Type = Objects.pauseItems[arm1Equipment].type;
+            string arm1Type = Objects.regularItems[arm1Equipment].type;
 
             if (Helpers.IsValueInArray(Constants.doubleHandedWeaponTypes, arm1Type)) {
               arm1Equipment = "";
@@ -654,7 +654,7 @@ public class Hero : MonoBehaviour {
   }
 
   public void PlayAttackSound() {
-    PauseItem equipmentUsed = Objects.pauseItems[equipmentArray[armUsed]];
+    RegularItem equipmentUsed = Objects.regularItems[equipmentArray[armUsed]];
     weaponCollider.GetComponent<Weapon>().PlaySound(equipmentUsed.type, equipmentArray[armUsed]);
   }
 
@@ -1148,7 +1148,7 @@ public class Hero : MonoBehaviour {
           anim.SetTrigger("isPunching");
           weaponCollider.SetActive(true);
         } else {
-          string weaponType = Objects.pauseItems[armEquipment].type;
+          string weaponType = Objects.regularItems[armEquipment].type;
 
           switch (weaponType) {
             case "single":
@@ -1197,7 +1197,7 @@ public class Hero : MonoBehaviour {
           //   isAirPunching = true;
           // }
         } else {
-          string weaponType = Objects.pauseItems[armEquipment].type;
+          string weaponType = Objects.regularItems[armEquipment].type;
 
           switch (weaponType) {
              case "single":
@@ -1256,7 +1256,7 @@ public class Hero : MonoBehaviour {
       items.Remove(throwableUsed);
 
       // removes item from the equipment
-      PauseItem throwableItem = Objects.pauseItems[key];
+      RegularItem throwableItem = Objects.regularItems[key];
       if (throwableItem.type == "throwable-double") {
         arm1Equipment = "";
         arm2Equipment = "";
@@ -1276,7 +1276,7 @@ public class Hero : MonoBehaviour {
   }
 
   void StartThrow() {
-    string throwableType = Helpers.GetPauseItemKeyByName(Objects.pauseItems[isThrowing == 1 ? arm1Equipment : arm2Equipment].name);
+    string throwableType = Helpers.GetRegularItemKeyByName(Objects.regularItems[isThrowing == 1 ? arm1Equipment : arm2Equipment].name);
 
     float xModifier = 1;
     if (throwableType == "axe") {
