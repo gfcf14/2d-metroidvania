@@ -53,6 +53,30 @@ public class RelicEffect {
   public string value;
 }
 
+public class PauseItem {
+  public Sprite thumbnail;
+  public Sprite image;
+  public string name;
+  public string description;
+
+  public PauseItem(Sprite thumbnail, Sprite image, string name, string description) {
+    this.thumbnail = thumbnail;
+    this.image = image;
+
+    if (name.Length > Constants.maxItemNameLength) {
+      throw new Exception("An item name (\"" + name + "\") must not exceed " + Constants.maxItemNameLength + " characters");
+    } else {
+      this.name = name;
+    }
+
+    if (description.Length > Constants.maxItemDescriptionLength) {
+      throw new Exception("An item description (\"" + description + "\") must not exceed " + Constants.maxItemDescriptionLength + " characters");
+    } else {
+      this.description = description;
+    }
+  }
+}
+
 public class RegularItem {
   public Sprite thumbnail;
   public Sprite image;
