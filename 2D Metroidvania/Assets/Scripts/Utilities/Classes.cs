@@ -77,30 +77,11 @@ public class PauseItem {
   }
 }
 
-public class RegularItem {
-  public Sprite thumbnail;
-  public Sprite image;
-  public string name;
-  public string description;
+public class RegularItem : PauseItem {
   public string type;
   public Effects effects;
 
-  public RegularItem(Sprite thumbnail, Sprite image, string name, string description, string type, Effects effects = null) {
-    this.thumbnail = thumbnail;
-    this.image = image;
-
-    if (name.Length > Constants.maxItemNameLength) {
-      throw new Exception("An item name (\"" + name + "\") must not exceed " + Constants.maxItemNameLength + " characters");
-    } else {
-      this.name = name;
-    }
-
-    if (description.Length > Constants.maxItemDescriptionLength) {
-      throw new Exception("An item description (\"" + description + "\") must not exceed " + Constants.maxItemDescriptionLength + " characters");
-    } else {
-      this.description = description;
-    }
-
+  public RegularItem(Sprite thumbnail, Sprite image, string name, string description, string type, Effects effects = null) : base(thumbnail, image, name, description) {
     this.type = type;
 
     if (effects != null) {
