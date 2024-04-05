@@ -39,6 +39,11 @@ public class Objects {
     {"bow", new string[]{"arrow-standard", "arrow-poison", "arrow-fire"}}
   };
 
+  // initialize constructable RegularItem objects by: new RelicItem(thumbnail, image, name, description, effect)
+  public static Dictionary<string, RelicItem> relicItems = new Dictionary<string, RelicItem> {
+    {"swift-boots", new RelicItem(Sprites.relicItemThumbnails[0], Sprites.relicItemImages[0], "Swift Boots", "Enables the user to do a double jump.", new RelicEffect("enable", "canDoubleJump"))}
+  };
+
   // initialize constructable RegularItem objects by: new RegularItem(thumbnail, image, name, description, type, effects)
   public static Dictionary<string, RegularItem> regularItems = new Dictionary<string, RegularItem> {
     {"basic-longsword", new RegularItem(Sprites.itemThumbnails[0], Sprites.itemImages[0], "Basic Longsword", "Useful two-handed weapon.", "double", new Effects() {atk=40})},

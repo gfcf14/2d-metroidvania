@@ -51,6 +51,11 @@ public class Effects {
 public class RelicEffect {
   public string type;
   public string value;
+
+  public RelicEffect(string type, string value) {
+    this.type = type;
+    this.value = value;
+  }
 }
 
 public class PauseItem {
