@@ -51,6 +51,8 @@ public class Hero : MonoBehaviour {
   public bool isFalling;
   public bool isJumping;
 
+  public bool canDoubleJump = false;
+
   // public bool isJetpackUp;
   // public string jetpackHorizontal = "";
   // public float maxJetpackTime = 1500;
@@ -223,6 +225,7 @@ public class Hero : MonoBehaviour {
     [SerializeField] public float effectLCK = 0f;
 
   [System.NonSerialized] public List<Item> items = new List<Item>();
+  [System.NonSerialized] public List<Item> relicItems = new List<Item>();
 
   public int tiredThreshold = 40;
 
@@ -339,6 +342,8 @@ public class Hero : MonoBehaviour {
       bodyEquipment = "body-1";
       canKick = true;
       canDropKick = true;
+
+      AddToRelics(new Item("swift-boots", 1));
     #else
       items.Add(new Item("arrow-fire", 25));
       items.Add(new Item("arrow-poison", 25));
@@ -367,6 +372,12 @@ public class Hero : MonoBehaviour {
 
     // TODO: after implementing the load functionality, playerLevel should be updated via reading save data
     SetupStatsByLevel();
+  }
+
+  public void AddToRelics(Item relicItem) {
+    relicItems.Add(relicItem);
+
+    // TODO: perform effect by relic here
   }
 
   public void SetupStatsByLevel() {
