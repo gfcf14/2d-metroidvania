@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public class Hero : MonoBehaviour {
@@ -377,7 +378,9 @@ public class Hero : MonoBehaviour {
   public void AddToRelics(Item relicItem) {
     relicItems.Add(relicItem);
 
-    // TODO: perform effect by relic here
+    // TODO: though this sets a hero property given the relic effect value (a string), it's necessary to create a switch block to determine how
+    // this should happen given the effect type as well
+    this.GetType().GetField(Objects.relicItems[relicItem.key].effect.value).SetValue(this, true);
   }
 
   public void SetupStatsByLevel() {
