@@ -13,6 +13,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject mainCanvas;
   [SerializeField] GameObject itemsCanvas;
   [SerializeField] GameObject equipmentCanvas;
+  [SerializeField] GameObject relicsCanvas;
   [SerializeField] GameObject projectileCanvas;
   [SerializeField] GameObject mapCanvas;
   [SerializeField] GameObject optionsCanvas;
@@ -36,7 +37,7 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject itemsButton;
   [SerializeField] GameObject equipmentButton;
   [SerializeField] GameObject equipmentFirstSelected;
-
+  [SerializeField] GameObject relicsButton;
   [SerializeField] GameObject mapButton;
   [SerializeField] GameObject optionsButton;
   [SerializeField] GameObject optionsFirstSelected;
@@ -100,9 +101,13 @@ public class Pause : MonoBehaviour {
   [SerializeField] GameObject EquippedCRITLabel;
   [SerializeField] GameObject EquippedLUCKLabel;
   [SerializeField] GameObject EquippedResistancesContainer;
-
   [SerializeField] GameObject ProjectilesContainer;
+  [Space(10)]
 
+  // Relics Objects
+  [Header("Relic Objects")]
+  [SerializeField] GameObject relicsContainer;
+  // TODO: add image name and description for when it's possible to move through container list and populate these based on selection
   [Space(10)]
 
   // Control buttons
@@ -430,17 +435,17 @@ public class Pause : MonoBehaviour {
   }
 
   // adds all items in the hero item list or equipment list
-  void PopulateItemsContainer(List<Item> itemsList, GameObject parentContainer) {
+  void PopulateItemsContainer(List<Item> itemsList, GameObject parentContainer, bool isRelics = false) {
     List<string> itemsToRemove = new List<string>();
     List<string> itemTypes = new List<string>();
     foreach (Item currentItem in itemsList) {
       string currentKey = currentItem.key;
       int currentAmount = currentItem.amount;
-      RegularItem currentRegularItem = Objects.regularItems[currentKey];
+      PauseItem currentRegularItem = isRelics ? (PauseItem)Objects.relicItems[currentKey] : Objects.regularItems[currentKey];
 
       int itemUsageFrequency = Helpers.ValueFrequencyInArray(heroScript.equipmentArray, currentKey);
 
-      if (canvasStatus == "items" || (canvasStatus == "equipment" && (!Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) || (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) && Helpers.HasProjectilesForWeapon(currentKey, heroScript.items))) && (itemUsageFrequency < currentAmount || Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey)))) {
+      if (canvasStatus == "relics" || canvasStatus == "items" || (canvasStatus == "equipment" && (!Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) || (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) && Helpers.HasProjectilesForWeapon(currentKey, heroScript.items))) && (itemUsageFrequency < currentAmount || Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey)))) {
         GameObject currentItemButton = Instantiate(Objects.prefabs["item-button"], Vector2.zero, Quaternion.identity);
 
         currentItemButton.transform.SetParent(parentContainer.transform);
@@ -449,17 +454,17 @@ public class Pause : MonoBehaviour {
         currentItemButton.transform.Find("Image").gameObject.GetComponent<Image>().sprite = currentRegularItem.thumbnail;
         currentItemButton.transform.Find("Text").gameObject.GetComponent<Text>().text = currentRegularItem.name;
 
-        currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = (canvasStatus == "equipment" ? currentAmount - (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) ? 0 : itemUsageFrequency) : currentAmount).ToString();
+        currentItemButton.transform.Find("Amount").gameObject.GetComponent<Text>().text = canvasStatus != "relics" ? (canvasStatus == "equipment" ? currentAmount - (Helpers.IsValueInArray(Constants.projectileHoldingWeaponTypes, currentKey) ? 0 : itemUsageFrequency) : currentAmount).ToString() : "";
 
         // set the Event Trigger Submit objects and functions
           EventTrigger eventTrigger = currentItemButton.GetComponent<EventTrigger>();
 
           // submit - but only for items
-          if (canvasStatus == "equipment") {
+          if (canvasStatus == "equipment" && currentRegularItem is RegularItem regularSubmitItem) {
             EventTrigger.Entry submitEntry = new EventTrigger.Entry();
             submitEntry.eventID = EventTriggerType.Submit;
             submitEntry.callback.AddListener((data) => {
-              if (!Helpers.RequiresProjectile(currentRegularItem.type)) {
+              if (!Helpers.RequiresProjectile(regularSubmitItem.type)) {
                 PlayMenuSound("select");
               }
             });
@@ -470,7 +475,9 @@ public class Pause : MonoBehaviour {
 
 
         itemButtons.Add(currentItemButton);
-        itemTypes.Add(currentRegularItem.type);
+
+        if (currentRegularItem is RegularItem regularItem)
+        itemTypes.Add(regularItem.type);
       } else {
         if (itemUsageFrequency >= currentAmount) {
           itemsToRemove.Add(currentKey);
@@ -1152,7 +1159,17 @@ public class Pause : MonoBehaviour {
   }
 
   public void ShowRelicsCanvas() {
-    Debug.Log("To be implemented");
+    canPlayDeselect = false;
+    canvasStatus = "relics";
+    mainCanvas.SetActive(false);
+    relicsCanvas.SetActive(true);
+
+    ClearItems(relicsContainer);
+    PopulateItemsContainer(heroScript.relicItems, relicsContainer, isRelics: true);
+    Helpers.FocusUIElement(itemButtons.ElementAt(0));
+    previouslyFocusedButton = itemButtons.ElementAt(0);
+    canPlayDeselect = true;
+    // TODO: call function to set relic item info here
   }
 
   public void ShowMapCanvas() {
