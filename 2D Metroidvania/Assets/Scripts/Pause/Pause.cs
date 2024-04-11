@@ -1274,6 +1274,17 @@ public class Pause : MonoBehaviour {
     canPlayDeselect = true;
   }
 
+  public void GoBackToMainFromRelics() {
+    canPlayDeselect = false;
+    canvasStatus = "main";
+    relicsCanvas.SetActive(false);
+    mainCanvas.SetActive(true);
+
+    Helpers.FocusUIElement(relicsButton);
+    previouslyFocusedButton = relicsButton;
+    canPlayDeselect = true;
+  }
+
   public void GoBackToMainFromMap() {
     canPlayDeselect = false;
     canvasStatus = "main";
@@ -1369,6 +1380,9 @@ public class Pause : MonoBehaviour {
       break;
       case "equipment_select_projectile":
         CancelProjectileSelection();
+      break;
+      case "relics":
+        GoBackToMainFromRelics();
       break;
       case "map":
         GoBackToMainFromMap();
