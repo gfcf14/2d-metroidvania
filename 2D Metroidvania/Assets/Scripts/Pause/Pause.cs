@@ -349,9 +349,11 @@ public class Pause : MonoBehaviour {
 
   public void HideCanvases() {
     itemsCanvas.SetActive(false);
-    itemsContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+    itemsContainer.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
     equipmentCanvas.SetActive(false);
-    equipmentContainer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
+    equipmentContainer.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+    relicsCanvas.SetActive(false);
+    relicsContainer.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
     projectileCanvas.SetActive(false);
     mapCanvas.SetActive(false);
     optionsCanvas.SetActive(false);
