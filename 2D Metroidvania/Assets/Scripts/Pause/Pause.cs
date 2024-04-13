@@ -107,7 +107,9 @@ public class Pause : MonoBehaviour {
   // Relics Objects
   [Header("Relic Objects")]
   [SerializeField] GameObject relicsContainer;
-  // TODO: add image name and description for when it's possible to move through container list and populate these based on selection
+  [SerializeField] GameObject relicImage;
+  [SerializeField] GameObject relicName;
+  [SerializeField] GameObject relicDescription;
   [Space(10)]
 
   // Control buttons
@@ -768,6 +770,7 @@ public class Pause : MonoBehaviour {
             } else if (canvasStatus == "equipment_select") {
               SetEquipmentProspect(i);
             }
+            // TODO: add recognition for relics here (will require having more than one relic)
           }
           break;
         }
@@ -1016,6 +1019,15 @@ public class Pause : MonoBehaviour {
     itemEffectsTimeLabel.SetActive(false);
   }
 
+  void SetRelicInfo(int index) {
+    currentItemButtonIndex = index;
+
+    RelicItem currentRelicItem = Objects.relicItems[heroScript.relicItems[index].key];
+    relicName.GetComponent<Text>().text = currentRelicItem.name.ToUpper();
+    relicImage.GetComponent<Image>().sprite = currentRelicItem.image;
+    relicDescription.GetComponent<Text>().text = currentRelicItem.description;
+  }
+
   void SetItemInfo(int index) {
     HideEffectsObjects();
     currentItemButtonIndex = index;
@@ -1171,7 +1183,7 @@ public class Pause : MonoBehaviour {
     Helpers.FocusUIElement(itemButtons.ElementAt(0));
     previouslyFocusedButton = itemButtons.ElementAt(0);
     canPlayDeselect = true;
-    // TODO: call function to set relic item info here
+    SetRelicInfo(0);
   }
 
   public void ShowMapCanvas() {
