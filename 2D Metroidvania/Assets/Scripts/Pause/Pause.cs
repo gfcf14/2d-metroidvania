@@ -731,7 +731,7 @@ public class Pause : MonoBehaviour {
   void UpdateItemView() {
     if (Helpers.IsOnItemContainerState(Constants.itemContainerStates, canvasStatus) && itemButtons.Count > 0) {
       int i = 0;
-      GameObject currentContainer = canvasStatus == "items" ? itemsContainer : canvasStatus == "equipment_select" ? equipmentContainer : null;
+      GameObject currentContainer = canvasStatus == "items" ? itemsContainer : canvasStatus == "equipment_select" ? equipmentContainer : canvasStatus == "relics" ? relicsContainer : null;
 
       foreach (GameObject currentItemButton in itemButtons) {
         if (eventSystem.currentSelectedGameObject == currentItemButton) {
@@ -769,8 +769,9 @@ public class Pause : MonoBehaviour {
               SetItemInfo(i);
             } else if (canvasStatus == "equipment_select") {
               SetEquipmentProspect(i);
+            } else if(canvasStatus == "relics") {
+              SetRelicInfo(i);
             }
-            // TODO: add recognition for relics here (will require having more than one relic)
           }
           break;
         }

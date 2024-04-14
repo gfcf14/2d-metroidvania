@@ -19,7 +19,7 @@ public class Constants {
   public static string[] doubleHandedWeaponTypes = {"double", "throwable-double", "bow"};
   public static string[] projectileHoldingWeaponTypes = {"bow"};
   public static string[] shields = {"basic-shield"};
-  public static string[] itemContainerStates = {"items", "equipment_select"};
+  public static string[] itemContainerStates = {"items", "equipment_select", "relics"};
   public static string[] stackableBreakables = {"barrel", "box"};
   public static string[] landingObjects = {"Breakable", "Floor", "Interactable"};
   public static string[] nonHorizontalCollidableObjects= {"Breakable", "Interactable"};
