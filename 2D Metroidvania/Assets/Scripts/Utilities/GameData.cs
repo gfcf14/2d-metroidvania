@@ -13,6 +13,8 @@ public class GameData {
 
   public static int initialGameTime = 720;
 
+  public static int maxJumpLimit = 2;
+
   public static float baseCRI = 0.03f;
   public static float highestCRI = 0.3f;
 

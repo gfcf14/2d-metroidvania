@@ -54,6 +54,8 @@ public class Hero : MonoBehaviour {
 
   public bool canDoubleJump = false;
 
+  public int jumpsExecuted = 0;
+
   // public bool isJetpackUp;
   // public string jetpackHorizontal = "";
   // public float maxJetpackTime = 1500;
@@ -716,6 +718,7 @@ public class Hero : MonoBehaviour {
     ToggleAirCheck(false);
     isJumping = false;
     isFalling = false;
+    jumpsExecuted = 0;
     isGrounded = true;
     blockedDirection = "";
     PerformGroundFall();
@@ -898,7 +901,7 @@ public class Hero : MonoBehaviour {
           body.velocity = new Vector2(0, body.velocity.y);
         }
 
-        // jumping
+        // jumping + actions (kick, drop kick)
         if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
           if (isGrounded) {
             if (isHoldingDown) {
@@ -907,8 +910,6 @@ public class Hero : MonoBehaviour {
                 anim.SetTrigger("isKicking");
                 weaponCollider.SetActive(true);
               }
-            } else {
-              Jump();
             }
           } else {
             if (isHoldingDown && isJumping && !isFalling && canDropKick) {
@@ -933,6 +934,13 @@ public class Hero : MonoBehaviour {
           //     userInput = "";
           //   }
           // }
+
+        // jumping only
+        } else if ((Helpers.IsKeyUp(Controls.currentKeyboardJump) || Helpers.IsKeyUp((Controls.currentGamepadJump))) && !isHoldingDown) {
+          if (isGrounded || (canDoubleJump && jumpsExecuted < GameData.maxJumpLimit)) {
+            jumpsExecuted++;
+            Jump();
+          }
         }
 
         if (verticalInput < 0) {
@@ -1554,6 +1562,7 @@ public class Hero : MonoBehaviour {
   public void StepOver(float stepOverHeight) {
     ModifyPosition(new Vector2(transform.position.x + (heroWidth * direction), transform.position.y + stepOverHeight));
     ToggleAirCheck(false);
+    jumpsExecuted = 0;
     isGrounded = true;
     blockedDirection = "";
     isFalling = false;
@@ -1585,6 +1594,7 @@ public class Hero : MonoBehaviour {
           }
 
           ToggleAirCheck(false);
+          jumpsExecuted = 0;
           isGrounded = true;
           blockedDirection = "";
           isFalling = false;
