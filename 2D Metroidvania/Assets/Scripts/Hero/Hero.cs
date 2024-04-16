@@ -1633,12 +1633,18 @@ public class Hero : MonoBehaviour {
     Collider2D otherCollider = col.otherCollider;
     GameObject objectCollided = col.gameObject;
 
+    // TODO: consider the use of collisionDirection and remove it if not needed
     collisionDirection = GetGroundCollisionDirection();
 
-    MainCollisionLogic(collider, otherCollider, objectCollided);
+    if (collidingTop) {
+      // TODO: add some boolean to trigger ceiling collision animation
+      Fall();
+    } else {
+      MainCollisionLogic(collider, otherCollider, objectCollided);
 
-    if (IsOnIncline() && isFalling) {
-      GroundOnIncline();
+      if (IsOnIncline() && isFalling) {
+        GroundOnIncline();
+      }
     }
   }
 
