@@ -149,6 +149,8 @@ public class Hero : MonoBehaviour {
 
   public bool isHoldingDown = false;
 
+  public bool isCollidingWithCeiling = false;
+
   // PLAYER STATS
     [System.NonSerialized] public int playerLevel = 1;
     [System.NonSerialized] public int currentHP = GameData.baseHP;
@@ -1637,7 +1639,7 @@ public class Hero : MonoBehaviour {
     collisionDirection = GetGroundCollisionDirection();
 
     if (collidingTop) {
-      // TODO: add some boolean to trigger ceiling collision animation
+      isCollidingWithCeiling = true;
       Fall();
     } else {
       MainCollisionLogic(collider, otherCollider, objectCollided);
