@@ -1418,6 +1418,11 @@ public class Hero : MonoBehaviour {
     isClashing = true;
   }
 
+  public void FinishCeilingCollision() {
+    isCollidingWithCeiling = false;
+    Fall();
+  }
+
   void DropParry() {
     body.velocity = Vector2.zero;
 
@@ -1640,7 +1645,6 @@ public class Hero : MonoBehaviour {
 
     if (collidingTop) {
       isCollidingWithCeiling = true;
-      Fall();
     } else {
       MainCollisionLogic(collider, otherCollider, objectCollided);
 
