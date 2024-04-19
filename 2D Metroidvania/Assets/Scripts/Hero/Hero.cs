@@ -1122,6 +1122,7 @@ public class Hero : MonoBehaviour {
     anim.SetBool("isDefending", isDefending);
     anim.SetBool("isParrying", isParrying);
     anim.SetBool("isClashing", isClashing);
+    anim.SetBool("isCollidingWithCeiling", isCollidingWithCeiling);
   }
 
   void FixedUpdate() {
