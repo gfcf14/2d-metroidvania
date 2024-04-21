@@ -1369,6 +1369,7 @@ public class Hero : MonoBehaviour {
 
   void ClearKick() {
     isKicking = false;
+    isHoldingDown = false;
     weaponCollider.SetActive(false);
   }
 
