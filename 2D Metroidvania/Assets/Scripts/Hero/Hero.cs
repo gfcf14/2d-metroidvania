@@ -1611,6 +1611,8 @@ public class Hero : MonoBehaviour {
           // isJetpackUp = false;
           horizontalCollision = false;
           isDropKicking = false;
+          // TODO: consider removing the isHoldingDown property to avoid kicking while jumping; perform such calculations inside the "if (verticalInput < 0) {" block instead
+          isHoldingDown = false;
 
           if (isHurt == 3) {
             Recover();
