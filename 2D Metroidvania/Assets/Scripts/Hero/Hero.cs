@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Hero : MonoBehaviour {
   [System.NonSerialized] public bool showDebug = false;
@@ -146,9 +147,6 @@ public class Hero : MonoBehaviour {
   [SerializeField] public string collisionDirection = "";
   [SerializeField] public string blockedDirection = "";
   public bool hurtFromBehind = false;
-
-  public bool isHoldingDown = false;
-
   public bool isCollidingWithCeiling = false;
 
   // PLAYER STATS
@@ -903,54 +901,78 @@ public class Hero : MonoBehaviour {
           body.velocity = new Vector2(0, body.velocity.y);
         }
 
-        // jumping + actions (kick, drop kick)
-        if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
-          if (isGrounded) {
-            if (isHoldingDown) {
-              if (!isRunning && !isKicking && canKick) {
+        // // jumping + actions (kick, drop kick)
+        // if (Helpers.IsKeyHeld(Controls.currentKeyboardJump) || Helpers.IsKeyHeld(Controls.currentGamepadJump)) {
+        //   if (isGrounded) {
+        //     if (isHoldingDown) {
+        //       if (!isRunning && !isKicking && canKick) {
+        //         isKicking = true;
+        //         anim.SetTrigger("isKicking");
+        //         weaponCollider.SetActive(true);
+        //       }
+        //     }
+        //   } else {
+        //     if (isHoldingDown && isJumping && !isFalling && canDropKick) {
+        //       DropKick();
+        //     }
+        //   }
+        //   // userInput += "$";
+        //   // if (isGrounded) {
+        //   //   if (userInput.Contains(jetpackUp)) {
+        //   //     JetpackUp();
+        //   //     userInput = "";
+        //   //   } else {
+        //   //     Jump();
+        //   //     userInput = "";
+        //   //   }
+        //   // } else {
+        //   //   if (userInput.Contains(jetpackLeft)) {
+        //   //     JetpackHorizontal("left");
+        //   //     userInput = "";
+        //   //   } else if (userInput.Contains(jetpackRight)) {
+        //   //     JetpackHorizontal("right");
+        //   //     userInput = "";
+        //   //   }
+        //   // }
+
+        // // jumping
+        // } else if ((Helpers.IsKeyUp(Controls.currentKeyboardJump) || Helpers.IsKeyUp((Controls.currentGamepadJump))) && !isHoldingDown) {
+        //   if (isGrounded || (canDoubleJump && jumpsExecuted < GameData.maxJumpLimit)) {
+        //     jumpsExecuted++;
+        //     Jump();
+        //   }
+        // }
+
+        // if (Input.GetKeyDown(KeyCode.DownArrow)) {
+        //   Debug.Log("holding down");
+        // }
+
+        // TODO: Though the if statement below would simplify usage of jump, kick, and dropkick, when input decreases it still triggers
+        //       Consider using the below to track gamepad work
+        // Gamepad gamepad = Gamepad.current;
+        // Debug.Log("Gamepad pressed: " + gamepad.dpad.down.isPressed + ", left stick down pressed: " + gamepad.leftStick.y.ReadValue());
+        // alternatively, track previous input usage to see if it's decreasing, to avoid performing hold down actions then
+
+        if (verticalInput < -Constants.inputThreshold) { // if DOWN key is being held
+          if ((Helpers.IsKeyDown(Controls.currentKeyboardJump) || Helpers.IsKeyDown((Controls.currentGamepadJump)))) { // Perform actions if JUMP key is also held
+            if (isGrounded) {
+              if (!isRunning && !isKicking && canKick) { // KICK
                 isKicking = true;
                 anim.SetTrigger("isKicking");
                 weaponCollider.SetActive(true);
               }
-            }
-          } else {
-            if (isHoldingDown && isJumping && !isFalling && canDropKick) {
+            } else if (isJumping && !isFalling && canDropKick) { // DROPKICK
               DropKick();
             }
           }
-          // userInput += "$";
-          // if (isGrounded) {
-          //   if (userInput.Contains(jetpackUp)) {
-          //     JetpackUp();
-          //     userInput = "";
-          //   } else {
-          //     Jump();
-          //     userInput = "";
-          //   }
-          // } else {
-          //   if (userInput.Contains(jetpackLeft)) {
-          //     JetpackHorizontal("left");
-          //     userInput = "";
-          //   } else if (userInput.Contains(jetpackRight)) {
-          //     JetpackHorizontal("right");
-          //     userInput = "";
-          //   }
-          // }
-
-        // jumping only
-        } else if ((Helpers.IsKeyUp(Controls.currentKeyboardJump) || Helpers.IsKeyUp((Controls.currentGamepadJump))) && !isHoldingDown) {
-          if (isGrounded || (canDoubleJump && jumpsExecuted < GameData.maxJumpLimit)) {
-            jumpsExecuted++;
-            Jump();
+        } else {
+          // JUMP
+          if ((Helpers.IsKeyUp(Controls.currentKeyboardJump) || Helpers.IsKeyUp((Controls.currentGamepadJump)))) {
+            if (isGrounded || (canDoubleJump && jumpsExecuted < GameData.maxJumpLimit)) {
+              jumpsExecuted++;
+              Jump();
+            }
           }
-        }
-
-        if (verticalInput < 0) {
-          isHoldingDown = true;
-        }
-
-        if (verticalInput == 0) {
-          isHoldingDown = false;
         }
 
         // action
@@ -1181,7 +1203,8 @@ public class Hero : MonoBehaviour {
               weaponCollider.SetActive(true);
             break;
             case "double":
-              if (isHoldingDown) {
+              // TODO: consider how this gets affected while key is released and input is decreasing to zero
+              if (verticalInput < -Constants.inputThreshold) {
                 isParrying = true;
               } else {
                 isAttackingHeavy = true;
@@ -1213,14 +1236,6 @@ public class Hero : MonoBehaviour {
         if (armEquipment == "") {
           isAirPunching = true;
           weaponCollider.SetActive(true);
-
-          // if (isHoldingDown) {
-          //   if (isJumping && !isFalling) {
-          //     DropKick();
-          //   }
-          // } else {
-          //   isAirPunching = true;
-          // }
         } else {
           string weaponType = Objects.regularItems[armEquipment].type;
 
@@ -1369,7 +1384,6 @@ public class Hero : MonoBehaviour {
 
   void ClearKick() {
     isKicking = false;
-    isHoldingDown = false;
     weaponCollider.SetActive(false);
   }
 
@@ -1611,8 +1625,6 @@ public class Hero : MonoBehaviour {
           // isJetpackUp = false;
           horizontalCollision = false;
           isDropKicking = false;
-          // TODO: consider removing the isHoldingDown property to avoid kicking while jumping; perform such calculations inside the "if (verticalInput < 0) {" block instead
-          isHoldingDown = false;
 
           if (isHurt == 3) {
             Recover();
