@@ -745,15 +745,6 @@ public class Hero : MonoBehaviour {
     transform.position = transportLocation;
   }
 
-  // Recognizes across different devices (keyboard gamepad) if the down direction is being held down
-  // TODO: this unfortunately doesn't seem to work well for generic usb gamepads. Consider if it's worth to find a working case
-  public bool IsDownHeld() {
-    Gamepad gamepad = Gamepad.current;
-    bool isGamepadHoldingDown = gamepad == null ? false : gamepad.dpad.down.isPressed || gamepad.leftStick.y.ReadValue() < 0;
-
-    return Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) || isGamepadHoldingDown;
-  }
-
   // called on every frame of the game
   private void Update() {
     direction = isFacingLeft ? -1 : 1;
@@ -953,7 +944,7 @@ public class Hero : MonoBehaviour {
         // }
 
         // TODO: for some reason, a gamepad's d-pad down button doesn't trigger vertical input. Investigate a workaround
-        if (verticalInput < -Constants.inputThreshold && IsDownHeld()) { // if DOWN key is being held
+        if (verticalInput < -Constants.inputThreshold) { // if DOWN key is being held
           if (Helpers.IsKeyDown(Controls.currentKeyboardJump) || Helpers.IsKeyDown(Controls.currentGamepadJump)) { // Perform actions if JUMP key is also held
             if (isGrounded) {
               if (!isRunning && !isKicking && canKick) { // KICK
