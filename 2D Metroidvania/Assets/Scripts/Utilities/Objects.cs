@@ -41,7 +41,8 @@ public class Objects {
 
   // initialize constructable RegularItem objects by: new RelicItem(thumbnail, image, name, description, effect)
   public static Dictionary<string, RelicItem> relicItems = new Dictionary<string, RelicItem> {
-    {"swift-boots", new RelicItem(Sprites.relicItemThumbnails[0], Sprites.relicItemImages[0], "Swift Boots", "Enables the user to do a double jump.", new RelicEffect("enable", "canDoubleJump"))}
+    {"swift-boots", new RelicItem(Sprites.relicItemThumbnails[0], Sprites.relicItemImages[0], "Swift Boots", "Enables the user to do a double jump.", new RelicEffect("enable", "canDoubleJump"))},
+    {"magic-talisman", new RelicItem(Sprites.relicItemThumbnails[1], Sprites.relicItemImages[1], "Magic Talisman", "Enables the user to cast magic.", new RelicEffect("enable", "canCastMagic"))}
   };
 
   // initialize constructable RegularItem objects by: new RegularItem(thumbnail, image, name, description, type, effects)
