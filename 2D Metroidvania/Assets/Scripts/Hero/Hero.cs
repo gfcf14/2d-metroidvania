@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Hero : MonoBehaviour {
   [System.NonSerialized] public bool showDebug = false;
@@ -56,6 +54,8 @@ public class Hero : MonoBehaviour {
   public bool canDoubleJump = false;
 
   public int jumpsExecuted = 0;
+
+  public bool canCastMagic = false;
 
   // public bool isJetpackUp;
   // public string jetpackHorizontal = "";
@@ -125,11 +125,11 @@ public class Hero : MonoBehaviour {
   // public string[] weapons = new string[] {"fists", "single", "heavy", "throwables", "projectile-single", "projectile-heavy", "projectile-auto", "projectile-pull"};
 
   // public string jetpackUp = "🡣🡡⌴";
-  public string jetpackUp = "du$";
+  // public string jetpackUp = "du$";
   // public string jetpackLeft = "🡣🡠⌴";
-  public string jetpackLeft = "dl$";
+  // public string jetpackLeft = "dl$";
   // public string jetpackRight = "🡣🡢⌴";
-  public string jetpackRight = "dr$";
+  // public string jetpackRight = "dr$";
   public float timeoutDuration = 0.25f;
 
   private string userInput = "";
@@ -137,9 +137,9 @@ public class Hero : MonoBehaviour {
 
   public int direction = 1;
 
-  public int weaponIndex = 0;
+  // public int weaponIndex = 0;
 
-  public string currentWeapon;
+  // public string currentWeapon;
 
   public GameObject nearbyInteractableObject;
   public string NPCnearby;

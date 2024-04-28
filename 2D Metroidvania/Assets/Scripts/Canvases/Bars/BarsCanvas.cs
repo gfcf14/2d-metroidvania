@@ -10,6 +10,12 @@ public class BarsCanvas : MonoBehaviour {
   [SerializeField] GameObject mpForeground;
   [SerializeField] GameObject mpBar;
 
+  [Header("MP Display Container")]
+  [SerializeField] GameObject mpPanelBackground;
+  [SerializeField] GameObject mpPanelForeground;
+  [SerializeField] GameObject mpBarContainer;
+  [SerializeField] bool mpBarDisplaying = false;
+
   [System.NonSerialized] Hero hero;
   [System.NonSerialized] int currentHPWidth = -1;
   [System.NonSerialized] int currentMPWidth = -1;
@@ -19,11 +25,20 @@ public class BarsCanvas : MonoBehaviour {
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
   }
   void Update() {
+    CheckMPBarDisplay();
+
     UpdateHPContainer();
     UpdateHPBar();
 
     UpdateMPContainer();
     UpdateMPBar();
+  }
+
+  public void CheckMPBarDisplay() {
+    if (hero.canCastMagic && !mpBarDisplaying) {
+      DisplayMPBar();
+      mpBarDisplaying = true;
+    }
   }
 
   public void UpdateHPContainer() {
@@ -79,6 +94,18 @@ public class BarsCanvas : MonoBehaviour {
       Vector2 mpDisplayVector = new Vector2(calculatedMPDisplay, 9);
       mpDisplayVector.x *= Constants.containerMultiplier;
       mpBar.GetComponent<RectTransform>().sizeDelta = mpDisplayVector;
+    }
+  }
+
+  // The bar has to be displayed with alpha 1 to simulate it shows
+  public void DisplayMPBar() {
+    GameObject[] MPDisplayContainers = {mpPanelBackground, mpPanelForeground, mpBarContainer};
+    foreach(GameObject currMPDisplayContainer in MPDisplayContainers) {
+      foreach(Transform child in currMPDisplayContainer.transform) {
+        Color currColor = child.GetComponent<Image>().color;
+        Color newColor = new Color(currColor.r, currColor.g, currColor.b, 1);
+        child.GetComponent<Image>().color = newColor;
+      }
     }
   }
 }
