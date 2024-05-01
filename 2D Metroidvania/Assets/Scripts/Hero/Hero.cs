@@ -22,7 +22,7 @@ public class Hero : MonoBehaviour {
   [SerializeField] public GameObject weaponCollider;
   [SerializeField] public GameObject shieldCollider;
   [SerializeField] public GameObject bow;
-  [SerializeField] public GameObject levelUpCanvas;
+  [SerializeField] public GameObject fanfareCanvas;
   [SerializeField] public GameObject fadeOutCanvas;
   [SerializeField] public GameObject airEdgeCheck;
   public AirEdgeCheck airEdgeCheckScript;
@@ -1874,9 +1874,9 @@ public class Hero : MonoBehaviour {
     playerLevel++;
     SetupStatsByLevel();
     inGame.PlaySound(Sounds.notificationSounds["levelup"], transform.position);
-    levelUpCanvas.SetActive(true);
+    fanfareCanvas.SetActive(true);
     SetPauseCase("level-up");
-    levelUpCanvas.GetComponent<LevelUpCanvas>().ShowLevelUp();
+    fanfareCanvas.GetComponent<FanfareCanvas>().ShowLevelUp();
   }
 
   public void PlayerDeath() {
