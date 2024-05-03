@@ -25,6 +25,7 @@ public class Objects {
     {"pierce", Resources.Load("Prefabs/Pierce") as GameObject},
     {"smash-wave", Resources.Load("Prefabs/SmashWave") as GameObject},
     {"sound", Resources.Load("Prefabs/Sound") as GameObject},
+    {"sparkle", Resources.Load("Prefabs/Sparkle") as GameObject},
     {"summon-energy", Resources.Load("Prefabs/SummonEnergy") as GameObject},
     {"throwable", Resources.Load("Prefabs/Throwable") as GameObject}
   };

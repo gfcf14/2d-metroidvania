@@ -407,6 +407,11 @@ public class Sprites {
     {"king-bone", droppableImages[104]}
   };
 
+  public static Dictionary<string, Sprite> relicSprites = new Dictionary<string, Sprite> {
+    {"swift-boots", relicImages[0]},
+    {"magic-talisman", relicImages[1]}
+  };
+
   public static Dictionary<string, Sprite> breakableSprites = new Dictionary<string, Sprite> {
     {"barrel", breakableBarrels[0]},
     {"box", breakableBoxes[0]},

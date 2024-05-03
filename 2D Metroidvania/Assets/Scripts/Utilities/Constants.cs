@@ -138,10 +138,16 @@ public class Constants {
   public static float defaultRoomHeight = 9;
   public static float defaultRoomWidth = 16;
 
+  public static float sparkleDistanceRadius = 0.1f;
+
   // ensures that each HP unit (until reaching 500) displays in 2 UI units
   public static int containerMultiplier = 2;
 
   public static int infoCanvasRightAlignOffset = 30;
+
+  public static int relicSparkleLimit = 6;
+  public static int sparkleRelativeMin = 500;
+  public static int sparkleRelativeMax = 601;
 
   public static float fragmentOffset = 0.1f;
 
