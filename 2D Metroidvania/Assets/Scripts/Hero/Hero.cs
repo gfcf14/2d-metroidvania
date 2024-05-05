@@ -345,8 +345,6 @@ public class Hero : MonoBehaviour {
       bodyEquipment = "body-1";
       canKick = true;
       canDropKick = true;
-
-      AddToRelics(new Item("swift-boots", 1));
     #else
       items.Add(new Item("arrow-fire", 25));
       items.Add(new Item("arrow-poison", 25));
@@ -377,12 +375,12 @@ public class Hero : MonoBehaviour {
     SetupStatsByLevel();
   }
 
-  public void AddToRelics(Item relicItem) {
-    relicItems.Add(relicItem);
+  public void AddToRelics(string relicKey) {
+    relicItems.Add(new Item(relicKey, 1));
 
     // TODO: though this sets a hero property given the relic effect value (a string), it's necessary to create a switch block to determine how
     // this should happen given the effect type as well
-    this.GetType().GetField(Objects.relicItems[relicItem.key].effect.value).SetValue(this, true);
+    this.GetType().GetField(Objects.relicItems[relicKey].effect.value).SetValue(this, true);
   }
 
   public void SetupStatsByLevel() {
