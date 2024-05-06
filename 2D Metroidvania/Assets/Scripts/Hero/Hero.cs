@@ -1877,6 +1877,14 @@ public class Hero : MonoBehaviour {
     fanfareCanvas.GetComponent<FanfareCanvas>().ShowLevelUp();
   }
 
+  public void GetRelic() {
+    inGame.ToggleSoundtrack(isPaused: false);
+    inGame.PlaySound(Sounds.notificationSounds["levelup"], transform.position);
+    fanfareCanvas.SetActive(true);
+    SetPauseCase("got-relic");
+    fanfareCanvas.GetComponent<FanfareCanvas>().ShowGetRelic();
+  }
+
   public void PlayerDeath() {
     SetPauseCase("death");
     fadeOutCanvas.SetActive(true);
@@ -1889,6 +1897,10 @@ public class Hero : MonoBehaviour {
   }
 
   public void ClearPauseCase(bool resumeSoundtrack = false, bool waitIfLevelingUp = false) {
+    if (pauseCase == "got-relic") {
+      inGame.PlaySound(Sounds.itemPickSounds["normal"], transform.position);
+    }
+
     pauseCase = "";
     Time.timeScale = 1;
 

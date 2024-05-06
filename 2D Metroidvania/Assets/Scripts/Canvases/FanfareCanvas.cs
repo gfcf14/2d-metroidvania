@@ -11,10 +11,15 @@ public class FanfareCanvas : MonoBehaviour {
 
   public void ShowLevelUp() {
     textObject.GetComponent<TextMeshProUGUI>().text = "LEVEL UP!";
-    StartCoroutine(DisplayLevelUp());
+    StartCoroutine(DisplayFanfare());
   }
 
-  IEnumerator DisplayLevelUp() {
+  public void ShowGetRelic() {
+    textObject.GetComponent<TextMeshProUGUI>().text = "GOT RELIC!";
+    StartCoroutine(DisplayFanfare());
+  }
+
+  IEnumerator DisplayFanfare() {
     yield return new WaitForSecondsRealtime(displaySeconds);
     GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>().ClearPauseCase(resumeSoundtrack: true, waitIfLevelingUp: true);
     gameObject.SetActive(false);

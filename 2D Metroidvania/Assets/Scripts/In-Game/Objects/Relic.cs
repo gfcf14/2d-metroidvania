@@ -1,11 +1,11 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Relic : MonoBehaviour {
   [SerializeField] public string key;
   [System.NonSerialized] SpriteRenderer relicSprite;
   [System.NonSerialized] PolygonCollider2D relicCollider;
+
   Vector2 GetRandomPoint(Vector2[] corners) {
     float minX = Mathf.Min(corners[0].x, corners[1].x, corners[2].x, corners[3].x);
     float maxX = Mathf.Max(corners[0].x, corners[1].x, corners[2].x, corners[3].x);
@@ -71,10 +71,8 @@ public class Relic : MonoBehaviour {
       Hero heroScript = col.gameObject.GetComponent<Hero>();
 
       heroScript.AddToRelics(key);
-      // TODO: perform pause to call fanfare canvas here
+      heroScript.GetRelic();
 
-      // TODO: see if a sound should be played
-      // inGame.PlaySound(Sounds.itemPickSounds[itemPickSoundIndex], transform.position);
       Destroy(transform.parent.gameObject);
     }
   }
