@@ -124,13 +124,13 @@ public class InGame : MonoBehaviour {
     // mainly so items instantiated from stacked breakables do not overlap fully
     float randomOffset = UnityEngine.Random.Range(-0.2f, 0.2f);
 
-    Vector2 itemOrigin = new Vector2(position.x + randomOffset, position.y + (spr.bounds.size.y / 2));
-    GameObject droppedItem = Instantiate(Objects.prefabs[prefab], itemOrigin, Quaternion.identity);
+    GameObject droppedItem = Instantiate(Objects.prefabs[prefab], position, Quaternion.identity, room.transform);
     Droppable droppableScript = droppedItem.transform.Find("GameObject").GetComponent<Droppable>();
     droppableScript.key = key;
     droppableScript.rarity = rarity;
     droppableScript.isDropped = true;
     droppableScript.room = room;
+
     if (shouldRotate) {
       droppableScript.shouldRotate = shouldRotate;
       droppableScript.rotateDirection = rotateDirection;

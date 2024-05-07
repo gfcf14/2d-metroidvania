@@ -34,12 +34,6 @@ public class Droppable : MonoBehaviour {
     audioSource = GetComponent<AudioSource>();
     inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
 
-    // if a room has been assigned, put the droppable in it to be deleted on exit
-    // if there is no room, the only way to delete it is to touch it
-    if (room) {
-      transform.parent.SetParent(room.transform);
-    }
-
     anim = GetComponent<Animator>();
 
     if (key.Contains("money")) {
