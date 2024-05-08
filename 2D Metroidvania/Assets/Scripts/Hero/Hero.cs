@@ -1648,7 +1648,8 @@ public class Hero : MonoBehaviour {
     // TODO: consider the use of collisionDirection and remove it if not needed
     collisionDirection = GetGroundCollisionDirection();
 
-    if (collidingTop) {
+    // only toggle the isCollidingWithCeiling flag if the player has collided while jumping, i.e. not falling
+    if (collidingTop && !isFalling) {
       isCollidingWithCeiling = true;
     } else {
       MainCollisionLogic(collider, otherCollider, objectCollided);
