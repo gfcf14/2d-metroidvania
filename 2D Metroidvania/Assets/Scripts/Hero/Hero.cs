@@ -1591,8 +1591,8 @@ public class Hero : MonoBehaviour {
     ModifyPosition(new Vector2(transform.position.x - bumpX * direction, transform.position.y + bumpY));
   }
 
-  private void MainCollisionLogic(Collider2D collider, Collider2D otherCollider, GameObject objectCollided) {
-    if (Helpers.IsValueInArray(Constants.landingObjects, objectCollided.tag)) {
+  private void MainCollisionLogic(Collider2D collider, Collider2D otherCollider, string colTag) {
+    if (Helpers.IsValueInArray(Constants.landingObjects, colTag)) {
       if (otherCollider.tag == "Hero") {
         if (!isHorizontalCollision(otherCollider, collider)) {
           if (collider.tag == "Floor" && isFalling) {
@@ -1627,7 +1627,7 @@ public class Hero : MonoBehaviour {
 
           weaponCollider.SetActive(false);
         } else {
-          horizontalCollision = Helpers.IsValueInArray(Constants.nonHorizontalCollidableObjects, objectCollided.tag) ? false : true;
+          horizontalCollision = Helpers.IsValueInArray(Constants.nonHorizontalCollidableObjects, colTag) ? true : false;
 
           if (isBottomCollision(otherCollider, collider)) {
             horizontalCollision = false;
@@ -1643,7 +1643,7 @@ public class Hero : MonoBehaviour {
   private void OnCollisionEnter2D(Collision2D col) {
     Collider2D collider = col.collider;
     Collider2D otherCollider = col.otherCollider;
-    GameObject objectCollided = col.gameObject;
+    string colTag = col.gameObject.tag;
 
     // TODO: consider the use of collisionDirection and remove it if not needed
     collisionDirection = GetGroundCollisionDirection();
@@ -1652,7 +1652,7 @@ public class Hero : MonoBehaviour {
     if (collidingTop && !isFalling) {
       isCollidingWithCeiling = true;
     } else {
-      MainCollisionLogic(collider, otherCollider, objectCollided);
+      MainCollisionLogic(collider, otherCollider, colTag);
 
       if (IsOnIncline() && isFalling) {
         GroundOnIncline();
