@@ -150,6 +150,7 @@ public class EnemyStats {
   public float reach;
   public float edgeCastLength;
   public float arrowBurnPosition;
+  public float mass;
 }
 
 public class Outcome {

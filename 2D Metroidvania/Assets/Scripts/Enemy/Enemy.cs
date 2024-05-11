@@ -148,6 +148,7 @@ public class Enemy : MonoBehaviour {
 
     edgeCastLength = enemyStats.edgeCastLength;
     arrowBurnPosition = enemyStats.arrowBurnPosition;
+    body.mass = enemyStats.mass;
 
     diesFlying = Helpers.IsValueInArray(Constants.flyingDeathEnemies, key);
     isFlyingEnemy = Helpers.IsValueInArray(Constants.flyingEnemies, key);
