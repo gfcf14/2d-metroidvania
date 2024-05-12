@@ -728,6 +728,7 @@ public class Hero : MonoBehaviour {
 
   public void ClearInvulnerability() {
     isInvulnerable = false;
+    body.mass = 1;
     // restores color so the flicker won't leave it in weird transparency
     heroRenderer.color = Color.white;
   }
@@ -1819,6 +1820,7 @@ public class Hero : MonoBehaviour {
     if (!isInvulnerable) {
       damageStartTime = Time.time * 1000;
       isInvulnerable = true;
+      body.mass = 0;
     }
 
     // TODO: for testing purposes. Remove once magic can be spent by other means
