@@ -22,23 +22,7 @@ public class RoomTrigger : MonoBehaviour {
       heroScript.currentRoom = gameObject;
       foreach(Transform child in gameObject.transform) {
         if (child.tag == "EnemySpawner") {
-          EnemySpawner enemySpawner = child.gameObject.GetComponent<EnemySpawner>();
-          string spawnerKey = enemySpawner.enemyKey;
-          string specificDrop = enemySpawner.specificDrop;
-
-          GameObject enemySpawned = Instantiate(Objects.prefabs["enemy"], new Vector3(child.transform.position.x, child.transform.position.y, 0), Quaternion.identity);
-          enemySpawned.transform.SetParent(transform);
-          Enemy enemyScript = enemySpawned.GetComponent<Enemy>();
-          enemyScript.key = spawnerKey != "" ? spawnerKey : Constants.meadowEnemies[UnityEngine.Random.Range(0, Constants.meadowEnemies.Length)];
-
-          if (specificDrop != "") {
-            enemyScript.specificDrop = specificDrop;
-            enemyScript.spawnedFrom = child.gameObject;
-          }
-
-          // TODO: implement a better way to assign level values
-          enemyScript.level = 1;
-
+          child.gameObject.GetComponent<EnemySpawner>().Spawn();
         } else if (child.tag == "Enemy" && child.name == "Boss") {
           child.gameObject.GetComponent<Enemy>().isOnCamera = true;
         }
@@ -70,8 +54,8 @@ public class RoomTrigger : MonoBehaviour {
     if (col.CompareTag("RoomTraverser")) {
       virtualCam.SetActive(false);
       foreach (Transform child in gameObject.transform) {
-        if (child.tag == "Enemy" && child.name != "Boss") {
-          GameObject.Destroy(child.gameObject);
+        if (child.tag == "EnemySpawner") {
+          child.gameObject.GetComponent<EnemySpawner>().Cleanse();
         } else if (child.name == "Boss") {
           child.gameObject.GetComponent<Enemy>().isOnCamera = false;
         } else if (child.name.Contains("Droppable")) {
