@@ -4,6 +4,7 @@ public class EnemySpawner : MonoBehaviour {
   [SerializeField] public string enemyType = "";
   [SerializeField] public string enemyKey = "";
   [SerializeField] public string specificDrop = "";
+  [SerializeField] public bool isMiniBoss = false;
   void Start() {}
   void Update() {}
 
@@ -12,6 +13,10 @@ public class EnemySpawner : MonoBehaviour {
     enemySpawned.transform.SetParent(transform);
     Enemy enemyScript = enemySpawned.GetComponent<Enemy>();
     enemyScript.key = enemyKey != "" ? enemyKey : Constants.meadowEnemies[UnityEngine.Random.Range(0, Constants.meadowEnemies.Length)];
+
+    if (isMiniBoss) {
+      enemyScript.isOnCamera = true;
+    }
 
     // Specifies a type for the enemy. If none, default to patroller
     enemyScript.type = enemyType ?? "patroller";

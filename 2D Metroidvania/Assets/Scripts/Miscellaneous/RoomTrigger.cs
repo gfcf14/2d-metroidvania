@@ -15,6 +15,10 @@ public class RoomTrigger : MonoBehaviour {
     inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
   }
 
+  public bool CanSpawnMiniBoss(Transform child) {
+    return child.gameObject.tag == "EnemySpawner" && child.gameObject.GetComponent<EnemySpawner>().isMiniBoss;
+  }
+
   private void OnTriggerEnter2D(Collider2D col) {
     if (col.CompareTag("RoomTraverser")) {
       virtualCam.SetActive(true);
@@ -23,8 +27,8 @@ public class RoomTrigger : MonoBehaviour {
       foreach(Transform child in gameObject.transform) {
         if (child.tag == "EnemySpawner") {
           child.gameObject.GetComponent<EnemySpawner>().Spawn();
-        } else if (child.tag == "Enemy" && child.name == "Boss") {
-          child.gameObject.GetComponent<Enemy>().isOnCamera = true;
+        // } else if (CanSpawnMiniBoss(child)) {
+        //   child.gameObject.GetComponent<Enemy>().isOnCamera = true;
         }
       }
 
@@ -38,7 +42,7 @@ public class RoomTrigger : MonoBehaviour {
     // if the player entes a room with a boss
     if (col.gameObject.name == "ProximityCheck") {
       foreach(Transform child in gameObject.transform) {
-        if (child.tag == "Enemy" && child.name == "Boss") {
+        if (CanSpawnMiniBoss(child)) {
           Rigidbody2D heroBody = hero.GetComponent<Rigidbody2D>();
           Hero heroScript = hero.GetComponent<Hero>();
 
@@ -56,15 +60,15 @@ public class RoomTrigger : MonoBehaviour {
       foreach (Transform child in gameObject.transform) {
         if (child.tag == "EnemySpawner") {
           child.gameObject.GetComponent<EnemySpawner>().Cleanse();
-        } else if (child.name == "Boss") {
-          child.gameObject.GetComponent<Enemy>().isOnCamera = false;
-        } else if (child.name.Contains("Droppable")) {
-          Droppable droppableInstance = child.Find("GameObject").gameObject.GetComponent<Droppable>();
+        // } else if (child.name == "Boss") {
+        //   child.gameObject.GetComponent<Enemy>().isOnCamera = false;
+        // } else if (child.name.Contains("Droppable")) {
+        //   Droppable droppableInstance = child.Find("GameObject").gameObject.GetComponent<Droppable>();
 
-          // only spawned items get destroyed; items that are part of the Scene will only destroy when grabbed
-          if (droppableInstance.room != null) {
-            GameObject.Destroy(child.gameObject);
-          }
+        //   // only spawned items get destroyed; items that are part of the Scene will only destroy when grabbed
+        //   if (droppableInstance.room != null) {
+        //     GameObject.Destroy(child.gameObject);
+        //   }
         } else if (child.name.Contains("ArrowBurn")) { // destroys arrow burns so they don't infinitely harm enemies when player exits and enters repeatedly
           GameObject.Destroy(child.gameObject);
         }
