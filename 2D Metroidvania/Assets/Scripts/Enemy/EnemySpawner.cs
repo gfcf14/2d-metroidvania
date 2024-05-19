@@ -1,6 +1,7 @@
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour {
+  [SerializeField] public string enemyType = "";
   [SerializeField] public string enemyKey = "";
   [SerializeField] public string specificDrop = "";
   void Start() {}
@@ -11,6 +12,9 @@ public class EnemySpawner : MonoBehaviour {
     enemySpawned.transform.SetParent(transform);
     Enemy enemyScript = enemySpawned.GetComponent<Enemy>();
     enemyScript.key = enemyKey != "" ? enemyKey : Constants.meadowEnemies[UnityEngine.Random.Range(0, Constants.meadowEnemies.Length)];
+
+    // Specifies a type for the enemy. If none, default to patroller
+    enemyScript.type = enemyType ?? "patroller";
 
     if (specificDrop != "") {
       enemyScript.specificDrop = specificDrop;

@@ -132,7 +132,6 @@ public class Enemy : MonoBehaviour {
 
     EnemyStats enemyStats = Objects.enemyStats[key];
     enemyName = enemyStats.name + " Lvl " + level;
-    type = enemyStats.type;
     baseMaterial = enemyStats.baseMaterial;
     normalAttackType = enemyStats.normalAttackType;
 
