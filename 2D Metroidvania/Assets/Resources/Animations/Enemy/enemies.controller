@@ -52,6 +52,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-7719565898843599438
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: skeleton-king_attack_melee
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 0417156404a7f0b4ea83988e13963e2e, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-7698018039132886483
 AnimatorState:
   serializedVersion: 6
@@ -260,6 +286,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-4812794466186435764
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: skeleton-king_defense
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: b3fca8e2deae0ab4eb808a4629bbd4af, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-4591436284059832096
 AnimatorState:
   serializedVersion: 6
@@ -390,6 +442,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-2795429262603367332
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: skeleton-king_throw
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: da5c6fbd6d11d5a47969316764614adb, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-2148017913043876266
 AnimatorState:
   serializedVersion: 6
@@ -437,6 +515,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 5a1d2bc1d9558db4fa8a192c137b96f5, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &-1719526951451652209
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: skeleton-king_idle
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 5ef4fce3f1433c242a484c0b29601244, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -998,148 +1102,163 @@ AnimatorStateMachine:
     m_Position: {x: -390, y: -230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3082136355474209262}
-    m_Position: {x: -390, y: 250, z: 0}
+    m_Position: {x: -390, y: 300, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6827512900808478337}
-    m_Position: {x: -390, y: -100, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1021707889140604905}
     m_Position: {x: -390, y: -50, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -5592133587023851172}
+    m_State: {fileID: 1021707889140604905}
     m_Position: {x: -390, y: 0, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 8010991267343768386}
-    m_Position: {x: -390, y: 100, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -4088441167548693374}
-    m_Position: {x: -390, y: 150, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -4591436284059832096}
-    m_Position: {x: -390, y: 200, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1576668243523685622}
-    m_Position: {x: -600, y: -100, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 733071520221459322}
-    m_Position: {x: -600, y: -50, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 2840715976783154993}
-    m_Position: {x: -600, y: 0, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 5315159171759332487}
-    m_Position: {x: -600, y: 100, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 7352310784111489309}
-    m_Position: {x: -600, y: 150, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -6202701831237588337}
-    m_Position: {x: -600, y: 200, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 271306775070477058}
-    m_Position: {x: -600, y: 250, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1263922058746740434}
+    m_State: {fileID: -5592133587023851172}
     m_Position: {x: -390, y: 50, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -128084569669891710}
+    m_State: {fileID: 8010991267343768386}
+    m_Position: {x: -390, y: 150, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -4088441167548693374}
+    m_Position: {x: -390, y: 200, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -4591436284059832096}
+    m_Position: {x: -390, y: 250, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1576668243523685622}
+    m_Position: {x: -600, y: -50, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 733071520221459322}
+    m_Position: {x: -600, y: 0, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 2840715976783154993}
     m_Position: {x: -600, y: 50, z: 0}
   - serializedVersion: 1
+    m_State: {fileID: 5315159171759332487}
+    m_Position: {x: -600, y: 150, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 7352310784111489309}
+    m_Position: {x: -600, y: 200, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -6202701831237588337}
+    m_Position: {x: -600, y: 250, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 271306775070477058}
+    m_Position: {x: -600, y: 300, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1263922058746740434}
+    m_Position: {x: -390, y: 100, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -128084569669891710}
+    m_Position: {x: -600, y: 100, z: 0}
+  - serializedVersion: 1
     m_State: {fileID: 3357562297585038899}
-    m_Position: {x: -180, y: 250, z: 0}
+    m_Position: {x: -180, y: 300, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8638030594064912949}
-    m_Position: {x: -180, y: -100, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -7698018039132886483}
     m_Position: {x: -180, y: -50, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -49134017704795397}
+    m_State: {fileID: -7698018039132886483}
     m_Position: {x: -180, y: 0, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -380370632841113734}
+    m_State: {fileID: -49134017704795397}
     m_Position: {x: -180, y: 50, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -6656320198168949979}
+    m_State: {fileID: -380370632841113734}
     m_Position: {x: -180, y: 100, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 9195094451145598451}
-    m_Position: {x: -180, y: 200, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 3539248518048865615}
+    m_State: {fileID: -6656320198168949979}
     m_Position: {x: -180, y: 150, z: 0}
   - serializedVersion: 1
+    m_State: {fileID: 9195094451145598451}
+    m_Position: {x: -180, y: 250, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 3539248518048865615}
+    m_Position: {x: -180, y: 200, z: 0}
+  - serializedVersion: 1
     m_State: {fileID: 3462903162272732723}
-    m_Position: {x: 30, y: 250, z: 0}
+    m_Position: {x: 30, y: 300, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4015063473403350828}
-    m_Position: {x: 30, y: -100, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 4291991853057472}
-    m_Position: {x: 30, y: 200, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 7189536490277863931}
-    m_Position: {x: 30, y: 150, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 288357675449574415}
     m_Position: {x: 30, y: -50, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -1721776054729558081}
+    m_State: {fileID: 4291991853057472}
+    m_Position: {x: 30, y: 250, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 7189536490277863931}
+    m_Position: {x: 30, y: 200, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 288357675449574415}
     m_Position: {x: 30, y: 0, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 8763654129793913568}
-    m_Position: {x: 30, y: 100, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 4243159884187620658}
+    m_State: {fileID: -1721776054729558081}
     m_Position: {x: 30, y: 50, z: 0}
   - serializedVersion: 1
+    m_State: {fileID: 8763654129793913568}
+    m_Position: {x: 30, y: 150, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 4243159884187620658}
+    m_Position: {x: 30, y: 100, z: 0}
+  - serializedVersion: 1
     m_State: {fileID: 4524075353789035602}
-    m_Position: {x: 240, y: 250, z: 0}
+    m_Position: {x: 240, y: 300, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8218978849030953879}
-    m_Position: {x: 240, y: -100, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -8208592393861782318}
     m_Position: {x: 240, y: -50, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 3589217380294385635}
+    m_State: {fileID: -8208592393861782318}
     m_Position: {x: 240, y: 0, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -5943245241219777865}
-    m_Position: {x: 240, y: 100, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -6900022840697199939}
-    m_Position: {x: 240, y: 150, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 7856761937470827641}
-    m_Position: {x: 240, y: 200, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 2100117673400932221}
+    m_State: {fileID: 3589217380294385635}
     m_Position: {x: 240, y: 50, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 4766182946962969856}
-    m_Position: {x: 450, y: -100, z: 0}
+    m_State: {fileID: -5943245241219777865}
+    m_Position: {x: 240, y: 150, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -2148017913043876266}
+    m_State: {fileID: -6900022840697199939}
+    m_Position: {x: 240, y: 200, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 7856761937470827641}
+    m_Position: {x: 240, y: 250, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 2100117673400932221}
+    m_Position: {x: 240, y: 100, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 4766182946962969856}
     m_Position: {x: 450, y: -50, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 9097175841108041857}
+    m_State: {fileID: -2148017913043876266}
     m_Position: {x: 450, y: 0, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 9156443589452963425}
-    m_Position: {x: 450, y: 100, z: 0}
+    m_State: {fileID: 9097175841108041857}
+    m_Position: {x: 450, y: 50, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -828889023104405264}
+    m_State: {fileID: 9156443589452963425}
     m_Position: {x: 450, y: 150, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -6620209455980322909}
+    m_State: {fileID: -828889023104405264}
     m_Position: {x: 450, y: 200, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -3206006337863236936}
+    m_State: {fileID: -6620209455980322909}
     m_Position: {x: 450, y: 250, z: 0}
   - serializedVersion: 1
+    m_State: {fileID: -3206006337863236936}
+    m_Position: {x: 450, y: 300, z: 0}
+  - serializedVersion: 1
     m_State: {fileID: -4097313813209774806}
-    m_Position: {x: 450, y: 50, z: 0}
+    m_Position: {x: 450, y: 100, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -1719526951451652209}
+    m_Position: {x: 450, y: -100, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7719565898843599438}
+    m_Position: {x: 450, y: 350, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -4812794466186435764}
+    m_Position: {x: 450, y: 400, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 6121409891533657174}
+    m_Position: {x: 450, y: 500, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -2795429262603367332}
+    m_Position: {x: 450, y: 450, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -1223,6 +1342,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: abfd1f7b3efb5214f8b067d8aa5d7da1, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &6121409891533657174
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: skeleton-king_summon
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 166a10ec6afc16f46a5bab44e6e2c5c9, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
