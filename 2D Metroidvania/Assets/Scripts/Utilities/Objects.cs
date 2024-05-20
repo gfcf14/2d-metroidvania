@@ -325,9 +325,10 @@ public class Objects {
   };
 
   public static Dictionary<string, RuntimeAnimatorController> animationControllers = new Dictionary<string, RuntimeAnimatorController> {
+    {"champion", Resources.Load("Animations/Enemy/champion") as RuntimeAnimatorController},
     {"breakable", Resources.Load("Animations/Breakables/Breakable") as RuntimeAnimatorController},
     {"hero-1", Resources.Load("Animations/Hero/Hero-1") as RuntimeAnimatorController},
-    {"hero-1-movement", Resources.Load("Animations/Hero/Hero-1-Movement") as RuntimeAnimatorController},
+    {"hero-1-movement", Resources.Load("Animations/Hero/Hero-1-Movement") as RuntimeAnimatorController}, // TODO: consider removing
     {"patroller", Resources.Load("Animations/Enemy/patroller") as RuntimeAnimatorController},
     {"skeleton-king", Resources.Load("Animations/Enemy/skeleton-king/skeleton-king") as RuntimeAnimatorController}
   };

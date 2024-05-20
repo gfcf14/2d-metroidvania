@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour {
     [SerializeField] public int def;
     [SerializeField] public float criticalRate;
     [SerializeField] public bool isOnCamera = false;
+    [SerializeField] public bool isMiniBoss = false;
 
   // Components
     [System.NonSerialized] public Animator anim;
@@ -158,42 +159,48 @@ public class Enemy : MonoBehaviour {
       gameObject.AddComponent<Champion>();
     }
 
-    if (type != "champion") {
-      // perform a check for an enemy which has the same type and key, thus it has a prepared animator with states
-      bool animatorAlreadyExists = false;
-      // gets a list of all Enemies usable
-      GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy").Where(obj => obj.name.Contains("Enemy") && obj.name != "EnemyCollider").ToArray();
+    // perform a check for an enemy which has the same type and key, thus it has a prepared animator with states
+    bool animatorAlreadyExists = false;
+    // gets a list of all Enemies usable
+    GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy").Where(obj => obj.name.Contains("Enemy") && obj.name != "EnemyCollider").ToArray();
 
-      foreach (GameObject objectWithAnimator in enemyObjects) {
-        Enemy objectEnemyScript = objectWithAnimator.GetComponent<Enemy>();
+    foreach (GameObject objectWithAnimator in enemyObjects) {
+      Enemy objectEnemyScript = objectWithAnimator.GetComponent<Enemy>();
 
-        // if it is not the current gameObject and the type and key are the same and the animator and runtimeAnimatorController are not null, make a copy of that object's animator controller
-        if (objectEnemyScript != gameObject && objectEnemyScript.type == type && objectEnemyScript.key == key && objectEnemyScript.GetComponent<Animator>() != null && objectEnemyScript.GetComponent<Animator>().runtimeAnimatorController != null) {
-          anim.runtimeAnimatorController = objectWithAnimator.GetComponent<Animator>().runtimeAnimatorController;
-          animatorAlreadyExists = true;
-          break;
-        }
+      // if it is not the current gameObject and the type and key are the same and the animator and runtimeAnimatorController are not null, make a copy of that object's animator controller
+      if (objectEnemyScript != gameObject && objectEnemyScript.type == type && objectEnemyScript.key == key && objectEnemyScript.GetComponent<Animator>() != null && objectEnemyScript.GetComponent<Animator>().runtimeAnimatorController != null) {
+        anim.runtimeAnimatorController = objectWithAnimator.GetComponent<Animator>().runtimeAnimatorController;
+        animatorAlreadyExists = true;
+        break;
       }
+    }
 
-      // if no such object (same type and key) was found, instantiate a new copy and assign clips based on key to states
-      if (!animatorAlreadyExists) {
-        AnimatorOverrideController aoc = new AnimatorOverrideController(Instantiate(Objects.animationControllers[type]));
-        AnimatorOverrideController resourceAoc = new AnimatorOverrideController(GameObject.Find("InGame").gameObject.GetComponent<Animator>().runtimeAnimatorController);
+    // if no such object (same type and key) was found, instantiate a new copy and assign clips based on key to states
+    if (!animatorAlreadyExists) {
+      AnimatorOverrideController aoc = new AnimatorOverrideController(Instantiate(Objects.animationControllers[type]));
+      AnimatorOverrideController resourceAoc = new AnimatorOverrideController(GameObject.Find("InGame").gameObject.GetComponent<Animator>().runtimeAnimatorController);
 
-        var anims = new List<KeyValuePair<AnimationClip, AnimationClip>>();
-        foreach (AnimationClip a in aoc.animationClips) {
-          string stateName = a.name.Split('_')[1];
-          anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(a, resourceAoc.animationClips.FirstOrDefault(
+      var anims = new List<KeyValuePair<AnimationClip, AnimationClip>>();
+      foreach (AnimationClip a in aoc.animationClips) {
+        string stateName = a.name.Split('_')[1];
+
+        // Find the corresponding resource animation clip based on the enemy key and state name
+        AnimationClip resourceClip = resourceAoc.animationClips.FirstOrDefault(
             resourceClip => resourceClip.name == key + "_" + stateName ||
             (key == "nymph" && stateName == "death-by-poison" && resourceClip.name == "nymph_death") // nymph edge case since she uses nymph_death for regular death, and poison/burning death
-          )));
-        }
-        aoc.ApplyOverrides(anims);
+        );
 
-        anim.runtimeAnimatorController = aoc;
+        // Add the original and new animation clip pair to the list
+        anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(a, resourceClip));
+
+        // anims.Add(new KeyValuePair<AnimationClip, AnimationClip>(a, resourceAoc.animationClips.FirstOrDefault(
+        //   resourceClip => resourceClip.name == key + "_" + stateName ||
+        //   (key == "nymph" && stateName == "death-by-poison" && resourceClip.name == "nymph_death") // nymph edge case since she uses nymph_death for regular death, and poison/burning death
+        // )));
       }
-    } else {
-      anim.runtimeAnimatorController = Objects.animationControllers[key];
+      aoc.ApplyOverrides(anims);
+
+      anim.runtimeAnimatorController = aoc;
     }
 
     // move enemy upward a bit from ground to account for flying behavior

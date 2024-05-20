@@ -13,6 +13,7 @@ public class EnemySpawner : MonoBehaviour {
     enemySpawned.transform.SetParent(transform);
     Enemy enemyScript = enemySpawned.GetComponent<Enemy>();
     enemyScript.key = enemyKey != "" ? enemyKey : Constants.meadowEnemies[UnityEngine.Random.Range(0, Constants.meadowEnemies.Length)];
+    enemyScript.isMiniBoss = true;
 
     if (isMiniBoss) {
       enemyScript.isOnCamera = true;

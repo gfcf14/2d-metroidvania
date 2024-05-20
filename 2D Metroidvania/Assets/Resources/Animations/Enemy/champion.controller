@@ -45,7 +45,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1dd4770cee83a6043b3b1f79c4b2b6c2, type: 2}
+  m_Motion: {fileID: 7400000, guid: bd42d9db324b03b44a77a642baa59a58, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -118,7 +118,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 642cbe0409853d94c88118f0d9bbf521, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5ef4fce3f1433c242a484c0b29601244, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -152,7 +152,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 5894b8c3209067f40ba5eab825d93da2, type: 2}
+  m_Motion: {fileID: 7400000, guid: c6f1c1af7c84d3f41b9a35c03aef79de, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -190,7 +190,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: melee
+  m_Name: attack-melee
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -204,7 +204,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 940007baca32ef242bd99f3d85623cd2, type: 2}
+  m_Motion: {fileID: 7400000, guid: 0417156404a7f0b4ea83988e13963e2e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -232,7 +232,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d8c842fde915ede43896c764d3460a2c, type: 2}
+  m_Motion: {fileID: 7400000, guid: 166a10ec6afc16f46a5bab44e6e2c5c9, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -288,7 +288,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3aa3b5dd0566d57498ac33f911c78578, type: 2}
+  m_Motion: {fileID: 7400000, guid: da5c6fbd6d11d5a47969316764614adb, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -301,7 +301,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: stunned_on_attack
+  m_Name: stunned-on-attack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -318,7 +318,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3c63212901442fb49923b550e2d6c9c1, type: 2}
+  m_Motion: {fileID: 7400000, guid: 126d53501628f4747b6a61ab66202f40, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -523,7 +523,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: cde8cc1274e84434caa46bed31f3a7ca, type: 2}
+  m_Motion: {fileID: 7400000, guid: 28950fd72859ddd4aaecd3bc757c5498, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -685,7 +685,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: skeleton-king
+  m_Name: champion
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: isAttacking
@@ -1011,7 +1011,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: death_by_poison
+  m_Name: death-by-poison
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1024,7 +1024,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 02102b49cd8bb0b40883be3ab81c2f09, type: 2}
+  m_Motion: {fileID: 7400000, guid: fbd5cee11ceade04abec8e9cd848151b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1052,7 +1052,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2b37e99419f8fb64b8e4210b96575027, type: 2}
+  m_Motion: {fileID: 7400000, guid: b3fca8e2deae0ab4eb808a4629bbd4af, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1424,7 +1424,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: death_by_burning
+  m_Name: death-by-burning
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1437,7 +1437,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 02102b49cd8bb0b40883be3ab81c2f09, type: 2}
+  m_Motion: {fileID: 7400000, guid: fbd5cee11ceade04abec8e9cd848151b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1517,7 +1517,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 55d17e30c092db14ab948260f54c0197, type: 2}
+  m_Motion: {fileID: 7400000, guid: 6d1ebdb44dbc2fa4c9dbc28cf8c66df2, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1603,7 +1603,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d511e87b02ec5a04c9db6bae5f287cea, type: 2}
+  m_Motion: {fileID: 7400000, guid: 45088c028677b714cb917a5b4f9d5682, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

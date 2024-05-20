@@ -26,10 +26,15 @@ public class PlayerStopper : MonoBehaviour {
         }
 
         // Gets boss name and level to activate the boss status canvas
-        Enemy roomBoss = transform.parent.Find("Boss").gameObject.GetComponent<Enemy>();
-        bossStatusCanvas.GetComponent<BossBarsCanvas>().boss = roomBoss;
-        bossStatusCanvas.GetComponent<BossBarsCanvas>().bossName = roomBoss.enemyName;
-        bossStatusCanvas.SetActive(true);
+        EnemySpawner bossSpawner = transform.parent.Find("EnemySpawner").gameObject.GetComponent<EnemySpawner>(); // .gameObject.GetComponent<Enemy>();
+
+        if (bossSpawner.isMiniBoss) {
+          // TODO: change so it finds a child whose name contains "Enemy"
+          Enemy roomBoss = bossSpawner.transform.Find("Enemy(Clone)").gameObject.GetComponent<Enemy>();
+          bossStatusCanvas.GetComponent<BossBarsCanvas>().boss = roomBoss;
+          bossStatusCanvas.GetComponent<BossBarsCanvas>().bossName = roomBoss.enemyName;
+          bossStatusCanvas.SetActive(true);
+        }
 
         // starts playing the miniboss soundtrack
         inGame.PlaySoundtrack("miniboss");
