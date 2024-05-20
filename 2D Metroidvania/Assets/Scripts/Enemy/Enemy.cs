@@ -251,7 +251,7 @@ public class Enemy : MonoBehaviour {
     direction = isFacingLeft ? -1 : 1;
     isDying = isBurning || isDeadByBurning || isDeadByPoison;
 
-    if (hero.isAutonomous && gameObject.name == "Boss") {
+    if (hero.isAutonomous && isMiniBoss) {
       if (enemyRenderer.sprite.name == "boss-placeholder") {
         enemyRenderer.sprite = Sprites.firstBossSprites[key];
         isFacingLeft = !hero.isFacingLeft;
@@ -260,7 +260,7 @@ public class Enemy : MonoBehaviour {
         }
       }
     } else {
-      if ((gameObject.name == "Boss" && isOnCamera) || gameObject.name != "Boss") {
+      if ((isMiniBoss && isOnCamera) || gameObject.name != "Boss") {
         // DEFENSE CAST
         Vector2 defenseCast = new Vector2(transform.position.x + ((enemyWidth / 2) * reach * direction), transform.position.y + enemyHeight / 2 + 0.05f);
         Vector2 defenseCastDirection = transform.TransformDirection(new Vector2(1 * (direction), 0));
@@ -705,7 +705,7 @@ public class Enemy : MonoBehaviour {
   }
 
   public void Destroy() {
-    if (gameObject.name == "Boss") {
+    if (isMiniBoss) {
       transform.parent.Find("Bounds").gameObject.SetActive(false);
     }
 
@@ -722,7 +722,7 @@ public class Enemy : MonoBehaviour {
     // instantiates the explosion of the enemy
     Instantiate(Objects.prefabs["enemy-explosion"], deathOrigin, Quaternion.identity);
 
-    if (gameObject.name == "Boss") {
+    if (isMiniBoss) {
       GameObject.Find("BossStatusCanvas").SetActive(false);
       hero.isFightingBoss = false;
 
