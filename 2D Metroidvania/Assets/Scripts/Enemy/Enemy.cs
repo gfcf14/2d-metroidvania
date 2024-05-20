@@ -706,7 +706,8 @@ public class Enemy : MonoBehaviour {
 
   public void Destroy() {
     if (isMiniBoss) {
-      transform.parent.Find("Bounds").gameObject.SetActive(false);
+      // TODO: consider if it's necessary to use a var to store the room the enemy is in
+      transform.parent.parent.Find("Bounds").gameObject.SetActive(false);
     }
 
     // prepares origin position given custom values if found
@@ -761,7 +762,8 @@ public class Enemy : MonoBehaviour {
     SummonEnergy summonScript = summonEnergy.GetComponent<SummonEnergy>();
 
     summonScript.summonKey = summonKey != "" ? summonKey : Constants.meadowEnemies[UnityEngine.Random.Range(0, Constants.meadowEnemies.Length)];
-    summonScript.currentRoom = transform.parent.gameObject;
+    // sets the enemy spawner as parent, for when the player leaves a room with summoned enemies so these can be destroyed
+    summonScript.parent = transform.parent.gameObject;
     // TODO: define which enemy types can be summoned
     summonScript.enemyType = "patroller";
     // TODO: define, based on the enemy level and a threshold, up to what level can they summon

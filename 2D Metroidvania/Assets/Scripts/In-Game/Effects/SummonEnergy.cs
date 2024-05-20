@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SummonEnergy : MonoBehaviour {
   [System.NonSerialized] Animator anim;
-  [System.NonSerialized] public GameObject currentRoom;
+  [System.NonSerialized] public GameObject parent;
   [SerializeField] public string summonKey;
 
   [SerializeField] public string enemyType;
@@ -27,7 +27,7 @@ public class SummonEnergy : MonoBehaviour {
     summonedScript.key = summonKey;
     summonedScript.level = enemyLevel;
     summonedScript.type = enemyType;
-    summonedEnemy.transform.SetParent(currentRoom.transform);
+    summonedEnemy.transform.SetParent(parent.transform);
   }
 
   public void DestroySummon() {
