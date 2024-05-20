@@ -543,4 +543,14 @@ public class Helpers {
 
     return hours + ":" + (minutes < 10 ? "0" : "") + minutes + " " + meridiem;
   }
+
+  public static GameObject FindChildWithNameContaining(Transform parent, string substring) {
+    foreach (Transform child in parent) {
+      if (child.name.Contains(substring)) {
+        return child.gameObject;
+      }
+    }
+
+    return null;
+  }
 }

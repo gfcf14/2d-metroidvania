@@ -29,11 +29,15 @@ public class PlayerStopper : MonoBehaviour {
         EnemySpawner bossSpawner = transform.parent.Find("EnemySpawner").gameObject.GetComponent<EnemySpawner>(); // .gameObject.GetComponent<Enemy>();
 
         if (bossSpawner.isMiniBoss) {
-          // TODO: change so it finds a child whose name contains "Enemy"
-          Enemy roomBoss = bossSpawner.transform.Find("Enemy(Clone)").gameObject.GetComponent<Enemy>();
-          bossStatusCanvas.GetComponent<BossBarsCanvas>().boss = roomBoss;
-          bossStatusCanvas.GetComponent<BossBarsCanvas>().bossName = roomBoss.enemyName;
-          bossStatusCanvas.SetActive(true);
+          GameObject roomBoss = Helpers.FindChildWithNameContaining(bossSpawner.transform, "Enemy");
+
+          if (roomBoss != null) {
+            Enemy bossScript = roomBoss.GetComponent<Enemy>();
+
+            bossStatusCanvas.GetComponent<BossBarsCanvas>().boss = bossScript;
+            bossStatusCanvas.GetComponent<BossBarsCanvas>().bossName = bossScript.enemyName;
+            bossStatusCanvas.SetActive(true);
+          }
         }
 
         // starts playing the miniboss soundtrack
