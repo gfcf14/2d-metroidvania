@@ -6,6 +6,9 @@ public class SummonEnergy : MonoBehaviour {
   [System.NonSerialized] Animator anim;
   [System.NonSerialized] public GameObject currentRoom;
   [SerializeField] public string summonKey;
+
+  [SerializeField] public string enemyType;
+  [SerializeField] public int enemyLevel;
   void Start() {
     anim = GetComponent<Animator>();
     Vector2 summonDimensions = Objects.enemyDimensions[summonKey];
@@ -19,7 +22,11 @@ public class SummonEnergy : MonoBehaviour {
 
   public void SummonEnemy() {
     GameObject summonedEnemy = Instantiate(Objects.prefabs["enemy"], new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
-    summonedEnemy.GetComponent<Enemy>().key = summonKey;
+    Enemy summonedScript = summonedEnemy.GetComponent<Enemy>();
+
+    summonedScript.key = summonKey;
+    summonedScript.level = enemyLevel;
+    summonedScript.type = enemyType;
     summonedEnemy.transform.SetParent(currentRoom.transform);
   }
 

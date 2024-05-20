@@ -80,21 +80,21 @@ public class Enemy : MonoBehaviour {
   // Game Properties
     [System.NonSerialized] public bool attackedFromBehind = false;
     [System.NonSerialized] public bool gaveExp = false;
-    [System.NonSerialized] public bool isAttacking = false;
-    [System.NonSerialized] public bool isAttackingMelee = false;
-    [System.NonSerialized] public bool isBurning = false;
-    [System.NonSerialized] public bool isDead = false;
-    [System.NonSerialized] public bool isDeadByBurning = false;
-    [System.NonSerialized] public bool isDeadByPoison = false;
-    [System.NonSerialized] public bool isDefending = false;
-    [System.NonSerialized] public bool isDying = false; // should encompass all death or death-leading states (isBurning, isDeadByBurning, isDeadByPoison)
-    [System.NonSerialized] public bool isHitting = false; // provisional variable to only detect the moment the enemy attacks
-    [System.NonSerialized] public bool isPoisoned = false;
-    [System.NonSerialized] public bool isStunned = false;
-    [System.NonSerialized] public bool isSummoning = false;
-    [System.NonSerialized] public bool isThrowingWeapon = false;
-    [System.NonSerialized] public bool isWalking;
-    [System.NonSerialized] public bool stunOnAttack = false;
+    [SerializeField] public bool isAttacking = false;
+    [SerializeField] public bool isAttackingMelee = false;
+    [SerializeField] public bool isBurning = false;
+    [SerializeField] public bool isDead = false;
+    [SerializeField] public bool isDeadByBurning = false;
+    [SerializeField] public bool isDeadByPoison = false;
+    [SerializeField] public bool isDefending = false;
+    [SerializeField] public bool isDying = false; // should encompass all death or death-leading states (isBurning, isDeadByBurning, isDeadByPoison)
+    [SerializeField] public bool isHitting = false; // provisional variable to only detect the moment the enemy attacks
+    [SerializeField] public bool isPoisoned = false;
+    [SerializeField] public bool isStunned = false;
+    [SerializeField] public bool isSummoning = false;
+    [SerializeField] public bool isThrowingWeapon = false;
+    [SerializeField] public bool isWalking;
+    [SerializeField] public bool stunOnAttack = false;
 
     public int direction = 1;
 
@@ -116,14 +116,16 @@ public class Enemy : MonoBehaviour {
     enemyHeight = enemyRenderer.bounds.size.y;
     enemyWidth = enemyRenderer.bounds.size.x;
 
-    isWalking = true;
-
     flashEffect = GetComponent<SimpleFlash>();
     weaponSpriteRenderer = GameObject.Find("Weapon").GetComponent<SpriteRenderer>();
     hero = GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
     isFacingLeft = !hero.isFacingLeft;
     if (isFacingLeft) {
       Flip();
+    }
+
+    if (!hero.isAutonomous) {
+      isWalking = true;
     }
 
     elementResistances = new string[] {};
@@ -242,6 +244,10 @@ public class Enemy : MonoBehaviour {
   }
 
   void Update() {
+    if (!isWalking && !hero.isAutonomous) {
+      isWalking = true;
+    }
+
     direction = isFacingLeft ? -1 : 1;
     isDying = isBurning || isDeadByBurning || isDeadByPoison;
 
@@ -752,8 +758,14 @@ public class Enemy : MonoBehaviour {
 
   public void Summon() {
     GameObject summonEnergy = Instantiate(Objects.prefabs["summon-energy"], new Vector3(transform.position.x + (isFacingLeft ? -1 : 1), transform.position.y, 0), Quaternion.identity);
-    summonEnergy.GetComponent<SummonEnergy>().summonKey = summonKey != "" ? summonKey : Constants.meadowEnemies[UnityEngine.Random.Range(0, Constants.meadowEnemies.Length)];
-    summonEnergy.GetComponent<SummonEnergy>().currentRoom = transform.parent.gameObject;
+    SummonEnergy summonScript = summonEnergy.GetComponent<SummonEnergy>();
+
+    summonScript.summonKey = summonKey != "" ? summonKey : Constants.meadowEnemies[UnityEngine.Random.Range(0, Constants.meadowEnemies.Length)];
+    summonScript.currentRoom = transform.parent.gameObject;
+    // TODO: define which enemy types can be summoned
+    summonScript.enemyType = "patroller";
+    // TODO: define, based on the enemy level and a threshold, up to what level can they summon
+    summonScript.enemyLevel = 1;
   }
 
   public void Smash() {

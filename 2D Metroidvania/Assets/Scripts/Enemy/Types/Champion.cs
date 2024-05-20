@@ -17,7 +17,7 @@ public class Champion : MonoBehaviour {
   }
 
   void Update() {
-    if (!enemy.hero.isAutonomous && ((gameObject.name == "Boss" && enemy.isOnCamera) || gameObject.name != "Boss")) {
+    if (!enemy.hero.isAutonomous) {
       if (enemy.hero != null && enemy.hero.pauseCase == "") {
         // CHAMPION MOVEMENT
           if (!enemy.needsCoolDown) {
@@ -86,13 +86,13 @@ public class Champion : MonoBehaviour {
                     }
                 }
             }
-        } else {
-          if (Helpers.ExceedsTime(enemy.coolDownStart, enemy.coolDownTime)) {
-            enemy.coolDownStart = 0;
-            enemy.needsCoolDown = false;
-            enemy.playerFound = false;
+          } else {
+            if (Helpers.ExceedsTime(enemy.coolDownStart, enemy.coolDownTime)) {
+              enemy.coolDownStart = 0;
+              enemy.needsCoolDown = false;
+              enemy.playerFound = false;
+            }
           }
-        }
       }
     }
   }
