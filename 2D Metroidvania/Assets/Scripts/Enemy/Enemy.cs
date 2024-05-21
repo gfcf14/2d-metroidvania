@@ -113,8 +113,8 @@ public class Enemy : MonoBehaviour {
     enemyRenderer = GetComponent<SpriteRenderer>();
     inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
     audioSource = GetComponent<AudioSource>();
-    enemyHeight = enemyRenderer.bounds.size.y;
-    enemyWidth = enemyRenderer.bounds.size.x;
+    enemyHeight =  Objects.enemyDimensions[key].y;
+    enemyWidth = Objects.enemyDimensions[key].x;
 
     flashEffect = GetComponent<SimpleFlash>();
     weaponSpriteRenderer = GameObject.Find("Weapon").GetComponent<SpriteRenderer>();
@@ -736,8 +736,8 @@ public class Enemy : MonoBehaviour {
   }
 
   public void ThrowWeapon(float distance) {
-    float throwableX = transform.position.x + ((isFacingLeft ? -2.5f : 1) * enemyWidth) + (distance * ( isFacingLeft ? 1 : -1));
-    float throwableY = transform.position.y + (enemyWidth);
+    float throwableX = transform.position.x + ((isFacingLeft ? -2f : 1) * enemyWidth) + (distance * ( isFacingLeft ? 1 : -1));
+    float throwableY = transform.position.y + enemyWidth;
 
     GameObject throwableWeapon = Instantiate(Objects.prefabs["throwable"], new Vector3(throwableX, throwableY, 0), Quaternion.identity);
     GameObject throwableObject = throwableWeapon.transform.Find("Throwable").gameObject;
@@ -774,7 +774,7 @@ public class Enemy : MonoBehaviour {
   public void Smash() {
     GameObject smashWave = Instantiate(Objects.prefabs["smash-wave"], new Vector3(transform.position.x + (isFacingLeft ? -2 : 2), transform.position.y, 0), Quaternion.identity);
     SmashWave smashWaveScript = smashWave.GetComponent<SmashWave>();
-    smashWaveScript.width = Objects.enemyDimensions[key].x * 2;
+    smashWaveScript.width = enemyWidth * 2;
     smashWaveScript.damage = atk * 2;
   }
 
