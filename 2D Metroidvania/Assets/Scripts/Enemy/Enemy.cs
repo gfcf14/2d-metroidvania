@@ -608,7 +608,7 @@ public class Enemy : MonoBehaviour {
   }
 
   public void DisplayEnemyInInfoCanvas() {
-    if (gameObject.name != "Boss") {
+    if (!isMiniBoss) {
       hero.infoCanvas.GetComponent<InfoCanvas>().Display(enemyName, new EnemyHealth(currentHP, maxHP));
     }
   }
