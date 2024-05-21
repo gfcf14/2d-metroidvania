@@ -28,7 +28,7 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     // TODO: implement a better way to assign level values
-    enemyScript.level = 1;
+    enemyScript.level = 30;
   }
 
   // Destroys all enemies/droppables originated

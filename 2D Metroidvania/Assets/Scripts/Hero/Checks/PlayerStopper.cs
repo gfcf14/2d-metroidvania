@@ -1,8 +1,6 @@
 using UnityEngine;
 
 public class PlayerStopper : MonoBehaviour {
-  [SerializeField] GameObject bossStatusCanvas;
-
   private InGame inGame;
   void Start() {
     inGame = GameObject.Find("InGame").gameObject.GetComponent<InGame>();
@@ -33,10 +31,11 @@ public class PlayerStopper : MonoBehaviour {
 
           if (roomBoss != null) {
             Enemy bossScript = roomBoss.GetComponent<Enemy>();
+            BossBarsCanvas bossCanvas = inGame.bossStatusCanvas.GetComponent<BossBarsCanvas>();
 
-            bossStatusCanvas.GetComponent<BossBarsCanvas>().boss = bossScript;
-            bossStatusCanvas.GetComponent<BossBarsCanvas>().bossName = bossScript.enemyName;
-            bossStatusCanvas.SetActive(true);
+            bossCanvas.boss = bossScript;
+            bossCanvas.bossName = bossScript.enemyName;
+            inGame.bossStatusCanvas.SetActive(true);
           }
         }
 

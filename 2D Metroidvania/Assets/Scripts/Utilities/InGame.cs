@@ -14,6 +14,7 @@ public class InGame : MonoBehaviour {
 
   public Hero hero;
   public GameObject mainOverlay;
+  public GameObject bossStatusCanvas;
 
   void Start() {
     SetComponents();

@@ -252,12 +252,10 @@ public class Enemy : MonoBehaviour {
     isDying = isBurning || isDeadByBurning || isDeadByPoison;
 
     if (hero.isAutonomous && isMiniBoss) {
-      if (enemyRenderer.sprite.name == "boss-placeholder") {
-        enemyRenderer.sprite = Sprites.firstBossSprites[key];
-        isFacingLeft = !hero.isFacingLeft;
-        if (isFacingLeft) {
-          Flip();
-        }
+      enemyRenderer.sprite = Sprites.firstBossSprites[key];
+      isFacingLeft = !hero.isFacingLeft;
+      if (isFacingLeft) {
+        Flip();
       }
     } else {
       if ((isMiniBoss && isOnCamera) || gameObject.name != "Boss") {
