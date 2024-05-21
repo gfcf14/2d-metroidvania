@@ -708,6 +708,9 @@ public class Enemy : MonoBehaviour {
     if (isMiniBoss) {
       // TODO: consider if it's necessary to use a var to store the room the enemy is in
       transform.parent.parent.Find("Bounds").gameObject.SetActive(false);
+
+      // clears miniboss state if defeated once
+      transform.parent.GetComponent<EnemySpawner>().isMiniBoss = false;
     }
 
     // prepares origin position given custom values if found
