@@ -32,7 +32,7 @@ public class Champion : MonoBehaviour {
                 }
 
               Vector2 beginForwardCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y + enemy.enemyHeight / 2);
-              Vector2 forwardCastDirection = transform.TransformDirection(new Vector2(1 * (direction), 0));
+              Vector2 forwardCastDirection = transform.TransformDirection(new Vector2(direction, 0));
 
               // FOUND EDGE
                 Vector2 beginEdgeCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y + enemy.enemyHeight / 4);
@@ -74,7 +74,7 @@ public class Champion : MonoBehaviour {
                     }
                   }
                 } else {
-                  Vector2 beginPlayerCast = new Vector2(transform.position.x + ((enemy.enemyWidth * enemy.reach) * direction), transform.position.y + enemy.enemyHeight / 2);
+                  Vector2 beginPlayerCast = new Vector2(transform.position.x + ((Objects.enemyDimensions[enemy.key].x * enemy.reach) * direction * 2), transform.position.y + enemy.enemyHeight / 2);
 
                   RaycastHit2D playerCast = Physics2D.Raycast(beginPlayerCast, forwardCastDirection, playerCastLength);
                   Debug.DrawRay(beginPlayerCast, forwardCastDirection.normalized * playerCastLength, Colors.raycastColors["player"]);
