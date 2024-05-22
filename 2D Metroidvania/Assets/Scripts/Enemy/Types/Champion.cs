@@ -35,7 +35,7 @@ public class Champion : MonoBehaviour {
               Vector2 forwardCastDirection = transform.TransformDirection(new Vector2(direction, 0));
 
               // FOUND EDGE
-                Vector2 beginEdgeCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y + enemy.enemyHeight / 4);
+                Vector2 beginEdgeCast = new Vector2(transform.position.x, transform.position.y);
                 Vector2 edgeCastDirection = transform.TransformDirection(new Vector2(direction * 2, -1));
 
                 RaycastHit2D edgeCast = Physics2D.Raycast(beginEdgeCast, edgeCastDirection, enemy.edgeCastLength / 2);
