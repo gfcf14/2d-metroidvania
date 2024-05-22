@@ -347,7 +347,7 @@ public class Objects {
 
   // TODO: enemy should not have a type as this should be defined in the EnemySpawner
   public static Dictionary<string, EnemyStats> enemyStats = new Dictionary<string, EnemyStats> {
-    {"dwarf", new EnemyStats() {name = "Dwarf", baseMaterial = "boots", normalAttackType = "kick", hp = 30, atk = 20, def = 15, crit = 0.0015f, exp = 20, speed= 5, reach = 0.5f, edgeCastLength = 0.5f, arrowBurnPosition = 0.7f, mass = 5f}},
+    {"dwarf", new EnemyStats() {name = "Dwarf", baseMaterial = "boots", normalAttackType = "kick", hp = 30, atk = 20, def = 15, crit = 0.0015f, exp = 20, speed= 5, reach = 0.3f, edgeCastLength = 0.5f, arrowBurnPosition = 0.7f, mass = 5f}},
     {"goblin", new EnemyStats() {name = "Goblin", baseMaterial = "boots", normalAttackType = "punch", hp = 30, atk = 15, def = 15, crit = 0.001f, exp = 25, speed= 3, reach = 0.3f, edgeCastLength = 0.5f, arrowBurnPosition = 1, mass = 8f}},
     {"nymph", new EnemyStats() {name = "Nymph", baseMaterial = "barefoot", normalAttackType = "punch", hp = 50, atk = 10, def = 15, crit = 0.003f, exp = 25, speed= 4, reach = 0.5f, edgeCastLength = 0.5f, arrowBurnPosition = 1, mass = 9f}},
     {"pixie", new EnemyStats() {name = "Pixie", baseMaterial = "barefoot", normalAttackType = "punch", hp = 10, atk = 20, def = 20, crit = 0.0025f, exp = 50, speed= 3, reach = 0.25f, edgeCastLength = 1, arrowBurnPosition = 0.4f, mass = 3f}},
