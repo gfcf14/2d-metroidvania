@@ -522,9 +522,12 @@ public class Enemy : MonoBehaviour {
                   isAttackingMelee = true;
                   attackedStart = 0;
                 } else {
-                  isDefending = true;
-                  anim.SetTrigger("isDefending");
                   // TODO: ensure all enemy types have a means to return to isDefending = false
+                  // TODO: remove the if below (not the code inside!) once all enemies have defend animations
+                  if (key == "sekeleton-king") {
+                    isDefending = true;
+                    anim.SetTrigger("isDefending");
+                  }
                 }
               } else {
                 if (!attackedFromBehind && type == "champion") {
