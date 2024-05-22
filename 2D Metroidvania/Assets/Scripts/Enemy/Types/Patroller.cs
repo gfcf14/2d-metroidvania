@@ -8,7 +8,6 @@ public class Patroller : MonoBehaviour {
 
   // Raycast properties
     public float forwardCastLength = 2f;
-    public float playerCastLength = 0.5f;
 
   void Start() {
     enemy = GetComponent<Enemy>();
@@ -58,10 +57,10 @@ public class Patroller : MonoBehaviour {
                   enemy.playerFound = true;
                 }
               } else {
-                Vector2 beginProximityCast = new Vector2(transform.position.x + ((enemy.enemyWidth * enemy.reach) * direction * 2), transform.position.y + enemy.enemyHeight / 2);
+                Vector2 beginProximityCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y + enemy.enemyHeight / 2);
 
-                RaycastHit2D playerCast = Physics2D.Raycast(beginProximityCast, forwardCastDirection, playerCastLength);
-                Debug.DrawRay(beginProximityCast, forwardCastDirection.normalized * playerCastLength, Colors.raycastColors["player"]);
+                RaycastHit2D playerCast = Physics2D.Raycast(beginProximityCast, forwardCastDirection, enemy.reach);
+                Debug.DrawRay(beginProximityCast, forwardCastDirection.normalized * enemy.reach, Colors.raycastColors["player"]);
 
                 // ATTACK
                   if (playerCast && playerCast.collider.tag == "Hero") {
