@@ -63,7 +63,7 @@ public class Patroller : MonoBehaviour {
                 Debug.DrawRay(beginProximityCast, forwardCastDirection.normalized * enemy.reach, Colors.raycastColors["player"]);
 
                 // ATTACK
-                  if (playerCast && playerCast.collider.tag == "Hero") {
+                  if (playerCast && playerCast.collider.tag == "Hero" && !playerCast.collider.GetComponent<Hero>().isInvulnerable) {
                     enemy.isAttacking = true;
                     enemy.body.velocity = Vector2.zero;
                   }
