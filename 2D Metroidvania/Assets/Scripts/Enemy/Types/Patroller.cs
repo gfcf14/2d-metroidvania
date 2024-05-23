@@ -57,9 +57,9 @@ public class Patroller : MonoBehaviour {
                   enemy.playerFound = true;
                 }
               } else {
-                Vector2 beginProximityCast = new Vector2(transform.position.x + ((enemy.enemyWidth / 2) * direction), transform.position.y + enemy.enemyHeight / 2);
+                Vector2 beginProximityCast = new Vector2(transform.position.x, transform.position.y + enemy.enemyHeight / 2);
 
-                RaycastHit2D playerCast = Physics2D.Raycast(beginProximityCast, forwardCastDirection, enemy.reach);
+                RaycastHit2D playerCast = Physics2D.Raycast(beginProximityCast, forwardCastDirection, (enemy.enemyWidth / 2) + enemy.reach);
                 Debug.DrawRay(beginProximityCast, forwardCastDirection.normalized * enemy.reach, Colors.raycastColors["player"]);
 
                 // ATTACK
