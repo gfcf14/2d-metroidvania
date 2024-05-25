@@ -10,6 +10,9 @@ public class Hero : MonoBehaviour {
   [SerializeField] public List<Consumable> consumables = new List<Consumable>();
   [SerializeField] public float speed = 5;
   [SerializeField] public string groundType = "level";
+
+  // to hold onto the ground type value should an action modify it
+  [SerializeField] public string tempGroundType = "";
   [SerializeField] public float inclineSlope = 0.125f;
   [SerializeField] public float jumpHeight = 8f;
   [SerializeField] private float jetpackHeight;
@@ -1408,10 +1411,18 @@ public class Hero : MonoBehaviour {
     isShootingPull = false;
   }
 
+  void AdjustGroundType() {
+    if (tempGroundType != "") {
+      groundType = tempGroundType;
+      tempGroundType = "";
+    }
+  }
+
   void ClearAttackHeavy() {
     isAttackingHeavy = false;
     armUsed = 0;
     weaponCollider.SetActive(false);
+    AdjustGroundType();
     // TESTING FOR PROGRAMMATIC PLAY
     // anim.Play("idle-1", -1, 0f);
   }
@@ -2011,5 +2022,9 @@ public class Hero : MonoBehaviour {
     isFalling = true;
     body.velocity = Vector2.zero;
     Bump(bumpX: (heroWidth * -direction) / 4, specificBlockDirection: isFacingLeft ? "left" : "right");
+  }
+
+  public void KeepGroundType() {
+    tempGroundType = groundType == "level" ? "" : groundType;
   }
 }
