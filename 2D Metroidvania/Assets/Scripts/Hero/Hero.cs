@@ -1537,7 +1537,7 @@ public class Hero : MonoBehaviour {
   }
 
   private void OnTriggerExit2D(Collider2D col) {
-    if (col.gameObject.tag == "Incline") {
+    if (col.gameObject.tag == "Incline" && !isFalling) {
       groundType = "level";
     }
   }
