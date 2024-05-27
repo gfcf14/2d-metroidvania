@@ -709,6 +709,7 @@ public class Pause : MonoBehaviour {
   }
 
   public void CancelEquipmentSelection() {
+    equipmentContainer.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
     canPlayDeselect = false;
     HideEquipmentLabels();
     canvasStatus = "equipment";
