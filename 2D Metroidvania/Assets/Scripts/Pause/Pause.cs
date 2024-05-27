@@ -1266,6 +1266,8 @@ public class Pause : MonoBehaviour {
   }
 
   public void GoBackToMainFromItems() {
+    itemsContainer.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
     canPlayDeselect = false;
     canvasStatus = "main";
     itemUseRectangle.SetActive(false);
