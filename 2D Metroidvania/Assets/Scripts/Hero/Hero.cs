@@ -747,6 +747,10 @@ public class Hero : MonoBehaviour {
     transform.position = transportLocation;
   }
 
+  public bool IsMovingUphill() {
+    return ((isFacingLeft && groundType == "descent") || (!isFacingLeft && groundType == "incline")) && isRunning && isGrounded;
+  }
+
   // called on every frame of the game
   private void Update() {
     direction = isFacingLeft ? -1 : 1;
@@ -779,7 +783,7 @@ public class Hero : MonoBehaviour {
 
       // if only the player collider is found, nothing else was found and player should fall
       // TODO: check if other attack types cause the player to lift off the ground, even but slightly, and add them here
-      if (!IsOnIncline() && !isAttackingHeavy && colliderCount <= 1 && body.velocity.y < 0) {
+      if (!IsOnIncline() && !IsMovingUphill() && !isAttackingHeavy && colliderCount <= 1 && body.velocity.y < 0) {
         Fall();
       }
     // end of PLAYER FALLING ALGORITHM
