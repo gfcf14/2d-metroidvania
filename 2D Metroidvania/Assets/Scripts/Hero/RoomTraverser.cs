@@ -12,7 +12,9 @@ public class RoomTraverser : MonoBehaviour {
     if (col.tag == "Room") {
       // if entering room, move based on speed to scape the previous room's bounds. Avoid displacements if on inclines
       float xDisp = ((hero.heroWidth / 4) * hero.body.velocity.x) * (hero.groundType == "level" ? 1 : 0);
-      float yDisp = hero.isDropKicking ? 0 : ((hero.heroHeight / 4) * hero.body.velocity.y) * (hero.groundType == "level" ? 1 : 0);
+      // TODO: consider if there would be any cases where it could be necessary to switch vertical positions.
+      // Currently this is "off" as it gets messed up when transitioning due to a jump or falling
+      float yDisp = 0; // hero.isDropKicking ? 0 : ((hero.heroHeight / 4) * hero.body.velocity.y) * (hero.groundType == "level" ? 1 : 0);
 
       hero.transform.position = new Vector2(hero.transform.position.x + xDisp, hero.transform.position.y + yDisp);
     }
