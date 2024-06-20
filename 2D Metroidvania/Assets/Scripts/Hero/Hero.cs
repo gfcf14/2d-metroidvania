@@ -1492,6 +1492,9 @@ public class Hero : MonoBehaviour {
   }
 
   public void Jump(bool clearDropKick = false) {
+    // resets collision with ceiling to avoid that animation upon starting jump
+    isCollidingWithCeiling = false;
+
     ToggleAirCheck(true);
 
     if (clearDropKick) {
