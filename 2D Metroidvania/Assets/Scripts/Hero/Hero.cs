@@ -348,6 +348,11 @@ public class Hero : MonoBehaviour {
       bodyEquipment = "body-1";
       canKick = true;
       canDropKick = true;
+
+      // TODO: use this code to navigate while underwater
+      // anim.speed = 0.66f;
+      // jumpHeight = 10;
+
     #else
       items.Add(new Item("arrow-fire", 25));
       items.Add(new Item("arrow-poison", 25));
